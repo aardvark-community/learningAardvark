@@ -49,7 +49,7 @@ module App =
                 let! attenuationLinear = x.attenuationLinear
                 return m |> (Sg.uniform "Light" <| Mod.constant (SLEUniform.PointLight {lightPosition = lightPosition; color = color.ToV3d(); attenuationQad = attenuationQad; attenuationLinear = attenuationLinear}) )
         } 
-         r
+        r
         |> Sg.dynamic
 
     let lightSourceModel (l : IMod<MLight> ) =
