@@ -10,7 +10,7 @@ open Aardvark_test.Model
 
 type Message =
     | CameraMessage of FreeFlyController.Message
-    //| SetLight of Light
+    | SetLight of Light //remove when  LightMessage  works
     | LightMessage of lightControl.Message
 
 
@@ -24,12 +24,12 @@ module App =
         match msg with
         | CameraMessage msg ->
             { m with cameraState = FreeFlyController.update m.cameraState msg }
-        // | SetLight light -> 
-        //    { m with light = light }   
+        | SetLight light -> //remove when  LightMessage  works
+            { m with light = light }   
         | LightMessage lms -> { m with light = lightControl.update m.light lms }
     
     let figureMesh = //Sg.box (Mod.constant C4b.Red) (Mod.constant (Box3d(-V3d.III, V3d.III)))
-        Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_saty_body2.obj"//@"..\..\..\data\aardvark\aardvark.obj" //
+        Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom3.obj"//@"..\..\..\data\aardvark\aardvark.obj" //
         |> Sg.adapter
         |> Sg.transform (Trafo3d.FromOrthoNormalBasis(V3d.IOO, V3d.OOI, -V3d.OIO))
         |> Sg.transform (Trafo3d.Scale(1.0,1.0,1.0))
@@ -98,9 +98,11 @@ module App =
             body [] (        // explit html body for our app (adorner menus need to be immediate children of body). if there is no explicit body the we would automatically generate a body for you.
                 Html.SemUi.adornerMenu [ 
                 "Change Light", [ 
-                    //button [clazz "ui button"; onClick (fun _ -> SetLight light.defaultDirectionalLight)]  [text "Directional Light"]
-                    //button [clazz "ui button"; onClick (fun _ -> SetLight light.defaultPointLight)]  [text "Point Light"]
-                    lightControl.view  (m.light.GetValue()) |> UI.map LightMessage
+                    button [clazz "ui button"; onClick (fun _ -> SetLight light.defaultDirectionalLight)]  [text "Directional Light"]
+                    button [clazz "ui button"; onClick (fun _ -> SetLight light.defaultPointLight)]  [text "Point Light"]
+   
+                    //I need to figure out how to use this instead:
+                    //lightControl.view  (m.light) |> UI.map LightMessage
                     ] 
                 ] [view3D m]
             )
