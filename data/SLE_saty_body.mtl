@@ -1,0 +1,201 @@
+newmtl BodySkin
+Ka 0.2 0.2 0.2
+Kd 0.5 0.1 0.5
+Ks 0.002 0.002 0.002
+illum 2
+Ns 2
+map_Kd SLE_satyr_body.jpg
+
+newmtl HeadSkin
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_satyr_head_tex.jpg
+
+newmtl InnerMouth
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_satyr_head_tex.jpg
+
+newmtl Horn
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_satyr_head_tex.jpg
+
+newmtl lamicral
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_satyr_head_tex.jpg
+
+newmtl UpperEyebrow
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_satyr_head_tex.jpg
+
+newmtl LowerEyebrow
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_satyr_head_tex.jpg
+
+newmtl Toungth
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_satyr_head_tex.jpg
+
+newmtl gumms
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_satyr_head_tex.jpg
+
+newmtl Teeth
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_satyr_head_tex.jpg
+
+newmtl Nippels
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_satyr_body.jpg
+
+newmtl Nails
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_satyr_body.jpg
+
+newmtl Hoof
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_satyr_body.jpg
+
+newmtl lPuppil
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_EYE.jpg
+
+newmtl lIris
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_EYE.jpg
+
+newmtl lEyeBall
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_EYE.jpg
+
+newmtl lPuppil
+Ns 100.0
+d 1.0
+illum 2
+Kd 1.0 1.0 1.0
+Ka 0.0 0.0 0.0
+Ks 0.2 0.2 0.2
+Ke 0.0 0.0 0.0
+map_Kd SLE_EYE.jpg
+
+newmtl rEyeWithe
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_EYE.jpg
+
+newmtl rPuppil
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_EYE.jpg
+
+newmtl rEyeball
+Ka 0.0 0.0 0.0
+Kd 1 1 1
+Ks 0.2 0.2 0.2
+illum 2
+Ns 2
+map_Kd SLE_EYE.jpg
+
+newmtl rIris
+Ns 100.0
+d 1.0
+illum 2
+Kd 1.0 1.0 1.0
+Ka 1.0 1.0 1.0
+Ks 1.0 1.0 1.0
+Ke 0.0 0.0 0.0
+map_Kd SLE_EYE.jpg
+
+newmtl Lashes
+Ns 100.0
+d 1.0
+illum 2
+Kd 1.0 1.0 1.0
+Ka 1.0 1.0 1.0
+Ks 1.0 1.0 1.0
+Ke 0.0 0.0 0.0
+map_Kd SLE_satyr_head_tex.jpg
+
+newmtl Lips
+Ns 100.0
+d 1.0
+illum 2
+Kd 1.0 1.0 1.0
+Ka 1.0 1.0 1.0
+Ks 1.0 1.0 1.0
+Ke 0.0 0.0 0.0
+map_Kd SLE_satyr_head_tex.jpg
+
+newmtl Toungth
+Ns 100.0
+d 1.0
+illum 2
+Kd 1.0 1.0 1.0
+Ka 0.0 0.0 0.0
+Ks 0.2 0.2 0.2
+Ke 0.0 0.0 0.0
+map_Kd SLE_satyr_head_tex.jpg
