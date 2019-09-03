@@ -8,116 +8,6 @@ open Aardvark_test.Model
 [<AutoOpen>]
 module Mutable =
 
-    
-    
-    type MDirectionalLightData(__initial : Aardvark_test.Model.DirectionalLightData) =
-        inherit obj()
-        let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.DirectionalLightData> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.DirectionalLightData>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.DirectionalLightData>
-        let _lightDirection = ResetMod.Create(__initial.lightDirection)
-        let _color = ResetMod.Create(__initial.color)
-        
-        member x.lightDirection = _lightDirection :> IMod<_>
-        member x.color = _color :> IMod<_>
-        
-        member x.Current = __current :> IMod<_>
-        member x.Update(v : Aardvark_test.Model.DirectionalLightData) =
-            if not (System.Object.ReferenceEquals(__current.Value, v)) then
-                __current.Value <- v
-                
-                ResetMod.Update(_lightDirection,v.lightDirection)
-                ResetMod.Update(_color,v.color)
-                
-        
-        static member Create(__initial : Aardvark_test.Model.DirectionalLightData) : MDirectionalLightData = MDirectionalLightData(__initial)
-        static member Update(m : MDirectionalLightData, v : Aardvark_test.Model.DirectionalLightData) = m.Update(v)
-        
-        override x.ToString() = __current.Value.ToString()
-        member x.AsString = sprintf "%A" __current.Value
-        interface IUpdatable<Aardvark_test.Model.DirectionalLightData> with
-            member x.Update v = x.Update v
-    
-    
-    
-    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module DirectionalLightData =
-        [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-        module Lens =
-            let lightDirection =
-                { new Lens<Aardvark_test.Model.DirectionalLightData, Aardvark.Base.V4d>() with
-                    override x.Get(r) = r.lightDirection
-                    override x.Set(r,v) = { r with lightDirection = v }
-                    override x.Update(r,f) = { r with lightDirection = f r.lightDirection }
-                }
-            let color =
-                { new Lens<Aardvark_test.Model.DirectionalLightData, Aardvark.Base.C3d>() with
-                    override x.Get(r) = r.color
-                    override x.Set(r,v) = { r with color = v }
-                    override x.Update(r,f) = { r with color = f r.color }
-                }
-    
-    
-    type MPointLightData(__initial : Aardvark_test.Model.PointLightData) =
-        inherit obj()
-        let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.PointLightData> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.PointLightData>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.PointLightData>
-        let _lightPosition = ResetMod.Create(__initial.lightPosition)
-        let _color = ResetMod.Create(__initial.color)
-        let _attenuationQad = ResetMod.Create(__initial.attenuationQad)
-        let _attenuationLinear = ResetMod.Create(__initial.attenuationLinear)
-        
-        member x.lightPosition = _lightPosition :> IMod<_>
-        member x.color = _color :> IMod<_>
-        member x.attenuationQad = _attenuationQad :> IMod<_>
-        member x.attenuationLinear = _attenuationLinear :> IMod<_>
-        
-        member x.Current = __current :> IMod<_>
-        member x.Update(v : Aardvark_test.Model.PointLightData) =
-            if not (System.Object.ReferenceEquals(__current.Value, v)) then
-                __current.Value <- v
-                
-                ResetMod.Update(_lightPosition,v.lightPosition)
-                ResetMod.Update(_color,v.color)
-                ResetMod.Update(_attenuationQad,v.attenuationQad)
-                ResetMod.Update(_attenuationLinear,v.attenuationLinear)
-                
-        
-        static member Create(__initial : Aardvark_test.Model.PointLightData) : MPointLightData = MPointLightData(__initial)
-        static member Update(m : MPointLightData, v : Aardvark_test.Model.PointLightData) = m.Update(v)
-        
-        override x.ToString() = __current.Value.ToString()
-        member x.AsString = sprintf "%A" __current.Value
-        interface IUpdatable<Aardvark_test.Model.PointLightData> with
-            member x.Update v = x.Update v
-    
-    
-    
-    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module PointLightData =
-        [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-        module Lens =
-            let lightPosition =
-                { new Lens<Aardvark_test.Model.PointLightData, Aardvark.Base.V4d>() with
-                    override x.Get(r) = r.lightPosition
-                    override x.Set(r,v) = { r with lightPosition = v }
-                    override x.Update(r,f) = { r with lightPosition = f r.lightPosition }
-                }
-            let color =
-                { new Lens<Aardvark_test.Model.PointLightData, Aardvark.Base.C3d>() with
-                    override x.Get(r) = r.color
-                    override x.Set(r,v) = { r with color = v }
-                    override x.Update(r,f) = { r with color = f r.color }
-                }
-            let attenuationQad =
-                { new Lens<Aardvark_test.Model.PointLightData, System.Double>() with
-                    override x.Get(r) = r.attenuationQad
-                    override x.Set(r,v) = { r with attenuationQad = v }
-                    override x.Update(r,f) = { r with attenuationQad = f r.attenuationQad }
-                }
-            let attenuationLinear =
-                { new Lens<Aardvark_test.Model.PointLightData, System.Double>() with
-                    override x.Get(r) = r.attenuationLinear
-                    override x.Set(r,v) = { r with attenuationLinear = v }
-                    override x.Update(r,f) = { r with attenuationLinear = f r.attenuationLinear }
-                }
     [<AbstractClass; System.Runtime.CompilerServices.Extension; StructuredFormatDisplay("{AsString}")>]
     type MLight() =
         abstract member TryUpdate : Aardvark_test.Model.Light -> bool
@@ -141,8 +31,8 @@ module Mutable =
         inherit MLight()
         
         let mutable __current = __initial
-        let _item = MDirectionalLightData.Create(item)
-        member x.item = _item
+        let _item = ResetMod.Create(item)
+        member x.item = _item :> IMod<_>
         
         override x.ToString() = __current.ToString()
         override x.AsString = sprintf "%A" __current
@@ -154,7 +44,7 @@ module Mutable =
                 match __model with
                     | DirectionalLight(item) -> 
                         __current <- __model
-                        MDirectionalLightData.Update(_item, item)
+                        _item.Update(item)
                         true
                     | _ -> false
     
@@ -162,8 +52,8 @@ module Mutable =
         inherit MLight()
         
         let mutable __current = __initial
-        let _item = MPointLightData.Create(item)
-        member x.item = _item
+        let _item = ResetMod.Create(item)
+        member x.item = _item :> IMod<_>
         
         override x.ToString() = __current.ToString()
         override x.AsString = sprintf "%A" __current
@@ -175,7 +65,7 @@ module Mutable =
                 match __model with
                     | PointLight(item) -> 
                         __current <- __model
-                        MPointLightData.Update(_item, item)
+                        _item.Update(item)
                         true
                     | _ -> false
     

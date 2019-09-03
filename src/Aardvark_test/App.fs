@@ -40,17 +40,13 @@ module App =
         let r = adaptive {
             let! d = l
             match d with
-            | MDirectionalLight  x ->
-                let! lightDirection = x.lightDirection
-                let! color = x.color
+            | MDirectionalLight  x' ->
+                let! x  = x'
                 //Map to a type more convinient in the shaders
-                return m |> (Sg.uniform "Light" <| Mod.constant (SLEUniform.DirectionalLight {lightDirection = lightDirection; color = color.ToV3d()}) )
-            | MPointLight  x ->
-                let! lightPosition = x.lightPosition
-                let! color = x.color
-                let! attenuationQad = x.attenuationQad
-                let! attenuationLinear = x.attenuationLinear
-                return m |> (Sg.uniform "Light" <| Mod.constant (SLEUniform.PointLight {lightPosition = lightPosition; color = color.ToV3d(); attenuationQad = attenuationQad; attenuationLinear = attenuationLinear}) )
+                return m |> (Sg.uniform "Light" <| Mod.constant (SLEUniform.DirectionalLight {lightDirection = x.lightDirection; color = x.color.ToV3d()}) )
+            | MPointLight  x' ->
+                let! x  = x'
+                return m |> (Sg.uniform "Light" <| Mod.constant (SLEUniform.PointLight {lightPosition = x.lightPosition; color = x.color.ToV3d(); attenuationQad = x.attenuationQad; attenuationLinear = x.attenuationLinear}) )
         } 
         r //  Wrap the IMod<ISg<Message>> in a dynamic node
         |> Sg.dynamic
@@ -64,7 +60,7 @@ module App =
                 | MDirectionalLight ld -> Sg.empty
                 | MPointLight lp -> 
                     Sg.sphere 6 (Mod.constant C4b.White) (Mod.constant 0.03) 
-                    |> Sg.translate' (Mod.map ( fun (v : V4d) -> v.XYZ) lp.lightPosition)
+                    |> Sg.translate' (Mod.map ( fun v -> v.lightPosition.XYZ) lp)
             return m
         } 
         |> Sg.dynamic
