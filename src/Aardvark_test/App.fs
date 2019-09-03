@@ -10,37 +10,40 @@ open Aardvark_test.Model
 
 type Message =
     | CameraMessage of FreeFlyController.Message
-    | SetLight of Light //remove when  LightMessage  works
     | LightMessage of lightControl.Message
-
 
 module App =   
 
 
     let cameraConfig  =  {FreeFlyController.initial.freeFlyConfig with zoomMouseWheelSensitivity = 0.5} 
-    let initial = { light =  light.defaultLight; cameraState = {FreeFlyController.initial  with freeFlyConfig = cameraConfig}}
+    let cameraView = CameraView.lookAt (V3d(2.0, 3.0, 2.0)) (V3d(0.0, 0.0, 1.0)) (V3d.OOI * 1.0)
+    let initial = { light =  light.defaultLight; cameraState = {FreeFlyController.initial  with freeFlyConfig = cameraConfig; view = cameraView}}
 
     let update (m : Model) (msg : Message) =
+        //compose the update functions from the updates of the sub-model
         match msg with
         | CameraMessage msg ->
             { m with cameraState = FreeFlyController.update m.cameraState msg }
-        | SetLight light -> //remove when  LightMessage  works
-            { m with light = light }   
-        | LightMessage lms -> { m with light = lightControl.update m.light lms }
+        | LightMessage lms -> 
+            { m with light = lightControl.update m.light lms }
     
-    let figureMesh = //Sg.box (Mod.constant C4b.Red) (Mod.constant (Box3d(-V3d.III, V3d.III)))
-        Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom3.obj"//@"..\..\..\data\aardvark\aardvark.obj" //
+    let figureMesh =
+        Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom3.obj"
         |> Sg.adapter
         |> Sg.transform (Trafo3d.FromOrthoNormalBasis(V3d.IOO, V3d.OOI, -V3d.OIO))
         |> Sg.transform (Trafo3d.Scale(1.0,1.0,1.0))
 
+    //Sg Node to set the light information as an uniform
     let uniformLight (l : IMod<MLight> ) (m :ISg<Message>) =
+        //needs to be adaptive because the  Light can change and is an IMod
+        //we go from IMod<MLight> to IMod<ISg<Message>>
         let r = adaptive {
             let! d = l
             match d with
             | MDirectionalLight  x ->
                 let! lightDirection = x.lightDirection
                 let! color = x.color
+                //Map to a type more convinient in the shaders
                 return m |> (Sg.uniform "Light" <| Mod.constant (SLEUniform.DirectionalLight {lightDirection = lightDirection; color = color.ToV3d()}) )
             | MPointLight  x ->
                 let! lightPosition = x.lightPosition
@@ -49,9 +52,10 @@ module App =
                 let! attenuationLinear = x.attenuationLinear
                 return m |> (Sg.uniform "Light" <| Mod.constant (SLEUniform.PointLight {lightPosition = lightPosition; color = color.ToV3d(); attenuationQad = attenuationQad; attenuationLinear = attenuationLinear}) )
         } 
-        r
+        r //  Wrap the IMod<ISg<Message>> in a dynamic node
         |> Sg.dynamic
 
+    //Sg Node to draw the light source
     let lightSourceModel (l : IMod<MLight> ) =
         adaptive {
             let! l' = l
@@ -64,15 +68,17 @@ module App =
             return m
         } 
         |> Sg.dynamic
+        //simpel shader indepenndend of light 
         |> Sg.shader {
             do! DefaultSurfaces.trafo
             do! DefaultSurfaces.vertexColor 
             }       
 
+    //the 3D scene and control
     let view3D (m : MModel) =
 
         let frustum = 
-            Frustum.perspective 60.0 0.1 100.0 1.0 
+            Frustum.perspective 30.0 0.1 100.0 1.0 
                 |> Mod.constant
 
         let sg =
@@ -93,16 +99,18 @@ module App =
 
         FreeFlyController.controlledControl m.cameraState CameraMessage frustum (AttributeMap.ofList att) sg
         
+    // main view for UI and  
     let view (m : MModel) =
         require Html.semui ( // we use semantic ui for our gui. the require function loads semui stuff such as stylesheets and scripts
             body [] (        // explit html body for our app (adorner menus need to be immediate children of body). if there is no explicit body the we would automatically generate a body for you.
                 Html.SemUi.adornerMenu [ 
                 "Change Light", [ 
-                    button [clazz "ui button"; onClick (fun _ -> SetLight light.defaultDirectionalLight)]  [text "Directional Light"]
-                    button [clazz "ui button"; onClick (fun _ -> SetLight light.defaultPointLight)]  [text "Point Light"]
-   
-                    //I need to figure out how to use this instead:
-                    //lightControl.view  (m.light) |> UI.map LightMessage
+                    //because  m.Light is an IMod<MLight> I need  to wrap the light view (taking a MLight) an Incremental.div
+                    m.light
+                    |> Mod.map (fun x -> lightControl.view  (x) |> UI.map LightMessage) //map to an IMod<DomNode<Message>>
+                    |> AList.ofModSingle // convert to Alist
+                    |> Incremental.div AttributeMap.empty
+                    
                     ] 
                 ] [view3D m]
             )
