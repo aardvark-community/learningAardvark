@@ -13,4 +13,4 @@ bin/Debug
 /.paket/paket.exe
 /.paket/Paket.Restore.targets
 /Aardvark.log
-/src/.ionide/
+/src/.ionide/*.db
