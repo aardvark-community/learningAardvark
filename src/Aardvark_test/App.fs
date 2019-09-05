@@ -16,7 +16,7 @@ module App =
 
 
     let cameraConfig  =  {FreeFlyController.initial.freeFlyConfig with zoomMouseWheelSensitivity = 0.5} 
-    let initialView = CameraView.lookAt (V3d(2.0, 3.0, 2.0)) (V3d(0.0, 0.0, 1.0)) (V3d.OOI * 1.0)
+    let initialView = CameraView.lookAt (V3d(2.0, 2.0, -3.0)) (V3d(0.0, 1.0, 0.0)) (V3d.OIO * 1.0)
     let initial = { light =  light.defaultLight; cameraState = {FreeFlyController.initial  with freeFlyConfig = cameraConfig; view = initialView}}
 
     let update (m : Model) (msg : Message) =
@@ -30,7 +30,7 @@ module App =
     let figureMesh =
         Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom3.obj"
         |> Sg.adapter
-       // |> Sg.transform (Trafo3d.FromOrthoNormalBasis(V3d.IOO, V3d.OOI, -V3d.OIO))
+        //|> Sg.transform (Trafo3d.FromOrthoNormalBasis(V3d.IOO, V3d.OOI, -V3d.OIO))
         |> Sg.transform (Trafo3d.Scale(1.0,1.0,1.0))
 
     //Sg Node to set the light information as an uniform
