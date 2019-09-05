@@ -33,8 +33,8 @@ type Model =
 
 module light =
 
-    let  defaultDirectionalLight = DirectionalLight  {lightDirection = -V4d.OIIO; color = C3d.White}
+    let  defaultDirectionalLight = DirectionalLight  {lightDirection = V4d(0.0,-1.0,1.0,1.0); color = C3d.White}
 
-    let  defaultPointLight = PointLight  {lightPosition = V4d(0.0,0.5,1.5,1.0); color = C3d.White; attenuationQad = 0.0; attenuationLinear = 0.0}
+    let  defaultPointLight = PointLight  {lightPosition = V4d(0.0,1.5,-0.5,1.0); color = C3d.White; attenuationQad = 0.0; attenuationLinear = 0.0}
 
     let defaultLight = defaultPointLight
