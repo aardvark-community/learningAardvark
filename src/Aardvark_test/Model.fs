@@ -5,13 +5,12 @@ open Aardvark.Base
 open Aardvark.Base.Incremental
 open Aardvark.UI.Primitives
 
-[<DomainType>]
+
 type DirectionalLightData = {
     lightDirection : V4d
     color : C3d
 }
 
-[<DomainType>]
 type PointLightData = {
     lightPosition : V4d
     color : C3d
