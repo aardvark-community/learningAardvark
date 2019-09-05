@@ -14,3 +14,4 @@ bin/Debug
 /.paket/Paket.Restore.targets
 /Aardvark.log
 /src/.ionide/*.db
+src/Aardvark_test/.domaincache

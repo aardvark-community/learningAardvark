@@ -21,12 +21,13 @@ module V3dInput =
         | SetY y -> V3d(m.X, y, m.Z)
         | SetZ z -> V3d(m.X, m.Y, z)
 
-    let numInput  = labeledFloatInput "" Double.MinValue Double.MaxValue 1.0 
-    let view (m : IMod<V3d>) =
-        Html.table [                            
-            Html.row "X" [numInput SetX (Mod.map(fun (v :  V3d)-> v.X) m)]
-            Html.row "Y" [numInput SetY (Mod.map(fun (v :  V3d)-> v.Y) m)]
-            Html.row "Z" [numInput SetZ (Mod.map(fun (v :  V3d)-> v.Z) m)]
+    let numInput name changed state  = labeledFloatInput name Double.MinValue Double.MaxValue 1.0 changed state
+    let view header (m : IMod<V3d>) =
+        Html.table [ 
+            tr [] [ td [] [text header] ]                          
+            tr [] [ td [] [numInput "X" SetX (Mod.map(fun (v :  V3d)-> v.X) m)]]
+            tr [] [ td [] [numInput "Y" SetY (Mod.map(fun (v :  V3d)-> v.Y) m)]]
+            tr [] [ td [] [numInput "Z" SetZ (Mod.map(fun (v :  V3d)-> v.Z) m)]]
         ]     
 
 module lightControl = 
@@ -60,15 +61,15 @@ module lightControl =
             div [] [
                 Mod.map (fun l -> 
                     [
-                        button [clazz "ui button"; onClick (fun _ -> DefaultDirectionalLight)]  [text "Reset"]
-                        button [clazz "ui button"; onClick (fun _ -> DefaultPointLight)]  [text "Change to Point Light"] 
+                        button [clazz "ui button"; onClick (fun _ -> DefaultDirectionalLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Reset"]
+                        button [clazz "ui button"; onClick (fun _ -> DefaultPointLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Point Light"] 
                     ] 
                     |> PList.ofList) l'
                 |> AList.ofMod
                 |> Incremental.div AttributeMap.empty 
                 
                 Mod.map (fun l -> l.lightDirection.XYZ) l'
-                |> V3dInput.view
+                |> V3dInput.view "Dierection"
                 |> UI.map SetLightDirection
 
             ]                  
@@ -77,15 +78,15 @@ module lightControl =
 
                 Mod.map (fun l -> 
                     [
-                        button [clazz "ui button"; onClick (fun _ -> DefaultPointLight)]  [text "Reset"]
-                        button [clazz "ui button"; onClick (fun _ -> DefaultDirectionalLight)]  [text "Change to Directional Light"]
+                        button [clazz "ui button"; onClick (fun _ -> DefaultPointLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Reset"]
+                        button [clazz "ui button"; onClick (fun _ -> DefaultDirectionalLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Directional Light"]
                     ] 
                     |> PList.ofList) l'
                 |> AList.ofMod
                 |> Incremental.div AttributeMap.empty 
                 
                 Mod.map (fun l -> l.lightPosition.XYZ) l'
-                |> V3dInput.view
+                |> V3dInput.view "Position"
                 |> UI.map SetLightPosition
 
             ]
