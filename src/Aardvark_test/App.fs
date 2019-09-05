@@ -30,7 +30,7 @@ module App =
     let figureMesh =
         Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom3.obj"
         |> Sg.adapter
-        |> Sg.transform (Trafo3d.FromOrthoNormalBasis(V3d.IOO, V3d.OOI, -V3d.OIO))
+       // |> Sg.transform (Trafo3d.FromOrthoNormalBasis(V3d.IOO, V3d.OOI, -V3d.OIO))
         |> Sg.transform (Trafo3d.Scale(1.0,1.0,1.0))
 
     //Sg Node to set the light information as an uniform
