@@ -9,9 +9,6 @@ open Aardvark.Rendering.Vulkan
 open Aardvark.Base
 open System
 
-
-
-
 [<EntryPoint>]
 let main args =
     Ag.initialize()
@@ -22,6 +19,9 @@ let main args =
 
     WebPart.startServer 4321 [
         MutableApp.toWebPart' app.Runtime false (App.start App.app)
+        Reflection.assemblyWebPart (System.Reflection.Assembly.GetEntryAssembly())
+        //requiered to load the spectrum.js for the colorpicker (EmbeddedResources is the marker type to find the correct assembly)
+        Reflection.assemblyWebPart typeof<Aardvark.UI.Primitives.EmbeddedResources>.Assembly
     ] |> ignore
     
     Aardium.run {
