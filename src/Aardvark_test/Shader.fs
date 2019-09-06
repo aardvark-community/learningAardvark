@@ -38,7 +38,11 @@ module Lighting =
             let (ld, lc)  = 
                 match  light  with
                 | SLEUniform.DirectionalLight ld -> -ld.lightDirection.XYZ |> Vec.normalize, ld.color
-                | SLEUniform.PointLight lp -> lp.lightPosition.XYZ - v.wp.XYZ |> Vec.normalize, lp.color
+                | SLEUniform.PointLight lp -> 
+                    let ld = lp.lightPosition.XYZ - v.wp.XYZ |> Vec.normalize
+                    let dist = V3d.Distance (lp.lightPosition.XYZ, v.wp.XYZ)
+                    let att = 1.0 / (1.0 + lp.attenuationLinear * dist + lp.attenuationQad * dist * dist)
+                    ld , lp.color * att
             let n = v.n |> Vec.normalize
             let h = ld
 

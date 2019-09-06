@@ -37,6 +37,8 @@ module lightControl =
         | DefaultPointLight
         | SetLightDirection of V3dInput.Message
         | SetLightPosition of V3dInput.Message
+        | SetAttenuationQad of float
+        | SetAttenuationLinear of float
 
     let update (m : Light) (msg : Message) =
         match msg with
@@ -54,6 +56,24 @@ module lightControl =
                 let n = V3dInput.update (r.lightPosition.XYZ) vMsg
                 PointLight {r with lightPosition = V4d(n, 1.0)} 
             | x -> x
+        | SetAttenuationQad v ->  
+            match m with
+            | PointLight r -> 
+                PointLight {r with attenuationQad = v} 
+            | x -> x
+        | SetAttenuationLinear v ->  
+            match m with
+            | PointLight r -> 
+                PointLight {r with attenuationLinear = v} 
+            | x -> x
+    
+    let AttenuationView (l : IMod<float>) (q : IMod<float>)=
+        let numInput name changed state  = labeledFloatInput name 0.0 0.1 0.01 changed state
+        Html.table [ 
+            tr [] [ td [] [text "Attenuation"] ]                          
+            tr [] [ td [] [numInput "Linear" SetAttenuationLinear l]]
+            tr [] [ td [] [numInput "Quatratic" SetAttenuationQad q]]
+        ] 
 
     let view (m : MLight) =
         match m with
@@ -74,7 +94,9 @@ module lightControl =
 
             ]                  
         |MPointLight l' -> 
-             div [] [
+            let al = Mod.map (fun l -> l.attenuationLinear) l'
+            let aq = Mod.map (fun l -> l.attenuationQad) l'
+            div [] [
 
                 Mod.map (fun l -> 
                     [
@@ -89,4 +111,5 @@ module lightControl =
                 |> V3dInput.view "Position"
                 |> UI.map SetLightPosition
 
+                AttenuationView al aq
             ]
