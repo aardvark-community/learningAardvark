@@ -9,6 +9,7 @@ open Aardvark.UI.Primitives
 type DirectionalLightData = {
     lightDirection : V4d
     color : C3d
+    intensity : float
 }
 
 type PointLightData = {
@@ -16,6 +17,7 @@ type PointLightData = {
     color : C3d
     attenuationQad :float
     attenuationLinear :float
+    intensity : float
 }
 
 [<DomainType>]
@@ -33,8 +35,8 @@ type Model =
 
 module light =
 
-    let  defaultDirectionalLight = DirectionalLight  {lightDirection = V4d(0.0,-1.0,1.0,1.0); color = C3d.White}
+    let  defaultDirectionalLight = DirectionalLight  {lightDirection = V4d(0.0,-1.0,1.0,1.0); color = C3d.White; intensity = 1.0}
 
-    let  defaultPointLight = PointLight  {lightPosition = V4d(0.0,1.5,-0.5,1.0); color = C3d.White; attenuationQad = 1.0; attenuationLinear = 0.0}
+    let  defaultPointLight = PointLight  {lightPosition = V4d(0.0,1.5,-0.5,1.0); color = C3d.White; attenuationQad = 1.0; attenuationLinear = 0.0; intensity = 1.0}
 
     let defaultLight = defaultPointLight

@@ -43,10 +43,10 @@ module App =
             | MDirectionalLight  x' ->
                 let! x  = x'
                 //Map to a type more convinient in the shaders
-                return m |> (Sg.uniform "Light" <| Mod.constant (SLEUniform.DirectionalLight {lightDirection = x.lightDirection; color = x.color.ToV3d()}) )
+                return m |> (Sg.uniform "Light" <| Mod.constant (SLEUniform.DirectionalLight {lightDirection = x.lightDirection; color = x.color.ToV3d() * x.intensity}) )
             | MPointLight  x' ->
                 let! x  = x'
-                return m |> (Sg.uniform "Light" <| Mod.constant (SLEUniform.PointLight {lightPosition = x.lightPosition; color = x.color.ToV3d(); attenuationQad = x.attenuationQad; attenuationLinear = x.attenuationLinear}) )
+                return m |> (Sg.uniform "Light" <| Mod.constant (SLEUniform.PointLight {lightPosition = x.lightPosition; color = x.color.ToV3d() * x.intensity; attenuationQad = x.attenuationQad; attenuationLinear = x.attenuationLinear}) )
         } 
         r //  Wrap the IMod<ISg<Message>> in a dynamic node
         |> Sg.dynamic

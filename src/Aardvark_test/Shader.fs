@@ -37,12 +37,12 @@ module Lighting =
             let light = uniform.Light
             let (ld, lc)  = 
                 match  light  with
-                | SLEUniform.DirectionalLight ld -> -ld.lightDirection.XYZ |> Vec.normalize, ld.color * intensity
+                | SLEUniform.DirectionalLight ld -> -ld.lightDirection.XYZ |> Vec.normalize, ld.color 
                 | SLEUniform.PointLight lp -> 
                     let ld = lp.lightPosition.XYZ - v.wp.XYZ |> Vec.normalize
                     let dist = V3d.Distance (lp.lightPosition.XYZ, v.wp.XYZ)
                     let att = 1.0 / (1.0 + lp.attenuationLinear * dist + lp.attenuationQad * dist * dist)
-                    ld , lp.color * att * intensity
+                    ld , lp.color * att 
             let n = v.n |> Vec.normalize
             let h = ld
 
@@ -64,7 +64,7 @@ module Lighting =
             let om = o / (o+1.0)
 
             //gamma  correction
-            let og = pow  om (V3d(1.0/gamma))
+            let og = pow om (V3d(1.0/gamma))
 
             return V4d(og, v.c.W)
         }

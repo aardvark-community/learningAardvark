@@ -39,6 +39,7 @@ module lightControl =
         | SetLightPosition of V3dInput.Message
         | SetAttenuationQad of float
         | SetAttenuationLinear of float
+        | SetIntensity of float
 
     let update (m : Light) (msg : Message) =
         match msg with
@@ -66,18 +67,32 @@ module lightControl =
             | PointLight r -> 
                 PointLight {r with attenuationLinear = v} 
             | x -> x
-    
-    let AttenuationView (l : IMod<float>) (q : IMod<float>)=
-        let numInput name changed state  = labeledFloatInput name 0.0 0.1 0.01 changed state
+        | SetIntensity i ->  
+            match m with
+            | PointLight r -> 
+                PointLight {r with intensity = i} 
+            | DirectionalLight r -> 
+                DirectionalLight {r with intensity = i} 
+
+    let attenuationView (l : IMod<float>) (q : IMod<float>)=
+        let numInput name changed state  = labeledFloatInput name 0.0 1.0 0.01 changed state
         Html.table [ 
             tr [] [ td [] [text "Attenuation"] ]                          
             tr [] [ td [] [numInput "Linear" SetAttenuationLinear l]]
             tr [] [ td [] [numInput "Quatratic" SetAttenuationQad q]]
         ] 
 
+    let intensityView (i : IMod<float>) =
+        let numInput name changed state  = labeledFloatInput name 0.0 Double.MaxValue 1.0 changed state
+        Html.table [ 
+            tr [] [ td [] [text "Light"] ]                          
+            tr [] [ td [] [numInput "Intensity" SetIntensity i]]
+        ] 
+
     let view (m : MLight) =
         match m with
         |MDirectionalLight l' -> 
+            let i = Mod.map (fun (l : DirectionalLightData)-> l.intensity) l'
             div [] [
                 Mod.map (fun l -> 
                     [
@@ -92,10 +107,12 @@ module lightControl =
                 |> V3dInput.view "Dierection"
                 |> UI.map SetLightDirection
 
+                intensityView i
             ]                  
         |MPointLight l' -> 
             let al = Mod.map (fun l -> l.attenuationLinear) l'
             let aq = Mod.map (fun l -> l.attenuationQad) l'
+            let i = Mod.map (fun l -> l.intensity) l'
             div [] [
 
                 Mod.map (fun l -> 
@@ -111,5 +128,7 @@ module lightControl =
                 |> V3dInput.view "Position"
                 |> UI.map SetLightPosition
 
-                AttenuationView al aq
+                intensityView i
+
+                attenuationView al aq
             ]
