@@ -37,12 +37,12 @@ module Lighting =
             let light = uniform.Light
             let (ld, lc)  = 
                 match  light  with
-                | SLEUniform.DirectionalLight ld -> -ld.lightDirection.XYZ |> Vec.normalize, ld.color
+                | SLEUniform.DirectionalLight ld -> -ld.lightDirection.XYZ |> Vec.normalize, ld.color * intensity
                 | SLEUniform.PointLight lp -> 
                     let ld = lp.lightPosition.XYZ - v.wp.XYZ |> Vec.normalize
                     let dist = V3d.Distance (lp.lightPosition.XYZ, v.wp.XYZ)
                     let att = 1.0 / (1.0 + lp.attenuationLinear * dist + lp.attenuationQad * dist * dist)
-                    ld , lp.color * att
+                    ld , lp.color * att * intensity
             let n = v.n |> Vec.normalize
             let h = ld
 
@@ -57,7 +57,16 @@ module Lighting =
             let spec = V3d.III
             let s = Vec.dot h n |> if twoSided then abs else max 0.0
 
-            return pow (V4d(c * l * lc + spec * (pown s 32) * lc, v.c.W)) (V4d(1.0/gamma))
+            // total output
+            let o = c * l * lc + spec * (pown s 32) * lc
+            
+            //Reihnard tone mapping
+            let om = o / (o+1.0)
+
+            //gamma  correction
+            let og = pow  om (V3d(1.0/gamma))
+
+            return V4d(og, v.c.W)
         }
 
 module SLESurfaces = 
