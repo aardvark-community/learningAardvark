@@ -17,7 +17,13 @@ module App =
 
     let cameraConfig  =  {FreeFlyController.initial.freeFlyConfig with zoomMouseWheelSensitivity = 0.5} 
     let initialView = CameraView.lookAt (V3d(2.0, 2.0, -3.0)) (V3d(0.0, 1.0, 0.0)) (V3d.OIO * 1.0)
-    let initial = { light =  light.defaultLight; cameraState = {FreeFlyController.initial  with freeFlyConfig = cameraConfig; view = initialView}}
+    let initial = { 
+        light =  light.defaultLight
+        cameraState = {FreeFlyController.initial  with freeFlyConfig = cameraConfig; view = initialView}
+        lights = HSet.ofList [{index = 0; light = PointLight  {lightPosition = V4d(0.0,1.5,-0.5,1.0); color = C3d.Red; attenuationQad = 1.0; attenuationLinear = 0.0; intensity = 1.0}}; 
+            {index = 1; light = PointLight  {lightPosition = V4d(-1.0,1.5,-0.0,1.0); color = C3d.Green; attenuationQad = 1.0; attenuationLinear = 0.0; intensity = 1.0}}]
+        currentLightIndex  = 0
+    }
 
     let update (m : Model) (msg : Message) =
         //compose the update functions from the updates of the sub-model
@@ -50,8 +56,34 @@ module App =
         } 
         r //  Wrap the IMod<ISg<Message>> in a dynamic node
         |> Sg.dynamic
+            
+    let uniformLight2 (l : IMod<MLight>) =
+        //needs to be adaptive because the  Light can change and is an IMod
+        //we go from IMod<MLight> to IMod<ISg<Message>>
+        adaptive {
+            let! d = l
+            match d with
+            | MDirectionalLight  x' ->
+               let! x  = x'
+                //Map to a type more convinient in the shaders
+               return SLEUniform.DirectionalLight {lightDirection = x.lightDirection; color = x.color.ToV3d() * x.intensity}
+            | MPointLight  x' ->
+                let! x  = x'
+                return SLEUniform.PointLight {lightPosition = x.lightPosition; color = x.color.ToV3d() * x.intensity; attenuationQad = x.attenuationQad; attenuationLinear = x.attenuationLinear}
+        } 
 
-    //Sg Node to draw the light source
+    let uniformLights (lights : aset<MIndexedLight>) (m :ISg<Message>)  =
+        aset{
+            for il  in  lights do
+                let! i = il.index
+                let label = sprintf "Light%i" i
+                yield uniformLight2 il.light
+                    |> Sg.uniform label
+        }
+        |> ASet.fold (fun s u  -> u s) m
+        |> Sg.dynamic
+
+
     let lightSourceModel (l : IMod<MLight> ) =
         adaptive {
             let! l' = l
@@ -72,14 +104,14 @@ module App =
 
     //the 3D scene and control
     let view3D (m : MModel) =
-
         let frustum = 
             Frustum.perspective 30.0 0.1 100.0 1.0 
                 |> Mod.constant
 
         let sg =
             figureMesh
-            |> uniformLight m.light
+            //|> Sg.andAlso <|
+            |> uniformLights m.lights
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
                 do! DefaultSurfaces.vertexColor

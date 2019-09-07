@@ -28,7 +28,12 @@ module SLEUniform =
 module Lighting = 
 
     type UniformScope with
-        member x.Light : SLEUniform.Light = x?Light
+        member x.Light : SLEUniform.Light = 
+         (*  match Ag.tryGetAttributeValue x "Light0" with
+            |Success  l -> SLEUniform.DirectionalLight  {lightDirection = V4d(0.0,-1.0,1.0,1.0); color = V3d(1.0,1.0,0.0)}//l
+            |Error _ -> SLEUniform.DirectionalLight  {lightDirection = V4d(0.0,-1.0,1.0,1.0); color = V3d(0.0,1.0,0.0)}
+         *)
+         x?Light1
 
     let internal lighting (twoSided : bool) (v : Vertex) =
         fragment {

@@ -25,12 +25,20 @@ type Light =
     | DirectionalLight of DirectionalLightData
     | PointLight of PointLightData
 
+[<DomainType>]
+type IndexedLight = {
+    [<PrimaryKeyAttribute>]
+    index : int
+    light : Light
+}
 
 [<DomainType>]
 type Model =
     {
-        cameraState     : CameraControllerState
+        cameraState : CameraControllerState
         light :  Light
+        lights : hset<IndexedLight>
+        currentLightIndex : int
     }
 
 module light =
