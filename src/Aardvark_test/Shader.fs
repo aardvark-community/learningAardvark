@@ -49,7 +49,7 @@ module Lighting =
                         let dist = V3d.Distance (lp.lightPosition.XYZ, v.wp.XYZ)
                         let att = 1.0 / (1.0 + lp.attenuationLinear * dist + lp.attenuationQad * dist * dist)
                         true, lDir , lp.color * att             
-                    | SLEUniform.NoLight -> false, c,c  //allways  match any cases, otherwise fshade will give  a  cryptic error 
+                    | SLEUniform.NoLight -> false, c,c  //allways match any cases, otherwise fshade will give  a  cryptic error 
               
                 let oi = 
                     if exists then

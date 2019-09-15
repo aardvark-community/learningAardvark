@@ -69,23 +69,24 @@ module App =
         |> u
         |> Sg.uniform "NumLights" numLights
 
-    let lightSourceModel (l : IMod<MLight> ) =
-        adaptive {
-            let! l' = l
-            let  m = 
-                match l' with
-                | MDirectionalLight ld -> Sg.empty
-                | MPointLight lp -> 
-                    Sg.sphere 6 (Mod.constant C4b.White) (Mod.constant 0.03) 
-                    |> Sg.translate' (Mod.map ( fun v -> v.lightPosition.XYZ) lp)
-            return m
+    let lightSourceModels (lights : aset<IMod<MLight>> ) =
+        aset {
+            for l in  lights do
+                let! l' = l
+                let  m = 
+                    match l' with
+                    | MDirectionalLight ld -> Sg.empty
+                    | MPointLight lp -> 
+                        Sg.sphere 6 (Mod.map ( fun v -> v.color.ToC4b()) lp ) (Mod.constant 0.03) 
+                        |> Sg.translate' (Mod.map ( fun v -> v.lightPosition.XYZ) lp)
+                yield m 
         } 
-        |> Sg.dynamic
-        //simpel shader indepenndend of light 
+        |> Sg.set
+        //simpel shader independend of light 
         |> Sg.shader {
             do! DefaultSurfaces.trafo
             do! DefaultSurfaces.vertexColor 
-            }       
+            }   
 
     //the 3D scene and control
     let view3D (m : MModel) =
@@ -102,7 +103,7 @@ module App =
                 do! DefaultSurfaces.diffuseTexture 
                 do! SLESurfaces.lighting false
                 }
-            |> Sg.andAlso <| lightSourceModel m.light
+            |> Sg.andAlso <| lightSourceModels m.lights
 
         let att =
             [

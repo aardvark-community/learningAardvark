@@ -83,52 +83,6 @@ module Mutable =
     
     
     
-    type MIndexedLight(__initial : Aardvark_test.Model.IndexedLight) =
-        inherit obj()
-        let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.IndexedLight> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.IndexedLight>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.IndexedLight>
-        let _index = ResetMod.Create(__initial.index)
-        let _light = MLight.Create(__initial.light)
-        
-        member x.index = _index :> IMod<_>
-        member x.light = _light
-        
-        member x.Current = __current :> IMod<_>
-        member x.Update(v : Aardvark_test.Model.IndexedLight) =
-            if not (System.Object.ReferenceEquals(__current.Value, v)) then
-                __current.Value <- v
-                
-                ResetMod.Update(_index,v.index)
-                MLight.Update(_light, v.light)
-                
-        
-        static member Create(__initial : Aardvark_test.Model.IndexedLight) : MIndexedLight = MIndexedLight(__initial)
-        static member Update(m : MIndexedLight, v : Aardvark_test.Model.IndexedLight) = m.Update(v)
-        
-        override x.ToString() = __current.Value.ToString()
-        member x.AsString = sprintf "%A" __current.Value
-        interface IUpdatable<Aardvark_test.Model.IndexedLight> with
-            member x.Update v = x.Update v
-    
-    
-    
-    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module IndexedLight =
-        [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-        module Lens =
-            let index =
-                { new Lens<Aardvark_test.Model.IndexedLight, System.Int32>() with
-                    override x.Get(r) = r.index
-                    override x.Set(r,v) = { r with index = v }
-                    override x.Update(r,f) = { r with index = f r.index }
-                }
-            let light =
-                { new Lens<Aardvark_test.Model.IndexedLight, Aardvark_test.Model.Light>() with
-                    override x.Get(r) = r.light
-                    override x.Set(r,v) = { r with light = v }
-                    override x.Update(r,f) = { r with light = f r.light }
-                }
-    
-    
     type MModel(__initial : Aardvark_test.Model.Model) =
         inherit obj()
         let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.Model> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.Model>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.Model>
