@@ -37,7 +37,7 @@ type Model =
     {
         cameraState : CameraControllerState
         light :  Light
-        lights : hset<IndexedLight>
+        lights : hset<Light>
         currentLightIndex : int
     }
 

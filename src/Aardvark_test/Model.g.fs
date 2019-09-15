@@ -134,7 +134,7 @@ module Mutable =
         let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.Model> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.Model>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.Model>
         let _cameraState = Aardvark.UI.Primitives.Mutable.MCameraControllerState.Create(__initial.cameraState)
         let _light = MLight.Create(__initial.light)
-        let _lights = MSet.Create((fun (v : Aardvark_test.Model.IndexedLight) -> v.index :> obj), __initial.lights, (fun v -> MIndexedLight.Create(v)), (fun (m,v) -> MIndexedLight.Update(m, v)), (fun v -> v))
+        let _lights = MSet.Create(unbox, __initial.lights, (fun v -> MLight.Create(v)), (fun (m,v) -> MLight.Update(m, v)), (fun v -> v))
         let _currentLightIndex = ResetMod.Create(__initial.currentLightIndex)
         
         member x.cameraState = _cameraState
@@ -180,7 +180,7 @@ module Mutable =
                     override x.Update(r,f) = { r with light = f r.light }
                 }
             let lights =
-                { new Lens<Aardvark_test.Model.Model, Aardvark.Base.hset<Aardvark_test.Model.IndexedLight>>() with
+                { new Lens<Aardvark_test.Model.Model, Aardvark.Base.hset<Aardvark_test.Model.Light>>() with
                     override x.Get(r) = r.lights
                     override x.Set(r,v) = { r with lights = v }
                     override x.Update(r,f) = { r with lights = f r.lights }

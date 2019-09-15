@@ -20,8 +20,8 @@ module App =
     let initial = { 
         light =  light.defaultLight
         cameraState = {FreeFlyController.initial  with freeFlyConfig = cameraConfig; view = initialView}
-        lights = HSet.ofList [{index = 0; light = PointLight  {lightPosition = V4d(0.0,1.5,-0.5,1.0); color = C3d.Red; attenuationQad = 1.0; attenuationLinear = 0.0; intensity = 1.0}}; 
-            {index = 1; light = PointLight  {lightPosition = V4d(-1.0,1.5,-0.0,1.0); color = C3d.Green; attenuationQad = 1.0; attenuationLinear = 0.0; intensity = 1.0}}]
+        lights = HSet.ofList [PointLight  {lightPosition = V4d(0.0,1.5,-0.5,1.0); color = C3d.Red; attenuationQad = 1.0; attenuationLinear = 0.0; intensity = 1.0}; 
+            PointLight  {lightPosition = V4d(-1.0,1.5,-0.0,1.0); color = C3d.Green; attenuationQad = 1.0; attenuationLinear = 0.0; intensity = 1.0}]
         currentLightIndex  = 0
     }
 
@@ -38,26 +38,8 @@ module App =
         |> Sg.adapter
         //|> Sg.transform (Trafo3d.FromOrthoNormalBasis(V3d.IOO, V3d.OOI, -V3d.OIO))
         |> Sg.transform (Trafo3d.Scale(1.0,1.0,1.0))
-
-    //Sg Node to set the light information as an uniform
-    let uniformLight (l : IMod<MLight> ) (m :ISg<Message>) =
-        //needs to be adaptive because the  Light can change and is an IMod
-        //we go from IMod<MLight> to IMod<ISg<Message>>
-        let r = adaptive {
-            let! d = l
-            match d with
-            | MDirectionalLight  x' ->
-                let! x  = x'
-                //Map to a type more convinient in the shaders
-                return m |> (Sg.uniform "Light" <| Mod.constant (SLEUniform.DirectionalLight {lightDirection = x.lightDirection; color = x.color.ToV3d() * x.intensity}) )
-            | MPointLight  x' ->
-                let! x  = x'
-                return m |> (Sg.uniform "Light" <| Mod.constant (SLEUniform.PointLight {lightPosition = x.lightPosition; color = x.color.ToV3d() * x.intensity; attenuationQad = x.attenuationQad; attenuationLinear = x.attenuationLinear}) )
-        } 
-        r //  Wrap the IMod<ISg<Message>> in a dynamic node
-        |> Sg.dynamic
-            
-    let uniformLight2 (l : IMod<MLight>) =
+    
+    let uniformLight (l : IMod<MLight>) =
         //needs to be adaptive because the  Light can change and is an IMod
         //we go from IMod<MLight> to IMod<ISg<Message>>
         adaptive {
@@ -72,17 +54,20 @@ module App =
                 return SLEUniform.PointLight {lightPosition = x.lightPosition; color = x.color.ToV3d() * x.intensity; attenuationQad = x.attenuationQad; attenuationLinear = x.attenuationLinear}
         } 
 
-    let uniformLights (lights : aset<MIndexedLight>) (m :ISg<Message>)  =
-        aset{
-            for il  in  lights do
-                let! i = il.index
-                let label = sprintf "Light%i" i
-                yield uniformLight2 il.light
-                    |> Sg.uniform label
-        }
-        |> ASet.fold (fun s u  -> u s) m
-        |> Sg.dynamic
-
+    let uniformLights (lights : aset<IMod<MLight>>) (m :ISg<Message>)  =
+        let numLights = ASet.count lights
+        let a =  Array.init 10 (fun _ -> SLEUniform.NoLight )
+        let u = aset{
+                for l  in  lights do
+                    let! l = uniformLight l
+                    yield l
+                }
+                |> ASet.fold (fun ((i : int), (a : SLEUniform.Light [])) l -> a.[i] <- l; (i+1, a)) (0,a)
+                |> Mod.map (fun (i, a) -> a)
+                |> Sg.uniform "Lights" 
+        m
+        |> u
+        |> Sg.uniform "NumLights" numLights
 
     let lightSourceModel (l : IMod<MLight> ) =
         adaptive {
@@ -110,7 +95,6 @@ module App =
 
         let sg =
             figureMesh
-            //|> Sg.andAlso <|
             |> uniformLights m.lights
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
@@ -123,6 +107,8 @@ module App =
         let att =
             [
                 style "position: fixed; left: 0; top: 0; width: 100%; height: 100%"
+                attribute "showFPS" "true"
+               // attribute "data-renderalways" "1"
             ]
 
         FreeFlyController.controlledControl m.cameraState CameraMessage frustum (AttributeMap.ofList att) sg
