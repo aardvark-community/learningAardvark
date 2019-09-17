@@ -11,6 +11,7 @@ open Aardvark_test.Model
 type Message =
     | CameraMessage of FreeFlyController.Message
     | LightMessage of int * lightControl.Message
+    | RemoveLight  of int
 
 module App =   
 
@@ -32,13 +33,12 @@ module App =
             { m with cameraState = FreeFlyController.update m.cameraState msg }
         | LightMessage (i, lms) -> 
             let li' =  m.lights |> HMap.tryFind i
-            Log.warn "%A" li'
             match  li' with 
             |Some li ->
                 let l = lightControl.update li lms
-                Log.warn "%A" l
                 { m with lights = HMap.update i (fun _ -> l ) m.lights }
             |None ->  m
+        | RemoveLight i ->  { m with lights = HMap.remove i m.lights }
 
     
     let figureMesh =
@@ -131,7 +131,7 @@ module App =
             body [] (        // explit html body for our app (adorner menus need to be immediate children of body). if there is no explicit body the we would automatically generate a body for you.
                 Html.SemUi.adornerMenu [ 
                 "Change Light",
-                    aset {
+                    [aset {
                         for li in lights' do
                             let i = fst li
                             let l = snd li    
@@ -140,9 +140,14 @@ module App =
                                 Mod.map (fun l -> lightControl.view  l |> UI.map (fun msg -> LightMessage (i, msg))) l
                                 |> AList.ofModSingle
                                 |> Incremental.div AttributeMap.empty
-                            yield Html.SemUi.accordion name "" false [d]
+                            yield Html.SemUi.accordion name "" false [
+                                d
+                                button [clazz "ui button"; onClick (fun _ -> RemoveLight i); style "margin-bottom: 5px; width: 100%;" ]  [text "Remove"]
+                                ]
                     } 
-                    |>  ASet.toList
+                    |>  ASet.toAList
+                    |>  Incremental.div AttributeMap.empty
+                    ]
                 ] [view3D m]
             )
         )
