@@ -26,11 +26,19 @@ type Light =
     | PointLight of PointLightData
 
 [<DomainType>]
+type IndexedLight =
+    {
+        [<PrimaryKey>]       
+        index : int
+        light : Light
+    }
+
+[<DomainType>]
 type Model =
     {
         cameraState : CameraControllerState
         light :  Light
-        lights : hset<Light>
+        lights : hset<IndexedLight>
         currentLightIndex : int
     }
 
