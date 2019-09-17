@@ -18,10 +18,9 @@ module App =
     let cameraConfig  =  {FreeFlyController.initial.freeFlyConfig with zoomMouseWheelSensitivity = 0.5} 
     let initialView = CameraView.lookAt (V3d(2.0, 2.0, -3.0)) (V3d(0.0, 1.0, 0.0)) (V3d.OIO * 1.0)
     let initial = { 
-        light =  light.defaultLight
         cameraState = {FreeFlyController.initial  with freeFlyConfig = cameraConfig; view = initialView}
-        lights = HSet.ofList [{index  = 0; light = PointLight  {lightPosition = V4d(0.0,1.5,-0.5,1.0); color = C3d.Red; attenuationQad = 1.0; attenuationLinear = 0.0; intensity = 1.0}}; 
-            {index  = 1; light = PointLight  {lightPosition = V4d(-1.0,1.5,-0.0,1.0); color = C3d.Green; attenuationQad = 1.0; attenuationLinear = 0.0; intensity = 1.0}}]
+        lights = HMap.ofList [(0, PointLight  {lightPosition = V4d(0.0,1.5,-0.5,1.0); color = C3d.Red; attenuationQad = 1.0; attenuationLinear = 0.0; intensity = 1.0}); 
+            (1, PointLight  {lightPosition = V4d(-1.0,1.5,-0.0,1.0); color = C3d.Green; attenuationQad = 1.0; attenuationLinear = 0.0; intensity = 1.0})]
         currentLightIndex  = 0
     }
 
@@ -32,13 +31,13 @@ module App =
         | CameraMessage msg ->
             { m with cameraState = FreeFlyController.update m.cameraState msg }
         | LightMessage (i, lms) -> 
-            let li' =  m.lights |> Seq.filter (fun li -> li.index = i) |> Seq.first
+            let li' =  m.lights |> HMap.tryFind i
             Log.warn "%A" li'
             match  li' with 
             |Some li ->
-                let l = lightControl.update li.light lms
+                let l = lightControl.update li lms
                 Log.warn "%A" l
-                { m with lights = HSet.add {li with light = l} m.lights }
+                { m with lights = HMap.update i (fun _ -> l ) m.lights }
             |None ->  m
 
     
@@ -63,12 +62,13 @@ module App =
                 return SLEUniform.PointLight {lightPosition = x.lightPosition; color = x.color.ToV3d() * x.intensity; attenuationQad = x.attenuationQad; attenuationLinear = x.attenuationLinear}
         } 
 
-    let uniformLights (lights : aset<MIndexedLight>) (m :ISg<Message>)  =
-        let numLights = ASet.count lights
+    let uniformLights (lights : amap<int,IMod<MLight>>) (m :ISg<Message>)  =
+        let lights' = AMap.toASet lights
+        let numLights = ASet.count lights'
         let a =  Array.init 10 (fun _ -> SLEUniform.NoLight )
         let u = aset{
-                for l  in  lights do
-                    let! l = uniformLight l.light
+                for l  in  lights' do
+                    let! l =  snd l |> uniformLight
                     yield l
                 }
                 |> ASet.fold (fun ((i : int), (a : SLEUniform.Light [])) l -> a.[i] <- l; (i+1, a)) (0,a)
@@ -78,10 +78,11 @@ module App =
         |> u
         |> Sg.uniform "NumLights" numLights
 
-    let lightSourceModels (lights : aset<MIndexedLight> ) =
+    let lightSourceModels (lights : amap<int,IMod<MLight>> ) =
+        let lights' = AMap.toASet lights
         aset {
-            for l in  lights do
-                let! l' = l.light
+            for l in  lights' do
+                let! l' = snd l
                 let  m = 
                     match l' with
                     | MDirectionalLight ld -> Sg.empty
@@ -125,16 +126,21 @@ module App =
         
     // main view for UI and  
     let view (m : MModel) =
+        let lights' = AMap.toASet m.lights
         require Html.semui ( // we use semantic ui for our gui. the require function loads semui stuff such as stylesheets and scripts
             body [] (        // explit html body for our app (adorner menus need to be immediate children of body). if there is no explicit body the we would automatically generate a body for you.
                 Html.SemUi.adornerMenu [ 
                 "Change Light",
                     aset {
-                        for li in m.lights do
-                            let! i = li.index
-                            let! l = li.light    
+                        for li in lights' do
+                            let i = fst li
+                            let l = snd li    
                             let name = sprintf "Light %i" i
-                            yield Html.SemUi.accordion name "" false [lightControl.view  l |> UI.map (fun msg -> LightMessage (i, msg))]
+                            let d = 
+                                Mod.map (fun l -> lightControl.view  l |> UI.map (fun msg -> LightMessage (i, msg))) l
+                                |> AList.ofModSingle
+                                |> Incremental.div AttributeMap.empty
+                            yield Html.SemUi.accordion name "" false [d]
                     } 
                     |>  ASet.toList
                 ] [view3D m]
