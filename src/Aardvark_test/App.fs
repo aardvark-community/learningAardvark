@@ -12,6 +12,7 @@ type Message =
     | CameraMessage of FreeFlyController.Message
     | LightMessage of int * lightControl.Message
     | RemoveLight  of int
+    | AddLight of Light
 
 module App =   
 
@@ -39,7 +40,16 @@ module App =
                 { m with lights = HMap.update i (fun _ -> l ) m.lights }
             |None ->  m
         | RemoveLight i ->  { m with lights = HMap.remove i m.lights }
-
+        | AddLight l -> 
+            let i = 
+                if HMap.isEmpty m.lights then
+                    1
+                else
+                    HMap.keys m.lights
+                    |> Seq.max
+                    |> max 0
+                    |> (+) 1
+            { m with lights = HMap.add i l m.lights }
     
     let figureMesh =
         Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom3.obj"
@@ -130,6 +140,11 @@ module App =
         require Html.semui ( // we use semantic ui for our gui. the require function loads semui stuff such as stylesheets and scripts
             body [] (        // explit html body for our app (adorner menus need to be immediate children of body). if there is no explicit body the we would automatically generate a body for you.
                 Html.SemUi.adornerMenu [ 
+                "Add Light",
+                    [
+                        button [clazz "ui button"; onClick (fun _ -> AddLight light.defaultDirectionalLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Directional Light"]
+                        button [clazz "ui button"; onClick (fun _ -> AddLight light.defaultPointLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Point Light"]
+                    ]    
                 "Change Light",
                     [aset {
                         for li in lights' do

@@ -33,22 +33,25 @@ module Lighting =
         member x.Lights : Arr<N<10>, SLEUniform.Light> = 
          x?Lights
 
+        member x.NumLights : int = x?NumLights
+
     let internal lighting (twoSided : bool) (v : Vertex) =
         fragment {
             let gamma  = 2.2
             let c = pow (v.c.XYZ) (V3d(gamma))
             let mutable col = V3d.Zero
+            let numLights = uniform.NumLights
             for i in 0 .. 9 do
                 
                 let light = uniform.Lights.[i]
                 let (exists, lDir, lCol)  = 
                     match  light  with
-                    | SLEUniform.DirectionalLight ld -> true, -ld.lightDirection.XYZ |> Vec.normalize, ld.color  
+                    | SLEUniform.DirectionalLight ld -> i < numLights, -ld.lightDirection.XYZ |> Vec.normalize, ld.color  
                     | SLEUniform.PointLight lp -> 
                         let lDir = lp.lightPosition.XYZ - v.wp.XYZ |> Vec.normalize
                         let dist = V3d.Distance (lp.lightPosition.XYZ, v.wp.XYZ)
                         let att = 1.0 / (1.0 + lp.attenuationLinear * dist + lp.attenuationQad * dist * dist)
-                        true, lDir , lp.color * att             
+                        i < numLights, lDir , lp.color * att             
                     | SLEUniform.NoLight -> false, c,c  //allways match any cases, otherwise fshade will give  a  cryptic error 
               
                 let oi = 
