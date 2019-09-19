@@ -121,7 +121,8 @@ module App =
                 do! DefaultSurfaces.trafo
                 do! DefaultSurfaces.vertexColor
                 do! DefaultSurfaces.diffuseTexture 
-                do! SLESurfaces.lighting false
+                //do! SLESurfaces.lighting false
+                do! SLESurfaces.lightingPBR
                 }
             |> Sg.andAlso <| lightSourceModels m.lights
 
