@@ -15,6 +15,7 @@
   <ItemGroup>
     <Compile Include="Model.fs" />
     <Compile Include="Light.fs" />
+    <Compile Include="Material.fs" />
     <Compile Include="Shader.fs" />
     <Compile Include="App.fs" />
     <Compile Include="Model.g.fs" />

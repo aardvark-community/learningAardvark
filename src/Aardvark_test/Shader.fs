@@ -97,6 +97,18 @@ module PBR =
 
         member x.NumLights : int = x?NumLights
 
+        member x.Roughness : float = x?Roughness
+
+        member x.Metallic : float = x?Metallic
+
+        member x.AlbedoFactor : float = x?AlbedoFactor
+
+    //Note: Do not use ' in variabel names for shader code,  it will lead  to an error
+
+     //------------------------------------------
+     // direkt Light PBR based on this  tutorial:
+     //
+     //-------------------------------------------
     [<GLSLIntrinsic("mix({0}, {1}, {2})")>] // Define function as intrinsic, no implementation needed
     let Lerp (a : V3d) (b : V3d) (s : float) : V3d = failwith ""
 
@@ -109,7 +121,7 @@ module PBR =
         let a  = roughness*roughness
         let a2 = a * a
         let nDotH = Vec.dot n h |> max 0.0  
-        let nDotH2 = nDotH + nDotH
+        let nDotH2 = nDotH * nDotH
         let deno = nDotH2 * (a2 - 1.0) + 1.0
         let denom =  Math.PI * deno * deno
         a2/denom
@@ -134,9 +146,9 @@ module PBR =
         fragment {
             let gamma  = 2.2
             
-            let albedo = pow (vert.c.XYZ) (V3d(gamma))
-            let metallic = 1.0
-            let roughness = 0.01
+            let albedo = pow (vert.c.XYZ * uniform.AlbedoFactor) (V3d(gamma))
+            let metallic = uniform.Metallic
+            let roughness = uniform.Roughness
 
             let cameraPos = uniform.CameraLocation
 
@@ -144,6 +156,7 @@ module PBR =
 
             let v = cameraPos - vert.wp.XYZ |> Vec.normalize
 
+            //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
             let f0 = Lerp (V3d(0.04)) albedo metallic
 
             let mutable lo = V3d.Zero
@@ -189,7 +202,7 @@ module PBR =
 
                 lo <- lo + oi
             
-            let ambient = V3d(0.03) * albedo
+            let ambient = V3d(0.01) * albedo
             let col = lo + ambient
             //Reihnard tone mapping
             let colm = col / (col+1.0)
