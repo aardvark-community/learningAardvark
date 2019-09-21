@@ -24,10 +24,11 @@ module V3dInput =
     let numInput name changed state  = labeledFloatInput name Double.MinValue Double.MaxValue 1.0 changed state
     let view header (m : IMod<V3d>) =
         Html.table [ 
-            tr [] [ td [] [text header] ]                          
-            tr [] [ td [] [numInput "X" SetX (Mod.map(fun (v :  V3d)-> v.X) m)]]
-            tr [] [ td [] [numInput "Y" SetY (Mod.map(fun (v :  V3d)-> v.Y) m)]]
-            tr [] [ td [] [numInput "Z" SetZ (Mod.map(fun (v :  V3d)-> v.Z) m)]]
+            tr [] [ td [attribute "colspan" "3"] [text header] ]                          
+            tr [] [ td [] [numInput "X" SetX (Mod.map(fun (v :  V3d)-> v.X) m)]
+                    td [] [numInput "Y" SetY (Mod.map(fun (v :  V3d)-> v.Y) m)]
+                    td [] [numInput "Z" SetZ (Mod.map(fun (v :  V3d)-> v.Z) m)]
+                  ]
         ]     
 
 module lightControl = 
@@ -114,7 +115,7 @@ module lightControl =
                 |> Incremental.div AttributeMap.empty 
                 
                 Mod.map (fun l -> l.lightDirection.XYZ) l'
-                |> V3dInput.view "Dierection"
+                |> V3dInput.view "Direction"
                 |> UI.map SetLightDirection
 
                 intensityView i c

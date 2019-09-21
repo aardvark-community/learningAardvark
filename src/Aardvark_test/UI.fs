@@ -21,5 +21,5 @@ open Aardvark.UI
                         yield! rest                    
                     ]
                 yield 
-                     onBoot "$('#__ID__').sidebar('setting', 'dimPage', false);" (Html.SemUi.menu "ui vertical inverted sidebar menu" sectionsAndItems)
+                     onBoot "$('#__ID__').sidebar('setting', 'dimPage', false);" (Html.SemUi.menu "ui vertical inverted sidebar very wide menu" sectionsAndItems)
             ] 
