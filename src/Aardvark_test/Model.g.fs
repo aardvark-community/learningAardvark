@@ -83,16 +83,73 @@ module Mutable =
     
     
     
+    type MPBRMaterial(__initial : Aardvark_test.Model.PBRMaterial) =
+        inherit obj()
+        let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.PBRMaterial> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.PBRMaterial>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.PBRMaterial>
+        let _metallic = ResetMod.Create(__initial.metallic)
+        let _roughness = ResetMod.Create(__initial.roughness)
+        let _albedoFactor = ResetMod.Create(__initial.albedoFactor)
+        
+        member x.metallic = _metallic :> IMod<_>
+        member x.roughness = _roughness :> IMod<_>
+        member x.albedoFactor = _albedoFactor :> IMod<_>
+        
+        member x.Current = __current :> IMod<_>
+        member x.Update(v : Aardvark_test.Model.PBRMaterial) =
+            if not (System.Object.ReferenceEquals(__current.Value, v)) then
+                __current.Value <- v
+                
+                ResetMod.Update(_metallic,v.metallic)
+                ResetMod.Update(_roughness,v.roughness)
+                ResetMod.Update(_albedoFactor,v.albedoFactor)
+                
+        
+        static member Create(__initial : Aardvark_test.Model.PBRMaterial) : MPBRMaterial = MPBRMaterial(__initial)
+        static member Update(m : MPBRMaterial, v : Aardvark_test.Model.PBRMaterial) = m.Update(v)
+        
+        override x.ToString() = __current.Value.ToString()
+        member x.AsString = sprintf "%A" __current.Value
+        interface IUpdatable<Aardvark_test.Model.PBRMaterial> with
+            member x.Update v = x.Update v
+    
+    
+    
+    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+    module PBRMaterial =
+        [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+        module Lens =
+            let metallic =
+                { new Lens<Aardvark_test.Model.PBRMaterial, System.Double>() with
+                    override x.Get(r) = r.metallic
+                    override x.Set(r,v) = { r with metallic = v }
+                    override x.Update(r,f) = { r with metallic = f r.metallic }
+                }
+            let roughness =
+                { new Lens<Aardvark_test.Model.PBRMaterial, System.Double>() with
+                    override x.Get(r) = r.roughness
+                    override x.Set(r,v) = { r with roughness = v }
+                    override x.Update(r,f) = { r with roughness = f r.roughness }
+                }
+            let albedoFactor =
+                { new Lens<Aardvark_test.Model.PBRMaterial, System.Double>() with
+                    override x.Get(r) = r.albedoFactor
+                    override x.Set(r,v) = { r with albedoFactor = v }
+                    override x.Update(r,f) = { r with albedoFactor = f r.albedoFactor }
+                }
+    
+    
     type MModel(__initial : Aardvark_test.Model.Model) =
         inherit obj()
         let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.Model> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.Model>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.Model>
         let _cameraState = Aardvark.UI.Primitives.Mutable.MCameraControllerState.Create(__initial.cameraState)
         let _lights = MMap.Create(__initial.lights, (fun v -> MLight.Create(v)), (fun (m,v) -> MLight.Update(m, v)), (fun v -> v))
         let _currentLightIndex = ResetMod.Create(__initial.currentLightIndex)
+        let _material = MPBRMaterial.Create(__initial.material)
         
         member x.cameraState = _cameraState
         member x.lights = _lights :> amap<_,_>
         member x.currentLightIndex = _currentLightIndex :> IMod<_>
+        member x.material = _material
         
         member x.Current = __current :> IMod<_>
         member x.Update(v : Aardvark_test.Model.Model) =
@@ -102,6 +159,7 @@ module Mutable =
                 Aardvark.UI.Primitives.Mutable.MCameraControllerState.Update(_cameraState, v.cameraState)
                 MMap.Update(_lights, v.lights)
                 ResetMod.Update(_currentLightIndex,v.currentLightIndex)
+                MPBRMaterial.Update(_material, v.material)
                 
         
         static member Create(__initial : Aardvark_test.Model.Model) : MModel = MModel(__initial)
@@ -135,4 +193,10 @@ module Mutable =
                     override x.Get(r) = r.currentLightIndex
                     override x.Set(r,v) = { r with currentLightIndex = v }
                     override x.Update(r,f) = { r with currentLightIndex = f r.currentLightIndex }
+                }
+            let material =
+                { new Lens<Aardvark_test.Model.Model, Aardvark_test.Model.PBRMaterial>() with
+                    override x.Get(r) = r.material
+                    override x.Set(r,v) = { r with material = v }
+                    override x.Update(r,f) = { r with material = f r.material }
                 }

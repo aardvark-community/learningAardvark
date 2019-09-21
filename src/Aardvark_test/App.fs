@@ -13,6 +13,7 @@ type Message =
     | LightMessage of int * lightControl.Message
     | RemoveLight  of int
     | AddLight of Light
+    | MaterialMessage of materialControl.Message
 
 module App =   
 
@@ -21,9 +22,9 @@ module App =
     let initialView = CameraView.lookAt (V3d(2.0, 2.0, -3.0)) (V3d(0.0, 1.0, 0.0)) (V3d.OIO * 1.0)
     let initial = { 
         cameraState = {FreeFlyController.initial  with freeFlyConfig = cameraConfig; view = initialView}
-        lights = HMap.ofList [(0, PointLight  {lightPosition = V4d(0.0,1.5,-0.5,1.0); color = C3d.Red; attenuationQad = 1.0; attenuationLinear = 0.0; intensity = 1.0}); 
-            (1, PointLight  {lightPosition = V4d(-1.0,1.5,-0.0,1.0); color = C3d.Green; attenuationQad = 1.0; attenuationLinear = 0.0; intensity = 1.0})]
+        lights = HMap.ofList [(0, light.defaultDirectionalLight)]
         currentLightIndex  = 0
+        material = material.defaultMaterial
     }
 
     let update (m : Model) (msg : Message) =
@@ -50,7 +51,9 @@ module App =
                     |> max 0
                     |> (+) 1
             { m with lights = HMap.add i l m.lights }
-    
+        | MaterialMessage msg ->
+            { m with material = materialControl.update m.material msg }
+
     let figureMesh =
         Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom3.obj"
         |> Sg.adapter
@@ -72,7 +75,7 @@ module App =
                 return SLEUniform.PointLight {lightPosition = x.lightPosition; color = x.color.ToV3d() * x.intensity; attenuationQad = x.attenuationQad; attenuationLinear = x.attenuationLinear}
         } 
 
-    let uniformLights (lights : amap<int,IMod<MLight>>) (m :ISg<Message>)  =
+    let uniformLights (lights : amap<int,IMod<MLight>>)   =
         let lights' = AMap.toASet lights
         let numLights = ASet.count lights'
         let a =  Array.init 10 (fun _ -> SLEUniform.NoLight )
@@ -84,9 +87,8 @@ module App =
                 |> ASet.fold (fun ((i : int), (a : SLEUniform.Light [])) l -> a.[i] <- l; (i+1, a)) (0,a)
                 |> Mod.map (fun (i, a) -> a)
                 |> Sg.uniform "Lights" 
-        m
-        |> u
-        |> Sg.uniform "NumLights" numLights
+        
+        u >> Sg.uniform "NumLights" numLights
 
     let lightSourceModels (lights : amap<int,IMod<MLight>> ) =
         let lights' = AMap.toASet lights
@@ -107,7 +109,12 @@ module App =
             do! DefaultSurfaces.trafo
             do! DefaultSurfaces.vertexColor 
             }   
-
+    
+    let materialUniforms (m : MPBRMaterial) =
+        Sg.uniform "Metallic" m.metallic
+        >> Sg.uniform "Roughness" m.roughness
+        >> Sg.uniform "AlbedoFactor" m.albedoFactor
+    
     //the 3D scene and control
     let view3D (m : MModel) =
         let frustum = 
@@ -117,11 +124,13 @@ module App =
         let sg =
             figureMesh
             |> uniformLights m.lights
+            |> materialUniforms m.material
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
                 do! DefaultSurfaces.vertexColor
                 do! DefaultSurfaces.diffuseTexture 
-                do! SLESurfaces.lighting false
+                //do! SLESurfaces.lighting false
+                do! SLESurfaces.lightingPBR
                 }
             |> Sg.andAlso <| lightSourceModels m.lights
 
@@ -140,6 +149,10 @@ module App =
         require Html.semui ( // we use semantic ui for our gui. the require function loads semui stuff such as stylesheets and scripts
             body [] (        // explit html body for our app (adorner menus need to be immediate children of body). if there is no explicit body the we would automatically generate a body for you.
                 Html.SemUi.adornerMenu [ 
+                "Edit Material",
+                    [
+                        materialControl.view m.material |> UI.map MaterialMessage
+                    ]    
                 "Add Light",
                     [
                         button [clazz "ui button"; onClick (fun _ -> AddLight light.defaultDirectionalLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Directional Light"]
