@@ -148,7 +148,8 @@ module App =
         let lights' = AMap.toASet m.lights
         require Html.semui ( // we use semantic ui for our gui. the require function loads semui stuff such as stylesheets and scripts
             body [] (        // explit html body for our app (adorner menus need to be immediate children of body). if there is no explicit body the we would automatically generate a body for you.
-                Html.SemUi.adornerMenu [ 
+
+                Html.SemUi.adornerMenuWitoutDim [ 
                 "Edit Material",
                     [
                         materialControl.view m.material |> UI.map MaterialMessage

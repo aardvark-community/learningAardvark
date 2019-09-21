@@ -26,8 +26,8 @@ let main args =
     
     Aardium.run {
         title "Aardvark rocks \\o/"
-        width 1024
-        height 768
+        width 1600
+        height 1000
         url "http://localhost:4321/"
     }
 
