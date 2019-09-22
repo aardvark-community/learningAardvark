@@ -160,22 +160,26 @@ module App =
                         button [clazz "ui button"; onClick (fun _ -> AddLight light.defaultPointLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Point Light"]
                     ]    
                 "Change Light",
-                    [aset {
-                        for li in lights' do
-                            let i = fst li
-                            let l = snd li    
-                            let name = sprintf "Light %i" i
-                            let d = 
-                                Mod.map (fun l -> lightControl.view  l |> UI.map (fun msg -> LightMessage (i, msg))) l
-                                |> AList.ofModSingle
-                                |> Incremental.div AttributeMap.empty
-                            yield Html.SemUi.subAccordion name "dropdown" false [
-                                d
-                                button [clazz "ui button"; onClick (fun _ -> RemoveLight i); style "margin-bottom: 5px; width: 100%;" ]  [text "Remove"]
-                                ]
-                    } 
-                    |>  ASet.toAList
-                    |>  Incremental.div AttributeMap.empty
+                    [
+                        lights'
+                        |> ASet.fold 
+                            ( fun items (i, l) -> 
+                                let name = sprintf "Light %i" i
+                                let d = 
+                                        Mod.map (fun l -> lightControl.view  l |> UI.map (fun msg -> LightMessage (i, msg))) l
+                                        |> AList.ofModSingle
+                                        |> Incremental.div AttributeMap.empty
+                                
+                                let item = 
+                                    name, [
+                                        d
+                                        button [clazz "ui button"; onClick (fun _ -> RemoveLight i); style "margin-bottom: 5px; width: 100%;" ]  [text "Remove"]
+                                        ]
+                                item::items
+                            ) []
+                        |> Mod.map (fun items -> Html.SemUi.accordionMenu true "ui vertical inverted fluid accordion menu" items)
+                        |> AList.ofModSingle
+                        |> Incremental.div AttributeMap.empty
                     ]
                 ] [view3D m]
             )
