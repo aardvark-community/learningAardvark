@@ -149,7 +149,7 @@ module App =
         require Html.semui ( // we use semantic ui for our gui. the require function loads semui stuff such as stylesheets and scripts
             body [] (        // explit html body for our app (adorner menus need to be immediate children of body). if there is no explicit body the we would automatically generate a body for you.
 
-                Html.SemUi.adornerMenuWitoutDim [ 
+                Html.SemUi.adornerAccordeonMenu [ 
                 "Edit Material",
                     [
                         materialControl.view m.material |> UI.map MaterialMessage
@@ -169,7 +169,7 @@ module App =
                                 Mod.map (fun l -> lightControl.view  l |> UI.map (fun msg -> LightMessage (i, msg))) l
                                 |> AList.ofModSingle
                                 |> Incremental.div AttributeMap.empty
-                            yield Html.SemUi.accordion name "" false [
+                            yield Html.SemUi.subAccordion name "dropdown" false [
                                 d
                                 button [clazz "ui button"; onClick (fun _ -> RemoveLight i); style "margin-bottom: 5px; width: 100%;" ]  [text "Remove"]
                                 ]
