@@ -173,7 +173,7 @@ module App =
                                 let item = 
                                     name, [
                                         d
-                                        button [clazz "ui button"; onClick (fun _ -> RemoveLight i); style "margin-bottom: 5px; width: 100%;" ]  [text "Remove"]
+                                        button [clazz "ui button"; onClick (fun _ -> RemoveLight i); style "margin-top: 5px;width: 100%;" ]  [text "Remove"]
                                         ]
                                 item::items
                             ) []

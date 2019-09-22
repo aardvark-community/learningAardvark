@@ -85,18 +85,18 @@ module lightControl =
     let attenuationView (l : IMod<float>) (q : IMod<float>)=
         let numInput name changed state  = labeledFloatInput name 0.0 1.0 0.01 changed state
         Html.table [ 
-            tr [] [ td [] [text "Attenuation"] ]                          
-            tr [] [ td [] [numInput "Linear" SetAttenuationLinear l]]
-            tr [] [ td [] [numInput "Quatratic" SetAttenuationQad q]]
+            tr [] [ td [attribute "colspan" "2"] [text "Attenuation"] ]                          
+            tr [] [ td [] [numInput "Linear" SetAttenuationLinear l]
+                    td [] [numInput "Quatratic" SetAttenuationQad q]]
         ] 
 
     let intensityView (i : IMod<float>) (c : IMod<C4b>)=
         let numInput name changed state  = labeledFloatInput name 0.0 Double.MaxValue 1.0 changed state
         Html.table [ 
-            tr [] [ td [] [text "Light"] ]                          
+            tr [] [ td [attribute "colspan" "3"] [text "Light"] ]                          
            //Important: to make  the colorpicker work, the  assemblyWebpart for Aardvark.UI.Primitives needs to be registert in Program.fs
-            tr [] [ td [] [text "Color"]; td [] [ColorPicker.viewSimple c (fun (c : C4b) -> (C3d.FromC4b).Invoke(c) |> SetColor)]]
-            tr [] [ td [] [numInput "Intensity" SetIntensity i]]
+            tr [] [ td [] [text "Color"]; td [] [ColorPicker.viewSimple c (fun (c : C4b) -> (C3d.FromC4b).Invoke(c) |> SetColor)]
+                    td [] [numInput "Intensity" SetIntensity i]]
          ] 
 
     let view (m : MLight) =
