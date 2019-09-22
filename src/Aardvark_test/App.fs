@@ -114,7 +114,20 @@ module App =
         Sg.uniform "Metallic" m.metallic
         >> Sg.uniform "Roughness" m.roughness
         >> Sg.uniform "AlbedoFactor" m.albedoFactor
-    
+
+
+    let skyMap : ISg<Message> -> ISg<Message> = 
+        let texture =  FileTexture(@"..\..\..\data\Tropical_Ruins\TropicalRuins_8k.jpg", { wantCompressed = false; wantMipMaps = true; wantSrgb = true }) :> ITexture
+        Sg.texture (Sym.ofString "SkyMap")(texture |> Mod.constant)
+
+    let skyBox  =
+        Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
+            |> skyMap
+            |> Sg.shader {
+                do! SLESurfaces.trafoLpos
+                do! SLESurfaces.skyTexture
+            }
+
     //the 3D scene and control
     let view3D (m : MModel) =
         let frustum = 
@@ -133,6 +146,7 @@ module App =
                 do! SLESurfaces.lightingPBR
                 }
             |> Sg.andAlso <| lightSourceModels m.lights
+            |> Sg.andAlso <| skyBox
 
         let att =
             [
@@ -142,7 +156,7 @@ module App =
             ]
 
         FreeFlyController.controlledControl m.cameraState CameraMessage frustum (AttributeMap.ofList att) sg
-        
+ 
     // main view for UI and  
     let view (m : MModel) =
         let lights' = AMap.toASet m.lights

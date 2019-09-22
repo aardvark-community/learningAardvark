@@ -213,9 +213,56 @@ module PBR =
             return V4d(colg, vert.c.W)
         }
 
+module Sky =
+
+    let private skySampler =
+        sampler2d {
+            texture uniform?SkyMap
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
+    //from https://learnopengl.com/PBR/IBL/Diffuse-irradiance
+    [<ReflectedDefinition>]
+    let sampleSphericalMap (vec : V3d) =
+        let invAtan = V2d (0.1591, 0.3183)
+        let u = atan2 vec.Z vec.X
+        let v = asin  vec.Y
+        let uv = 
+            V2d(u, v)
+            |> (*) invAtan
+            |> (+) 0.5
+        uv
+
+
+    type Vertex = {
+        [<Position>]                pos     : V4d
+        [<Semantic("localPos")>]    lp    : V4d
+    }
+
+    let internal skyTexture (v : Vertex) =
+        fragment {
+            let lPos  = v.lp.XYZ |> Vec.normalize
+            let uv  = sampleSphericalMap lPos
+            let texColor = skySampler.Sample(uv)
+            return texColor
+        }
+
+    let internal trafoLpos (v : Vertex) =
+        vertex {
+            let wp = uniform.ModelTrafo * v.pos
+            return {
+                pos = uniform.ViewProjTrafo * wp
+                lp = v.pos
+            }
+        }
+
 module SLESurfaces = 
 
-    let  lighting = Lighting.lighting
-    let  lightingPBR  = PBR.lighting
+    let lighting = Lighting.lighting
+    let lightingPBR  = PBR.lighting
+    let skyTexture = Sky.skyTexture
+    let trafoLpos = Sky.trafoLpos
 
     
