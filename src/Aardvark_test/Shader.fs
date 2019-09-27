@@ -215,9 +215,9 @@ module PBR =
 
 module Sky =
 
-    let private skySampler =
+    let private skySamplerEquirec =
         sampler2d {
-            texture uniform?SkyMap
+            texture uniform?SkyMapEquirec
             filter Filter.MinMagMipLinear
             addressU WrapMode.Wrap
             addressV WrapMode.Wrap
@@ -235,34 +235,43 @@ module Sky =
             |> (+) 0.5
         uv
 
-
-    type Vertex = {
-        [<Position>]                pos     : V4d
-        [<Semantic("localPos")>]    lp    : V4d
-    }
-
-    let internal skyTexture (v : Vertex) =
+    let internal skyTextureEquirec (v : Vertex) =
         fragment {
-            let lPos  = v.lp.XYZ |> Vec.normalize
+            let lPos  = v.wp.XYZ |> Vec.normalize
             let uv  = sampleSphericalMap lPos
-            let texColor = skySampler.Sample(uv)
+            let texColor = skySamplerEquirec.Sample(uv)
             return texColor
         }
 
-    let internal trafoLpos (v : Vertex) =
-        vertex {
-            let wp = uniform.ModelTrafo * v.pos
-            return {
-                pos = uniform.ViewProjTrafo * wp
-                lp = v.pos
-            }
+    let private skySampler =
+        samplerCube {
+            texture uniform?SkyCubeMap
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
+    let internal skyTexture (v : Vertex) =
+        fragment {
+            let gamma  = 2.2
+            
+            let lPos  = v.wp.XYZ - V3d(3.0,0.0,0.0) |> Vec.normalize
+            let texColor = skySampler.Sample(lPos).XYZ
+
+            //Reihnard tone mapping
+            let colm = texColor / (texColor+1.0)
+
+            //gamma  correction
+            let colg = pow colm (V3d(1.0/gamma))
+
+            return V4d(colg,v.c.W)
         }
 
 module SLESurfaces = 
 
     let lighting = Lighting.lighting
     let lightingPBR  = PBR.lighting
+    let skyTextureEquirec = Sky.skyTextureEquirec
     let skyTexture = Sky.skyTexture
-    let trafoLpos = Sky.trafoLpos
 
     

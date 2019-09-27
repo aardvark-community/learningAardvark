@@ -3,6 +3,7 @@ namespace Aardvark_test
 open System
 open Aardvark.Base
 open Aardvark.Base.Incremental
+open Aardvark.SceneGraph
 open Aardvark.UI
 open Aardvark.UI.Primitives
 open Aardvark.Base.Rendering
@@ -29,7 +30,6 @@ module App =
 
     let update (m : Model) (msg : Message) =
         //compose the update functions from the updates of the sub-model
-        Log.warn "%A" msg
         match msg with
         | CameraMessage msg ->
             { m with cameraState = FreeFlyController.update m.cameraState msg }
@@ -54,11 +54,11 @@ module App =
         | MaterialMessage msg ->
             { m with material = materialControl.update m.material msg }
 
-    let figureMesh =
+    (*let figureMesh =
         Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom3.obj"
         |> Sg.adapter
         //|> Sg.transform (Trafo3d.FromOrthoNormalBasis(V3d.IOO, V3d.OOI, -V3d.OIO))
-        |> Sg.transform (Trafo3d.Scale(1.0,1.0,1.0))
+        |> Sg.transform (Trafo3d.Scale(1.0,1.0,1.0))*)
     
     let uniformLight (l : IMod<MLight>) =
         //needs to be adaptive because the  Light can change and is an IMod
@@ -116,25 +116,88 @@ module App =
         >> Sg.uniform "AlbedoFactor" m.albedoFactor
 
 
-    let skyMap : ISg<Message> -> ISg<Message> = 
-        let texture =  FileTexture(@"..\..\..\data\Tropical_Ruins\TropicalRuins_8k.jpg", { wantCompressed = false; wantMipMaps = true; wantSrgb = true }) :> ITexture
-        Sg.texture (Sym.ofString "SkyMap")(texture |> Mod.constant)
+    let skyMapequirectengular : ISg<Message> -> ISg<Message> = 
+        let texture =  FileTexture(@"..\..\..\data\Tropical_Ruins\TropicalRuins_3k.hdr", { wantCompressed = false; wantMipMaps = true; wantSrgb = true }) :> ITexture
+        Sg.texture (Sym.ofString "SkyMapEquirec")(texture |> Mod.constant)
 
-    let skyBox  =
+    let skyBoxEquirec  =
         Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
-            |> skyMap
+            |> skyMapequirectengular
             |> Sg.shader {
-                do! SLESurfaces.trafoLpos
+                do! DefaultSurfaces.trafo
+                do! SLESurfaces.skyTextureEquirec
+            }
+
+    let signature (runtime : IRuntime) =
+        runtime.CreateFramebufferSignature [
+            DefaultSemantic.Colors, { format = RenderbufferFormat.Rgba8; samples = 1 }
+            DefaultSemantic.Depth, { format = RenderbufferFormat.Depth24Stencil8; samples = 1 }
+        ]
+
+    let size = 1024 |> Mod.init 
+
+    let ii = Array.init 6 (fun i ->  DefaultTextures.checkerboardPix |> PixImageMipMap)
+    let i = PixImageCube ii
+            |> PixImageCube.ofOpenGlConvention
+            |> PixImageCube.toTexture true
+    let cu = Mod.constant i
+
+    let equirectengularToCubeMapTask  runtime face =
+        let lookTo = 
+            match face with
+            |CubeSide.PositiveY  -> V3d.OIO
+            |CubeSide.PositiveZ -> V3d.OOI
+            |CubeSide.PositiveX -> V3d.IOO
+            |CubeSide.NegativeZ-> V3d.OOI * -1.0
+            |CubeSide.NegativeX -> V3d.IOO * -1.0
+            |CubeSide.NegativeY -> V3d.OIO * -1.0
+            |_ -> failwith "unexpected enum"
+        let lookSky = 
+            match face with
+            |CubeSide.PositiveY  -> V3d.OOI * -1.0
+            |CubeSide.PositiveZ -> V3d.OIO
+            |CubeSide.PositiveX -> V3d.OIO
+            |CubeSide.NegativeZ-> V3d.OIO
+            |CubeSide.NegativeX -> V3d.OIO
+            |CubeSide.NegativeY -> V3d.OOI
+            |_ -> failwith "unexpected enum"
+
+        skyBoxEquirec
+        |> Sg.viewTrafo (
+                CameraView.lookAt V3d.OOO lookTo (lookSky * -1.0) //(lookTo  * 2.0)
+                 |> CameraView.viewTrafo 
+                 |> Mod.constant
+           )
+        |> Sg.projTrafo (size |> Mod.map (fun actualSize -> 
+                Frustum.perspective 90.0 0.01 1.0 1.0 |> Frustum.projTrafo
+              )
+           )
+        // next, we use Sg.compile in order to turn a scene graph into a render task (a nice composable alias for runtime.CompileRender)
+        |> Sg.compile runtime (signature runtime)
+
+    let skyCubeMap (runtime : IRuntime) =
+        RenderTask.renderToColorCube size (equirectengularToCubeMapTask  runtime)
+
+
+    let skyBox  runtime =
+        Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
+            |> Sg.translate 3.0 0.0 0.0
+            |> Sg.texture (Sym.ofString "SkyCubeMap") (skyCubeMap runtime)
+            |> Sg.shader {
+                do! DefaultSurfaces.trafo
                 do! SLESurfaces.skyTexture
             }
 
     //the 3D scene and control
-    let view3D (m : MModel) =
+    let view3D runtime (m : MModel) =
         let frustum = 
             Frustum.perspective 30.0 0.1 100.0 1.0 
                 |> Mod.constant
 
-        let sg =
+        let sg = 
+            skyBoxEquirec
+            |> Sg.andAlso <| skyBox runtime
+        (*
             figureMesh
             |> uniformLights m.lights
             |> materialUniforms m.material
@@ -146,7 +209,7 @@ module App =
                 do! SLESurfaces.lightingPBR
                 }
             |> Sg.andAlso <| lightSourceModels m.lights
-            |> Sg.andAlso <| skyBox
+            |> Sg.andAlso <| skyBox runtime*)
 
         let att =
             [
@@ -158,7 +221,7 @@ module App =
         FreeFlyController.controlledControl m.cameraState CameraMessage frustum (AttributeMap.ofList att) sg
  
     // main view for UI and  
-    let view (m : MModel) =
+    let view runtime (m : MModel) =
         let lights' = AMap.toASet m.lights
         require Html.semui ( // we use semantic ui for our gui. the require function loads semui stuff such as stylesheets and scripts
             body [] (        // explit html body for our app (adorner menus need to be immediate children of body). if there is no explicit body the we would automatically generate a body for you.
@@ -195,15 +258,15 @@ module App =
                         |> AList.ofModSingle
                         |> Incremental.div AttributeMap.empty
                     ]
-                ] [view3D m]
+                ] [view3D runtime m]
             )
         )
 
-    let app =
+    let app runtime=
         {
             initial = initial
             update = update
-            view = view
+            view = view runtime
             threads = Model.Lens.cameraState.Get >> FreeFlyController.threads >> ThreadPool.map CameraMessage
             unpersist = Unpersist.instance
         }

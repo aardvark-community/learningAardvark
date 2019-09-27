@@ -1,6 +1,7 @@
 open Aardvark_test
 
 open Aardium
+open Aardvark.Application.Slim
 open Aardvark.Service
 open Aardvark.UI
 open Suave
@@ -15,10 +16,14 @@ let main args =
     Aardvark.Init()
     Aardium.init()
 
-    let app = new HeadlessVulkanApplication()
+    let vapp = new OpenGlApplication()//new HeadlessVulkanApplication()
+
+    let runtime = vapp.Runtime :> IRuntime
+
+    let app = App.app runtime //inject runtime into app
 
     WebPart.startServer 4321 [
-        MutableApp.toWebPart' app.Runtime false (App.start App.app)
+        MutableApp.toWebPart' runtime false (App.start app)
         Reflection.assemblyWebPart (System.Reflection.Assembly.GetEntryAssembly())
         //requiered to load the spectrum.js for the colorpicker (EmbeddedResources is the marker type to find the correct assembly)
         Reflection.assemblyWebPart typeof<Aardvark.UI.Primitives.EmbeddedResources>.Assembly
