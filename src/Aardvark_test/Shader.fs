@@ -9,23 +9,20 @@ open System
 
 module SLEUniform =
 
-    type DirectionalLightData = {
-        lightDirection : V4d
-        color : V3d
-    }
+    type LightType =
+        | NoLight = 0
+        | DirectionalLight = 1
+        | PointLight = 2
 
-    type PointLightData = {
+    type Light = {
+        lightType : LightType
         lightPosition : V4d
         color : V3d
         attenuationQad :float
         attenuationLinear :float
     }
-
-    type Light =
-        | DirectionalLight of DirectionalLightData
-        | PointLight of PointLightData
-        | NoLight
-
+     
+    let noLight = {lightType = LightType.NoLight; lightPosition = V4d.Zero; color = V3d.Zero; attenuationQad = 0.0; attenuationLinear = 0.0}
 
 module Lighting = 
 
@@ -48,14 +45,15 @@ module Lighting =
                 
                 let light = uniform.Lights.[i]
                 let (exists, lDir, lCol)  = 
-                    match  light  with
-                    | SLEUniform.DirectionalLight ld -> i < numLights, -ld.lightDirection.XYZ |> Vec.normalize, ld.color  
-                    | SLEUniform.PointLight lp -> 
-                        let lDir = lp.lightPosition.XYZ - v.wp.XYZ |> Vec.normalize
-                        let dist = V3d.Distance (lp.lightPosition.XYZ, v.wp.XYZ)
-                        let att = 1.0 / (1.0 + lp.attenuationLinear * dist + lp.attenuationQad * dist * dist)
-                        i < numLights, lDir , lp.color * att             
-                    | SLEUniform.NoLight -> false, c,c  //allways match any cases, otherwise fshade will give  a  cryptic error 
+                    match  light.lightType  with
+                    | SLEUniform.LightType.DirectionalLight -> i < numLights, light.lightPosition.XYZ |> Vec.normalize, light.color  
+                    | SLEUniform.LightType.PointLight -> 
+                        let lDir = light.lightPosition.XYZ - v.wp.XYZ |> Vec.normalize
+                        let dist = V3d.Distance (light.lightPosition.XYZ, v.wp.XYZ)
+                        let att = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
+                        i < numLights, lDir , light.color * att             
+                    | SLEUniform.LightType.NoLight -> false, c,c 
+                    |_ ->  false, V3d(0.0), V3d(0.0)  //allways match any cases, otherwise fshade will give  a  cryptic error 
               
                 let oi = 
                     if exists then
@@ -165,14 +163,15 @@ module PBR =
                 
                 let light = uniform.Lights.[i]
                 let (exists, lDir, radiance)  = 
-                    match  light  with
-                    | SLEUniform.DirectionalLight ld -> i < numLights, -ld.lightDirection.XYZ |> Vec.normalize, ld.color  
-                    | SLEUniform.PointLight lp -> 
-                        let lDir = lp.lightPosition.XYZ - vert.wp.XYZ |> Vec.normalize
-                        let dist = V3d.Distance (lp.lightPosition.XYZ, vert.wp.XYZ)
-                        let attenuation = 1.0 / (1.0 + lp.attenuationLinear * dist + lp.attenuationQad * dist * dist)
-                        i < numLights, lDir , lp.color * attenuation             
-                    | SLEUniform.NoLight -> false, V3d(0.0), V3d(0.0)  //allways match any cases, otherwise fshade will give  a  cryptic error 
+                    match  light.lightType  with
+                    | SLEUniform.LightType.DirectionalLight -> i < numLights, -light.lightPosition.XYZ |> Vec.normalize, light.color  
+                    | SLEUniform.LightType.PointLight -> 
+                        let lDir = light.lightPosition.XYZ - vert.wp.XYZ |> Vec.normalize
+                        let dist = V3d.Distance (light.lightPosition.XYZ, vert.wp.XYZ)
+                        let attenuation = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
+                        i < numLights, lDir , light.color * attenuation             
+                    | SLEUniform.LightType.NoLight -> false, V3d(0.0), V3d(0.0)
+                    |_ ->  false, V3d(0.0), V3d(0.0)  //allways match any cases, otherwise fshade will give  a  cryptic error 
               
                 let oi = 
                     if exists then

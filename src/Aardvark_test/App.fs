@@ -54,13 +54,13 @@ module App =
         | MaterialMessage msg ->
             { m with material = materialControl.update m.material msg }
 
-    (*let figureMesh =
+    let figureMesh =
         Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom3.obj"
         |> Sg.adapter
         //|> Sg.transform (Trafo3d.FromOrthoNormalBasis(V3d.IOO, V3d.OOI, -V3d.OIO))
-        |> Sg.transform (Trafo3d.Scale(1.0,1.0,1.0))*)
+        |> Sg.transform (Trafo3d.Scale(1.0,1.0,1.0))
     
-    let uniformLight (l : IMod<MLight>) =
+    let uniformLight (l : IMod<MLight>) : IMod<SLEUniform.Light>  =
         //needs to be adaptive because the  Light can change and is an IMod
         //we go from IMod<MLight> to IMod<ISg<Message>>
         adaptive {
@@ -69,16 +69,18 @@ module App =
             | MDirectionalLight  x' ->
                let! x  = x'
                 //Map to a type more convinient in the shaders
-               return SLEUniform.DirectionalLight {lightDirection = x.lightDirection; color = x.color.ToV3d() * x.intensity}
+               let r : SLEUniform.Light = {lightType = SLEUniform.LightType.DirectionalLight; lightPosition = x.lightDirection; color = x.color.ToV3d() * x.intensity; attenuationQad = 0.0; attenuationLinear = 0.0}
+               return  r
             | MPointLight  x' ->
-                let! x  = x'
-                return SLEUniform.PointLight {lightPosition = x.lightPosition; color = x.color.ToV3d() * x.intensity; attenuationQad = x.attenuationQad; attenuationLinear = x.attenuationLinear}
+               let! x  = x'
+               let r : SLEUniform.Light = {lightType = SLEUniform.LightType.PointLight; lightPosition = x.lightPosition; color = x.color.ToV3d() * x.intensity; attenuationQad = x.attenuationQad; attenuationLinear = x.attenuationLinear}
+               return r
         } 
 
     let uniformLights (lights : amap<int,IMod<MLight>>)   =
         let lights' = AMap.toASet lights
         let numLights = ASet.count lights'
-        let a =  Array.init 10 (fun _ -> SLEUniform.NoLight )
+        let a =  Array.init 10 (fun _ -> SLEUniform.noLight )
         let u = aset{
                 for l  in  lights' do
                     let! l =  snd l |> uniformLight
@@ -195,9 +197,6 @@ module App =
                 |> Mod.constant
 
         let sg = 
-            skyBoxEquirec
-            |> Sg.andAlso <| skyBox runtime
-        (*
             figureMesh
             |> uniformLights m.lights
             |> materialUniforms m.material
@@ -209,7 +208,7 @@ module App =
                 do! SLESurfaces.lightingPBR
                 }
             |> Sg.andAlso <| lightSourceModels m.lights
-            |> Sg.andAlso <| skyBox runtime*)
+            |> Sg.andAlso <| skyBox runtime
 
         let att =
             [
