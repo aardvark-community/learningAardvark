@@ -119,7 +119,7 @@ module App =
 
 
     let skyMapequirectengular : ISg<Message> -> ISg<Message> = 
-        let texture =  FileTexture(@"..\..\..\data\Tropical_Ruins\TropicalRuins_3k.hdr", { wantCompressed = false; wantMipMaps = true; wantSrgb = true }) :> ITexture
+        let texture =  FileTexture(@"..\..\..\data\GrandCanyon_C_YumaPoint\GCanyon_C_YumaPoint_3k.hdr", { wantCompressed = false; wantMipMaps = true; wantSrgb = true }) :> ITexture
         Sg.texture (Sym.ofString "SkyMapEquirec")(texture |> Mod.constant)
 
     let skyBoxEquirec  =
@@ -183,10 +183,12 @@ module App =
 
     let skyBox  runtime =
         Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
-            |> Sg.translate 3.0 0.0 0.0
+            |> Sg.cullMode (Mod.constant CullMode.None)
+            //|> Sg.depthTest (Mod.constant DepthTestMode.None)
+            //|> Sg.translate 3.0 0.0 0.0
             |> Sg.texture (Sym.ofString "SkyCubeMap") (skyCubeMap runtime)
             |> Sg.shader {
-                do! DefaultSurfaces.trafo
+                do! SLESurfaces.skyBoxTrafo
                 do! SLESurfaces.skyTexture
             }
 

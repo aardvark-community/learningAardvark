@@ -212,6 +212,7 @@ module PBR =
             return V4d(colg, vert.c.W)
         }
 
+
 module Sky =
 
     let private skySamplerEquirec =
@@ -250,11 +251,29 @@ module Sky =
             addressV WrapMode.Wrap
         }
 
+    let internal skyBoxTrafo (v : Vertex) =
+        vertex {
+            let wp = uniform.ModelTrafo * v.pos
+            //let rotView  = m33d uniform.ViewTrafo |> m44d 
+            //let  clipPos =  uniform.ProjTrafo * rotView * wp
+            let cameraPos = uniform.CameraLocation
+            let clipPos = (uniform.ViewProjTrafo * (wp + V4d(cameraPos,0.0))) //remove translation
+            return {
+                pos = V4d(clipPos.X,clipPos.Y,clipPos.W,clipPos.W)
+                wp = wp
+                n =  v.n
+                b =  v.b
+                t =  v.t
+                c = v.c
+                tc = v.tc
+            }
+        }
+
     let internal skyTexture (v : Vertex) =
         fragment {
             let gamma  = 2.2
             
-            let lPos  = v.wp.XYZ - V3d(3.0,0.0,0.0) |> Vec.normalize
+            let lPos  = v.wp.XYZ |> Vec.normalize
             let texColor = skySampler.Sample(lPos).XYZ
 
             //Reihnard tone mapping
@@ -266,11 +285,13 @@ module Sky =
             return V4d(colg,v.c.W)
         }
 
+
 module SLESurfaces = 
 
     let lighting = Lighting.lighting
     let lightingPBR  = PBR.lighting
     let skyTextureEquirec = Sky.skyTextureEquirec
     let skyTexture = Sky.skyTexture
+    let skyBoxTrafo = Sky.skyBoxTrafo
 
     
