@@ -107,6 +107,15 @@ module PBR =
      // direkt Light PBR based on this  tutorial:
      //
      //-------------------------------------------
+
+    let private diffuseIrradianceSampler =
+        samplerCube {
+            texture uniform?DiffuseIrradiance
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
     [<GLSLIntrinsic("mix({0}, {1}, {2})")>] // Define function as intrinsic, no implementation needed
     let Lerp (a : V3d) (b : V3d) (s : float) : V3d = failwith ""
 
@@ -139,6 +148,17 @@ module PBR =
         let ggx1 = GeometrySchlickGGX nDotL roughness
         ggx1 * ggx2
 
+    [<ReflectedDefinition>] //add this attribute to  make the function callable in the shader
+    let  fresnelSchlickRoughness (f0 : V3d) (roughness : float) (cosTheta : float)=
+        let r = V3d.Max(V3d(1.0 - roughness), f0)
+        f0 + (r  - f0) * pow (1.0 - cosTheta) 5.0
+(*
+vec3 kS = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness); 
+vec3 kD = 1.0 - kS;
+vec3 irradiance = texture(irradianceMap, N).rgb;
+vec3 diffuse    = irradiance * albedo;
+vec3 ambient    = (kD * diffuse) * ao; 
+*)
 
     let internal lighting  (vert : Vertex) =
         fragment {
@@ -157,6 +177,7 @@ module PBR =
             //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
             let f0 = Lerp (V3d(0.04)) albedo metallic
 
+            let nDotV = Vec.dot n v |>  max 0.0
             let mutable lo = V3d.Zero
             let numLights = uniform.NumLights
             for i in 0 .. 9 do
@@ -187,7 +208,6 @@ module PBR =
                         let kD' = V3d.III - kS
                         let kD = (1.0 - metallic) * kD'
         
-                        let nDotV = Vec.dot n v |>  max 0.0
                         let nDotL = Vec.dot n lDir |>  max 0.0
 
                         let numerator = ndf * g * f
@@ -200,8 +220,12 @@ module PBR =
                     else V3d.Zero
 
                 lo <- lo + oi
-            
-            let ambient = V3d(0.01) * albedo
+
+            let kSA = fresnelSchlickRoughness f0 roughness nDotV
+            let kdA  = (1.0 - kSA) * (1.0 - metallic)
+            let irradiance = diffuseIrradianceSampler.Sample(n).XYZ
+            let diffuse = irradiance * albedo
+            let ambient = kdA * diffuse
             let col = lo + ambient
             //Reihnard tone mapping
             let colm = col / (col+1.0)
@@ -212,6 +236,41 @@ module PBR =
             return V4d(colg, vert.c.W)
         }
 
+    let private envSampler =
+        samplerCube {
+            texture uniform?SkyCubeMap
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
+
+    let internal convoluteDiffuseIrradiance (vert : Vertex) =
+        fragment {
+            let normal = vert.wp.XYZ |> Vec.normalize
+            let right = Vec.cross V3d.OIO normal
+            let up = Vec.cross vert.n  right
+            let  sampleDelta = 0.025
+            let mutable nrSamples = 0.0
+            let mutable irradiance = V4d(0.0)
+
+            //for phi in  0.0..sampleDelta..2.0*Math.PI do
+                //for theta in 0.0..sampleDelta..0.5*Math.PI do //dosn't work:  never returns
+
+            let mutable phi = 0.0
+            let mutable theta = 0.0
+            while phi <= 2.0*Math.PI do
+                theta <- 0.0
+                while theta <= 0.5*Math.PI do
+                    nrSamples <- nrSamples + 1.0
+                    let tangentSample = V3d(sin theta * cos phi, sin theta * sin phi, cos theta)
+                    let sampleVec = tangentSample.X  * right + tangentSample.Y * up + tangentSample.Z * normal
+                    irradiance <- irradiance + envSampler.Sample(sampleVec)
+                    theta  <- theta  + sampleDelta
+                phi <- phi + sampleDelta
+                   
+            return Math.PI * irradiance / nrSamples
+        }
 
 module Sky =
 
@@ -293,5 +352,6 @@ module SLESurfaces =
     let skyTextureEquirec = Sky.skyTextureEquirec
     let skyTexture = Sky.skyTexture
     let skyBoxTrafo = Sky.skyBoxTrafo
+    let convoluteDiffuseIrradiance = PBR.convoluteDiffuseIrradiance
 
     

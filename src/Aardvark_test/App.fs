@@ -132,17 +132,11 @@ module App =
 
     let signature (runtime : IRuntime) =
         runtime.CreateFramebufferSignature [
-            DefaultSemantic.Colors, { format = RenderbufferFormat.Rgba8; samples = 1 }
+            DefaultSemantic.Colors, { format = RenderbufferFormat.Rgb16f; samples = 1 }
             DefaultSemantic.Depth, { format = RenderbufferFormat.Depth24Stencil8; samples = 1 }
         ]
 
     let size = 1024 |> Mod.init 
-
-    let ii = Array.init 6 (fun i ->  DefaultTextures.checkerboardPix |> PixImageMipMap)
-    let i = PixImageCube ii
-            |> PixImageCube.ofOpenGlConvention
-            |> PixImageCube.toTexture true
-    let cu = Mod.constant i
 
     let equirectengularToCubeMapTask  runtime face =
         let lookTo = 
@@ -166,7 +160,7 @@ module App =
 
         skyBoxEquirec
         |> Sg.viewTrafo (
-                CameraView.lookAt V3d.OOO lookTo (lookSky * -1.0) //(lookTo  * 2.0)
+                CameraView.lookAt V3d.OOO lookTo (lookSky * -1.0)
                  |> CameraView.viewTrafo 
                  |> Mod.constant
            )
@@ -178,8 +172,51 @@ module App =
         |> Sg.compile runtime (signature runtime)
 
     let skyCubeMap (runtime : IRuntime) =
+        Log.warn "skyCubeMap"
         RenderTask.renderToColorCube size (equirectengularToCubeMapTask  runtime)
 
+    let sizeD = 32 |> Mod.init 
+
+    let convoluteDiffuseIrradianceTask  runtime face =
+        let lookTo = 
+            match face with
+            |CubeSide.PositiveY  -> V3d.OIO
+            |CubeSide.PositiveZ -> V3d.OOI
+            |CubeSide.PositiveX -> V3d.IOO
+            |CubeSide.NegativeZ-> V3d.OOI * -1.0
+            |CubeSide.NegativeX -> V3d.IOO * -1.0
+            |CubeSide.NegativeY -> V3d.OIO * -1.0
+            |_ -> failwith "unexpected enum"
+        let lookSky = 
+            match face with
+            |CubeSide.PositiveY  -> V3d.OOI * -1.0
+            |CubeSide.PositiveZ -> V3d.OIO
+            |CubeSide.PositiveX -> V3d.OIO
+            |CubeSide.NegativeZ-> V3d.OIO
+            |CubeSide.NegativeX -> V3d.OIO
+            |CubeSide.NegativeY -> V3d.OOI
+            |_ -> failwith "unexpected enum"
+
+        Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
+            |> Sg.texture (Sym.ofString "SkyCubeMap") (skyCubeMap runtime)
+            |> Sg.shader {
+                do! DefaultSurfaces.trafo
+                do! SLESurfaces.convoluteDiffuseIrradiance
+            }
+            |> Sg.viewTrafo (
+                CameraView.lookAt V3d.OOO lookTo (lookSky * -1.0)
+                 |> CameraView.viewTrafo 
+                 |> Mod.constant
+           )
+        |> Sg.projTrafo (sizeD |> Mod.map (fun actualSize -> 
+                Frustum.perspective 90.0 0.01 1.0 1.0 |> Frustum.projTrafo
+              )
+           )
+        // next, we use Sg.compile in order to turn a scene graph into a render task (a nice composable alias for runtime.CompileRender)
+        |> Sg.compile runtime (signature runtime)
+
+    let DiffuseIrradianceMap (runtime : IRuntime) =
+        RenderTask.renderToColorCube sizeD (convoluteDiffuseIrradianceTask  runtime)
 
     let skyBox  runtime =
         Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
@@ -202,6 +239,7 @@ module App =
             figureMesh
             |> uniformLights m.lights
             |> materialUniforms m.material
+            |> Sg.texture (Sym.ofString "DiffuseIrradiance") (DiffuseIrradianceMap runtime)
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
                 do! DefaultSurfaces.vertexColor
