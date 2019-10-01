@@ -175,7 +175,7 @@ module App =
         Log.warn "skyCubeMap"
         RenderTask.renderToColorCube size (equirectengularToCubeMapTask  runtime)
 
-    let sizeD = 512 |> Mod.init 
+    let sizeD = 32 |> Mod.init 
 
     let convoluteDiffuseIrradianceTask  runtime face =
         let lookTo = 
