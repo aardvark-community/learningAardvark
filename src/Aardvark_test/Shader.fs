@@ -152,13 +152,6 @@ module PBR =
     let  fresnelSchlickRoughness (f0 : V3d) (roughness : float) (cosTheta : float)=
         let r = V3d.Max(V3d(1.0 - roughness), f0)
         f0 + (r  - f0) * pow (1.0 - cosTheta) 5.0
-(*
-vec3 kS = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness); 
-vec3 kD = 1.0 - kS;
-vec3 irradiance = texture(irradianceMap, N).rgb;
-vec3 diffuse    = irradiance * albedo;
-vec3 ambient    = (kD * diffuse) * ao; 
-*)
 
     let internal lighting  (vert : Vertex) =
         fragment {
@@ -225,7 +218,7 @@ vec3 ambient    = (kD * diffuse) * ao;
             let kdA  = (1.0 - kSA) * (1.0 - metallic)
             let irradiance = diffuseIrradianceSampler.Sample(n).XYZ
             let diffuse = irradiance * albedo
-            let ambient = kdA * diffuse
+            let ambient = kdA * diffuse //todo: ambient Strength, abient occlusion
             let col = lo + ambient
             //Reihnard tone mapping
             let colm = col / (col+1.0)
@@ -249,7 +242,7 @@ vec3 ambient    = (kD * diffuse) * ao;
         fragment {
             let normal = vert.wp.XYZ |> Vec.normalize
             let right = Vec.cross V3d.OIO normal
-            let up = Vec.cross vert.n  right
+            let up = Vec.cross normal right
             let  sampleDelta = 0.025
             let mutable nrSamples = 0.0
             let mutable irradiance = V4d(0.0)
@@ -285,8 +278,9 @@ module Sky =
     //from https://learnopengl.com/PBR/IBL/Diffuse-irradiance
     [<ReflectedDefinition>]
     let sampleSphericalMap (vec : V3d) =
+        let rotation = Math.PI //todo: get from uniform
         let invAtan = V2d (0.1591, 0.3183)
-        let u = atan2 vec.Z vec.X
+        let u = atan2 vec.Z vec.X |>  (+) rotation 
         let v = asin  vec.Y
         let uv = 
             V2d(u, v)

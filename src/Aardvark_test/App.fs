@@ -55,7 +55,7 @@ module App =
             { m with material = materialControl.update m.material msg }
 
     let figureMesh =
-        Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom3.obj"
+        Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom4.obj"
         |> Sg.adapter
         //|> Sg.transform (Trafo3d.FromOrthoNormalBasis(V3d.IOO, V3d.OOI, -V3d.OIO))
         |> Sg.transform (Trafo3d.Scale(1.0,1.0,1.0))
@@ -175,7 +175,7 @@ module App =
         Log.warn "skyCubeMap"
         RenderTask.renderToColorCube size (equirectengularToCubeMapTask  runtime)
 
-    let sizeD = 32 |> Mod.init 
+    let sizeD = 512 |> Mod.init 
 
     let convoluteDiffuseIrradianceTask  runtime face =
         let lookTo = 
@@ -215,7 +215,7 @@ module App =
         // next, we use Sg.compile in order to turn a scene graph into a render task (a nice composable alias for runtime.CompileRender)
         |> Sg.compile runtime (signature runtime)
 
-    let DiffuseIrradianceMap (runtime : IRuntime) =
+    let diffuseIrradianceMap (runtime : IRuntime) =
         RenderTask.renderToColorCube sizeD (convoluteDiffuseIrradianceTask  runtime)
 
     let skyBox  runtime =
@@ -239,7 +239,7 @@ module App =
             figureMesh
             |> uniformLights m.lights
             |> materialUniforms m.material
-            |> Sg.texture (Sym.ofString "DiffuseIrradiance") (DiffuseIrradianceMap runtime)
+            |> Sg.texture (Sym.ofString "DiffuseIrradiance") (diffuseIrradianceMap runtime)
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
                 do! DefaultSurfaces.vertexColor
