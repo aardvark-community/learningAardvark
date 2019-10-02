@@ -117,6 +117,40 @@ module App =
         >> Sg.uniform "Roughness" m.roughness
         >> Sg.uniform "AlbedoFactor" m.albedoFactor
 
+    let renderToCubeTask runtime size signature source face =
+        let lookTo = 
+            match face with
+            |CubeSide.PositiveY  -> V3d.OIO
+            |CubeSide.PositiveZ -> V3d.OOI
+            |CubeSide.PositiveX -> V3d.IOO
+            |CubeSide.NegativeZ-> V3d.OOI * -1.0
+            |CubeSide.NegativeX -> V3d.IOO * -1.0
+            |CubeSide.NegativeY -> V3d.OIO * -1.0
+            |_ -> failwith "unexpected enum"
+        let lookSky = 
+            match face with
+            |CubeSide.PositiveY  -> V3d.OOI * -1.0
+            |CubeSide.PositiveZ -> V3d.OIO
+            |CubeSide.PositiveX -> V3d.OIO
+            |CubeSide.NegativeZ-> V3d.OIO
+            |CubeSide.NegativeX -> V3d.OIO
+            |CubeSide.NegativeY -> V3d.OOI
+            |_ -> failwith "unexpected enum"
+
+        source
+        |> Sg.viewTrafo (
+            CameraView.lookAt V3d.OOO lookTo (lookSky * -1.0)
+             |> CameraView.viewTrafo 
+             |> Mod.constant
+        )
+        |> Sg.projTrafo (size |> Mod.map (fun actualSize -> 
+                Frustum.perspective 90.0 0.01 1.0 1.0 |> Frustum.projTrafo
+              )
+           )
+        |> Sg.compile runtime (signature runtime)
+
+    let renderToCube (runtime : IRuntime) size signature source=
+        RenderTask.renderToColorCube size (renderToCubeTask  runtime size signature source)
 
     let skyMapequirectengular : ISg<Message> -> ISg<Message> = 
         let texture =  FileTexture(@"..\..\..\data\GrandCanyon_C_YumaPoint\GCanyon_C_YumaPoint_3k.hdr", { wantCompressed = false; wantMipMaps = false; wantSrgb = false }) :> ITexture
@@ -135,93 +169,27 @@ module App =
             DefaultSemantic.Colors, { format = RenderbufferFormat.Rgb16f; samples = 1 }
         ]
 
-    let size = 1024 |> Mod.init 
+    let skyMapSize = 1024 |> Mod.init 
 
-    let equirectengularToCubeMapTask  runtime face =
-        let lookTo = 
-            match face with
-            |CubeSide.PositiveY  -> V3d.OIO
-            |CubeSide.PositiveZ -> V3d.OOI
-            |CubeSide.PositiveX -> V3d.IOO
-            |CubeSide.NegativeZ-> V3d.OOI * -1.0
-            |CubeSide.NegativeX -> V3d.IOO * -1.0
-            |CubeSide.NegativeY -> V3d.OIO * -1.0
-            |_ -> failwith "unexpected enum"
-        let lookSky = 
-            match face with
-            |CubeSide.PositiveY  -> V3d.OOI * -1.0
-            |CubeSide.PositiveZ -> V3d.OIO
-            |CubeSide.PositiveX -> V3d.OIO
-            |CubeSide.NegativeZ-> V3d.OIO
-            |CubeSide.NegativeX -> V3d.OIO
-            |CubeSide.NegativeY -> V3d.OOI
-            |_ -> failwith "unexpected enum"
+    let skyCubeMap (runtime : IRuntime) = 
+        renderToCube runtime skyMapSize signature skyBoxEquirec
 
-        skyBoxEquirec
-        |> Sg.viewTrafo (
-                CameraView.lookAt V3d.OOO lookTo (lookSky * -1.0)
-                 |> CameraView.viewTrafo 
-                 |> Mod.constant
-           )
-        |> Sg.projTrafo (size |> Mod.map (fun actualSize -> 
-                Frustum.perspective 90.0 0.01 1.0 1.0 |> Frustum.projTrafo
-              )
-           )
-        // next, we use Sg.compile in order to turn a scene graph into a render task (a nice composable alias for runtime.CompileRender)
-        |> Sg.compile runtime (signature runtime)
+    let diffuseIrradianceSize = 32 |> Mod.init 
 
-    let skyCubeMap (runtime : IRuntime) =
-        Log.warn "skyCubeMap"
-        RenderTask.renderToColorCube size (equirectengularToCubeMapTask  runtime)
-
-    let sizeD = 32 |> Mod.init 
-
-    let convoluteDiffuseIrradianceTask  runtime face =
-        let lookTo = 
-            match face with
-            |CubeSide.PositiveY  -> V3d.OIO
-            |CubeSide.PositiveZ -> V3d.OOI
-            |CubeSide.PositiveX -> V3d.IOO
-            |CubeSide.NegativeZ-> V3d.OOI * -1.0
-            |CubeSide.NegativeX -> V3d.IOO * -1.0
-            |CubeSide.NegativeY -> V3d.OIO * -1.0
-            |_ -> failwith "unexpected enum"
-        let lookSky = 
-            match face with
-            |CubeSide.PositiveY  -> V3d.OOI * -1.0
-            |CubeSide.PositiveZ -> V3d.OIO
-            |CubeSide.PositiveX -> V3d.OIO
-            |CubeSide.NegativeZ-> V3d.OIO
-            |CubeSide.NegativeX -> V3d.OIO
-            |CubeSide.NegativeY -> V3d.OOI
-            |_ -> failwith "unexpected enum"
-
+    let diffuseIrradianceBox (runtime : IRuntime) =
         Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
             |> Sg.texture (Sym.ofString "SkyCubeMap") (skyCubeMap runtime)
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
                 do! SLESurfaces.convoluteDiffuseIrradiance
-            }
-            |> Sg.viewTrafo (
-                CameraView.lookAt V3d.OOO lookTo (lookSky * -1.0)
-                 |> CameraView.viewTrafo 
-                 |> Mod.constant
-           )
-        |> Sg.projTrafo (sizeD |> Mod.map (fun actualSize -> 
-                Frustum.perspective 90.0 0.01 1.0 1.0 |> Frustum.projTrafo
-              )
-           )
-        // next, we use Sg.compile in order to turn a scene graph into a render task (a nice composable alias for runtime.CompileRender)
-        |> Sg.compile runtime (signature runtime)
+            }       
 
-    let diffuseIrradianceMap (runtime : IRuntime) =
-        RenderTask.renderToColorCube sizeD (convoluteDiffuseIrradianceTask  runtime)
+    let diffuseIrradianceMap (runtime : IRuntime) = 
+        renderToCube runtime diffuseIrradianceSize signature (diffuseIrradianceBox runtime) 
 
     let skyBox  runtime =
         Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
             |> Sg.cullMode (Mod.constant CullMode.None)
-            //|> Sg.depthTest (Mod.constant DepthTestMode.None)
-            //|> Sg.translate 3.0 0.0 0.0
             |> Sg.texture (Sym.ofString "SkyCubeMap") (skyCubeMap runtime)
             |> Sg.shader {
                 do! SLESurfaces.skyBoxTrafo
