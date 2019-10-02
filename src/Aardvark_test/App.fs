@@ -119,7 +119,7 @@ module App =
 
 
     let skyMapequirectengular : ISg<Message> -> ISg<Message> = 
-        let texture =  FileTexture(@"..\..\..\data\GrandCanyon_C_YumaPoint\GCanyon_C_YumaPoint_3k.hdr", { wantCompressed = false; wantMipMaps = true; wantSrgb = true }) :> ITexture
+        let texture =  FileTexture(@"..\..\..\data\GrandCanyon_C_YumaPoint\GCanyon_C_YumaPoint_3k.hdr", { wantCompressed = false; wantMipMaps = false; wantSrgb = false }) :> ITexture
         Sg.texture (Sym.ofString "SkyMapEquirec")(texture |> Mod.constant)
 
     let skyBoxEquirec  =
@@ -133,7 +133,6 @@ module App =
     let signature (runtime : IRuntime) =
         runtime.CreateFramebufferSignature [
             DefaultSemantic.Colors, { format = RenderbufferFormat.Rgb16f; samples = 1 }
-            DefaultSemantic.Depth, { format = RenderbufferFormat.Depth24Stencil8; samples = 1 }
         ]
 
     let size = 1024 |> Mod.init 
