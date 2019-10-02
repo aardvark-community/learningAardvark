@@ -237,7 +237,6 @@ module PBR =
             addressV WrapMode.Wrap
         }
 
-
     let internal convoluteDiffuseIrradiance (vert : Vertex) =
         fragment {
             let normal = vert.wp.XYZ |> Vec.normalize
@@ -263,6 +262,58 @@ module PBR =
                 phi <- phi + sampleDelta
                    
             return Math.PI * irradiance / nrSamples
+        }
+
+    [<ReflectedDefinition>]
+    let radicalInverseVdC (bitss : uint32) =
+        let mutable bits = (bitss <<< 16) ||| (bitss >>> 16)
+        bits <- ((bits &&& 0x55555555u) <<< 1) ||| ((bits &&& 0xAAAAAAAAu) >>> 1)
+        bits <- ((bits &&& 0x33333333u) <<< 2) ||| ((bits &&& 0xCCCCCCCCu) >>> 2)
+        bits <- ((bits &&& 0x0F0F0F0Fu) <<< 4) ||| ((bits &&& 0xF0F0F0F0u) >>> 4)
+        bits <- ((bits &&& 0x00FF00FFu) <<< 8) ||| ((bits &&& 0xFF00FF00u) >>> 8)
+        (float bits) * 2.3283064365386963e-10
+
+    [<ReflectedDefinition>]
+    let hammersley i n = 
+        V2d(float i / float n, radicalInverseVdC(i))
+    
+    [<ReflectedDefinition>]
+    let importanceSampleGGX (xi : V2d) (n : V3d) roughness =
+        let a = roughness*roughness
+        let phi = 2.0 * Math.PI * xi.X
+        let cosTheta = sqrt((1.0 - xi.Y) / (1.0 + (a*a - 1.0) * xi.Y))
+        let sinTheta = sqrt(1.0 - cosTheta*cosTheta)
+
+        // from spherical coordinates to cartesian coordinates
+        let h = V3d( cos(phi) * sinTheta, sin(phi) * sinTheta, cosTheta)
+
+        // from tangent-space vector to world-space sample vector
+        let up = if abs(n.Z) < 0.999 then  V3d.OOI else V3d.IOO
+        let tangent = Vec.cross up n |> Vec.normalize
+        let bitangent = Vec.cross n  tangent
+        tangent * h.X + bitangent * h.Y + n * h.Z |> Vec.normalize  
+
+    let prefilterSpec (vert : Vertex) =
+        fragment {
+            let n = vert.wp.XYZ |> Vec.normalize
+            let v = n
+
+            let sampleCount = 1024u
+            let mutable totalWeight = 0.0;
+            let mutable prefilteredColor = V3d.OOO
+            for i in 0..(int sampleCount) do
+                let xi = hammersley (uint32 i) sampleCount
+                let h = importanceSampleGGX xi n uniform.Roughness
+                let l = 2.0 * Vec.dot v h * h |>  Vec.normalize
+
+                let nDotL = Vec.dot n l |> max 0.0
+                if nDotL > 0.0 then
+                    prefilteredColor <- prefilteredColor + envSampler.Sample(l).XYZ * nDotL
+                    totalWeight <- totalWeight + nDotL
+                else ()
+
+            prefilteredColor <- prefilteredColor/totalWeight
+            return V4d(prefilteredColor,vert.c.W)  
         }
 
 module Sky =
@@ -328,6 +379,7 @@ module Sky =
             
             let lPos  = v.wp.XYZ |> Vec.normalize
             let texColor = skySampler.Sample(lPos).XYZ
+            //let texColor = skySampler.SampleLevel(lPos,2.0).XYZ
 
             //Reihnard tone mapping
             let colm = texColor / (texColor+1.0)
@@ -347,5 +399,6 @@ module SLESurfaces =
     let skyTexture = Sky.skyTexture
     let skyBoxTrafo = Sky.skyBoxTrafo
     let convoluteDiffuseIrradiance = PBR.convoluteDiffuseIrradiance
+    let prefilterSpec = PBR.prefilterSpec
 
     

@@ -117,7 +117,7 @@ module App =
         >> Sg.uniform "Roughness" m.roughness
         >> Sg.uniform "AlbedoFactor" m.albedoFactor
 
-    let renderToCubeTask runtime size signature source face =
+    let renderToCubeTask runtime size signature source level face =
         let lookTo = 
             match face with
             |CubeSide.PositiveY  -> V3d.OIO
@@ -137,7 +137,7 @@ module App =
             |CubeSide.NegativeY -> V3d.OOI
             |_ -> failwith "unexpected enum"
 
-        source
+        source level
         |> Sg.viewTrafo (
             CameraView.lookAt V3d.OOO lookTo (lookSky * -1.0)
              |> CameraView.viewTrafo 
@@ -149,8 +149,11 @@ module App =
            )
         |> Sg.compile runtime (signature runtime)
 
+    let renderToCubeMip (runtime : IRuntime) size levels signature source=
+        RenderTask.renderToColorCubeMip size levels (renderToCubeTask runtime size signature source)
+
     let renderToCube (runtime : IRuntime) size signature source=
-        RenderTask.renderToColorCube size (renderToCubeTask  runtime size signature source)
+        RenderTask.renderToColorCubeMip size 1 (renderToCubeTask  runtime size signature (fun _ ->  source))
 
     let skyMapequirectengular : ISg<Message> -> ISg<Message> = 
         let texture =  FileTexture(@"..\..\..\data\GrandCanyon_C_YumaPoint\GCanyon_C_YumaPoint_3k.hdr", { wantCompressed = false; wantMipMaps = false; wantSrgb = false }) :> ITexture
@@ -186,6 +189,19 @@ module App =
 
     let diffuseIrradianceMap (runtime : IRuntime) = 
         renderToCube runtime diffuseIrradianceSize signature (diffuseIrradianceBox runtime) 
+
+    let prefilterSpecBox (runtime : IRuntime) (level : int) =
+        Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
+            |> Sg.texture (Sym.ofString "SkyCubeMap") (skyCubeMap runtime)
+            |> Sg.uniform "Roughness" (Mod.constant (float level / 4.0) )
+            |> Sg.shader {
+                do! DefaultSurfaces.trafo
+                do! SLESurfaces.prefilterSpec
+            } 
+
+    let prefilterSpecSize = 128 |> Mod.init 
+    let prefilterdSpecColor (runtime : IRuntime) = 
+        renderToCubeMip runtime prefilterSpecSize 5 signature (prefilterSpecBox runtime) 
 
     let skyBox  runtime =
         Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))

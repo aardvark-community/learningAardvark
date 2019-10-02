@@ -245,7 +245,7 @@ module private RefCountedResources =
         override x.Compute(token : AdaptiveToken, t : RenderToken) =
             let fbo = target.GetValue(token, t)
             Log.warn "AdaptiveRenderingResultCube.compute"
-            for face in 0..5 do
+            for face in 0..tasks.Length-1 do
                 Log.warn "AdaptiveRenderingResultCube.compute1"
                 tasks.[face].Run(token, t, OutputDescription.ofFramebuffer fbo.[face])
             fbo
