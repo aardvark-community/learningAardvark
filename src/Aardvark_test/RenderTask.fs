@@ -57,7 +57,7 @@ module private RefCountedResources =
                     handle <- Some tex
                     tex :> ITexture
          
-    type AdaptiveCubeTexture(runtime : IRuntime, format : TextureFormat, samples : int, size : IMod<int>) =
+    type AdaptiveCubeTexture(runtime : IRuntime, format : TextureFormat, samples : int, size : IMod<int>, levels : int) =
         inherit AbstractOutputMod<ITexture>()
 
         let mutable handle : Option<IBackendTexture> = None
@@ -81,13 +81,13 @@ module private RefCountedResources =
                 | Some h -> 
                     t.ReplacedResource(ResourceKind.Texture)
                     runtime.DeleteTexture(h)
-                    let tex = runtime.CreateTextureCube(size, format, 1, samples)
+                    let tex = runtime.CreateTextureCube(size, format, levels, samples)
                     handle <- Some tex
                     tex :> ITexture
 
                 | None ->
                     t.CreatedResource(ResourceKind.Texture)
-                    let tex = runtime.CreateTextureCube(size, format, 1, samples)
+                    let tex = runtime.CreateTextureCube(size, format, levels, samples)
                     handle <- Some tex
                     tex :> ITexture
 
@@ -133,11 +133,11 @@ module private RefCountedResources =
         override x.Create() = resource.Acquire()
         override x.Destroy() = resource.Release()
     
-    type AdaptiveTextureAttachment(texture : IOutputMod<ITexture>, slice : int) =
+    type AdaptiveTextureAttachment(texture : IOutputMod<ITexture>, slice : int, level  : int) =
         inherit AbstractAdaptiveFramebufferOutput(texture)
         override x.Compute(token : AdaptiveToken, t : RenderToken) =
             let tex = texture.GetValue(token, t)
-            { texture = unbox tex; slice = slice; level = 0 } :> IFramebufferOutput
+            { texture = unbox tex; slice = slice; level = level } :> IFramebufferOutput
 
     type AdaptiveRenderbufferAttachment(renderbuffer : IOutputMod<IRenderbuffer>) =
         inherit AbstractAdaptiveFramebufferOutput(renderbuffer)
@@ -149,33 +149,33 @@ module private RefCountedResources =
         member x.CreateTexture(format : TextureFormat, samples : int, size : IMod<V2i>) =
             AdaptiveTexture(x, format, samples, size) :> IOutputMod<ITexture>
 
-        member x.CreateTextureCube(format : TextureFormat, samples : int, size : IMod<int>) =
-            AdaptiveCubeTexture(x, format, samples, size) :> IOutputMod<ITexture>
+        member x.CreateTextureCube(format : TextureFormat, samples : int, size : IMod<int>, levels : int) =
+            AdaptiveCubeTexture(x, format, samples, size, levels) :> IOutputMod<ITexture>
 
         member x.CreateRenderbuffer(format : RenderbufferFormat, samples : int, size : IMod<V2i>) =
             AdaptiveRenderbuffer(x, format, samples, size) :> IOutputMod<IRenderbuffer>
 
-        member x.CreateTextureAttachment(texture : IOutputMod<ITexture>, slice : int) =
-            AdaptiveTextureAttachment(texture, slice) :> IOutputMod<_>
+        member x.CreateTextureAttachment(texture : IOutputMod<ITexture>, slice : int, level : int)  =
+            AdaptiveTextureAttachment(texture, slice, level) :> IOutputMod<_>
 
         member x.CreateRenderbufferAttachment(renderbuffer : IOutputMod<IRenderbuffer>) =
             AdaptiveRenderbufferAttachment(renderbuffer) :> IOutputMod<_>
 
-    type AdaptiveFramebufferCube(runtime : IRuntime, signature : IFramebufferSignature, textures : Set<Symbol>, size : IMod<int>) =
+    type AdaptiveFramebufferCube(runtime : IRuntime, signature : IFramebufferSignature, textures : Set<Symbol>, size : IMod<int>, levels : int) =
         inherit AbstractOutputMod<IFramebuffer[]>()
 
         let store = SymDict.empty
 
-        let createAttachment (sem : Symbol) (face : CubeSide) (att : AttachmentSignature) =
+        let createAttachment (sem : Symbol) (face : CubeSide) (level : int) (att : AttachmentSignature) =
             let isTexture = Set.contains sem textures
             if isTexture then
                 
                 let tex = 
                     store.GetOrCreate(sem, fun sem ->
-                        runtime.CreateTextureCube(unbox (int att.format), att.samples, size) :> IOutputMod
+                        runtime.CreateTextureCube(unbox (int att.format), att.samples, size, levels) :> IOutputMod
                     ) |> unbox<IOutputMod<ITexture>>
 
-                runtime.CreateTextureAttachment(tex, int face)
+                runtime.CreateTextureAttachment(tex, int face, level)
             else
                 let rb = 
                     store.GetOrCreate(sem, fun sem ->
@@ -184,31 +184,32 @@ module private RefCountedResources =
 
                 runtime.CreateRenderbufferAttachment(rb)
 
-        let mutable handle : Option<IFramebuffer>[] = Array.zeroCreate 6
+        let mutable handle : Option<IFramebuffer>[] = Array.zeroCreate (6*levels)
 
         let attachments =
-            Array.init 6 (fun face ->
-                let face = unbox<CubeSide> face
+            Array.init (6*levels) (fun t ->
+                let face = unbox<CubeSide> (t % 6)
+                let level = t / 6
                 let attachments = SymDict.empty
                 match signature.DepthAttachment with
                     | Some d -> 
-                        attachments.[DefaultSemantic.Depth] <- createAttachment DefaultSemantic.Depth face d
+                        attachments.[DefaultSemantic.Depth] <- createAttachment DefaultSemantic.Depth face level d
                     | None -> 
                         ()
 
                 for (index, (sem, att)) in Map.toSeq signature.ColorAttachments do
-                    let a = createAttachment sem face att
+                    let a = createAttachment sem face level att
                     attachments.[sem] <- a
 
                 attachments
             )
 
         override x.Create() =
-            for face in 0 .. 5 do
+            for face in 0 .. attachments.Length-1 do
                 for att in attachments.[face].Values do att.Acquire()
 
         override x.Destroy() =
-            for face in 0 .. 5 do
+            for face in 0 .. attachments.Length-1  do
                 for att in attachments.[face].Values do att.Release()
                 match handle.[face] with
                     | Some h -> 
@@ -294,8 +295,8 @@ module private RefCountedResources =
 type RuntimeFramebufferExtensions private() =
  
     [<Extension>]
-    static member CreateFramebufferCube (this : IRuntime, signature : IFramebufferSignature, textures : Set<Symbol>, size : IMod<int>) : IOutputMod<IFramebuffer[]> =
-        AdaptiveFramebufferCube(this, signature, textures, size) :> IOutputMod<IFramebuffer[]>
+    static member CreateFramebufferCube (this : IRuntime, signature : IFramebufferSignature, textures : Set<Symbol>, size : IMod<int>,  levels : int) : IOutputMod<IFramebuffer[]> =
+        AdaptiveFramebufferCube(this, signature, textures, size, levels) :> IOutputMod<IFramebuffer[]>
 
     [<Extension>]
     static member RenderToCube(this : IRenderTask[], output : IOutputMod<IFramebuffer[]>) =
@@ -359,11 +360,12 @@ module RenderTask =
     let getResultCube (sem : Symbol) (t : IOutputMod<IFramebuffer[]>) =
         t.GetOutputCubeTexture sem
 
-    let renderSemanticsCube (sem : Set<Symbol>) (size : IMod<int>) (tasks' : CubeSide -> IRenderTask) =
+    let renderSemanticsCube (sem : Set<Symbol>) (size : IMod<int>) (levels : int) (tasks' : int -> CubeSide -> IRenderTask) =
         let tasks =
-            Array.init 6 (fun face ->
-                let face = unbox<CubeSide> face
-                tasks' face
+            Array.init (6 * levels)  (fun t ->
+                let face = unbox<CubeSide> (t % 6)
+                let level  = t / 6 
+                tasks' level face
             )
         let runtime = tasks.[0].Runtime.Value
         let signature = tasks.[0].FramebufferSignature.Value
@@ -371,15 +373,18 @@ module RenderTask =
         let clearColors = 
             sem |> Set.toList |> List.filter (fun s -> s <> DefaultSemantic.Depth) |> List.map (fun s -> s,C4f.Black)
         let clear = runtime.CompileClear(signature, ~~clearColors, ~~1.0)
-        let fbo = runtime.CreateFramebufferCube(signature, sem, size)
+        let fbo = runtime.CreateFramebufferCube(signature, sem, size, levels)
 
         let res = 
             Array.map (fun  task -> new SequentialRenderTask([|clear; task|]) :> IRenderTask) tasks
             |> renderToCube fbo
         sem |> Seq.map (fun k -> k, getResultCube k res) |> Map.ofSeq
 
+    let renderToColorCubeMip (size : IMod<int>) (levels : int) (tasks : int -> CubeSide -> IRenderTask) =
+       tasks |> renderSemanticsCube (Set.singleton DefaultSemantic.Colors) size levels |> Map.find DefaultSemantic.Colors
+
     let renderToColorCube (size : IMod<int>) (tasks : CubeSide -> IRenderTask) =
-        tasks |> renderSemanticsCube (Set.singleton DefaultSemantic.Colors) size |> Map.find DefaultSemantic.Colors
+        (fun _ -> tasks) |> renderToColorCubeMip size 1 
 
-
+ 
 
