@@ -7,6 +7,7 @@ open Aardvark.UI
 open Aardvark.UI.Primitives
 open Aardvark.Base.Rendering
 open Aardvark_test.Model
+open System.IO;
 
 module V3dInput =
 
@@ -144,3 +145,28 @@ module lightControl =
 
                 attenuationView al aq
             ]
+
+module globalEnviroment = 
+
+    type Message =
+        | SetSkyMap of String
+        | SetSkyMapRotation of float
+        | SetAbientLightIntensity of float
+
+    let update (m : GlobalEnviorment)  (msg : Message) = 
+        match msg  with
+        | SetSkyMap s -> {m  with skyMap = s}
+        | SetSkyMapRotation r -> {m  with skyMapRotation = r}
+        | SetAbientLightIntensity i-> {m  with ambientLightIntensity = i}       
+
+    let view (m : MGlobalEnviorment) =
+        let numInput name changed state  = labeledFloatInput name 0.0 1.0 0.01 changed state
+        let path = Path.GetDirectoryName(Mod.force m.skyMap)
+        Html.table [                        
+            tr [] [ td [] [text "sky map"]; td [] [openDialogButton 
+                    { OpenDialogConfig.file with allowMultiple = false; title = "ROCK THE POWER. ROCKET POWER"; filters  = [|"*.hdr"|];  startPath = path}
+                    [ clazz "ui green button"; onChooseFile SetSkyMap ] 
+                    [ text "Open hdr File" ]]]
+            tr [] [ td [] [text "Sky Map Rotation"]; td [] [slider {min = 0.0;  max = 2.0*Math.PI; step = 0.01} AttributeMap.empty m.skyMapRotation SetSkyMapRotation]]
+            tr [] [ td [] [text "Ambient Light Intensity"]; td [] [slider {min = 0.0;  max = 2.0; step = 0.01} AttributeMap.empty m.ambientLightIntensity SetAbientLightIntensity]]
+        ]   

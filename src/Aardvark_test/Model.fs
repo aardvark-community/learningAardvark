@@ -34,12 +34,21 @@ type PBRMaterial =
     }
 
 [<DomainType>]
+type GlobalEnviorment =
+    {
+        skyMap : string
+        skyMapRotation : float
+        ambientLightIntensity : float
+    }
+
+[<DomainType>]
 type Model =
     {
         cameraState : CameraControllerState
         lights : hmap<int, Light>
-        currentLightIndex : int
         material : PBRMaterial
+        enviorment : GlobalEnviorment
+        expousure  : float
     }
 
 module light =

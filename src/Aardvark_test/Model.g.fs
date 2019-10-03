@@ -138,18 +138,75 @@ module Mutable =
                 }
     
     
+    type MGlobalEnviorment(__initial : Aardvark_test.Model.GlobalEnviorment) =
+        inherit obj()
+        let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.GlobalEnviorment> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.GlobalEnviorment>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.GlobalEnviorment>
+        let _skyMap = ResetMod.Create(__initial.skyMap)
+        let _skyMapRotation = ResetMod.Create(__initial.skyMapRotation)
+        let _ambientLightIntensity = ResetMod.Create(__initial.ambientLightIntensity)
+        
+        member x.skyMap = _skyMap :> IMod<_>
+        member x.skyMapRotation = _skyMapRotation :> IMod<_>
+        member x.ambientLightIntensity = _ambientLightIntensity :> IMod<_>
+        
+        member x.Current = __current :> IMod<_>
+        member x.Update(v : Aardvark_test.Model.GlobalEnviorment) =
+            if not (System.Object.ReferenceEquals(__current.Value, v)) then
+                __current.Value <- v
+                
+                ResetMod.Update(_skyMap,v.skyMap)
+                ResetMod.Update(_skyMapRotation,v.skyMapRotation)
+                ResetMod.Update(_ambientLightIntensity,v.ambientLightIntensity)
+                
+        
+        static member Create(__initial : Aardvark_test.Model.GlobalEnviorment) : MGlobalEnviorment = MGlobalEnviorment(__initial)
+        static member Update(m : MGlobalEnviorment, v : Aardvark_test.Model.GlobalEnviorment) = m.Update(v)
+        
+        override x.ToString() = __current.Value.ToString()
+        member x.AsString = sprintf "%A" __current.Value
+        interface IUpdatable<Aardvark_test.Model.GlobalEnviorment> with
+            member x.Update v = x.Update v
+    
+    
+    
+    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+    module GlobalEnviorment =
+        [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+        module Lens =
+            let skyMap =
+                { new Lens<Aardvark_test.Model.GlobalEnviorment, System.String>() with
+                    override x.Get(r) = r.skyMap
+                    override x.Set(r,v) = { r with skyMap = v }
+                    override x.Update(r,f) = { r with skyMap = f r.skyMap }
+                }
+            let skyMapRotation =
+                { new Lens<Aardvark_test.Model.GlobalEnviorment, System.Double>() with
+                    override x.Get(r) = r.skyMapRotation
+                    override x.Set(r,v) = { r with skyMapRotation = v }
+                    override x.Update(r,f) = { r with skyMapRotation = f r.skyMapRotation }
+                }
+            let ambientLightIntensity =
+                { new Lens<Aardvark_test.Model.GlobalEnviorment, System.Double>() with
+                    override x.Get(r) = r.ambientLightIntensity
+                    override x.Set(r,v) = { r with ambientLightIntensity = v }
+                    override x.Update(r,f) = { r with ambientLightIntensity = f r.ambientLightIntensity }
+                }
+    
+    
     type MModel(__initial : Aardvark_test.Model.Model) =
         inherit obj()
         let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.Model> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.Model>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.Model>
         let _cameraState = Aardvark.UI.Primitives.Mutable.MCameraControllerState.Create(__initial.cameraState)
         let _lights = MMap.Create(__initial.lights, (fun v -> MLight.Create(v)), (fun (m,v) -> MLight.Update(m, v)), (fun v -> v))
-        let _currentLightIndex = ResetMod.Create(__initial.currentLightIndex)
         let _material = MPBRMaterial.Create(__initial.material)
+        let _enviorment = MGlobalEnviorment.Create(__initial.enviorment)
+        let _expousure = ResetMod.Create(__initial.expousure)
         
         member x.cameraState = _cameraState
         member x.lights = _lights :> amap<_,_>
-        member x.currentLightIndex = _currentLightIndex :> IMod<_>
         member x.material = _material
+        member x.enviorment = _enviorment
+        member x.expousure = _expousure :> IMod<_>
         
         member x.Current = __current :> IMod<_>
         member x.Update(v : Aardvark_test.Model.Model) =
@@ -158,8 +215,9 @@ module Mutable =
                 
                 Aardvark.UI.Primitives.Mutable.MCameraControllerState.Update(_cameraState, v.cameraState)
                 MMap.Update(_lights, v.lights)
-                ResetMod.Update(_currentLightIndex,v.currentLightIndex)
                 MPBRMaterial.Update(_material, v.material)
+                MGlobalEnviorment.Update(_enviorment, v.enviorment)
+                ResetMod.Update(_expousure,v.expousure)
                 
         
         static member Create(__initial : Aardvark_test.Model.Model) : MModel = MModel(__initial)
@@ -188,15 +246,21 @@ module Mutable =
                     override x.Set(r,v) = { r with lights = v }
                     override x.Update(r,f) = { r with lights = f r.lights }
                 }
-            let currentLightIndex =
-                { new Lens<Aardvark_test.Model.Model, System.Int32>() with
-                    override x.Get(r) = r.currentLightIndex
-                    override x.Set(r,v) = { r with currentLightIndex = v }
-                    override x.Update(r,f) = { r with currentLightIndex = f r.currentLightIndex }
-                }
             let material =
                 { new Lens<Aardvark_test.Model.Model, Aardvark_test.Model.PBRMaterial>() with
                     override x.Get(r) = r.material
                     override x.Set(r,v) = { r with material = v }
                     override x.Update(r,f) = { r with material = f r.material }
+                }
+            let enviorment =
+                { new Lens<Aardvark_test.Model.Model, Aardvark_test.Model.GlobalEnviorment>() with
+                    override x.Get(r) = r.enviorment
+                    override x.Set(r,v) = { r with enviorment = v }
+                    override x.Update(r,f) = { r with enviorment = f r.enviorment }
+                }
+            let expousure =
+                { new Lens<Aardvark_test.Model.Model, System.Double>() with
+                    override x.Get(r) = r.expousure
+                    override x.Set(r,v) = { r with expousure = v }
+                    override x.Update(r,f) = { r with expousure = f r.expousure }
                 }

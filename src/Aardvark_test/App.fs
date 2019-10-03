@@ -15,6 +15,8 @@ type Message =
     | RemoveLight  of int
     | AddLight of Light
     | MaterialMessage of materialControl.Message
+    | SetExpousure of float
+    | GlobalEnviormentMessage of globalEnviroment.Message
 
 module App =   
 
@@ -24,8 +26,9 @@ module App =
     let initial = { 
         cameraState = {FreeFlyController.initial  with freeFlyConfig = cameraConfig; view = initialView}
         lights = HMap.ofList [(0, light.defaultDirectionalLight)]
-        currentLightIndex  = 0
         material = material.defaultMaterial
+        enviorment = {skyMap = @"..\..\..\data\GrandCanyon_C_YumaPoint\GCanyon_C_YumaPoint_3k.hdr"; skyMapRotation = Math.PI; ambientLightIntensity = 1.0}
+        expousure  = 1.0
     }
 
     let update (m : Model) (msg : Message) =
@@ -53,11 +56,14 @@ module App =
             { m with lights = HMap.add i l m.lights }
         | MaterialMessage msg ->
             { m with material = materialControl.update m.material msg }
+        | SetExpousure e ->
+            { m with expousure = e }
+        | GlobalEnviormentMessage msg ->
+            { m with enviorment = globalEnviroment.update m.enviorment msg }
 
     let figureMesh =
         Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom4.obj"
         |> Sg.adapter
-        //|> Sg.transform (Trafo3d.FromOrthoNormalBasis(V3d.IOO, V3d.OOI, -V3d.OIO))
         |> Sg.transform (Trafo3d.Scale(1.0,1.0,1.0))
     
     let uniformLight (l : IMod<MLight>) : IMod<SLEUniform.Light>  =
@@ -154,54 +160,11 @@ module App =
 
     let renderToCube (runtime : IRuntime) size signature source=
         RenderTask.renderToColorCubeMip size 1 (renderToCubeTask  runtime size signature (fun _ ->  source))
-
-    let skyMapequirectengular : ISg<Message> -> ISg<Message> = 
-        let texture =  FileTexture(@"..\..\..\data\GrandCanyon_C_YumaPoint\GCanyon_C_YumaPoint_3k.hdr", { wantCompressed = false; wantMipMaps = false; wantSrgb = false }) :> ITexture
-        Sg.texture (Sym.ofString "SkyMapEquirec")(texture |> Mod.constant)
-
-    let skyBoxEquirec  =
-        Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
-            |> skyMapequirectengular
-            |> Sg.shader {
-                do! DefaultSurfaces.trafo
-                do! SLESurfaces.skyTextureEquirec
-            }
-
+    
     let signature (runtime : IRuntime) =
         runtime.CreateFramebufferSignature [
             DefaultSemantic.Colors, { format = RenderbufferFormat.Rgb16f; samples = 1 }
         ]
-
-    let skyMapSize = 1024 |> Mod.init 
-
-    let skyCubeMap (runtime : IRuntime) = 
-        renderToCube runtime skyMapSize signature skyBoxEquirec
-
-    let diffuseIrradianceSize = 32 |> Mod.init 
-
-    let diffuseIrradianceBox (runtime : IRuntime) =
-        Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
-            |> Sg.texture (Sym.ofString "SkyCubeMap") (skyCubeMap runtime)
-            |> Sg.shader {
-                do! DefaultSurfaces.trafo
-                do! SLESurfaces.convoluteDiffuseIrradiance
-            }       
-
-    let diffuseIrradianceMap (runtime : IRuntime) = 
-        renderToCube runtime diffuseIrradianceSize signature (diffuseIrradianceBox runtime) 
-
-    let prefilterSpecBox (runtime : IRuntime) (level : int) =
-        Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
-            |> Sg.texture (Sym.ofString "SkyCubeMap") (skyCubeMap runtime)
-            |> Sg.uniform "Roughness" (Mod.constant (float level / 4.0) )
-            |> Sg.shader {
-                do! DefaultSurfaces.trafo
-                do! SLESurfaces.prefilterSpec
-            } 
-
-    let prefilterSpecSize = 128 |> Mod.init 
-    let prefilterdSpecColor (runtime : IRuntime) = 
-        renderToCubeMip runtime prefilterSpecSize 5 signature (prefilterSpecBox runtime) 
 
     let signatureBRDFLtu (runtime : IRuntime) =
         runtime.CreateFramebufferSignature [
@@ -225,17 +188,63 @@ module App =
     let BRDFLtu (runtime : IRuntime) =
         RenderTask.renderToColor LtuSize (BRDFLtuTask runtime)
 
-    let skyBox  runtime =
-        Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
-            |> Sg.cullMode (Mod.constant CullMode.None)
-            |> Sg.texture (Sym.ofString "SkyCubeMap") (skyCubeMap runtime)
-            |> Sg.shader {
-                do! SLESurfaces.skyBoxTrafo
-                do! SLESurfaces.skyTexture
-            }
-
     //the 3D scene and control
     let view3D runtime (m : MModel) =
+
+        let skyMapSize = 1024 |> Mod.init 
+
+        let diffuseIrradianceSize = 32 |> Mod.init 
+
+        let skyMapequirectengular : ISg<Message> -> ISg<Message> = 
+            let texture =  
+                Mod.map (fun s -> FileTexture(s, { wantCompressed = false; wantMipMaps = false; wantSrgb = false }) :> ITexture) m.enviorment.skyMap
+            Sg.texture (Sym.ofString "SkyMapEquirec") texture 
+
+        let skyBoxEquirec =
+            Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
+                |> Sg.uniform "SkyMapRotation" m.enviorment.skyMapRotation
+                |> skyMapequirectengular
+                |> Sg.shader {
+                    do! DefaultSurfaces.trafo
+                    do! SLESurfaces.skyTextureEquirec
+                }
+
+        let skyCubeMap (runtime : IRuntime) = 
+            renderToCube runtime skyMapSize signature (skyBoxEquirec)
+
+        let diffuseIrradianceBox (runtime : IRuntime) =
+            Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
+                |> Sg.texture (Sym.ofString "SkyCubeMap") (skyCubeMap runtime)
+                |> Sg.shader {
+                    do! DefaultSurfaces.trafo
+                    do! SLESurfaces.convoluteDiffuseIrradiance
+                }       
+
+        let diffuseIrradianceMap (runtime : IRuntime) = 
+            renderToCube runtime diffuseIrradianceSize signature (diffuseIrradianceBox runtime) 
+
+        let prefilterSpecBox (runtime : IRuntime) (level : int) =
+            Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
+                |> Sg.texture (Sym.ofString "SkyCubeMap") (skyCubeMap runtime)
+                |> Sg.uniform "Roughness" (Mod.constant (float level / 4.0) )
+                |> Sg.shader {
+                    do! DefaultSurfaces.trafo
+                    do! SLESurfaces.prefilterSpec
+                } 
+
+        let prefilterSpecSize = 128 |> Mod.init 
+        let prefilterdSpecColor (runtime : IRuntime) = 
+            renderToCubeMip runtime prefilterSpecSize 5 signature (prefilterSpecBox runtime) 
+
+        let skyBox  runtime =
+            Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
+                |> Sg.cullMode (Mod.constant CullMode.None)
+                |> Sg.texture (Sym.ofString "SkyCubeMap") (skyCubeMap runtime)
+                |> Sg.shader {
+                    do! SLESurfaces.skyBoxTrafo
+                    do! SLESurfaces.skyTexture
+                }
+
         let frustum = 
             Frustum.perspective 30.0 0.1 100.0 1.0 
                 |> Mod.constant
@@ -243,9 +252,11 @@ module App =
         let sg = 
             figureMesh
             |> uniformLights m.lights
+            |> Sg.uniform "Expousure" m.expousure
+            |> Sg.uniform "AmbientIntensity" m.enviorment.ambientLightIntensity
             |> materialUniforms m.material
             |> Sg.texture (Sym.ofString "DiffuseIrradiance") (diffuseIrradianceMap runtime)
-            |> Sg.texture (Sym.ofString "PrefilteredSpecColor") (prefilterdSpecColor runtime)
+            |> Sg.texture (Sym.ofString "PrefilteredSpecColor") (diffuseIrradianceMap runtime)
             |> Sg.texture (Sym.ofString "BRDFLtu") (BRDFLtu runtime)
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
@@ -255,7 +266,7 @@ module App =
                 do! SLESurfaces.lightingPBR
                 }
             |> Sg.andAlso <| lightSourceModels m.lights
-            |> Sg.andAlso <| skyBox runtime
+            |> Sg.andAlso <| (skyBox runtime |> Sg.uniform "Expousure" m.expousure)
             
 
         let att =
@@ -305,6 +316,16 @@ module App =
                         |> AList.ofModSingle
                         |> Incremental.div AttributeMap.empty
                     ]
+                "Global Enviorment",
+                    [
+                        globalEnviroment.view m.enviorment |> UI.map GlobalEnviormentMessage
+                    ]  
+                "Render Settings",
+                    [
+                         Html.table [                        
+                            tr [] [ td [] [text "Exposure"]; td [ style "width: 70%;"] [slider {min = -2.0;  max = 1.0; step = 0.01} AttributeMap.empty (Mod.map Math.Log10 m.expousure) (fun l -> SetExpousure  (Math.Pow(10.0, l)))]]
+                        ]   
+                    ]    
                 ] [view3D runtime m]
             )
         )

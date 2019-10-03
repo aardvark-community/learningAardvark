@@ -86,7 +86,16 @@ module Lighting =
             return V4d(colg, v.c.W)
         }
 
+module fshadeExt = 
+    
+    [<GLSLIntrinsic("mix({0}, {1}, {2})")>] // Define function as intrinsic, no implementation needed
+    let Lerp (a : V3d) (b : V3d) (s : float) : V3d = failwith ""
+
+    [<GLSLIntrinsic("exp({0})")>] // Define function as intrinsic, no implementation needed
+    let exp (a : V3d) : V3d = failwith ""
+
 module PBR =
+    open fshadeExt
 
     type UniformScope with
      
@@ -100,6 +109,12 @@ module PBR =
         member x.Metallic : float = x?Metallic
 
         member x.AlbedoFactor : float = x?AlbedoFactor
+
+        member x.Expousure : float =  x?Expousure
+
+        member x.AmbientIntensity : float = x?AmbientIntensity
+
+        member x.SkyMapRotation : float =  x?SkyMapRotation
 
     //Note: Do not use ' in variabel names for shader code,  it will lead  to an error
 
@@ -131,9 +146,6 @@ module PBR =
             addressU WrapMode.Clamp
             addressV WrapMode.Clamp
         }
-
-    [<GLSLIntrinsic("mix({0}, {1}, {2})")>] // Define function as intrinsic, no implementation needed
-    let Lerp (a : V3d) (b : V3d) (s : float) : V3d = failwith ""
 
     [<ReflectedDefinition>] //add this attribute to  make the function callable in the shader
     let  fresnelSchlick (f0 : V3d) (cosTheta : float)=
@@ -244,10 +256,13 @@ module PBR =
             let brdf = samplerBRDFLtu.Sample(V2d(nDotV, roughness)).XY
             let specular = prefilteredColor * (kSA * brdf.X + brdf.Y)
    
-            let ambient = kdA * diffuse + specular//todo: ambient Strength, abient occlusion
-            let col = lo + ambient
-            //Reihnard tone mapping
-            let colm = col / (col+1.0)
+            let ambient = kdA * diffuse + specular//todo:  abient occlusion
+            let ambientIntensity = uniform.AmbientIntensity
+            let col = lo + ambient * ambientIntensity
+
+            // tone mapping
+            let expousure = uniform.Expousure
+            let colm = V3d(1.0) - exp (-col*expousure)//col / (col+1.0)
 
             //gamma  correction
             let colg = pow colm (V3d(1.0/gamma))
@@ -377,8 +392,6 @@ module PBR =
             return samplerBRDFLtu.Sample(vert.tc)
         }
 
-module Sky =
-
     let private skySamplerEquirec =
         sampler2d {
             texture uniform?SkyMapEquirec
@@ -390,7 +403,7 @@ module Sky =
     //from https://learnopengl.com/PBR/IBL/Diffuse-irradiance
     [<ReflectedDefinition>]
     let sampleSphericalMap (vec : V3d) =
-        let rotation = Math.PI //todo: get from uniform
+        let rotation = uniform.SkyMapRotation
         let invAtan = V2d (0.1591, 0.3183)
         let u = atan2 vec.Z vec.X |>  (+) rotation 
         let v = asin  vec.Y
@@ -442,9 +455,12 @@ module Sky =
             let texColor = skySampler.Sample(lPos).XYZ
             //let texColor = skySampler.SampleLevel(lPos,2.0).XYZ
 
-            //Reihnard tone mapping
-            let colm = texColor / (texColor+1.0)
+            let col = texColor / (texColor+1.0)
 
+            //tone mapping
+            let expousure = uniform.Expousure
+            let colm = V3d(1.0) - exp (-col*expousure)//col / (col+1.0)
+            
             //gamma  correction
             let colg = pow colm (V3d(1.0/gamma))
 
@@ -456,9 +472,9 @@ module SLESurfaces =
 
     let lighting = Lighting.lighting
     let lightingPBR  = PBR.lighting
-    let skyTextureEquirec = Sky.skyTextureEquirec
-    let skyTexture = Sky.skyTexture
-    let skyBoxTrafo = Sky.skyBoxTrafo
+    let skyTextureEquirec = PBR.skyTextureEquirec
+    let skyTexture = PBR.skyTexture
+    let skyBoxTrafo = PBR.skyBoxTrafo
     let convoluteDiffuseIrradiance = PBR.convoluteDiffuseIrradiance
     let prefilterSpec = PBR.prefilterSpec
     let integrateBRDFLtu = PBR.integrateBRDFLtu
