@@ -116,6 +116,22 @@ module PBR =
             addressV WrapMode.Wrap
         }
 
+    let private prefilteredSpecColorSampler =
+        samplerCube {
+            texture uniform?PrefilteredSpecColor
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
+    let private samplerBRDFLtu =
+        sampler2d {
+            texture uniform?BRDFLtu
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+        }
+
     [<GLSLIntrinsic("mix({0}, {1}, {2})")>] // Define function as intrinsic, no implementation needed
     let Lerp (a : V3d) (b : V3d) (s : float) : V3d = failwith ""
 
@@ -134,18 +150,22 @@ module PBR =
         a2/denom
     
     [<ReflectedDefinition>]
-    let GeometrySchlickGGX nDotV roughness =
-        let r = roughness + 1.0
-        let k = r * r / 8.0
+    let GeometrySchlickGGX ilb nDotV roughness =
+        let k  =
+            if ilb then 
+                roughness * roughness / 2.0 
+            else
+                let r = roughness + 1.0
+                r * r / 8.0
         let denom = nDotV * (1.0 - k) + k
         nDotV / denom
     
     [<ReflectedDefinition>]
-    let GeometrySmith (n : V3d) v l roughness =
+    let GeometrySmith ilb (n : V3d) v l roughness =
         let nDotV = Vec.dot n v |> max 0.0
         let nDotL = Vec.dot n l |> max 0.0
-        let ggx2 = GeometrySchlickGGX nDotV roughness
-        let ggx1 = GeometrySchlickGGX nDotL roughness
+        let ggx2 = GeometrySchlickGGX ilb nDotV roughness
+        let ggx1 = GeometrySchlickGGX ilb nDotL roughness
         ggx1 * ggx2
 
     [<ReflectedDefinition>] //add this attribute to  make the function callable in the shader
@@ -164,8 +184,8 @@ module PBR =
             let cameraPos = uniform.CameraLocation
 
             let n = vert.n |> Vec.normalize
-
             let v = cameraPos - vert.wp.XYZ |> Vec.normalize
+            let r = Vec.reflect -v n
 
             //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
             let f0 = Lerp (V3d(0.04)) albedo metallic
@@ -185,7 +205,7 @@ module PBR =
                         let attenuation = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
                         i < numLights, lDir , light.color * attenuation             
                     | SLEUniform.LightType.NoLight -> false, V3d(0.0), V3d(0.0)
-                    |_ ->  false, V3d(0.0), V3d(0.0)  //allways match any cases, otherwise fshade will give  a  cryptic error 
+                    |_ ->  false, V3d(0.0), V3d(0.0)  //allways match any cases, otherwise fshade will give a cryptic error 
               
                 let oi = 
                     if exists then
@@ -193,7 +213,7 @@ module PBR =
 
                         // cook-torrance brdf
                         let ndf = DistributionGGX n h roughness 
-                        let g = GeometrySmith n v lDir roughness 
+                        let g = GeometrySmith false n v lDir roughness 
                         let hDotV = Vec.dot h v |>  max 0.0      
                         let f = fresnelSchlick f0 hDotV   
                         
@@ -218,7 +238,13 @@ module PBR =
             let kdA  = (1.0 - kSA) * (1.0 - metallic)
             let irradiance = diffuseIrradianceSampler.Sample(n).XYZ
             let diffuse = irradiance * albedo
-            let ambient = kdA * diffuse //todo: ambient Strength, abient occlusion
+
+            let maxReflectLod = 4.0
+            let prefilteredColor = prefilteredSpecColorSampler.SampleLevel(r, roughness * maxReflectLod).XYZ
+            let brdf = samplerBRDFLtu.Sample(V2d(nDotV, roughness)).XY
+            let specular = prefilteredColor * (kSA * brdf.X + brdf.Y)
+   
+            let ambient = kdA * diffuse + specular//todo: ambient Strength, abient occlusion
             let col = lo + ambient
             //Reihnard tone mapping
             let colm = col / (col+1.0)
@@ -316,6 +342,41 @@ module PBR =
             return V4d(prefilteredColor,vert.c.W)  
         }
 
+    [<ReflectedDefinition>]
+    let integrateBRDF nDotV roughness =
+        let v = V3d(sqrt (1.0 - nDotV*nDotV), 0.0, nDotV)
+        let n = V3d.OOI
+        let sampleCount = 1024u
+        let mutable a = 0.0
+        let mutable b = 0.0
+        for i in 0..(int sampleCount) do
+                let xi = hammersley (uint32 i) sampleCount
+                let h = importanceSampleGGX xi n roughness
+                let l = 2.0 * Vec.dot v h * h |> Vec.normalize         
+                let nDotL = max l.Z 0.0
+                let nDotH = max h.Z 0.0
+                let vDotH = Vec.dot v h |> max 0.0
+
+                if nDotL > 0.0 then
+                    let g = GeometrySmith true n  v  l roughness
+                    let gVis = (g * vDotH) / (nDotH * nDotV)
+                    let fc = pow (1.0 - vDotH) 5.0
+
+                    a <- a + (1.0 - fc) * gVis
+                    b <- b + fc * gVis;
+        V2d(a/(float sampleCount), b/(float sampleCount))
+
+    let integrateBRDFLtu (vert : Vertex) =
+        fragment {
+           let r = integrateBRDF vert.tc.X vert.tc.Y
+           return V4d(V3d(r,0.0),1.0)
+        }
+
+    let testBDRF (vert : Vertex)=
+        fragment  {
+            return samplerBRDFLtu.Sample(vert.tc)
+        }
+
 module Sky =
 
     let private skySamplerEquirec =
@@ -400,5 +461,7 @@ module SLESurfaces =
     let skyBoxTrafo = Sky.skyBoxTrafo
     let convoluteDiffuseIrradiance = PBR.convoluteDiffuseIrradiance
     let prefilterSpec = PBR.prefilterSpec
+    let integrateBRDFLtu = PBR.integrateBRDFLtu
+    let  testBDRF = PBR.testBDRF
 
     

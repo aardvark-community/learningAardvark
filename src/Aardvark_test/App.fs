@@ -203,6 +203,28 @@ module App =
     let prefilterdSpecColor (runtime : IRuntime) = 
         renderToCubeMip runtime prefilterSpecSize 5 signature (prefilterSpecBox runtime) 
 
+    let signatureBRDFLtu (runtime : IRuntime) =
+        runtime.CreateFramebufferSignature [
+            DefaultSemantic.Colors, { format = RenderbufferFormat.Rg16f; samples = 1 }
+        ]
+
+    let LtuSize = V2i(512,512) |> Mod.init 
+
+    // create a scenegraph for the offscreen render passt
+    let BRDFLtuTask (runtime : IRuntime)= 
+        Sg.fullScreenQuad
+        |>Sg.adapter
+        |> Sg.shader {
+            do! DefaultSurfaces.trafo
+            do! SLESurfaces.integrateBRDFLtu
+        }
+        |> Sg.viewTrafo (Trafo3d.Identity |> Mod.constant )
+        |> Sg.projTrafo (Trafo3d.Identity |> Mod.constant )
+        |> Sg.compile runtime (signatureBRDFLtu runtime)
+    
+    let BRDFLtu (runtime : IRuntime) =
+        RenderTask.renderToColor LtuSize (BRDFLtuTask runtime)
+
     let skyBox  runtime =
         Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
             |> Sg.cullMode (Mod.constant CullMode.None)
@@ -223,6 +245,8 @@ module App =
             |> uniformLights m.lights
             |> materialUniforms m.material
             |> Sg.texture (Sym.ofString "DiffuseIrradiance") (diffuseIrradianceMap runtime)
+            |> Sg.texture (Sym.ofString "PrefilteredSpecColor") (prefilterdSpecColor runtime)
+            |> Sg.texture (Sym.ofString "BRDFLtu") (BRDFLtu runtime)
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
                 do! DefaultSurfaces.vertexColor
@@ -232,6 +256,7 @@ module App =
                 }
             |> Sg.andAlso <| lightSourceModels m.lights
             |> Sg.andAlso <| skyBox runtime
+            
 
         let att =
             [

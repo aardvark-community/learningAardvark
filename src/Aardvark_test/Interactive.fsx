@@ -17,3 +17,14 @@ let aardvarkMesh : ISg<obj>=
         Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\data\SLE_Gnom.obj" 
         |> Sg.adapter
         |> Sg.transform (Trafo3d.Scale(1.0,1.0,-1.0))
+
+let m = M44d.
+
+let  sampleDelta = 0.5//0.025
+let mutable nrSamples = 0.0
+let mutable irradiance = V4d(0.0)
+
+for phi in  0.0..sampleDelta..2.0*Math.PI do
+        for theta in 0.0..sampleDelta..0.5*Math.PI do
+            nrSamples <- nrSamples + 1.0
+nrSamples;;
