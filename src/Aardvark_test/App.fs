@@ -20,7 +20,7 @@ module App =
 
 
     let cameraConfig  =  {FreeFlyController.initial.freeFlyConfig with zoomMouseWheelSensitivity = 0.5} 
-    let initialView = CameraView.lookAt (V3d(2.0, 2.0, -3.0)) (V3d(0.0, 1.0, 0.0)) (V3d.OIO * 1.0)
+    let initialView = CameraView.lookAt (V3d(3.0, 2.5, -6.0)) (V3d(0.0, 2.0, 0.0)) (V3d.OIO * 1.0)
     let initial = { 
         cameraState = {FreeFlyController.initial  with freeFlyConfig = cameraConfig; view = initialView}
         lights = HMap.ofList [(0, light.defaultDirectionalLight)]
