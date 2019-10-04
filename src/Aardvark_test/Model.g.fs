@@ -89,10 +89,12 @@ module Mutable =
         let _metallic = ResetMod.Create(__initial.metallic)
         let _roughness = ResetMod.Create(__initial.roughness)
         let _albedoFactor = ResetMod.Create(__initial.albedoFactor)
+        let _normalMapStrenght = ResetMod.Create(__initial.normalMapStrenght)
         
         member x.metallic = _metallic :> IMod<_>
         member x.roughness = _roughness :> IMod<_>
         member x.albedoFactor = _albedoFactor :> IMod<_>
+        member x.normalMapStrenght = _normalMapStrenght :> IMod<_>
         
         member x.Current = __current :> IMod<_>
         member x.Update(v : Aardvark_test.Model.PBRMaterial) =
@@ -102,6 +104,7 @@ module Mutable =
                 ResetMod.Update(_metallic,v.metallic)
                 ResetMod.Update(_roughness,v.roughness)
                 ResetMod.Update(_albedoFactor,v.albedoFactor)
+                ResetMod.Update(_normalMapStrenght,v.normalMapStrenght)
                 
         
         static member Create(__initial : Aardvark_test.Model.PBRMaterial) : MPBRMaterial = MPBRMaterial(__initial)
@@ -135,6 +138,12 @@ module Mutable =
                     override x.Get(r) = r.albedoFactor
                     override x.Set(r,v) = { r with albedoFactor = v }
                     override x.Update(r,f) = { r with albedoFactor = f r.albedoFactor }
+                }
+            let normalMapStrenght =
+                { new Lens<Aardvark_test.Model.PBRMaterial, System.Double>() with
+                    override x.Get(r) = r.normalMapStrenght
+                    override x.Set(r,v) = { r with normalMapStrenght = v }
+                    override x.Update(r,f) = { r with normalMapStrenght = f r.normalMapStrenght }
                 }
     
     

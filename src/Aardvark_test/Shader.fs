@@ -469,6 +469,34 @@ module PBR =
             return V4d(colg,v.c.W)
         }
 
+module NormalMap =
+
+    type UniformScope with
+        member x.NormalMapStrength : float =  x?NormalMapStrength
+
+    [<GLSLIntrinsic("mix({0}, {1}, {2})")>] // Define function as intrinsic, no implementation needed
+    let Lerp (a : V3d) (b : V3d) (s : float) : V3d = failwith ""
+
+    let private normalSampler =
+        sampler2d {
+            texture uniform?NormalMapTexture
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
+    let internal normalMap (v : Vertex) =
+        fragment {
+            let texColor = normalSampler.Sample(v.tc).XYZ
+            let texNormal = (2.0 * texColor - V3d.III) |> Vec.normalize
+
+            let n = v.n.Normalized * texNormal.Z + v.b.Normalized * texNormal.X + v.t.Normalized * texNormal.Y |> Vec.normalize
+
+            let strength = uniform.NormalMapStrength
+            let n2 = Lerp v.n n strength
+
+            return { v with n = n2 }
+        }
 
 module SLESurfaces = 
 
@@ -481,5 +509,5 @@ module SLESurfaces =
     let prefilterSpec = PBR.prefilterSpec
     let integrateBRDFLtu = PBR.integrateBRDFLtu
     let  testBDRF = PBR.testBDRF
-
+    let normalMap = NormalMap.normalMap
     

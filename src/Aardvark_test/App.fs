@@ -125,6 +125,7 @@ module App =
         Sg.uniform "Metallic" m.metallic
         >> Sg.uniform "Roughness" m.roughness
         >> Sg.uniform "AlbedoFactor" m.albedoFactor
+        >> Sg.uniform "NormalMapStrength" m.normalMapStrenght
 
     let renderToCubeTask runtime size signature source level face =
         let lookTo = 
@@ -266,7 +267,7 @@ module App =
                 do! DefaultSurfaces.trafo
                 do! DefaultSurfaces.vertexColor
                 do! DefaultSurfaces.diffuseTexture 
-                do! DefaultSurfaces.normalMap 
+                do! SLESurfaces.normalMap 
                 //do! SLESurfaces.lighting false
                 do! SLESurfaces.lightingPBR
                 }
