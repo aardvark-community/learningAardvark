@@ -38,6 +38,7 @@ type GlobalEnviorment =
     {
         skyMap : string
         skyMapRotation : float
+        skyMapIntensity : float
         ambientLightIntensity : float
     }
 

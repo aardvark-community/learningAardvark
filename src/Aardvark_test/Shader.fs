@@ -116,6 +116,8 @@ module PBR =
 
         member x.SkyMapRotation : float =  x?SkyMapRotation
 
+        member x.SkyMapIntensity : float =  x?SkyMapIntensity
+
     //Note: Do not use ' in variabel names for shader code,  it will lead  to an error
 
      //------------------------------------------
@@ -455,7 +457,7 @@ module PBR =
             let texColor = skySampler.Sample(lPos).XYZ
             //let texColor = skySampler.SampleLevel(lPos,2.0).XYZ
 
-            let col = texColor / (texColor+1.0)
+            let col = texColor * uniform.SkyMapIntensity
 
             //tone mapping
             let expousure = uniform.Expousure

@@ -27,7 +27,10 @@ module App =
         cameraState = {FreeFlyController.initial  with freeFlyConfig = cameraConfig; view = initialView}
         lights = HMap.ofList [(0, light.defaultDirectionalLight)]
         material = material.defaultMaterial
-        enviorment = {skyMap = @"..\..\..\data\GrandCanyon_C_YumaPoint\GCanyon_C_YumaPoint_3k.hdr"; skyMapRotation = Math.PI; ambientLightIntensity = 1.0}
+        enviorment = {skyMap = @"..\..\..\data\GrandCanyon_C_YumaPoint\GCanyon_C_YumaPoint_3k.hdr"; 
+                      skyMapRotation = Math.PI; 
+                      skyMapIntensity = 1.0;
+                      ambientLightIntensity = 1.0}
         expousure  = 1.0
     }
 
@@ -240,6 +243,7 @@ module App =
             Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
                 |> Sg.cullMode (Mod.constant CullMode.None)
                 |> Sg.texture (Sym.ofString "SkyCubeMap") (skyCubeMap runtime)
+                |> Sg.uniform "SkyMapIntensity" m.enviorment.skyMapIntensity
                 |> Sg.shader {
                     do! SLESurfaces.skyBoxTrafo
                     do! SLESurfaces.skyTexture
@@ -262,6 +266,7 @@ module App =
                 do! DefaultSurfaces.trafo
                 do! DefaultSurfaces.vertexColor
                 do! DefaultSurfaces.diffuseTexture 
+                do! DefaultSurfaces.normalMap 
                 //do! SLESurfaces.lighting false
                 do! SLESurfaces.lightingPBR
                 }
@@ -323,7 +328,7 @@ module App =
                 "Render Settings",
                     [
                          Html.table [                        
-                            tr [] [ td [] [text "Exposure"]; td [ style "width: 70%;"] [slider {min = -2.0;  max = 1.0; step = 0.01} AttributeMap.empty (Mod.map Math.Log10 m.expousure) (fun l -> SetExpousure  (Math.Pow(10.0, l)))]]
+                            tr [] [ td [] [text "Exposure"]; td [ style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.expousure SetExpousure]]
                         ]   
                     ]    
                 ] [view3D runtime m]

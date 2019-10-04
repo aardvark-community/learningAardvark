@@ -1,7 +1,33 @@
 namespace Aardvark.UI
 open Aardvark.UI
+open Aardvark.UI.Primitives
+open Aardvark.Base.Incremental
+open System
 
- module  Html =   
+
+[<AutoOpen>]
+module Simple =
+
+    let floatInput (minValue : float) (maxValue : float) (step : float) (changed : float -> 'msg) (value : IMod<float>) =
+        labeledFloatInput' "" minValue maxValue step changed value (AttributeMap.ofList [ clazz "ui small input"; style "width: 60pt"]) (AttributeMap.ofList []) 
+
+    let inputSlider (cfg : SliderConfig) (atts : (string * AttributeValue<'msg>) list )  (value : IMod<float>) (update : float -> 'msg) =
+        div atts [
+            labeledFloatInput' "" cfg.min cfg.max (cfg.step*10.0) update value (AttributeMap.ofList [ clazz "ui small input"; style "width: 60pt; float: left"]) (AttributeMap.ofList []) 
+            slider cfg (AttributeMap.ofList [style "width: auto; margin-left: 68pt"])  value update
+        ]
+
+    let inputLogSlider (cfg : SliderConfig) (atts : (string * AttributeValue<'msg>) list )  (value : IMod<float>) (update : float -> 'msg) =
+        if cfg.min <= 0.0 then failwith "min must be positve for log silder"
+        let value' = Mod.map Math.Log10 value
+        let update' = fun v -> update (Math.Pow(10.0,v))
+        let cfg' = {cfg with  min = Math.Log10 cfg.min; max = Math.Log10 cfg.max}
+        div atts [
+            labeledFloatInput' "" cfg.min cfg.max (cfg.step*10.0) update value (AttributeMap.ofList [ clazz "ui small input"; style "width: 60pt; float: left"]) (AttributeMap.ofList []) 
+            slider cfg' (AttributeMap.ofList [style "width: auto; margin-left: 68pt"])  value' update'
+        ]
+
+module  Html =   
     module SemUi =
 
         let accordionMenu (subMenue : bool) (c : string )(entries : list<string * list<DomNode<'msg>>>) =

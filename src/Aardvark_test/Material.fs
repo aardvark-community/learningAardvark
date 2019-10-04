@@ -24,7 +24,7 @@ module materialControl =
     let view (m : MPBRMaterial) =
         let numInput name changed state  = labeledFloatInput name 0.0 1.0 0.01 changed state
         Html.table [                        
-            tr [] [ td [] [text "Metallic"]; td [] [slider {min = 0.0;  max = 1.0; step = 0.01} AttributeMap.empty m.metallic SetMetallic]]
-            tr [] [ td [] [text "Roughness"]; td [] [slider {min = 0.01;  max = 1.0; step = 0.01} AttributeMap.empty m.roughness SetRoughness]]
-            tr [] [ td [] [text "Albedo Factor"]; td [] [numeric {min = 0.0;  max = 10.0; smallStep = 0.1; largeStep = 1.0} AttributeMap.empty m.albedoFactor SetAlbedoFactor]]
+            tr [] [ td [] [text "Metallic"]; td [style "width: 70%;"] [inputSlider {min = 0.0;  max = 1.0; step = 0.01} [] m.metallic SetMetallic]]
+            tr [] [ td [] [text "Roughness"]; td [style "width: 70%;"] [inputSlider {min = 0.01;  max = 1.0; step = 0.01} [] m.roughness SetRoughness]]
+            tr [] [ td [] [text "Albedo Factor"]; td [style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.albedoFactor SetAlbedoFactor]]
         ]         

@@ -152,12 +152,14 @@ module globalEnviroment =
         | SetSkyMap of String
         | SetSkyMapRotation of float
         | SetAbientLightIntensity of float
+        | SetSkyMapIntensity of float
 
     let update (m : GlobalEnviorment)  (msg : Message) = 
         match msg  with
         | SetSkyMap s -> {m  with skyMap = s}
         | SetSkyMapRotation r -> {m  with skyMapRotation = r}
         | SetAbientLightIntensity i-> {m  with ambientLightIntensity = i}       
+        | SetSkyMapIntensity i-> {m  with skyMapIntensity = i}       
 
     let view (m : MGlobalEnviorment) =
         let numInput name changed state  = labeledFloatInput name 0.0 1.0 0.01 changed state
@@ -167,6 +169,7 @@ module globalEnviroment =
                     { OpenDialogConfig.file with allowMultiple = false; title = "ROCK THE POWER. ROCKET POWER"; filters  = [|"*.hdr"|];  startPath = path}
                     [ clazz "ui green button"; onChooseFile SetSkyMap ] 
                     [ text "Open hdr File" ]]]
-            tr [] [ td [] [text "Sky Map Rotation"]; td [] [slider {min = 0.0;  max = 2.0*Math.PI; step = 0.01} AttributeMap.empty m.skyMapRotation SetSkyMapRotation]]
-            tr [] [ td [] [text "Ambient Light Intensity"]; td [] [slider {min = 0.0;  max = 2.0; step = 0.01} AttributeMap.empty m.ambientLightIntensity SetAbientLightIntensity]]
+            tr [] [ td [] [text "Sky Map Intensity"]; td [style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.skyMapIntensity SetSkyMapIntensity]]
+            tr [] [ td [] [text "Sky Map Rotation"]; td [style "width: 70%;"] [inputSlider {min = 0.0;  max = 1.0; step = 0.01} [] (Mod.map (fun r -> r/(2.0*Math.PI)) m.skyMapRotation)  (fun r -> SetSkyMapRotation (r*2.0*Math.PI)) ]]
+            tr [] [ td [] [text "Ambient Light Intensity"]; td [style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.ambientLightIntensity SetAbientLightIntensity]]
         ]   

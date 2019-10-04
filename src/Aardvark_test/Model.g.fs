@@ -143,10 +143,12 @@ module Mutable =
         let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.GlobalEnviorment> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.GlobalEnviorment>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.GlobalEnviorment>
         let _skyMap = ResetMod.Create(__initial.skyMap)
         let _skyMapRotation = ResetMod.Create(__initial.skyMapRotation)
+        let _skyMapIntensity = ResetMod.Create(__initial.skyMapIntensity)
         let _ambientLightIntensity = ResetMod.Create(__initial.ambientLightIntensity)
         
         member x.skyMap = _skyMap :> IMod<_>
         member x.skyMapRotation = _skyMapRotation :> IMod<_>
+        member x.skyMapIntensity = _skyMapIntensity :> IMod<_>
         member x.ambientLightIntensity = _ambientLightIntensity :> IMod<_>
         
         member x.Current = __current :> IMod<_>
@@ -156,6 +158,7 @@ module Mutable =
                 
                 ResetMod.Update(_skyMap,v.skyMap)
                 ResetMod.Update(_skyMapRotation,v.skyMapRotation)
+                ResetMod.Update(_skyMapIntensity,v.skyMapIntensity)
                 ResetMod.Update(_ambientLightIntensity,v.ambientLightIntensity)
                 
         
@@ -184,6 +187,12 @@ module Mutable =
                     override x.Get(r) = r.skyMapRotation
                     override x.Set(r,v) = { r with skyMapRotation = v }
                     override x.Update(r,f) = { r with skyMapRotation = f r.skyMapRotation }
+                }
+            let skyMapIntensity =
+                { new Lens<Aardvark_test.Model.GlobalEnviorment, System.Double>() with
+                    override x.Get(r) = r.skyMapIntensity
+                    override x.Set(r,v) = { r with skyMapIntensity = v }
+                    override x.Update(r,f) = { r with skyMapIntensity = f r.skyMapIntensity }
                 }
             let ambientLightIntensity =
                 { new Lens<Aardvark_test.Model.GlobalEnviorment, System.Double>() with
