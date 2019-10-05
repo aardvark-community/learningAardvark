@@ -63,11 +63,6 @@ module App =
             { m with expousure = e }
         | GlobalEnviormentMessage msg ->
             { m with enviorment = globalEnviroment.update m.enviorment msg }
-
-    let figureMesh =
-        Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom4.obj"
-        |> Sg.adapter
-        |> Sg.transform (Trafo3d.Scale(1.0,1.0,1.0))
     
     let uniformLight (l : IMod<MLight>) : IMod<SLEUniform.Light>  =
         //needs to be adaptive because the  Light can change and is an IMod
@@ -126,6 +121,26 @@ module App =
         >> Sg.uniform "Roughness" m.roughness
         >> Sg.uniform "AlbedoFactor" m.albedoFactor
         >> Sg.uniform "NormalMapStrength" m.normalMapStrenght
+
+    type ProxyMaterial =
+        {
+            importedMaterial : IO.Loader.IMaterial
+            material : MPBRMaterial
+        }
+        
+        interface IO.Loader.IMaterial with
+
+            member x.name = x.importedMaterial.name
+
+            member x.TryGetUniform(s, sem) =
+                match string sem with
+                | "Metallic" -> Some (x.material.metallic :> IMod)
+                | "Roughness" -> Some (x.material.roughness :> IMod)
+                | "AlbedoFactor" -> Some (x.material.albedoFactor :> IMod)
+                | "NormalMapStrength" -> Some (x.material.normalMapStrenght :> IMod)
+                | _ -> x.importedMaterial.TryGetUniform(s, sem)
+
+            member x.Dispose() = x.importedMaterial.Dispose()
 
     let renderToCubeTask runtime size signature source level face =
         let lookTo = 
@@ -195,6 +210,13 @@ module App =
     //the 3D scene and control
     let view3D runtime (m : MModel) =
 
+        let figureMesh =
+            let import = Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom4.obj"
+            
+            import.SubstituteMaterial (fun mat -> Some ({importedMaterial = mat; material = m.material} :> IO.Loader.IMaterial))
+            |> Sg.adapter
+            |> Sg.transform (Trafo3d.Scale(1.0,1.0,1.0))
+
         let skyMapSize = 1024 |> Mod.init 
 
         let diffuseIrradianceSize = 32 |> Mod.init 
@@ -259,7 +281,7 @@ module App =
             |> uniformLights m.lights
             |> Sg.uniform "Expousure" m.expousure
             |> Sg.uniform "AmbientIntensity" m.enviorment.ambientLightIntensity
-            |> materialUniforms m.material
+           // |> materialUniforms m.material
             |> Sg.texture (Sym.ofString "DiffuseIrradiance") (diffuseIrradianceMap runtime)
             |> Sg.texture (Sym.ofString "PrefilteredSpecColor") (diffuseIrradianceMap runtime)
             |> Sg.texture (Sym.ofString "BRDFLtu") (BRDFLtu runtime)

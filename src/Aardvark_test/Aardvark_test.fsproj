@@ -13,6 +13,7 @@
     <RunWorkingDirectory>$(OutputPath)\netcoreapp2.0</RunWorkingDirectory>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="IO.fs" />
     <Compile Include="RenderTask.fs" />
     <Compile Include="UI.fs" />
     <Compile Include="Model.fs" />
