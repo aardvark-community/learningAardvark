@@ -51,6 +51,8 @@ type Model =
         material : PBRMaterial
         enviorment : GlobalEnviorment
         expousure  : float
+        materials : hmap<string, PBRMaterial>
+        currentMaterial : string
     }
 
 module light =

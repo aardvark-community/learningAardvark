@@ -219,12 +219,16 @@ module Mutable =
         let _material = MPBRMaterial.Create(__initial.material)
         let _enviorment = MGlobalEnviorment.Create(__initial.enviorment)
         let _expousure = ResetMod.Create(__initial.expousure)
+        let _materials = MMap.Create(__initial.materials, (fun v -> MPBRMaterial.Create(v)), (fun (m,v) -> MPBRMaterial.Update(m, v)), (fun v -> v))
+        let _currentMaterial = ResetMod.Create(__initial.currentMaterial)
         
         member x.cameraState = _cameraState
         member x.lights = _lights :> amap<_,_>
         member x.material = _material
         member x.enviorment = _enviorment
         member x.expousure = _expousure :> IMod<_>
+        member x.materials = _materials :> amap<_,_>
+        member x.currentMaterial = _currentMaterial :> IMod<_>
         
         member x.Current = __current :> IMod<_>
         member x.Update(v : Aardvark_test.Model.Model) =
@@ -236,6 +240,8 @@ module Mutable =
                 MPBRMaterial.Update(_material, v.material)
                 MGlobalEnviorment.Update(_enviorment, v.enviorment)
                 ResetMod.Update(_expousure,v.expousure)
+                MMap.Update(_materials, v.materials)
+                ResetMod.Update(_currentMaterial,v.currentMaterial)
                 
         
         static member Create(__initial : Aardvark_test.Model.Model) : MModel = MModel(__initial)
@@ -281,4 +287,16 @@ module Mutable =
                     override x.Get(r) = r.expousure
                     override x.Set(r,v) = { r with expousure = v }
                     override x.Update(r,f) = { r with expousure = f r.expousure }
+                }
+            let materials =
+                { new Lens<Aardvark_test.Model.Model, Aardvark.Base.hmap<System.String,Aardvark_test.Model.PBRMaterial>>() with
+                    override x.Get(r) = r.materials
+                    override x.Set(r,v) = { r with materials = v }
+                    override x.Update(r,f) = { r with materials = f r.materials }
+                }
+            let currentMaterial =
+                { new Lens<Aardvark_test.Model.Model, System.String>() with
+                    override x.Get(r) = r.currentMaterial
+                    override x.Set(r,v) = { r with currentMaterial = v }
+                    override x.Update(r,f) = { r with currentMaterial = f r.currentMaterial }
                 }

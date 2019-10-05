@@ -14,15 +14,44 @@ type Message =
     | LightMessage of int * lightControl.Message
     | RemoveLight  of int
     | AddLight of Light
-    | MaterialMessage of materialControl.Message
+    | MaterialMessage of materialControl.Message * string
     | SetExpousure of float
     | GlobalEnviormentMessage of globalEnviroment.Message
+    | SetCurrentMaterial of string
 
 module App =   
 
 
     let cameraConfig  =  {FreeFlyController.initial.freeFlyConfig with zoomMouseWheelSensitivity = 0.5} 
     let initialView = CameraView.lookAt (V3d(3.0, 2.5, -6.0)) (V3d(0.0, 2.0, 0.0)) (V3d.OIO * 1.0)
+
+    let import = Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom4.obj"
+
+    let getMaterials (s : IO.Loader.Scene) =
+            let rec traverse (state : IO.Loader.IMaterial list) (n : IO.Loader.Node) =
+                match n with
+                    | IO.Loader.Node.Empty -> 
+                        state
+                    | IO.Loader.Node.Group es ->
+                        List.fold traverse state es 
+                    | IO.Loader.Node.Leaf m ->
+                        state
+                    | IO.Loader.Node.Material(m, n) ->
+                        m::state
+                    | IO.Loader.Node.Trafo(t, n) ->
+                        traverse state n
+
+            traverse [] s.root 
+
+    let removeDigits = String.filter (Char.IsDigit >> not)
+
+    let materials = 
+        getMaterials import
+        |> List.map (fun m -> removeDigits m.name)
+        |> List.distinct
+        |> List.map (fun n -> n, material.defaultMaterial)
+        |> HMap.ofList
+
     let initial = { 
         cameraState = {FreeFlyController.initial  with freeFlyConfig = cameraConfig; view = initialView}
         lights = HMap.ofList [(0, light.defaultDirectionalLight)]
@@ -32,6 +61,12 @@ module App =
                       skyMapIntensity = 1.0;
                       ambientLightIntensity = 1.0}
         expousure  = 1.0
+        materials = materials
+        currentMaterial = 
+            HMap.keys materials
+            |> HSet.toList
+            |> List.first
+            |> Option.defaultValue "none"
     }
 
     let update (m : Model) (msg : Message) =
@@ -57,12 +92,17 @@ module App =
                     |> max 0
                     |> (+) 1
             { m with lights = HMap.add i l m.lights }
-        | MaterialMessage msg ->
-            { m with material = materialControl.update m.material msg }
+        | MaterialMessage (msg, s) ->
+            Log.warn "MaterialMessage %A %s" msg s
+            let m' = materialControl.update m.materials.[s] msg
+            let materials' =  HMap.update  s (fun _ -> m' ) m.materials 
+            { m with materials = materials' }
         | SetExpousure e ->
             { m with expousure = e }
         | GlobalEnviormentMessage msg ->
             { m with enviorment = globalEnviroment.update m.enviorment msg }
+        | SetCurrentMaterial s ->
+            { m with currentMaterial = s }    
     
     let uniformLight (l : IMod<MLight>) : IMod<SLEUniform.Light>  =
         //needs to be adaptive because the  Light can change and is an IMod
@@ -125,7 +165,7 @@ module App =
     type ProxyMaterial =
         {
             importedMaterial : IO.Loader.IMaterial
-            material : MPBRMaterial
+            material : IMod<MPBRMaterial>
         }
         
         interface IO.Loader.IMaterial with
@@ -134,10 +174,10 @@ module App =
 
             member x.TryGetUniform(s, sem) =
                 match string sem with
-                | "Metallic" -> Some (x.material.metallic :> IMod)
-                | "Roughness" -> Some (x.material.roughness :> IMod)
-                | "AlbedoFactor" -> Some (x.material.albedoFactor :> IMod)
-                | "NormalMapStrength" -> Some (x.material.normalMapStrenght :> IMod)
+                | "Metallic" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.metallic) x.material :> IMod)
+                | "Roughness" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.roughness) x.material :> IMod)
+                | "AlbedoFactor" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.albedoFactor) x.material :> IMod)
+                | "NormalMapStrength" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.normalMapStrenght) x.material :> IMod)
                 | _ -> x.importedMaterial.TryGetUniform(s, sem)
 
             member x.Dispose() = x.importedMaterial.Dispose()
@@ -210,10 +250,8 @@ module App =
     //the 3D scene and control
     let view3D runtime (m : MModel) =
 
-        let figureMesh =
-            let import = Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom4.obj"
-            
-            import.SubstituteMaterial (fun mat -> Some ({importedMaterial = mat; material = m.material} :> IO.Loader.IMaterial))
+        let figureMesh =            
+            import.SubstituteMaterial (fun mat -> Some ({importedMaterial = mat; material = (AMap.find ( removeDigits mat.name) m.materials)} :> IO.Loader.IMaterial))
             |> Sg.adapter
             |> Sg.transform (Trafo3d.Scale(1.0,1.0,1.0))
 
@@ -281,7 +319,6 @@ module App =
             |> uniformLights m.lights
             |> Sg.uniform "Expousure" m.expousure
             |> Sg.uniform "AmbientIntensity" m.enviorment.ambientLightIntensity
-           // |> materialUniforms m.material
             |> Sg.texture (Sym.ofString "DiffuseIrradiance") (diffuseIrradianceMap runtime)
             |> Sg.texture (Sym.ofString "PrefilteredSpecColor") (diffuseIrradianceMap runtime)
             |> Sg.texture (Sym.ofString "BRDFLtu") (BRDFLtu runtime)
@@ -315,7 +352,15 @@ module App =
                 Html.SemUi.adornerAccordeonMenu [ 
                 "Edit Material",
                     [
-                        materialControl.view m.material |> UI.map MaterialMessage
+                        Html.SemUi.dropDown' (m.materials |> AMap.keys |> ASet.toAList) m.currentMaterial SetCurrentMaterial id
+                        m.currentMaterial
+                        |> Mod.bind (fun c ->
+                            m.materials
+                            |> AMap.find c
+                            |> Mod.map (fun m -> materialControl.view m |> UI.map (fun msg -> MaterialMessage (msg,c)))
+                        )
+                        |> AList.ofModSingle
+                        |> Incremental.div AttributeMap.empty
                     ]    
                 "Add Light",
                     [
