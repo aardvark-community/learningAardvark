@@ -118,6 +118,8 @@ module PBR =
 
         member x.SkyMapIntensity : float =  x?SkyMapIntensity
 
+        member x.Discard : bool =  x?Discard
+
     //Note: Do not use ' in variabel names for shader code,  it will lead  to an error
 
      //------------------------------------------
@@ -191,6 +193,8 @@ module PBR =
         fragment {
             let gamma  = 2.2
             
+            if uniform.Discard then
+                discard()
             let albedo = pow (vert.c.XYZ * uniform.AlbedoFactor) (V3d(gamma))
             let metallic = uniform.Metallic
             let roughness = uniform.Roughness

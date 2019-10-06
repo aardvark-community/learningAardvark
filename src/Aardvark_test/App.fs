@@ -93,7 +93,6 @@ module App =
                     |> (+) 1
             { m with lights = HMap.add i l m.lights }
         | MaterialMessage (msg, s) ->
-            Log.warn "MaterialMessage %A %s" msg s
             let m' = materialControl.update m.materials.[s] msg
             let materials' =  HMap.update  s (fun _ -> m' ) m.materials 
             { m with materials = materials' }
@@ -155,12 +154,6 @@ module App =
             do! DefaultSurfaces.trafo
             do! DefaultSurfaces.vertexColor 
             }   
-    
-    let materialUniforms (m : MPBRMaterial) =
-        Sg.uniform "Metallic" m.metallic
-        >> Sg.uniform "Roughness" m.roughness
-        >> Sg.uniform "AlbedoFactor" m.albedoFactor
-        >> Sg.uniform "NormalMapStrength" m.normalMapStrenght
 
     type ProxyMaterial =
         {
@@ -178,6 +171,7 @@ module App =
                 | "Roughness" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.roughness) x.material :> IMod)
                 | "AlbedoFactor" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.albedoFactor) x.material :> IMod)
                 | "NormalMapStrength" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.normalMapStrenght) x.material :> IMod)
+                | "Discard" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.discard) x.material :> IMod)
                 | _ -> x.importedMaterial.TryGetUniform(s, sem)
 
             member x.Dispose() = x.importedMaterial.Dispose()

@@ -7,8 +7,6 @@ Kd 1.0 1.0 1.0
 Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
-map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
 
 newmtl cornea2
 Ns 100.0
@@ -18,30 +16,24 @@ Kd 1.0 1.0 1.0
 Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
-map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
 
 newmtl eyewithe
 Ns 100.0
 d 1.0
 illum 2
-Kd 1.0 1.0 1.0
+Kd 0.976471 0.984314 0.984314 
 Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
-map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
 
 newmtl eyewithe2
 Ns 100.0
 d 1.0
 illum 2
-Kd 1.0 1.0 1.0
+Kd 0.976471 0.984314 0.984314
 Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
-map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
 
 newmtl innerMount
 Ns 100.0
@@ -58,23 +50,19 @@ newmtl iris
 Ns 100.0
 d 1.0
 illum 2
-Kd 1.0 1.0 1.0
+Kd 0.0 0.290196 0.0
 Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
-map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
 
 newmtl iris2
 Ns 100.0
 d 1.0
 illum 2
-Kd 1.0 1.0 1.0
+Kd 0.0 0.290196 0.0
 Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
-map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
 
 newmtl lashes
 Ns 100.0
@@ -84,8 +72,6 @@ Kd 1.0 1.0 1.0
 Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
-map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
 
 newmtl lips
 Ns 100.0

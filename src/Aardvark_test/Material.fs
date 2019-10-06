@@ -15,6 +15,7 @@ module materialControl =
         | SetRoughness of float
         | SetAlbedoFactor of float
         | SetNormalMapStrength of float
+        | SetDiscard 
 
     let update  (m : PBRMaterial) (msg : Message)  =
         match msg with
@@ -22,6 +23,7 @@ module materialControl =
         | SetRoughness r -> { m with  roughness = r}
         | SetAlbedoFactor a -> { m with  albedoFactor = a}
         | SetNormalMapStrength s -> { m with  normalMapStrenght = s}
+        | SetDiscard -> { m with  discard = not m.discard}
 
     let view (m : MPBRMaterial) =
         let numInput name changed state  = labeledFloatInput name 0.0 1.0 0.01 changed state
@@ -30,4 +32,5 @@ module materialControl =
             tr [] [ td [] [text "Roughness"]; td [style "width: 70%;"] [inputSlider {min = 0.01;  max = 1.0; step = 0.01} [] m.roughness SetRoughness]]
             tr [] [ td [] [text "Albedo Factor"]; td [style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.albedoFactor SetAlbedoFactor]]
             tr [] [ td [] [text "Normal Map Strength"]; td [style "width: 70%;"] [inputSlider {min = 0.0;  max = 1.0; step = 0.01} [] m.normalMapStrenght SetNormalMapStrength]]
+            tr [] [ td [] [text "Discard"]; td [style "width: 70%;"] [Html.SemUi.toggleBox  m.discard SetDiscard ]]
         ]         

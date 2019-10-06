@@ -32,6 +32,7 @@ type PBRMaterial =
         roughness : float
         albedoFactor : float
         normalMapStrenght : float
+        discard : bool
     }
 
 [<DomainType>]
@@ -65,4 +66,4 @@ module light =
 
 module material =
 
-    let defaultMaterial = {metallic = 0.0; roughness = 0.8; albedoFactor = 1.0; normalMapStrenght = 1.0}
+    let defaultMaterial = {metallic = 0.0; roughness = 0.8; albedoFactor = 1.0; normalMapStrenght = 1.0; discard = false}
