@@ -120,6 +120,8 @@ module PBR =
 
         member x.Discard : bool =  x?Discard
 
+        member x.LightViewMatrix : M44d = x?LightViewMatrix
+
     //Note: Do not use ' in variabel names for shader code,  it will lead  to an error
 
      //------------------------------------------
@@ -149,6 +151,16 @@ module PBR =
             filter Filter.MinMagMipLinear
             addressU WrapMode.Clamp
             addressV WrapMode.Clamp
+        }
+
+    let private samplerShadowMap =
+        sampler2dShadow {
+            texture uniform?ShadowMap
+            filter Filter.MinMagLinear
+            addressU WrapMode.Border
+            addressV WrapMode.Border
+            borderColor C4f.White
+            comparison ComparisonFunction.LessOrEqual
         }
 
     [<ReflectedDefinition>] //add this attribute to  make the function callable in the shader
@@ -188,6 +200,40 @@ module PBR =
     let  fresnelSchlickRoughness (f0 : V3d) (roughness : float) (cosTheta : float)=
         let r = V3d.Max(V3d(1.0 - roughness), f0)
         f0 + (r  - f0) * pow (1.0 - cosTheta) 5.0
+
+    [<ReflectedDefinition>]
+    let poissonSampling (shadowMap :Sampler2dShadow) (samplePos : V4d) comp  =
+        let poissonDisk =   
+            Arr<N<4>, V2d>([|V2d( -0.94201624, -0.39906216 );V2d( 0.94558609, -0.76890725 );V2d( -0.094184101, -0.92938870 );V2d( 0.34495938, 0.29387760 )|])
+        let numSamples = 4
+        let mutable vis = 0.0
+        let spread = 400.0
+        for i in 0..numSamples-1 do
+            vis <- vis + shadowMap.Sample(samplePos.XY + poissonDisk.[i]/spread, comp)/(float numSamples)
+        vis
+
+    [<ReflectedDefinition>]
+    let  random (seed  : V3d) (i : int) =
+        let seed4 = V4d(seed,float i)
+        let dotProduct = Vec.dot seed4 (V4d(12.9898,78.233,45.164,94.673))
+        Fun.Frac(sin(dotProduct) * 43758.5453)
+
+    [<ReflectedDefinition>]
+    let poissonSamplingStrat (shadowMap :Sampler2dShadow) (samplePos : V4d) (pos  : V4d) comp  =
+        let poissonDisk =   
+            Arr<N<16>, V2d>([|
+                V2d( -0.94201624, -0.39906216 );V2d( 0.94558609, -0.76890725 );V2d( -0.094184101, -0.92938870 );V2d( 0.34495938, 0.29387760 )
+                V2d( -0.91588581, 0.45771432 );V2d( -0.81544232, -0.87912464 );V2d( -0.38277543, 0.27676845 );V2d( 0.97484398, 0.75648379  )
+                V2d(  0.44323325, -0.97511554 );V2d( 0.53742981, -0.47373420 );V2d( -0.26496911, -0.41893023 );V2d(  0.79197514, 0.19090188  )
+                V2d( -0.24188840, 0.99706507 );V2d(  -0.81409955, 0.91437590);V2d(  0.19984126, 0.78641367 );V2d(  0.14383161, -0.14100790 )
+            |])
+        let numSamples = 8
+        let mutable vis = 0.0
+        let spread = 600.0
+        for i in 0..numSamples-1 do
+            let index = int (16.0*random (pos.XYZ) i )%16
+            vis <- vis + shadowMap.Sample(samplePos.XY + poissonDisk.[index]/spread, comp)/(float numSamples)
+        vis
 
     let internal lighting  (vert : Vertex) =
         fragment {
@@ -250,7 +296,20 @@ module PBR =
 
                     else V3d.Zero
 
-                lo <- lo + oi
+                let shadow =
+                    if i = 0 then
+                        let lm = uniform.LightViewMatrix
+                        let lightSpacePos = lm * vert.wp
+                        let samplePos = 
+                            lightSpacePos/lightSpacePos.W
+                            |> (*) 0.5
+                            |> (+) 0.5
+                        let shadowBias = 0.005
+                        poissonSamplingStrat samplerShadowMap samplePos vert.wp (samplePos.Z-shadowBias)
+                        //samplerShadowMap.Sample(samplePos.XY, samplePos.Z-shadowBias)
+                    else
+                        1.0
+                lo <- lo + (oi*shadow)
 
             let kSA = fresnelSchlickRoughness f0 roughness nDotV
             let kdA  = (1.0 - kSA) * (1.0 - metallic)
@@ -406,6 +465,21 @@ module PBR =
             addressV WrapMode.Wrap
         }
 
+
+    let private testSampler =
+        sampler2d {
+            texture uniform?DiffuseColorTexture
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
+    let testShadowMap (vert : Vertex)=
+        fragment  {
+            let  deep = testSampler.Sample(vert.tc).X
+            return V4d(V3d(deep),1.0)
+        }
+
     //from https://learnopengl.com/PBR/IBL/Diffuse-irradiance
     [<ReflectedDefinition>]
     let sampleSphericalMap (vec : V3d) =
@@ -513,5 +587,6 @@ module SLESurfaces =
     let prefilterSpec = PBR.prefilterSpec
     let integrateBRDFLtu = PBR.integrateBRDFLtu
     let  testBDRF = PBR.testBDRF
+    let testShadowMap = PBR.testShadowMap
     let normalMap = NormalMap.normalMap
     

@@ -27,6 +27,8 @@ module App =
 
     let import = Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom4.obj"
 
+    let sceneBB = import.bounds
+
     let getMaterials (s : IO.Loader.Scene) =
             let rec traverse (state : IO.Loader.IMaterial list) (n : IO.Loader.Node) =
                 match n with
@@ -241,13 +243,53 @@ module App =
     let BRDFLtu (runtime : IRuntime) =
         RenderTask.renderToColor LtuSize (BRDFLtuTask runtime)
 
+    let signatureShadowMap (runtime : IRuntime) =
+        runtime.CreateFramebufferSignature [
+            DefaultSemantic.Depth, { format = RenderbufferFormat.DepthComponent32; samples = 1 }
+        ]
+
+    let shadowMapSize = V2i(1024) |> Mod.constant
+
+    let lightViewPoject (light : MLight) =
+        match light with
+        | MPointLight l -> failwith "not implemented"
+        | MDirectionalLight l -> 
+            adaptive {
+                let! light = l 
+                let distance = max sceneBB.Min.Length sceneBB.Max.Length
+                let size = (sceneBB.Max - sceneBB.Min).Length
+                let lightPos = -light.lightDirection.XYZ |> Vec.normalize |> (*) distance //make sure the light position is outside the sceneBB
+                let up = if abs(lightPos.Z) < 0.0000001 then V3d.OOI else V3d.OIO
+                let lightView = 
+                    CameraView.lookAt lightPos V3d.OOO up
+                    |> CameraView.viewTrafo 
+                let b = sceneBB.Transformed(lightView)
+                let bb = Box3d(V3d(b.Min.XY,0.0001),V3d(b.Max.XY,size*2.0))//set Z Size so that all the scene fits in all cases (size*2.0 ist the upper bound, could be optimized)
+                let proj = 
+                    Frustum.ortho bb
+                    |> Frustum.projTrafo
+                return lightView , proj
+            }
+
+    let shadowMap (runtime : IRuntime) (scene :ISg<'msg>) (light : MLight) =
+            let v = lightViewPoject light |> Mod.map fst
+            let p = lightViewPoject light |> Mod.map snd
+            scene
+            |> Sg.shader {
+                do! DefaultSurfaces.trafo
+                do! DefaultSurfaces.vertexColor
+                }
+            |> Sg.viewTrafo (v)
+            |> Sg.projTrafo (p)
+            |> Sg.compile runtime (signatureShadowMap runtime)
+            |> RenderTask.renderToDepth shadowMapSize
+
     //the 3D scene and control
     let view3D runtime (m : MModel) =
 
         let figureMesh =            
             import.SubstituteMaterial (fun mat -> Some ({importedMaterial = mat; material = (AMap.find ( removeDigits mat.name) m.materials)} :> IO.Loader.IMaterial))
             |> Sg.adapter
-            |> Sg.transform (Trafo3d.Scale(1.0,1.0,1.0))
 
         let skyMapSize = 1024 |> Mod.init 
 
@@ -308,6 +350,14 @@ module App =
             Frustum.perspective 30.0 0.1 100.0 1.0 
                 |> Mod.constant
 
+        let lightViewMatrix = 
+            let light = AMap.find 0 m.lights
+            Mod.bind (Mod.bind lightViewPoject) light
+
+        let shadowMapTex = 
+            let light = AMap.find 0 m.lights
+            Mod.bind (Mod.bind (shadowMap runtime figureMesh)) light
+
         let sg = 
             figureMesh
             |> uniformLights m.lights
@@ -316,6 +366,8 @@ module App =
             |> Sg.texture (Sym.ofString "DiffuseIrradiance") (diffuseIrradianceMap runtime)
             |> Sg.texture (Sym.ofString "PrefilteredSpecColor") (diffuseIrradianceMap runtime)
             |> Sg.texture (Sym.ofString "BRDFLtu") (BRDFLtu runtime)
+            |> Sg.texture (Sym.ofString "ShadowMap") shadowMapTex
+            |> Sg.uniform "LightViewMatrix" (lightViewMatrix |> Mod.map(fun (v,p)  -> v * p))
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
                 do! DefaultSurfaces.vertexColor
@@ -325,6 +377,15 @@ module App =
                 do! SLESurfaces.lightingPBR
                 }
             |> Sg.andAlso <| lightSourceModels m.lights
+            |> Sg.andAlso 
+                <|(Sg.fullScreenQuad
+                    |> Sg.adapter
+                    |> Sg.texture (DefaultSemantic.DiffuseColorTexture)  shadowMapTex
+                    |> Sg.shader {
+                        do! DefaultSurfaces.trafo
+                        do! DefaultSurfaces.vertexColor
+                        do! SLESurfaces.testShadowMap 
+                    })
             |> Sg.andAlso <| (skyBox runtime |> Sg.uniform "Expousure" m.expousure)
             
 
