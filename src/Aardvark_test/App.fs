@@ -377,7 +377,7 @@ module App =
                 do! SLESurfaces.lightingPBR
                 }
             |> Sg.andAlso <| lightSourceModels m.lights
-            |> Sg.andAlso 
+            (*|> Sg.andAlso 
                 <|(Sg.fullScreenQuad
                     |> Sg.adapter
                     |> Sg.texture (DefaultSemantic.DiffuseColorTexture)  shadowMapTex
@@ -385,7 +385,7 @@ module App =
                         do! DefaultSurfaces.trafo
                         do! DefaultSurfaces.vertexColor
                         do! SLESurfaces.testShadowMap 
-                    })
+                    })*)
             |> Sg.andAlso <| (skyBox runtime |> Sg.uniform "Expousure" m.expousure)
             
 
