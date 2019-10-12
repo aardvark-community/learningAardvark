@@ -363,6 +363,7 @@ module App =
             |> uniformLights m.lights
             |> Sg.uniform "Expousure" m.expousure
             |> Sg.uniform "AmbientIntensity" m.enviorment.ambientLightIntensity
+            |> Sg.texture (Sym.ofString "Displacment") (FileTexture (@"..\..\..\data\SLE_Gnom_disp3.jpg", TextureParams.empty) :>  ITexture |> Mod.constant)
             |> Sg.texture (Sym.ofString "DiffuseIrradiance") (diffuseIrradianceMap runtime)
             |> Sg.texture (Sym.ofString "PrefilteredSpecColor") (diffuseIrradianceMap runtime)
             |> Sg.texture (Sym.ofString "BRDFLtu") (BRDFLtu runtime)
@@ -370,6 +371,7 @@ module App =
             |> Sg.uniform "LightViewMatrix" (lightViewMatrix |> Mod.map(fun (v,p)  -> v * p))
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
+                do! SLESurfaces.displacementMap
                 do! DefaultSurfaces.vertexColor
                 do! DefaultSurfaces.diffuseTexture 
                 do! SLESurfaces.normalMap 
@@ -382,7 +384,6 @@ module App =
                     |> Sg.adapter
                     |> Sg.texture (DefaultSemantic.DiffuseColorTexture)  shadowMapTex
                     |> Sg.shader {
-                        do! DefaultSurfaces.trafo
                         do! DefaultSurfaces.vertexColor
                         do! SLESurfaces.testShadowMap 
                     })*)
@@ -396,7 +397,11 @@ module App =
                // attribute "data-renderalways" "1"
             ]
 
-        FreeFlyController.controlledControl m.cameraState CameraMessage frustum (AttributeMap.ofList att) sg
+        let f = FreeFlyController.controlledControl m.cameraState CameraMessage frustum (AttributeMap.ofList att) sg
+        
+        let x = Frustum.top
+        
+        f
  
     // main view for UI and  
     let view runtime (m : MModel) =
