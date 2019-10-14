@@ -5,9 +5,60 @@ open Aardvark.Base
 open Aardvark.Base.Incremental
 open Aardvark.UI
 open Aardvark.UI.Primitives
-open Aardvark.Base.Rendering
+open Aardvark.SceneGraph
 open Aardvark_test.Model
 open System.IO
+
+module material = 
+
+    type ProxyMaterial =
+        {
+            importedMaterial : IO.Loader.IMaterial
+            material : IMod<MPBRMaterial>
+        }
+        
+        interface IO.Loader.IMaterial with
+
+            member x.name = x.importedMaterial.name
+
+            member x.TryGetUniform(s, sem) =
+                match string sem with
+                | "Metallic" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.metallic) x.material :> IMod)
+                | "Roughness" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.roughness) x.material :> IMod)
+                | "AlbedoFactor" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.albedoFactor) x.material :> IMod)
+                | "NormalMapStrength" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.normalMapStrenght) x.material :> IMod)
+                | "Discard" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.discard) x.material :> IMod)
+                | "DisplacmentStrength" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.displacmentStrength) x.material :> IMod)
+                | "DisplacmentMap" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.displacmentMap) x.material :> IMod)
+                | _ -> x.importedMaterial.TryGetUniform(s, sem)
+
+            member x.Dispose() = x.importedMaterial.Dispose()
+
+    let getMaterials (s : IO.Loader.Scene) =
+            let rec traverse (state : IO.Loader.IMaterial list) (n : IO.Loader.Node) =
+                match n with
+                    | IO.Loader.Node.Empty -> 
+                        state
+                    | IO.Loader.Node.Group es ->
+                        List.fold traverse state es 
+                    | IO.Loader.Node.Leaf m ->
+                        state
+                    | IO.Loader.Node.Material(m, n) ->
+                        m::state
+                    | IO.Loader.Node.Trafo(t, n) ->
+                        traverse state n
+
+            traverse [] s.root 
+
+    
+    let removeDigits = String.filter (Char.IsDigit >> not)
+        
+    let materials model = 
+        getMaterials model
+        |> List.map (fun m -> removeDigits m.name)
+        |> List.distinct
+        |> List.map (fun n -> n, material.defaultMaterial)
+        |> HMap.ofList
 
 module materialControl = 
 

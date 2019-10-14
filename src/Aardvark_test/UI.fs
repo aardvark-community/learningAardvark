@@ -1,4 +1,5 @@
 namespace Aardvark.UI
+open Aardvark.Base
 open Aardvark.UI
 open Aardvark.UI.Primitives
 open Aardvark.Base.Incremental
@@ -79,3 +80,26 @@ module  Html =
                 yield 
                      onBoot "$('#__ID__').sidebar('setting', 'dimPage', false);" (accordionMenu false "ui vertical inverted sidebar very wide accordion menu" sectionsAndItems)
             ] 
+
+module V3dInput =
+
+    type Message = 
+        | SetX of float
+        | SetY of float
+        | SetZ of float
+
+    let update  (m : V3d) (msg : Message) =
+        match msg with
+        | SetX x -> V3d(x, m.Y, m.Z)
+        | SetY y -> V3d(m.X, y, m.Z)
+        | SetZ z -> V3d(m.X, m.Y, z)
+
+    let numInput name changed state  = labeledFloatInput name Double.MinValue Double.MaxValue 1.0 changed state
+    let view header (m : IMod<V3d>) =
+        Html.table [ 
+            tr [] [ td [attribute "colspan" "3"] [text header] ]                          
+            tr [] [ td [] [numInput "X" SetX (Mod.map(fun (v :  V3d)-> v.X) m)]
+                    td [] [numInput "Y" SetY (Mod.map(fun (v :  V3d)-> v.Y) m)]
+                    td [] [numInput "Z" SetZ (Mod.map(fun (v :  V3d)-> v.Z) m)]
+                  ]
+        ]  

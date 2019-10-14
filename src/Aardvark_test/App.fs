@@ -8,6 +8,7 @@ open Aardvark.UI
 open Aardvark.UI.Primitives
 open Aardvark.Base.Rendering
 open Aardvark_test.Model
+open material
 
 type Message =
     | CameraMessage of FreeFlyController.Message
@@ -21,38 +22,10 @@ type Message =
 
 module App =   
 
-
     let cameraConfig  =  {FreeFlyController.initial.freeFlyConfig with zoomMouseWheelSensitivity = 0.5} 
     let initialView = CameraView.lookAt (V3d(3.0, 2.5, -6.0)) (V3d(0.0, 2.0, 0.0)) (V3d.OIO * 1.0)
 
     let import = Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom4.obj"
-
-    let sceneBB = import.bounds
-
-    let getMaterials (s : IO.Loader.Scene) =
-            let rec traverse (state : IO.Loader.IMaterial list) (n : IO.Loader.Node) =
-                match n with
-                    | IO.Loader.Node.Empty -> 
-                        state
-                    | IO.Loader.Node.Group es ->
-                        List.fold traverse state es 
-                    | IO.Loader.Node.Leaf m ->
-                        state
-                    | IO.Loader.Node.Material(m, n) ->
-                        m::state
-                    | IO.Loader.Node.Trafo(t, n) ->
-                        traverse state n
-
-            traverse [] s.root 
-
-    let removeDigits = String.filter (Char.IsDigit >> not)
-
-    let materials = 
-        getMaterials import
-        |> List.map (fun m -> removeDigits m.name)
-        |> List.distinct
-        |> List.map (fun n -> n, material.defaultMaterial)
-        |> HMap.ofList
 
     let initial = { 
         cameraState = {FreeFlyController.initial  with freeFlyConfig = cameraConfig; view = initialView}
@@ -63,9 +36,10 @@ module App =
                       skyMapIntensity = 1.0;
                       ambientLightIntensity = 1.0}
         expousure  = 1.0
-        materials = materials
+        materials = materials import
         currentMaterial = 
-            HMap.keys materials
+            materials  import
+            |> HMap.keys 
             |> HSet.toList
             |> List.first
             |> Option.defaultValue "none"
@@ -104,271 +78,52 @@ module App =
             { m with enviorment = globalEnviroment.update m.enviorment msg }
         | SetCurrentMaterial s ->
             { m with currentMaterial = s }    
-    
-    let uniformLight (l : IMod<MLight>) : IMod<SLEUniform.Light>  =
-        //needs to be adaptive because the  Light can change and is an IMod
-        //we go from IMod<MLight> to IMod<ISg<Message>>
-        adaptive {
-            let! d = l
-            match d with
-            | MDirectionalLight  x' ->
-               let! x  = x'
-                //Map to a type more convinient in the shaders
-               let r : SLEUniform.Light = {lightType = SLEUniform.LightType.DirectionalLight; lightPosition = x.lightDirection; color = x.color.ToV3d() * x.intensity; attenuationQad = 0.0; attenuationLinear = 0.0}
-               return  r
-            | MPointLight  x' ->
-               let! x  = x'
-               let r : SLEUniform.Light = {lightType = SLEUniform.LightType.PointLight; lightPosition = x.lightPosition; color = x.color.ToV3d() * x.intensity; attenuationQad = x.attenuationQad; attenuationLinear = x.attenuationLinear}
-               return r
-        } 
 
-    let uniformLights (lights : amap<int,IMod<MLight>>)   =
-        let lights' = AMap.toASet lights
-        let numLights = ASet.count lights'
-        let a =  Array.init 10 (fun _ -> SLEUniform.noLight )
-        let u = aset{
-                for l  in  lights' do
-                    let! l =  snd l |> uniformLight
-                    yield l
-                }
-                |> ASet.fold (fun ((i : int), (a : SLEUniform.Light [])) l -> a.[i] <- l; (i+1, a)) (0,a)
-                |> Mod.map (fun (i, a) -> a)
-                |> Sg.uniform "Lights" 
-        
-        u >> Sg.uniform "NumLights" numLights
-
-    let lightSourceModels (lights : amap<int,IMod<MLight>> ) =
-        let lights' = AMap.toASet lights
-        aset {
-            for l in  lights' do
-                let! l' = snd l
-                let  m = 
-                    match l' with
-                    | MDirectionalLight ld -> Sg.empty
-                    | MPointLight lp -> 
-                        Sg.sphere 6 (Mod.map ( fun v -> v.color.ToC4b()) lp ) (Mod.constant 0.03) 
-                        |> Sg.translate' (Mod.map ( fun v -> v.lightPosition.XYZ) lp)
-                yield m 
-        } 
-        |> Sg.set
-        //simpel shader independend of light 
-        |> Sg.shader {
-            do! DefaultSurfaces.trafo
-            do! DefaultSurfaces.vertexColor 
-            }   
-
-    type ProxyMaterial =
-        {
-            importedMaterial : IO.Loader.IMaterial
-            material : IMod<MPBRMaterial>
-        }
-        
-        interface IO.Loader.IMaterial with
-
-            member x.name = x.importedMaterial.name
-
-            member x.TryGetUniform(s, sem) =
-                match string sem with
-                | "Metallic" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.metallic) x.material :> IMod)
-                | "Roughness" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.roughness) x.material :> IMod)
-                | "AlbedoFactor" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.albedoFactor) x.material :> IMod)
-                | "NormalMapStrength" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.normalMapStrenght) x.material :> IMod)
-                | "Discard" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.discard) x.material :> IMod)
-                | "DisplacmentStrength" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.displacmentStrength) x.material :> IMod)
-                | "DisplacmentMap" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.displacmentMap) x.material :> IMod)
-                | _ -> x.importedMaterial.TryGetUniform(s, sem)
-
-            member x.Dispose() = x.importedMaterial.Dispose()
-
-    let renderToCubeTask runtime size signature source level face =
-        let lookTo = 
-            match face with
-            |CubeSide.PositiveY  -> V3d.OIO
-            |CubeSide.PositiveZ -> V3d.OOI
-            |CubeSide.PositiveX -> V3d.IOO
-            |CubeSide.NegativeZ-> V3d.OOI * -1.0
-            |CubeSide.NegativeX -> V3d.IOO * -1.0
-            |CubeSide.NegativeY -> V3d.OIO * -1.0
-            |_ -> failwith "unexpected enum"
-        let lookSky = 
-            match face with
-            |CubeSide.PositiveY  -> V3d.OOI * -1.0
-            |CubeSide.PositiveZ -> V3d.OIO
-            |CubeSide.PositiveX -> V3d.OIO
-            |CubeSide.NegativeZ-> V3d.OIO
-            |CubeSide.NegativeX -> V3d.OIO
-            |CubeSide.NegativeY -> V3d.OOI
-            |_ -> failwith "unexpected enum"
-
-        source level
-        |> Sg.viewTrafo (
-            CameraView.lookAt V3d.OOO lookTo (lookSky * -1.0)
-             |> CameraView.viewTrafo 
-             |> Mod.constant
-        )
-        |> Sg.projTrafo (size |> Mod.map (fun actualSize -> 
-                Frustum.perspective 90.0 0.01 1.0 1.0 |> Frustum.projTrafo
-              )
-           )
-        |> Sg.compile runtime (signature runtime)
-
-    let renderToCubeMip (runtime : IRuntime) size levels signature source=
-        RenderTask.renderToColorCubeMip size levels (renderToCubeTask runtime size signature source)
-
-    let renderToCube (runtime : IRuntime) size signature source=
-        RenderTask.renderToColorCubeMip size 1 (renderToCubeTask  runtime size signature (fun _ ->  source))
-    
-    let signature (runtime : IRuntime) =
-        runtime.CreateFramebufferSignature [
-            DefaultSemantic.Colors, { format = RenderbufferFormat.Rgb16f; samples = 1 }
-        ]
-
-    let signatureBRDFLtu (runtime : IRuntime) =
-        runtime.CreateFramebufferSignature [
-            DefaultSemantic.Colors, { format = RenderbufferFormat.Rg16f; samples = 1 }
-        ]
-
-    let LtuSize = V2i(512,512) |> Mod.init 
-
-    // create a scenegraph for the offscreen render passt
-    let BRDFLtuTask (runtime : IRuntime)= 
-        Sg.fullScreenQuad
-        |>Sg.adapter
-        |> Sg.shader {
-            do! DefaultSurfaces.trafo
-            do! SLESurfaces.integrateBRDFLtu
-        }
-        |> Sg.viewTrafo (Trafo3d.Identity |> Mod.constant )
-        |> Sg.projTrafo (Trafo3d.Identity |> Mod.constant )
-        |> Sg.compile runtime (signatureBRDFLtu runtime)
-    
-    let BRDFLtu (runtime : IRuntime) =
-        RenderTask.renderToColor LtuSize (BRDFLtuTask runtime)
-
-    let signatureShadowMap (runtime : IRuntime) =
-        runtime.CreateFramebufferSignature [
-            DefaultSemantic.Depth, { format = RenderbufferFormat.DepthComponent32; samples = 1 }
-        ]
-
-    let shadowMapSize = V2i(1024) |> Mod.constant
-
-    let lightViewPoject (light : MLight) =
-        match light with
-        | MPointLight l -> failwith "not implemented"
-        | MDirectionalLight l -> 
-            adaptive {
-                let! light = l 
-                let distance = max sceneBB.Min.Length sceneBB.Max.Length
-                let size = (sceneBB.Max - sceneBB.Min).Length
-                let lightPos = -light.lightDirection.XYZ |> Vec.normalize |> (*) distance //make sure the light position is outside the sceneBB
-                let up = if abs(lightPos.Z) < 0.0000001 then V3d.OOI else V3d.OIO
-                let lightView = 
-                    CameraView.lookAt lightPos V3d.OOO up
-                    |> CameraView.viewTrafo 
-                let b = sceneBB.Transformed(lightView)
-                let bb = Box3d(V3d(b.Min.XY,0.0001),V3d(b.Max.XY,size*2.0))//set Z Size so that all the scene fits in all cases (size*2.0 ist the upper bound, could be optimized)
-                let proj = 
-                    Frustum.ortho bb
-                    |> Frustum.projTrafo
-                return lightView , proj
-            }
-
-    let shadowMap (runtime : IRuntime) (scene :ISg<'msg>) (light : MLight) =
-            let v = lightViewPoject light |> Mod.map fst
-            let p = lightViewPoject light |> Mod.map snd
-            scene
-            |> Sg.shader {
-                do! DefaultSurfaces.trafo
-                do! DefaultSurfaces.vertexColor
-                }
-            |> Sg.viewTrafo (v)
-            |> Sg.projTrafo (p)
-            |> Sg.compile runtime (signatureShadowMap runtime)
-            |> RenderTask.renderToDepth shadowMapSize
 
     //the 3D scene and control
     let view3D runtime (m : MModel) =
-
-        let figureMesh =            
-            import.SubstituteMaterial (fun mat -> Some ({importedMaterial = mat; material = (AMap.find ( removeDigits mat.name) m.materials)} :> IO.Loader.IMaterial))
-            |> Sg.adapter
-
-        let skyMapSize = 1024 |> Mod.init 
-
-        let diffuseIrradianceSize = 32 |> Mod.init 
-
-        let skyMapequirectengular : ISg<Message> -> ISg<Message> = 
-            let texture =  
-                Mod.map (fun s -> FileTexture(s, { wantCompressed = false; wantMipMaps = false; wantSrgb = false }) :> ITexture) m.enviorment.skyMap
-            Sg.texture (Sym.ofString "SkyMapEquirec") texture 
-
-        let skyBoxEquirec =
-            Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
-                |> Sg.uniform "SkyMapRotation" m.enviorment.skyMapRotation
-                |> skyMapequirectengular
-                |> Sg.shader {
-                    do! DefaultSurfaces.trafo
-                    do! SLESurfaces.skyTextureEquirec
-                }
-
-        let skyCubeMap (runtime : IRuntime) = 
-            renderToCube runtime skyMapSize signature (skyBoxEquirec)
-
-        let diffuseIrradianceBox (runtime : IRuntime) =
-            Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
-                |> Sg.texture (Sym.ofString "SkyCubeMap") (skyCubeMap runtime)
-                |> Sg.shader {
-                    do! DefaultSurfaces.trafo
-                    do! SLESurfaces.convoluteDiffuseIrradiance
-                }       
-
-        let diffuseIrradianceMap (runtime : IRuntime) = 
-            renderToCube runtime diffuseIrradianceSize signature (diffuseIrradianceBox runtime) 
-
-        let prefilterSpecBox (runtime : IRuntime) (level : int) =
-            Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
-                |> Sg.texture (Sym.ofString "SkyCubeMap") (skyCubeMap runtime)
-                |> Sg.uniform "Roughness" (Mod.constant (float level / 4.0) )
-                |> Sg.shader {
-                    do! DefaultSurfaces.trafo
-                    do! SLESurfaces.prefilterSpec
-                } 
-
-        let prefilterSpecSize = 128 |> Mod.init 
-        let prefilterdSpecColor (runtime : IRuntime) = 
-            renderToCubeMip runtime prefilterSpecSize 5 signature (prefilterSpecBox runtime) 
-
-        let skyBox  runtime =
-            Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
-                |> Sg.cullMode (Mod.constant CullMode.None)
-                |> Sg.texture (Sym.ofString "SkyCubeMap") (skyCubeMap runtime)
-                |> Sg.uniform "SkyMapIntensity" m.enviorment.skyMapIntensity
-                |> Sg.shader {
-                    do! SLESurfaces.skyBoxTrafo
-                    do! SLESurfaces.skyTexture
-                }
 
         let frustum = 
             Frustum.perspective 30.0 0.1 100.0 1.0 
                 |> Mod.constant
 
+        let figureMesh =            
+            import.SubstituteMaterial (fun mat -> Some ({importedMaterial = mat; material = (AMap.find ( removeDigits mat.name) m.materials)} :> IO.Loader.IMaterial))
+            |> Sg.adapter
+
+        let skyBoxTexture = SkyBox.getTexture runtime m.enviorment.skyMap m.enviorment.skyMapRotation
+
+        let skyBox  runtime =
+            Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
+                |> Sg.cullMode (Mod.constant CullMode.None)
+                |> Sg.texture (Sym.ofString "SkyCubeMap") skyBoxTexture
+                |> Sg.uniform "SkyMapIntensity" m.enviorment.skyMapIntensity
+                |> Sg.shader {
+                    do! SLESurfaces.skyBoxTrafo
+                    do! SLESurfaces.skyTexture
+                }
+        let diffuseIrradianceMap = GlobalAmbientLight.diffuseIrradianceMap runtime skyBoxTexture
+
+        let prefilterdSpecColor = GlobalAmbientLight.prefilterdSpecColor runtime skyBoxTexture
+
+        let bRDFLtu = GlobalAmbientLight.BRDFLtu runtime
+
         let lightViewMatrix = 
             let light = AMap.find 0 m.lights
-            Mod.bind (Mod.bind lightViewPoject) light
+            Mod.bind (Mod.bind (Shadow.lightViewPoject figureMesh)) light
 
         let shadowMapTex = 
             let light = AMap.find 0 m.lights
-            Mod.bind (Mod.bind (shadowMap runtime figureMesh)) light
+            Mod.bind (Mod.bind (Shadow.shadowMap runtime figureMesh)) light
 
         let sg = 
             figureMesh
-            |> uniformLights m.lights
+            |> SLEUniform.uniformLights m.lights
             |> Sg.uniform "Expousure" m.expousure
             |> Sg.uniform "AmbientIntensity" m.enviorment.ambientLightIntensity
-            //|> Sg.texture (Sym.ofString "Displacment") (FileTexture (@"..\..\..\data\SLE_Gnom_disp3.jpg", TextureParams.empty) :>  ITexture |> Mod.constant)
-            |> Sg.texture (Sym.ofString "DiffuseIrradiance") (diffuseIrradianceMap runtime)
-            |> Sg.texture (Sym.ofString "PrefilteredSpecColor") (diffuseIrradianceMap runtime)
-            |> Sg.texture (Sym.ofString "BRDFLtu") (BRDFLtu runtime)
+             |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap
+            |> Sg.texture (Sym.ofString "PrefilteredSpecColor") prefilterdSpecColor
+            |> Sg.texture (Sym.ofString "BRDFLtu") bRDFLtu
             |> Sg.texture (Sym.ofString "ShadowMap") shadowMapTex
             |> Sg.uniform "LightViewMatrix" (lightViewMatrix |> Mod.map(fun (v,p)  -> v * p))
             |> Sg.shader {
@@ -380,7 +135,7 @@ module App =
                 //do! SLESurfaces.lighting false
                 do! SLESurfaces.lightingPBR
                 }
-            |> Sg.andAlso <| lightSourceModels m.lights
+            |> Sg.andAlso <| light.lightSourceModels m.lights
             (*|> Sg.andAlso 
                 <|(Sg.fullScreenQuad
                     |> Sg.adapter

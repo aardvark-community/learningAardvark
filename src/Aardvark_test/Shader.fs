@@ -4,25 +4,16 @@ open Aardvark.Base
 open Aardvark.Base.Rendering
 open FShade
 open Aardvark.Base.Rendering.Effects
-open Aardvark_test.Model
 open System
 
-module SLEUniform =
+module fshadeExt = 
+    
+    [<GLSLIntrinsic("mix({0}, {1}, {2})")>] // Define function as intrinsic, no implementation needed
+    let Lerp (a : V3d) (b : V3d) (s : float) : V3d = failwith ""
 
-    type LightType =
-        | NoLight = 0
-        | DirectionalLight = 1
-        | PointLight = 2
+    [<GLSLIntrinsic("exp({0})")>] // Define function as intrinsic, no implementation needed
+    let exp (a : V3d) : V3d = failwith ""
 
-    type Light = {
-        lightType : LightType
-        lightPosition : V4d
-        color : V3d
-        attenuationQad :float
-        attenuationLinear :float
-    }
-     
-    let noLight = {lightType = LightType.NoLight; lightPosition = V4d.Zero; color = V3d.Zero; attenuationQad = 0.0; attenuationLinear = 0.0}
 
 module Lighting = 
 
@@ -85,14 +76,6 @@ module Lighting =
 
             return V4d(colg, v.c.W)
         }
-
-module fshadeExt = 
-    
-    [<GLSLIntrinsic("mix({0}, {1}, {2})")>] // Define function as intrinsic, no implementation needed
-    let Lerp (a : V3d) (b : V3d) (s : float) : V3d = failwith ""
-
-    [<GLSLIntrinsic("exp({0})")>] // Define function as intrinsic, no implementation needed
-    let exp (a : V3d) : V3d = failwith ""
 
 module PBR =
     open fshadeExt

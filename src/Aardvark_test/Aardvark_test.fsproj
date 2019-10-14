@@ -20,6 +20,7 @@
     <Compile Include="Light.fs" />
     <Compile Include="Material.fs" />
     <Compile Include="Shader.fs" />
+    <Compile Include="globalEnviroment.fs" />
     <Compile Include="App.fs" />
     <Compile Include="Model.g.fs" />
     <Compile Include="Program.fs" />
