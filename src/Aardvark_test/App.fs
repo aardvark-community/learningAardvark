@@ -174,6 +174,8 @@ module App =
                 | "AlbedoFactor" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.albedoFactor) x.material :> IMod)
                 | "NormalMapStrength" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.normalMapStrenght) x.material :> IMod)
                 | "Discard" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.discard) x.material :> IMod)
+                | "DisplacmentStrength" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.displacmentStrength) x.material :> IMod)
+                | "DisplacmentMap" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.displacmentMap) x.material :> IMod)
                 | _ -> x.importedMaterial.TryGetUniform(s, sem)
 
             member x.Dispose() = x.importedMaterial.Dispose()
@@ -363,7 +365,7 @@ module App =
             |> uniformLights m.lights
             |> Sg.uniform "Expousure" m.expousure
             |> Sg.uniform "AmbientIntensity" m.enviorment.ambientLightIntensity
-            |> Sg.texture (Sym.ofString "Displacment") (FileTexture (@"..\..\..\data\SLE_Gnom_disp3.jpg", TextureParams.empty) :>  ITexture |> Mod.constant)
+            //|> Sg.texture (Sym.ofString "Displacment") (FileTexture (@"..\..\..\data\SLE_Gnom_disp3.jpg", TextureParams.empty) :>  ITexture |> Mod.constant)
             |> Sg.texture (Sym.ofString "DiffuseIrradiance") (diffuseIrradianceMap runtime)
             |> Sg.texture (Sym.ofString "PrefilteredSpecColor") (diffuseIrradianceMap runtime)
             |> Sg.texture (Sym.ofString "BRDFLtu") (BRDFLtu runtime)

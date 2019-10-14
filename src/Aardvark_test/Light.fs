@@ -166,7 +166,7 @@ module globalEnviroment =
         let path = Path.GetDirectoryName(Mod.force m.skyMap)
         Html.table [                        
             tr [] [ td [] [text "sky map"]; td [] [openDialogButton 
-                    { OpenDialogConfig.file with allowMultiple = false; title = "ROCK THE POWER. ROCKET POWER"; filters  = [|"*.hdr"|];  startPath = path}
+                    { OpenDialogConfig.file with allowMultiple = false; title = "Open sky map hdr"; filters  = [|"*.hdr"|];  startPath = path}
                     [ clazz "ui green button"; onChooseFile SetSkyMap ] 
                     [ text "Open hdr File" ]]]
             tr [] [ td [] [text "Sky Map Intensity"]; td [style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.skyMapIntensity SetSkyMapIntensity]]

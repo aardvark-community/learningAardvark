@@ -580,18 +580,23 @@ module  displacemntMap =
 
     let private samplerDisp =
         sampler2d {
-            texture uniform?Displacment
+            texture uniform?DisplacmentMap
             filter Filter.MinMagLinear
             addressU WrapMode.Border
             addressV WrapMode.Border
             borderColor C4f.Gray50
         }
 
+    type UniformScope with
+        member x.DisplacmentStrength : float =  x?DisplacmentStrength
+
+
     let internal displacementMap (tri : Triangle<Vertex>) =
         tessellation {
+            let displacmentStrength = uniform.DisplacmentStrength
             // calculate tessellation levels (TessControl)
             let center = (tri.P0.wp + tri.P1.wp + tri.P2.wp) / 3.0
-            let level = 128.0
+            let level = if displacmentStrength = 0.0  then 1.0 else 32.0
 
             // call tessellateTriangle/tessellateQuad
             let! coord = tessellateTriangle level (level, level, level)
@@ -604,7 +609,7 @@ module  displacemntMap =
             let tc = coord.X * tri.P0.tc + coord.Y * tri.P1.tc + coord.Z * tri.P2.tc
             let c = coord.X * tri.P0.c + coord.Y * tri.P1.c + coord.Z * tri.P2.c
 
-            let disp = (-0.5 + samplerDisp.Sample(tc).X) * 0.1
+            let disp = (-0.5 + samplerDisp.Sample(tc).X) * uniform.DisplacmentStrength
             let wp = wp' + V4d(n * disp, 0.0)
             let pos = uniform.ViewProjTrafo * wp
 

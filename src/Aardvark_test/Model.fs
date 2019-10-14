@@ -33,6 +33,8 @@ type PBRMaterial =
         albedoFactor : float
         normalMapStrenght : float
         discard : bool
+        displacmentMap : ITexture
+        displacmentStrength : float
     }
 
 [<DomainType>]
@@ -66,4 +68,12 @@ module light =
 
 module material =
 
-    let defaultMaterial = {metallic = 0.0; roughness = 0.8; albedoFactor = 1.0; normalMapStrenght = 1.0; discard = false}
+    let grayPix = 
+        let pi = PixImage<byte>(Col.Format.RGB, V2i.II)
+        pi.GetMatrix<C3f>().SetByCoord(fun (c : V2l) -> C3f.Gray50) |> ignore
+        pi
+
+    let grayTex = 
+        PixTexture2d(PixImageMipMap [| grayPix :> PixImage |], false) :> ITexture
+
+    let defaultMaterial = {metallic = 0.0; roughness = 0.8; albedoFactor = 1.0; normalMapStrenght = 1.0; discard = false; displacmentMap = grayTex; displacmentStrength = 0.0}
