@@ -8,6 +8,43 @@ open Aardvark_test.Model
 [<AutoOpen>]
 module Mutable =
 
+    
+    
+    type MObject(__initial : Aardvark_test.Model.Object) =
+        inherit obj()
+        let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.Object> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.Object>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.Object>
+        let _name = ResetMod.Create(__initial.name)
+        
+        member x.name = _name :> IMod<_>
+        
+        member x.Current = __current :> IMod<_>
+        member x.Update(v : Aardvark_test.Model.Object) =
+            if not (System.Object.ReferenceEquals(__current.Value, v)) then
+                __current.Value <- v
+                
+                ResetMod.Update(_name,v.name)
+                
+        
+        static member Create(__initial : Aardvark_test.Model.Object) : MObject = MObject(__initial)
+        static member Update(m : MObject, v : Aardvark_test.Model.Object) = m.Update(v)
+        
+        override x.ToString() = __current.Value.ToString()
+        member x.AsString = sprintf "%A" __current.Value
+        interface IUpdatable<Aardvark_test.Model.Object> with
+            member x.Update v = x.Update v
+    
+    
+    
+    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+    module Object =
+        [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+        module Lens =
+            let name =
+                { new Lens<Aardvark_test.Model.Object, System.String>() with
+                    override x.Get(r) = r.name
+                    override x.Set(r,v) = { r with name = v }
+                    override x.Update(r,f) = { r with name = f r.name }
+                }
     [<AbstractClass; System.Runtime.CompilerServices.Extension; StructuredFormatDisplay("{AsString}")>]
     type MLight() =
         abstract member TryUpdate : Aardvark_test.Model.Light -> bool

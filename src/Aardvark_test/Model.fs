@@ -22,6 +22,11 @@ type PointLightData = {
 }
 
 [<DomainType>]
+type Object = {
+    name : string
+}
+
+[<DomainType>]
 type Light =
     | DirectionalLight of DirectionalLightData
     | PointLight of PointLightData
