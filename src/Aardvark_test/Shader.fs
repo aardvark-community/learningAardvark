@@ -15,102 +15,20 @@ module fshadeExt =
     let exp (a : V3d) : V3d = failwith ""
 
 
-module Lighting = 
-
-    type UniformScope with
-     
-        member x.Lights : Arr<N<10>, SLEUniform.Light> = 
-         x?Lights
-
-        member x.NumLights : int = x?NumLights
-
-    let internal lighting (twoSided : bool) (v : Vertex) =
-        fragment {
-            let gamma  = 2.2
-            let c = pow (v.c.XYZ) (V3d(gamma))
-            let cameraPos = uniform.CameraLocation
-            let view = cameraPos - v.wp.XYZ |> Vec.normalize
-            let mutable col = V3d.Zero
-            let numLights = uniform.NumLights
-            for i in 0 .. 9 do
-                
-                let light = uniform.Lights.[i]
-                let (exists, lDir, lCol)  = 
-                    match  light.lightType  with
-                    | SLEUniform.LightType.DirectionalLight -> i < numLights, light.lightPosition.XYZ |> Vec.normalize, light.color  
-                    | SLEUniform.LightType.PointLight -> 
-                        let lDir = light.lightPosition.XYZ - v.wp.XYZ |> Vec.normalize
-                        let dist = V3d.Distance (light.lightPosition.XYZ, v.wp.XYZ)
-                        let att = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
-                        i < numLights, lDir , light.color * att             
-                    | SLEUniform.LightType.NoLight -> false, c,c 
-                    |_ ->  false, V3d(0.0), V3d(0.0)  //allways match any cases, otherwise fshade will give  a  cryptic error 
-              
-                let oi = 
-                    if exists then
-                        let n = v.n |> Vec.normalize
-                        let h = view + lDir |> Vec.normalize
-
-                        let ambient = 0.05
-                        
-                        let diffuse = 
-                            Vec.dot lDir n 
-                            |> if twoSided then abs else max 0.0
-
-                        let l = ambient + (1.0 - ambient) * diffuse
-
-                        let spec = V3d.III
-                        let s = Vec.dot h n |> if twoSided then abs else max 0.0
-
-                        // total output
-                        c * l * lCol + spec * (pown s 32) * lCol
-                    else V3d.Zero
-
-                col <- col + oi
-            
-            //Reihnard tone mapping
-            let colm = col / (col+1.0)
-
-            //gamma  correction
-            let colg = pow colm (V3d(1.0/gamma))
-
-            return V4d(colg, v.c.W)
-        }
-
 module PBR =
     open fshadeExt
 
     type UniformScope with
-     
-        member x.Lights : Arr<N<10>, SLEUniform.Light> = 
-         x?Lights
-
+        member x.Lights : Arr<N<10>, SLEUniform.Light> = x?Lights
         member x.NumLights : int = x?NumLights
-
         member x.Roughness : float = x?Roughness
-
-        member x.Metallic : float = x?Metallic
-
-        member x.AlbedoFactor : float = x?AlbedoFactor
-
         member x.Expousure : float =  x?Expousure
-
         member x.AmbientIntensity : float = x?AmbientIntensity
-
         member x.SkyMapRotation : float =  x?SkyMapRotation
-
         member x.SkyMapIntensity : float =  x?SkyMapIntensity
-
-        member x.Discard : bool =  x?Discard
-
         member x.LightViewMatrix : M44d = x?LightViewMatrix
 
     //Note: Do not use ' in variabel names for shader code,  it will lead  to an error
-
-     //------------------------------------------
-     // direkt Light PBR based on this  tutorial:
-     //
-     //-------------------------------------------
 
     let private diffuseIrradianceSampler =
         samplerCube {
@@ -256,202 +174,119 @@ module PBR =
             let index = int (16.0*random (pos.XYZ) i )%16
             vis <- vis + shadowMap.Sample(samplePos.XY + poissonDisk.[index]/spread, comp)/(float numSamples)
         vis
+    
+    [<ReflectedDefinition>]
+    let getLightParams (light : SLEUniform.Light) (wPos : V3d) numLights i = 
+        match  light.lightType  with
+        | SLEUniform.LightType.DirectionalLight -> i < numLights, -light.lightPosition.XYZ |> Vec.normalize, light.color  
+        | SLEUniform.LightType.PointLight -> 
+            let lDir = light.lightPosition.XYZ - wPos |> Vec.normalize
+            let dist = V3d.Distance (light.lightPosition.XYZ, wPos)
+            let attenuation = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
+            i < numLights, lDir , light.color * attenuation             
+        | SLEUniform.LightType.NoLight -> false, V3d(0.0), V3d(0.0)
+        |_ ->  false, V3d(0.0), V3d(0.0)  //allways match any cases, otherwise fshade will give a cryptic error 
 
-    let internal lighting  (vert : Vertex) =
-        fragment {
-            let gamma  = 2.2
-            
-            if uniform.Discard then
-                discard()
-            let albedo = pow (vert.c.XYZ * uniform.AlbedoFactor) (V3d(gamma))
-            let metallic = uniform.Metallic
-            let roughness = uniform.Roughness
+    [<ReflectedDefinition>]
+    let getShadow (wPos : V4d) = 
+        let lm = uniform.LightViewMatrix
+        let lightSpacePos = lm * wPos
+        let samplePos = 
+            lightSpacePos/lightSpacePos.W
+            |> (*) 0.5
+            |> (+) 0.5
+        let shadowBias = 0.005
+        poissonSamplingStrat samplerShadowMap samplePos wPos (samplePos.Z-shadowBias)
 
-            let cameraPos = uniform.CameraLocation
-
-            let n = vert.n |> Vec.normalize
-            let v = cameraPos - vert.wp.XYZ |> Vec.normalize
-            let r = Vec.reflect -v n
-
-            //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
-            let f0 = Lerp (V3d(0.04)) albedo metallic
-
-            let nDotV = Vec.dot n v |>  max 0.0
-            let mutable lo = V3d.Zero
-            let numLights = uniform.NumLights
-            for i in 0 .. 9 do
-                
-                let light = uniform.Lights.[i]
-                let (exists, lDir, radiance)  = 
-                    match  light.lightType  with
-                    | SLEUniform.LightType.DirectionalLight -> i < numLights, -light.lightPosition.XYZ |> Vec.normalize, light.color  
-                    | SLEUniform.LightType.PointLight -> 
-                        let lDir = light.lightPosition.XYZ - vert.wp.XYZ |> Vec.normalize
-                        let dist = V3d.Distance (light.lightPosition.XYZ, vert.wp.XYZ)
-                        let attenuation = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
-                        i < numLights, lDir , light.color * attenuation             
-                    | SLEUniform.LightType.NoLight -> false, V3d(0.0), V3d(0.0)
-                    |_ ->  false, V3d(0.0), V3d(0.0)  //allways match any cases, otherwise fshade will give a cryptic error 
-              
-                let oi = 
-                    if exists then
-                        let h = v + lDir |> Vec.normalize
-
-                        // cook-torrance brdf
-                        let ndf = DistributionGGX n h roughness 
-                        let g = GeometrySmith false n v lDir roughness 
-                        let hDotV = Vec.dot h v |>  max 0.0      
-                        let f = fresnelSchlick f0 hDotV   
-                        
-                        let kS = f
-                        let kD' = V3d.III - kS
-                        let kD = (1.0 - metallic) * kD'
+    [<ReflectedDefinition>]
+    let pbrDirect f0 roughness metallic (albedo : V3d) (wPos : V4d) v n nDotV =
+        let mutable col = V3d.Zero
+        let numLights = uniform.NumLights
         
-                        let nDotL = Vec.dot n lDir |>  max 0.0
-
-                        let numerator = ndf * g * f
-                        let denominator = 4.0 * nDotV * nDotL |> max 0.001
-                        let specular = numerator / denominator  
+        for i in 0 .. 9 do
             
-                        // add to outgoing radiance from single light
-                        (kD * albedo / Math.PI + specular) * radiance * nDotL; 
+            let light = uniform.Lights.[i]
+            let (exists, lDir, radiance)  = getLightParams light wPos.XYZ numLights i
+          
+            let oi = 
+                if exists then
+                    let h = v + lDir |> Vec.normalize
 
-                    else V3d.Zero
+                    // cook-torrance brdf
+                    let ndf = DistributionGGX n h roughness 
+                    let g = GeometrySmith false n v lDir roughness 
+                    let hDotV = Vec.dot h v |>  max 0.0      
+                    let kS = fresnelSchlick f0 hDotV   
+                    let nDotL = Vec.dot n lDir |>  max 0.0
+                
+                    let kD = (1.0 - metallic) * (V3d.III - kS)
+                    let diffuse = kD * albedo / Math.PI
+    
+                    let numerator = ndf * g * kS
+                    let denominator = 4.0 * nDotV * nDotL |> max 0.001
+                    let specular = numerator / denominator  
+        
+                    // add to outgoing radiance from single light
+                    (diffuse + specular) * radiance * nDotL; 
 
-                let shadow =
-                    if i = 0 then
-                        let lm = uniform.LightViewMatrix
-                        let lightSpacePos = lm * vert.wp
-                        let samplePos = 
-                            lightSpacePos/lightSpacePos.W
-                            |> (*) 0.5
-                            |> (+) 0.5
-                        let shadowBias = 0.005
-                        poissonSamplingStrat samplerShadowMap samplePos vert.wp (samplePos.Z-shadowBias)
-                        //samplerShadowMap.Sample(samplePos.XY, samplePos.Z-shadowBias)
-                    else
-                        1.0
-                lo <- lo + (oi*shadow)
+                else V3d.Zero
 
-            let kSA = fresnelSchlickRoughness f0 roughness nDotV
-            let kdA  = (1.0 - kSA) * (1.0 - metallic)
-            let irradiance = diffuseIrradianceSampler.Sample(n).XYZ
-            let diffuse = irradiance * albedo
+            let shadow =
+                if i = 0 then
+                    getShadow wPos
+                else
+                    1.0
 
-            let maxReflectLod = 4.0
-            let prefilteredColor = prefilteredSpecColorSampler.SampleLevel(r, roughness * maxReflectLod).XYZ
-            let brdf = samplerBRDFLtu.Sample(V2d(nDotV, roughness)).XY
-            let specular = prefilteredColor * (kSA * brdf.X + brdf.Y)
-   
-            let ambient = kdA * diffuse + specular//todo:  abient occlusion
-            let ambientIntensity = uniform.AmbientIntensity
-            let col = lo + ambient * ambientIntensity
+            col <- col + (oi*shadow)
+        col
 
-            // tone mapping
-            let expousure = uniform.Expousure
-            let colm = V3d(1.0) - exp (-col*expousure)//col / (col+1.0)
+    [<ReflectedDefinition>]
+    let pBRAbient f0 roughness metallic (albedo : V3d) n r nDotV =
+        let kSA = fresnelSchlickRoughness f0 roughness nDotV
+        let kdA  = (1.0 - kSA) * (1.0 - metallic)
+        let irradiance = diffuseIrradianceSampler.Sample(n).XYZ
+        let diffuse = irradiance * albedo
 
-            //gamma  correction
-            let colg = pow colm (V3d(1.0/gamma))
+        let maxReflectLod = 4.0
+        let prefilteredColor = prefilteredSpecColorSampler.SampleLevel(r, roughness * maxReflectLod).XYZ
+        let brdf = samplerBRDFLtu.Sample(V2d(nDotV, roughness)).XY
+        let specular = prefilteredColor * (kSA * brdf.X + brdf.Y)
 
-            return V4d(colg, vert.c.W)
-        }
+        let ambient = kdA * diffuse + specular//todo:  abient occlusion
+        let ambientIntensity = uniform.AmbientIntensity
+        ambient * ambientIntensity
+
+    [<ReflectedDefinition>]
+    let pBRLightning albedo (mat : V2d) (wPos : V4d) tc =
+        let metallic = mat.X
+        let roughness = mat.Y
+        
+        let cameraPos = uniform.CameraLocation
+
+        let n = normal.Sample(tc).XYZ |> Vec.normalize
+        let v = cameraPos - wPos.XYZ |> Vec.normalize
+        let r = Vec.reflect -v n
+
+        //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
+        let f0 = Lerp (V3d(0.04)) albedo metallic
+
+        let nDotV = Vec.dot n v |>  max 0.0
+        let directLight = pbrDirect f0 roughness metallic albedo wPos v n nDotV
+        let ambient = pBRAbient f0 roughness metallic (albedo : V3d) n r nDotV
+        directLight + ambient
 
     let lightingDeferred  (vert : Vertex) =
         fragment {
             let gamma  = 2.2
             let albedo = color.Sample(vert.tc).XYZ
-            let m = materialProperties.Sample(vert.tc)
+            let m = materialProperties.Sample(vert.tc).XY
             let wPos = wPos.Sample(vert.tc)
 
             let col = 
-                if m.X < 0.0 then           
+                if m.X < 0.0 then //no lighting, just put out the color      
                     albedo
-                else
-
-                    let metallic = m.X
-                    let roughness = m.Y
-                    
-                    let cameraPos = uniform.CameraLocation
-
-                    let n = normal.Sample(vert.tc).XYZ |> Vec.normalize
-
-                    let v = cameraPos - wPos.XYZ |> Vec.normalize
-                    let r = Vec.reflect -v n
-
-                    //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
-                    let f0 = Lerp (V3d(0.04)) albedo metallic
-
-                    let nDotV = Vec.dot n v |>  max 0.0
-                    let mutable lo = V3d.Zero
-                    let numLights = uniform.NumLights
-                    for i in 0 .. 9 do
-                        
-                        let light = uniform.Lights.[i]
-                        let (exists, lDir, radiance)  = 
-                            match  light.lightType  with
-                            | SLEUniform.LightType.DirectionalLight -> i < numLights, -light.lightPosition.XYZ |> Vec.normalize, light.color  
-                            | SLEUniform.LightType.PointLight -> 
-                                let lDir = light.lightPosition.XYZ - wPos.XYZ |> Vec.normalize
-                                let dist = V3d.Distance (light.lightPosition.XYZ, wPos.XYZ)
-                                let attenuation = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
-                                i < numLights, lDir , light.color * attenuation             
-                            | SLEUniform.LightType.NoLight -> false, V3d(0.0), V3d(0.0)
-                            |_ ->  false, V3d(0.0), V3d(0.0)  //allways match any cases, otherwise fshade will give a cryptic error 
-                      
-                        let oi = 
-                            if exists then
-                                let h = v + lDir |> Vec.normalize
-
-                                // cook-torrance brdf
-                                let ndf = DistributionGGX n h roughness 
-                                let g = GeometrySmith false n v lDir roughness 
-                                let hDotV = Vec.dot h v |>  max 0.0      
-                                let f = fresnelSchlick f0 hDotV   
-                                
-                                let kS = f
-                                let kD' = V3d.III - kS
-                                let kD = (1.0 - metallic) * kD'
-                
-                                let nDotL = Vec.dot n lDir |>  max 0.0
-
-                                let numerator = ndf * g * f
-                                let denominator = 4.0 * nDotV * nDotL |> max 0.001
-                                let specular = numerator / denominator  
-                    
-                                // add to outgoing radiance from single light
-                                (kD * albedo / Math.PI + specular) * radiance * nDotL; 
-
-                            else V3d.Zero
-
-                        let shadow =
-                            if i = 0 then
-                                let lm = uniform.LightViewMatrix
-                                let lightSpacePos = lm * wPos
-                                let samplePos = 
-                                    lightSpacePos/lightSpacePos.W
-                                    |> (*) 0.5
-                                    |> (+) 0.5
-                                let shadowBias = 0.005
-                                poissonSamplingStrat samplerShadowMap samplePos wPos (samplePos.Z-shadowBias)
-                                //samplerShadowMap.Sample(samplePos.XY, samplePos.Z-shadowBias)
-                            else
-                                1.0
-                        lo <- lo + (oi*shadow)
-
-                    let kSA = fresnelSchlickRoughness f0 roughness nDotV
-                    let kdA  = (1.0 - kSA) * (1.0 - metallic)
-                    let irradiance = diffuseIrradianceSampler.Sample(n).XYZ
-                    let diffuse = irradiance * albedo
-
-                    let maxReflectLod = 4.0
-                    let prefilteredColor = prefilteredSpecColorSampler.SampleLevel(r, roughness * maxReflectLod).XYZ
-                    let brdf = samplerBRDFLtu.Sample(V2d(nDotV, roughness)).XY
-                    let specular = prefilteredColor * (kSA * brdf.X + brdf.Y)
-           
-                    let ambient = kdA * diffuse + specular//todo:  abient occlusion
-                    let ambientIntensity = uniform.AmbientIntensity
-                    lo + ambient * ambientIntensity
+                else //PBR lightning
+                    pBRLightning albedo m wPos vert.tc
 
             // tone mapping
             let expousure = uniform.Expousure
@@ -594,21 +429,6 @@ module PBR =
             addressV WrapMode.Wrap
         }
 
-
-    let private testSampler =
-        sampler2d {
-            texture uniform?DiffuseColorTexture
-            filter Filter.MinMagMipLinear
-            addressU WrapMode.Wrap
-            addressV WrapMode.Wrap
-        }
-
-    let testShadowMap (vert : Vertex)=
-        fragment  {
-            let  deep = testSampler.Sample(vert.tc).X
-            return V4d(V3d(deep),1.0)
-        }
-
     //from https://learnopengl.com/PBR/IBL/Diffuse-irradiance
     [<ReflectedDefinition>]
     let sampleSphericalMap (vec : V3d) =
@@ -628,52 +448,6 @@ module PBR =
             let uv  = sampleSphericalMap lPos
             let texColor = skySamplerEquirec.Sample(uv)
             return texColor
-        }
-
-    let private skySampler =
-        samplerCube {
-            texture uniform?SkyCubeMap
-            filter Filter.MinMagMipLinear
-            addressU WrapMode.Wrap
-            addressV WrapMode.Wrap
-        }
-
-    let internal skyBoxTrafo (v : Vertex) =
-        vertex {
-            let wp = uniform.ModelTrafo * v.pos
-            //let rotView  = m33d uniform.ViewTrafo |> m44d 
-            //let  clipPos =  uniform.ProjTrafo * rotView * wp
-            let cameraPos = uniform.CameraLocation
-            let clipPos = (uniform.ViewProjTrafo * (wp + V4d(cameraPos,0.0))) //remove translation
-            return {
-                pos = V4d(clipPos.X,clipPos.Y,clipPos.W,clipPos.W)
-                wp = wp
-                n =  v.n
-                b =  v.b
-                t =  v.t
-                c = v.c
-                tc = v.tc
-            }
-        }
-
-    let internal skyTexture (v : Vertex) =
-        fragment {
-            let gamma  = 2.2
-            
-            let lPos  = v.wp.XYZ |> Vec.normalize
-            let texColor = skySampler.Sample(lPos).XYZ
-            //let texColor = skySampler.SampleLevel(lPos,2.0).XYZ
-
-            let col = texColor * uniform.SkyMapIntensity
-
-            //tone mapping
-            let expousure = uniform.Expousure
-            let colm = V3d(1.0) - exp (-col*expousure)//col / (col+1.0)
-            
-            //gamma  correction
-            let colg = pow colm (V3d(1.0/gamma))
-
-            return V4d(colg,v.c.W)
         }
 
 module NormalMap =
@@ -753,7 +527,7 @@ module  displacemntMap =
               }
         }
 
- module DeferredShading =
+ module GBufferRendering =
     open fshadeExt
 
     module Semantic =
@@ -769,6 +543,24 @@ module  displacemntMap =
         member x.Discard : bool =  x?Discard
 
         member x.SkyMapIntensity : float =  x?SkyMapIntensity
+
+    let internal skyBoxTrafo (v : Vertex) =
+        vertex {
+            let wp = uniform.ModelTrafo * v.pos
+            //let rotView  = m33d uniform.ViewTrafo |> m44d 
+            //let  clipPos =  uniform.ProjTraSfo * rotView * wp
+            let cameraPos = uniform.CameraLocation
+            let clipPos = (uniform.ViewProjTrafo * (wp + V4d(cameraPos,0.0))) //remove translation
+            return {
+                pos = V4d(clipPos.X,clipPos.Y,clipPos.W,clipPos.W)
+                wp = wp
+                n =  v.n
+                b =  v.b
+                t =  v.t
+                c = v.c
+                tc = v.tc
+            }
+        }
 
     type Vertex = {
         [<Position>]        pos     : V4d
@@ -813,19 +605,4 @@ module  displacemntMap =
 
             return {vert with c = V4d(col,vert.c.W); m = V2d(-1.0,-1.0)}
         }
-
- module SLESurfaces = 
-
-    let lighting = Lighting.lighting
-    let lightingPBR  = PBR.lighting
-    let skyTextureEquirec = PBR.skyTextureEquirec
-    let skyTexture = PBR.skyTexture
-    let skyBoxTrafo = PBR.skyBoxTrafo
-    let convoluteDiffuseIrradiance = PBR.convoluteDiffuseIrradiance
-    let prefilterSpec = PBR.prefilterSpec
-    let integrateBRDFLtu = PBR.integrateBRDFLtu
-    let  testBDRF = PBR.testBDRF
-    let testShadowMap = PBR.testShadowMap
-    let normalMap = NormalMap.normalMap
-    let displacementMap  = displacemntMap.displacementMap
-    
+  

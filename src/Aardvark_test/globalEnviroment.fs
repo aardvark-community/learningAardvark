@@ -101,7 +101,7 @@ module SkyBox =
             |> skyMapequirectengular skyMap
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
-                do! SLESurfaces.skyTextureEquirec
+                do! PBR.skyTextureEquirec
             }
 
     let getTexture (runtime : IRuntime) skyMap rotation = 
@@ -123,7 +123,7 @@ module GlobalAmbientLight =
             |> Sg.texture (Sym.ofString "SkyCubeMap") skyBoxTexture
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
-                do! SLESurfaces.convoluteDiffuseIrradiance
+                do! PBR.convoluteDiffuseIrradiance
             }       
 
     let diffuseIrradianceMap (runtime : IRuntime) skyBoxTexture = 
@@ -137,7 +137,7 @@ module GlobalAmbientLight =
             |> Sg.uniform "Roughness" (Mod.constant (float level / 4.0) )
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
-                do! SLESurfaces.prefilterSpec
+                do! PBR.prefilterSpec
             } 
 
     let prefilterdSpecColor (runtime : IRuntime) skyBoxTexture = 
@@ -155,7 +155,7 @@ module GlobalAmbientLight =
         |>Sg.adapter
         |> Sg.shader {
             do! DefaultSurfaces.trafo
-            do! SLESurfaces.integrateBRDFLtu
+            do! PBR.integrateBRDFLtu
         }
         |> Sg.viewTrafo (Trafo3d.Identity |> Mod.constant )
         |> Sg.projTrafo (Trafo3d.Identity |> Mod.constant )

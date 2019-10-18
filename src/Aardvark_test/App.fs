@@ -87,7 +87,7 @@ module App =
                 Sym.ofString "WorldPosition", RenderbufferFormat.Rgba32f
                 DefaultSemantic.Depth, RenderbufferFormat.Depth24Stencil8
                 DefaultSemantic.Normals, RenderbufferFormat.Rgba32f
-                DeferredShading.Semantic.MaterialProperties, RenderbufferFormat.Rg32f
+                GBufferRendering.Semantic.MaterialProperties, RenderbufferFormat.Rg32f
             ]
 
         let skyBox =
@@ -97,18 +97,18 @@ module App =
                 |> Sg.uniform "SkyMapIntensity" m.enviorment.skyMapIntensity
                 |> Sg.uniform "CameraLocation" (view |> Mod.map (fun t -> t.Backward.C3.XYZ))
                 |> Sg.shader {
-                    do! SLESurfaces.skyBoxTrafo
-                    do! DeferredShading.skyGBuffer
+                    do! GBufferRendering.skyBoxTrafo
+                    do! GBufferRendering.skyGBuffer
                 }
 
         scene
         |> Sg.shader {
             do! DefaultSurfaces.trafo
-            do! SLESurfaces.displacementMap
+            do! displacemntMap.displacementMap
             do! DefaultSurfaces.vertexColor
             do! DefaultSurfaces.diffuseTexture 
-            do! SLESurfaces.normalMap 
-            do! DeferredShading.gBufferShader
+            do! NormalMap.normalMap 
+            do! GBufferRendering.gBufferShader
             }
         |> (Sg.andAlso <| skyBox )
         |> Sg.viewTrafo (view)
@@ -120,7 +120,7 @@ module App =
                         DefaultSemantic.Colors
                         Sym.ofString "WorldPosition"
                         DefaultSemantic.Normals
-                        DeferredShading.Semantic.MaterialProperties]
+                        GBufferRendering.Semantic.MaterialProperties]
                ) size 
 
     let compileDeffered(outputSignature : IFramebufferSignature) (view : IMod<Trafo3d>) (proj : IMod<Trafo3d>) (size : IMod<V2i>) (scene : ISg<'msg>) (m : MModel) =
@@ -156,7 +156,7 @@ module App =
         |> Sg.texture ( Sym.ofString "WPos") (Map.find (Sym.ofString "WorldPosition") gBuffer)
         |> Sg.texture ( DefaultSemantic.Normals) (Map.find DefaultSemantic.Normals gBuffer)
         |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
-        |> Sg.texture ( DeferredShading.Semantic.MaterialProperties) (Map.find DeferredShading.Semantic.MaterialProperties gBuffer)
+        |> Sg.texture ( GBufferRendering.Semantic.MaterialProperties) (Map.find GBufferRendering.Semantic.MaterialProperties gBuffer)
         |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap
         |> Sg.texture (Sym.ofString "PrefilteredSpecColor") prefilterdSpecColor
         |> Sg.texture (Sym.ofString "BRDFLtu") bRDFLtu
@@ -197,65 +197,7 @@ module App =
             ]
 
         deferrdRenderControl att m.cameraState frustum figureMesh m
-     (*   let skyBoxTexture = SkyBox.getTexture runtime m.enviorment.skyMap m.enviorment.skyMapRotation
 
-        let skyBox  runtime =
-            Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
-                |> Sg.cullMode (Mod.constant CullMode.None)
-                |> Sg.texture (Sym.ofString "SkyCubeMap") skyBoxTexture
-                |> Sg.uniform "SkyMapIntensity" m.enviorment.skyMapIntensity
-                |> Sg.shader {
-                    do! SLESurfaces.skyBoxTrafo
-                    do! SLESurfaces.skyTexture
-                }
-        let diffuseIrradianceMap = GlobalAmbientLight.diffuseIrradianceMap runtime skyBoxTexture
-
-        let prefilterdSpecColor = GlobalAmbientLight.prefilterdSpecColor runtime skyBoxTexture
-
-        let bRDFLtu = GlobalAmbientLight.BRDFLtu runtime
-
-        let lightViewMatrix = 
-            let light = AMap.find 0 m.lights
-            Mod.bind (Mod.bind (Shadow.lightViewPoject figureMesh)) light
-
-        let shadowMapTex = 
-            let light = AMap.find 0 m.lights
-            Mod.bind (Mod.bind (Shadow.shadowMap runtime figureMesh)) light
-
-        let sg = 
-            figureMesh
-            |> SLEUniform.uniformLights m.lights
-            |> Sg.uniform "Expousure" m.expousure
-            |> Sg.uniform "AmbientIntensity" m.enviorment.ambientLightIntensity
-            |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap
-            |> Sg.texture (Sym.ofString "PrefilteredSpecColor") prefilterdSpecColor
-            |> Sg.texture (Sym.ofString "BRDFLtu") bRDFLtu
-            |> Sg.texture (Sym.ofString "ShadowMap") shadowMapTex
-            |> Sg.uniform "LightViewMatrix" (lightViewMatrix |> Mod.map(fun (v,p)  -> v * p))
-            |> Sg.shader {
-                do! DefaultSurfaces.trafo
-                do! SLESurfaces.displacementMap
-                do! DefaultSurfaces.vertexColor
-                do! DefaultSurfaces.diffuseTexture 
-                do! SLESurfaces.normalMap 
-                //do! SLESurfaces.lighting false
-                do! SLESurfaces.lightingPBR
-                }
-            |> Sg.andAlso <| light.lightSourceModels m.lights
-            |> Sg.andAlso <| (skyBox runtime |> Sg.uniform "Expousure" m.expousure)
-            
-
-        let att =
-            [
-                style "position: fixed; left: 0; top: 0; width: 100%; height: 100%"
-                attribute "showFPS" "true"
-               // attribute "data-renderalways" "1"
-            ]
-
-        let f = FreeFlyController.controlledControl m.cameraState CameraMessage frustum (AttributeMap.ofList att) sg
-        
-        f*)
- 
     // main view for UI and  
     let view runtime (m : MModel) =
         let lights' = AMap.toASet m.lights
