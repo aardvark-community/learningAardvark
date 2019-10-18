@@ -146,6 +146,45 @@ module PBR =
             comparison ComparisonFunction.LessOrEqual
         }
 
+    let wPos =
+        sampler2d {
+            texture uniform?WPos
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
+
+    let normal =
+        sampler2d {
+            texture uniform?Normals
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
+        
+    let color =
+        sampler2d {
+            texture uniform?Colors
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
+
+    let depth =
+        sampler2d {
+            texture uniform?Depth
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
+
+    let materialProperties =
+        sampler2d {
+            texture uniform?MaterialProperties
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
     [<ReflectedDefinition>] //add this attribute to  make the function callable in the shader
     let  fresnelSchlick (f0 : V3d) (cosTheta : float)=
         f0 + (1.0 - f0) * pow (1.0 - cosTheta) 5.0
@@ -317,6 +356,113 @@ module PBR =
 
             return V4d(colg, vert.c.W)
         }
+
+    let lightingDeferred  (vert : Vertex) =
+        fragment {
+            let gamma  = 2.2
+            let albedo = color.Sample(vert.tc).XYZ
+            let m = materialProperties.Sample(vert.tc)
+            let wPos = wPos.Sample(vert.tc)
+
+            let col = 
+                if m.X < 0.0 then           
+                    albedo
+                else
+
+                    let metallic = m.X
+                    let roughness = m.Y
+                    
+                    let cameraPos = uniform.CameraLocation
+
+                    let n = normal.Sample(vert.tc).XYZ |> Vec.normalize
+
+                    let v = cameraPos - wPos.XYZ |> Vec.normalize
+                    let r = Vec.reflect -v n
+
+                    //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
+                    let f0 = Lerp (V3d(0.04)) albedo metallic
+
+                    let nDotV = Vec.dot n v |>  max 0.0
+                    let mutable lo = V3d.Zero
+                    let numLights = uniform.NumLights
+                    for i in 0 .. 9 do
+                        
+                        let light = uniform.Lights.[i]
+                        let (exists, lDir, radiance)  = 
+                            match  light.lightType  with
+                            | SLEUniform.LightType.DirectionalLight -> i < numLights, -light.lightPosition.XYZ |> Vec.normalize, light.color  
+                            | SLEUniform.LightType.PointLight -> 
+                                let lDir = light.lightPosition.XYZ - wPos.XYZ |> Vec.normalize
+                                let dist = V3d.Distance (light.lightPosition.XYZ, wPos.XYZ)
+                                let attenuation = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
+                                i < numLights, lDir , light.color * attenuation             
+                            | SLEUniform.LightType.NoLight -> false, V3d(0.0), V3d(0.0)
+                            |_ ->  false, V3d(0.0), V3d(0.0)  //allways match any cases, otherwise fshade will give a cryptic error 
+                      
+                        let oi = 
+                            if exists then
+                                let h = v + lDir |> Vec.normalize
+
+                                // cook-torrance brdf
+                                let ndf = DistributionGGX n h roughness 
+                                let g = GeometrySmith false n v lDir roughness 
+                                let hDotV = Vec.dot h v |>  max 0.0      
+                                let f = fresnelSchlick f0 hDotV   
+                                
+                                let kS = f
+                                let kD' = V3d.III - kS
+                                let kD = (1.0 - metallic) * kD'
+                
+                                let nDotL = Vec.dot n lDir |>  max 0.0
+
+                                let numerator = ndf * g * f
+                                let denominator = 4.0 * nDotV * nDotL |> max 0.001
+                                let specular = numerator / denominator  
+                    
+                                // add to outgoing radiance from single light
+                                (kD * albedo / Math.PI + specular) * radiance * nDotL; 
+
+                            else V3d.Zero
+
+                        let shadow =
+                            if i = 0 then
+                                let lm = uniform.LightViewMatrix
+                                let lightSpacePos = lm * wPos
+                                let samplePos = 
+                                    lightSpacePos/lightSpacePos.W
+                                    |> (*) 0.5
+                                    |> (+) 0.5
+                                let shadowBias = 0.005
+                                poissonSamplingStrat samplerShadowMap samplePos wPos (samplePos.Z-shadowBias)
+                                //samplerShadowMap.Sample(samplePos.XY, samplePos.Z-shadowBias)
+                            else
+                                1.0
+                        lo <- lo + (oi*shadow)
+
+                    let kSA = fresnelSchlickRoughness f0 roughness nDotV
+                    let kdA  = (1.0 - kSA) * (1.0 - metallic)
+                    let irradiance = diffuseIrradianceSampler.Sample(n).XYZ
+                    let diffuse = irradiance * albedo
+
+                    let maxReflectLod = 4.0
+                    let prefilteredColor = prefilteredSpecColorSampler.SampleLevel(r, roughness * maxReflectLod).XYZ
+                    let brdf = samplerBRDFLtu.Sample(V2d(nDotV, roughness)).XY
+                    let specular = prefilteredColor * (kSA * brdf.X + brdf.Y)
+           
+                    let ambient = kdA * diffuse + specular//todo:  abient occlusion
+                    let ambientIntensity = uniform.AmbientIntensity
+                    lo + ambient * ambientIntensity
+
+            // tone mapping
+            let expousure = uniform.Expousure
+            let colm = V3d(1.0) - exp (-col*expousure)//col / (col+1.0)
+
+            //gamma  correction
+            let colg = pow colm (V3d(1.0/gamma))
+
+            return V4d(colg, 1.0)
+        }
+
 
     let private envSampler =
         samplerCube {
@@ -605,6 +751,67 @@ module  displacemntMap =
                 tc = tc
                 c = c
               }
+        }
+
+ module DeferredShading =
+    open fshadeExt
+
+    module Semantic =
+        let MaterialProperties = Symbol.Create "MaterialProperties"
+
+    type UniformScope with
+        member x.Roughness : float = x?Roughness
+
+        member x.Metallic : float = x?Metallic
+
+        member x.AlbedoFactor : float = x?AlbedoFactor
+
+        member x.Discard : bool =  x?Discard
+
+        member x.SkyMapIntensity : float =  x?SkyMapIntensity
+
+    type Vertex = {
+        [<Position>]        pos     : V4d
+        [<WorldPosition>]   wp      : V4d
+        [<Normal>]          n       : V3d
+        [<BiNormal>]        b       : V3d
+        [<Tangent>]         t       : V3d
+        [<Color>]           c       : V4d
+        [<TexCoord>]        tc      : V2d
+        [<Semantic("MaterialProperties")>] m    : V2d
+    }
+
+    let private skySampler =
+        samplerCube {
+            texture uniform?SkyCubeMap
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
+    let gBufferShader (vert : Vertex) =
+        fragment {
+            let gamma  = 2.2
+            
+            if uniform.Discard then
+                discard()
+            let albedo = pow (vert.c.XYZ * uniform.AlbedoFactor) (V3d(gamma))
+            let metallic = uniform.Metallic
+            let roughness = uniform.Roughness
+
+            return {vert with c = V4d(albedo,vert.c.W); m = V2d(metallic,roughness)}
+        }
+
+    let skyGBuffer (vert : Vertex) =
+        fragment {
+            let gamma  = 2.2
+            
+            let lPos  = vert.wp.XYZ |> Vec.normalize
+            let texColor = skySampler.Sample(lPos).XYZ
+  
+            let col = texColor * uniform.SkyMapIntensity
+
+            return {vert with c = V4d(col,vert.c.W); m = V2d(-1.0,-1.0)}
         }
 
  module SLESurfaces = 
