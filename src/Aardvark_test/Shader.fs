@@ -19,7 +19,7 @@ module PBR =
     open fshadeExt
 
     type UniformScope with
-        member x.Lights : Arr<N<10>, SLEUniform.Light> = x?Lights
+        member x.Light : SLEUniform.Light = x?Light
         member x.NumLights : int = x?NumLights
         member x.Roughness : float = x?Roughness
         member x.Expousure : float =  x?Expousure
@@ -176,14 +176,14 @@ module PBR =
         vis
     
     [<ReflectedDefinition>]
-    let getLightParams (light : SLEUniform.Light) (wPos : V3d) numLights i = 
+    let getLightParams (light : SLEUniform.Light) (wPos : V3d) = 
         match  light.lightType  with
-        | SLEUniform.LightType.DirectionalLight -> i < numLights, -light.lightPosition.XYZ |> Vec.normalize, light.color  
+        | SLEUniform.LightType.DirectionalLight -> true, -light.lightPosition.XYZ |> Vec.normalize, light.color  
         | SLEUniform.LightType.PointLight -> 
             let lDir = light.lightPosition.XYZ - wPos |> Vec.normalize
             let dist = V3d.Distance (light.lightPosition.XYZ, wPos)
             let attenuation = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
-            i < numLights, lDir , light.color * attenuation             
+            true, lDir , light.color * attenuation             
         | SLEUniform.LightType.NoLight -> false, V3d(0.0), V3d(0.0)
         |_ ->  false, V3d(0.0), V3d(0.0)  //allways match any cases, otherwise fshade will give a cryptic error 
 
@@ -199,9 +199,9 @@ module PBR =
         poissonSamplingStrat samplerShadowMap samplePos wPos (samplePos.Z-shadowBias)
 
     [<ReflectedDefinition>]
-    let pbrDirectO f0 roughness metallic (albedo : V3d) (wPos : V4d) v n nDotV light  numLights i= 
+    let pbrDirectO f0 roughness metallic (albedo : V3d) (wPos : V4d) v n nDotV light  = 
            
-        let (exists, lDir, radiance)  = getLightParams light wPos.XYZ numLights i
+        let (exists, lDir, radiance)  = getLightParams light wPos.XYZ
       
         let oi = 
             if exists then
@@ -226,23 +226,18 @@ module PBR =
 
             else V3d.Zero
 
-        let shadow =
-            if i = 0 then
-                getShadow wPos
-            else
-                1.0
+        let shadow = getShadow wPos
+
         oi*shadow
 
     [<ReflectedDefinition>]
     let pbrDirect f0 roughness metallic (albedo : V3d) (wPos : V4d) v n nDotV =
-        let mutable col = V3d.Zero
+
         let numLights = uniform.NumLights
         
-        for i in 0 .. 9 do
-            
-            let light = uniform.Lights.[i]
-            col <- col + pbrDirectO f0 roughness metallic albedo wPos v n nDotV light numLights i
-        col
+        let light = uniform.Light
+        pbrDirectO f0 roughness metallic albedo wPos v n nDotV light 
+       
 
     [<ReflectedDefinition>]
     let pBRAbient f0 roughness metallic (albedo : V3d) n r nDotV =

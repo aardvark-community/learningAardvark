@@ -146,6 +146,7 @@ module App =
             let light = AMap.find i m.lights
             Mod.bind (Mod.bind (Shadow.shadowMap runtime scene)) light
 
+        // lightning pass per light
         let lightSgs = 
             m.lights
             |> AMap.toASet
@@ -154,7 +155,7 @@ module App =
                     match i with 
                     |0 ->   Sg.fullScreenQuad
                             |> Sg.adapter
-                            |> SLEUniform.uniformLights (AMap.ofList [i,l])
+                            |> Sg.uniform "Light" (SLEUniform.uniformLight l)
                             |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap
                             |> Sg.texture (Sym.ofString "PrefilteredSpecColor") prefilterdSpecColor
                             |> Sg.texture (Sym.ofString "BRDFLtu") bRDFLtu
@@ -166,7 +167,7 @@ module App =
                                 }
                     |ii ->  Sg.fullScreenQuad
                             |> Sg.adapter
-                            |> SLEUniform.uniformLights (AMap.ofList [i,l])
+                            |> Sg.uniform "Light" (SLEUniform.uniformLight l)
                             |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
                             |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> Mod.map(fun (v,p)  -> v * p))
                             |> Sg.shader {
@@ -174,6 +175,7 @@ module App =
                                 }
                         )
 
+        //additive blending
         let mutable blendMode = BlendMode(true)
         blendMode.AlphaOperation <- BlendOperation.Add
         blendMode.Operation <- BlendOperation.Add
@@ -186,7 +188,8 @@ module App =
             runtime.CreateFramebufferSignature [
                 DefaultSemantic.Colors, RenderbufferFormat.Rgba32f
             ]
-            
+
+        //render linear HDR output
         let  output = 
             Sg.set lightSgs
             |> Sg.blendMode (blendMode |> Mod.constant)
@@ -200,6 +203,7 @@ module App =
             |> Sg.compile runtime signature
             |> RenderTask.renderToColor size    
 
+        //tone mapping and gamma correction
         Sg.fullScreenQuad
         |> Sg.adapter
         |> Sg.texture DefaultSemantic.DiffuseColorTexture output
