@@ -138,34 +138,77 @@ module App =
 
         let bRDFLtu = GlobalAmbientLight.BRDFLtu runtime
 
-        let lightViewMatrix = 
-            let light = AMap.find 0 m.lights
+        let lightViewMatrix i = 
+            let light = AMap.find i m.lights
             Mod.bind (Mod.bind (Shadow.lightViewPoject scene)) light
 
-        let shadowMapTex = 
-            let light = AMap.find 0 m.lights
+        let shadowMapTex i = 
+            let light = AMap.find i m.lights
             Mod.bind (Mod.bind (Shadow.shadowMap runtime scene)) light
+
+        let lightSgs = 
+            m.lights
+            |> AMap.toASet
+            |> ASet.map (
+                fun (i,l) ->  
+                    match i with 
+                    |0 ->   Sg.fullScreenQuad
+                            |> Sg.adapter
+                            |> SLEUniform.uniformLights (AMap.ofList [i,l])
+                            |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap
+                            |> Sg.texture (Sym.ofString "PrefilteredSpecColor") prefilterdSpecColor
+                            |> Sg.texture (Sym.ofString "BRDFLtu") bRDFLtu
+                            |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
+                            |> Sg.uniform "LightViewMatrix" (lightViewMatrix i |> Mod.map(fun (v,p)  -> v * p))
+                            |> Sg.shader {
+                                do! PBR.lightingAndAbientDeferred
+                                do! PBR.nonLightedDeferred
+                                }
+                    |ii ->  Sg.fullScreenQuad
+                            |> Sg.adapter
+                            |> SLEUniform.uniformLights (AMap.ofList [i,l])
+                            |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
+                            |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> Mod.map(fun (v,p)  -> v * p))
+                            |> Sg.shader {
+                                do! PBR.lightingDeferred
+                                }
+                        )
+
+        let mutable blendMode = BlendMode(true)
+        blendMode.AlphaOperation <- BlendOperation.Add
+        blendMode.Operation <- BlendOperation.Add
+        blendMode.SourceFactor <- BlendFactor.One
+        blendMode.SourceAlphaFactor <- BlendFactor.One
+        blendMode.DestinationFactor <- BlendFactor.One
+        blendMode.DestinationAlphaFactor <- BlendFactor.One
+
+        let signature =
+            runtime.CreateFramebufferSignature [
+                DefaultSemantic.Colors, RenderbufferFormat.Rgba32f
+            ]
+            
+        let  output = 
+            Sg.set lightSgs
+            |> Sg.blendMode (blendMode |> Mod.constant)
+            |> Sg.uniform "AmbientIntensity" m.enviorment.ambientLightIntensity
+            |> Sg.uniform "CameraLocation" (view |> Mod.map (fun t -> t.Backward.C3.XYZ))
+            |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
+            |> Sg.texture ( Sym.ofString "WPos") (Map.find (Sym.ofString "WorldPosition") gBuffer)
+            |> Sg.texture ( DefaultSemantic.Normals) (Map.find DefaultSemantic.Normals gBuffer)
+            |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
+            |> Sg.texture ( GBufferRendering.Semantic.MaterialProperties) (Map.find GBufferRendering.Semantic.MaterialProperties gBuffer)
+            |> Sg.compile runtime signature
+            |> RenderTask.renderToColor size    
 
         Sg.fullScreenQuad
         |> Sg.adapter
-        |> SLEUniform.uniformLights m.lights
+        |> Sg.texture DefaultSemantic.DiffuseColorTexture output
         |> Sg.uniform "Expousure" m.expousure
-        |> Sg.uniform "AmbientIntensity" m.enviorment.ambientLightIntensity
-        |> Sg.uniform "CameraLocation" (view |> Mod.map (fun t -> t.Backward.C3.XYZ))
-        |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
-        |> Sg.texture ( Sym.ofString "WPos") (Map.find (Sym.ofString "WorldPosition") gBuffer)
-        |> Sg.texture ( DefaultSemantic.Normals) (Map.find DefaultSemantic.Normals gBuffer)
-        |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
-        |> Sg.texture ( GBufferRendering.Semantic.MaterialProperties) (Map.find GBufferRendering.Semantic.MaterialProperties gBuffer)
-        |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap
-        |> Sg.texture (Sym.ofString "PrefilteredSpecColor") prefilterdSpecColor
-        |> Sg.texture (Sym.ofString "BRDFLtu") bRDFLtu
-        |> Sg.texture (Sym.ofString "ShadowMap") shadowMapTex
-        |> Sg.uniform "LightViewMatrix" (lightViewMatrix |> Mod.map(fun (v,p)  -> v * p))
         |> Sg.shader {
-            do! PBR.lightingDeferred
-            }
-        |> Sg.compile runtime outputSignature
+            do! DefaultSurfaces.diffuseTexture
+            do! PBR.gammaCorrection
+            }    
+        |> Sg.compile runtime outputSignature    
 
     let getScene (m : MModel) (sg : ISg<'msg>) =
         Aardvark.Service.Scene.custom (fun values ->

@@ -199,6 +199,41 @@ module PBR =
         poissonSamplingStrat samplerShadowMap samplePos wPos (samplePos.Z-shadowBias)
 
     [<ReflectedDefinition>]
+    let pbrDirectO f0 roughness metallic (albedo : V3d) (wPos : V4d) v n nDotV light  numLights i= 
+           
+        let (exists, lDir, radiance)  = getLightParams light wPos.XYZ numLights i
+      
+        let oi = 
+            if exists then
+                let h = v + lDir |> Vec.normalize
+
+                // cook-torrance brdf
+                let ndf = DistributionGGX n h roughness 
+                let g = GeometrySmith false n v lDir roughness 
+                let hDotV = Vec.dot h v |>  max 0.0      
+                let kS = fresnelSchlick f0 hDotV   
+                let nDotL = Vec.dot n lDir |>  max 0.0
+            
+                let kD = (1.0 - metallic) * (V3d.III - kS)
+                let diffuse = kD * albedo / Math.PI
+
+                let numerator = ndf * g * kS
+                let denominator = 4.0 * nDotV * nDotL |> max 0.001
+                let specular = numerator / denominator  
+
+                // add to outgoing radiance from single light
+                (diffuse + specular) * radiance * nDotL; 
+
+            else V3d.Zero
+
+        let shadow =
+            if i = 0 then
+                getShadow wPos
+            else
+                1.0
+        oi*shadow
+
+    [<ReflectedDefinition>]
     let pbrDirect f0 roughness metallic (albedo : V3d) (wPos : V4d) v n nDotV =
         let mutable col = V3d.Zero
         let numLights = uniform.NumLights
@@ -206,38 +241,7 @@ module PBR =
         for i in 0 .. 9 do
             
             let light = uniform.Lights.[i]
-            let (exists, lDir, radiance)  = getLightParams light wPos.XYZ numLights i
-          
-            let oi = 
-                if exists then
-                    let h = v + lDir |> Vec.normalize
-
-                    // cook-torrance brdf
-                    let ndf = DistributionGGX n h roughness 
-                    let g = GeometrySmith false n v lDir roughness 
-                    let hDotV = Vec.dot h v |>  max 0.0      
-                    let kS = fresnelSchlick f0 hDotV   
-                    let nDotL = Vec.dot n lDir |>  max 0.0
-                
-                    let kD = (1.0 - metallic) * (V3d.III - kS)
-                    let diffuse = kD * albedo / Math.PI
-    
-                    let numerator = ndf * g * kS
-                    let denominator = 4.0 * nDotV * nDotL |> max 0.001
-                    let specular = numerator / denominator  
-        
-                    // add to outgoing radiance from single light
-                    (diffuse + specular) * radiance * nDotL; 
-
-                else V3d.Zero
-
-            let shadow =
-                if i = 0 then
-                    getShadow wPos
-                else
-                    1.0
-
-            col <- col + (oi*shadow)
+            col <- col + pbrDirectO f0 roughness metallic albedo wPos v n nDotV light numLights i
         col
 
     [<ReflectedDefinition>]
@@ -272,32 +276,83 @@ module PBR =
 
         let nDotV = Vec.dot n v |>  max 0.0
         let directLight = pbrDirect f0 roughness metallic albedo wPos v n nDotV
+        directLight
+
+    [<ReflectedDefinition>]
+    let pBRLightningAndAbient albedo (mat : V2d) (wPos : V4d) tc =
+        let metallic = mat.X
+        let roughness = mat.Y
+        
+        let cameraPos = uniform.CameraLocation
+
+        let n = normal.Sample(tc).XYZ |> Vec.normalize
+        let v = cameraPos - wPos.XYZ |> Vec.normalize
+        let r = Vec.reflect -v n
+
+        //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
+        let f0 = Lerp (V3d(0.04)) albedo metallic
+
+        let nDotV = Vec.dot n v |>  max 0.0
+        let directLight = pbrDirect f0 roughness metallic albedo wPos v n nDotV
         let ambient = pBRAbient f0 roughness metallic (albedo : V3d) n r nDotV
         directLight + ambient
 
-    let lightingDeferred  (vert : Vertex) =
+    let nonLightedDeferred (vert : Vertex) =
         fragment {
-            let gamma  = 2.2
+            let albedo = color.Sample(vert.tc).XYZ
+            let m = materialProperties.Sample(vert.tc).XY
+            
+            let col = 
+                if m.X < 0.0 then //no lighting, just put out the color      
+                    albedo
+                else //PBR lightning
+                   V3d.Zero
+
+            return vert.c + V4d(col, 1.0)
+        }
+
+    let lightingAndAbientDeferred  (vert : Vertex) =
+        fragment {
             let albedo = color.Sample(vert.tc).XYZ
             let m = materialProperties.Sample(vert.tc).XY
             let wPos = wPos.Sample(vert.tc)
 
             let col = 
                 if m.X < 0.0 then //no lighting, just put out the color      
-                    albedo
+                    V3d.Zero
+                else //PBR lightning
+                    pBRLightningAndAbient albedo m wPos vert.tc
+
+            return V4d(col, 1.0)
+        }
+
+    let lightingDeferred  (vert : Vertex) =
+        fragment {
+            let albedo = color.Sample(vert.tc).XYZ
+            let m = materialProperties.Sample(vert.tc).XY
+            let wPos = wPos.Sample(vert.tc)
+
+            let col = 
+                if m.X < 0.0 then //no lighting, just put out the color      
+                    V3d.Zero
                 else //PBR lightning
                     pBRLightning albedo m wPos vert.tc
 
+            return V4d(col, 1.0)
+        }
+
+    let gammaCorrection (vert : Vertex) =
+        fragment {
+            let gamma  = 2.2
             // tone mapping
             let expousure = uniform.Expousure
-            let colm = V3d(1.0) - exp (-col*expousure)//col / (col+1.0)
+            let colm = V3d(1.0) - exp (-vert.c.XYZ*expousure)
 
             //gamma  correction
             let colg = pow colm (V3d(1.0/gamma))
 
             return V4d(colg, 1.0)
         }
-
 
     let private envSampler =
         samplerCube {
