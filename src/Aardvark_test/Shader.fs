@@ -243,14 +243,21 @@ module PBR =
         let ambientIntensity = uniform.AmbientIntensity
         ambient * ambientIntensity
 
+
+    type Fragment = {
+        [<WorldPosition>]   wp      : V4d
+        [<Normal>]          n       : V3d
+        [<Color>]           c       : V4d
+        [<TexCoord>]        tc      : V2d
+        [<Semantic("Metallic")>] metallic    : float
+        [<Semantic("Roughness")>] roughness    : float
+    }
+
     [<ReflectedDefinition>]
-    let pBRLightning albedo (mat : V2d) (wPos : V4d) tc =
-        let metallic = mat.X
-        let roughness = mat.Y
+    let pBRLightning metallic roughness albedo n (wPos : V4d) =
         
         let cameraPos = uniform.CameraLocation
 
-        let n = normal.Sample(tc).XYZ |> Vec.normalize
         let v = cameraPos - wPos.XYZ |> Vec.normalize
         let r = Vec.reflect -v n
 
@@ -263,13 +270,9 @@ module PBR =
         directLight
 
     [<ReflectedDefinition>]
-    let pBRAbient albedo (mat : V2d) (wPos : V4d) tc =
-        let metallic = mat.X
-        let roughness = mat.Y
-        
-        let cameraPos = uniform.CameraLocation
+    let pBRAbient metallic roughness albedo n (wPos : V4d) =
 
-        let n = normal.Sample(tc).XYZ |> Vec.normalize
+        let cameraPos = uniform.CameraLocation
         let v = cameraPos - wPos.XYZ |> Vec.normalize
         let r = Vec.reflect -v n
 
@@ -280,47 +283,57 @@ module PBR =
         let ambient = pBRAbientLight f0 roughness metallic albedo n r nDotV
         ambient
 
-    let nonLightedDeferred (vert : Vertex) =
+    let getGBufferData (vert : Vertex) =
         fragment {
-            let albedo = color.Sample(vert.tc).XYZ
-            let m = materialProperties.Sample(vert.tc).XY
-            
+            let albedo = color.Sample(vert.tc)
+            let m = materialProperties.Sample(vert.tc).XY   
+            let wPos = wPos.Sample(vert.tc)
+            let n = normal.Sample(vert.tc).XYZ |> Vec.normalize
+            return {wp =  wPos; n = n; c = albedo;  tc = vert.tc; metallic = m.X; roughness = m.Y}
+        }
+        
+
+    let nonLightedDeferred (frag : Fragment) =
+        fragment {
+            let albedo = color.Sample(frag.tc).XYZ
+ 
             let col = 
-                if m.X < 0.0 then //no lighting, just put out the color      
+                if frag.metallic < 0.0 then //no lighting, just put out the color      
                     albedo
                 else //PBR lightning
                    V3d.Zero
 
-            return vert.c + V4d(col, 1.0)
+            return frag.c + V4d(col, 1.0)
         }
 
-    let abientDeferred  (vert : Vertex) =
+    let abientDeferred (frag : Fragment) =
         fragment {
-            let albedo = color.Sample(vert.tc).XYZ
-            let m = materialProperties.Sample(vert.tc).XY
-            let wPos = wPos.Sample(vert.tc)
-
             let col = 
-                if m.X < 0.0 then //no lighting, jusSt put out the color      
+                if frag.metallic < 0.0 then //no lighting, jusSt put out the color      
                     V3d.Zero
                 else //PBR lightning
-                    pBRAbient albedo m wPos vert.tc
+                    let metallic = frag.metallic
+                    let roughness = frag.roughness
+                    let albedo = frag.c.XYZ
+                    let n = frag.n
+                    let wPos = frag.wp
+                    pBRAbient metallic roughness albedo n wPos
 
             return V4d(col, 1.0)
         }
 
-    let lightingDeferred  (vert : Vertex) =
+    let lightingDeferred (frag : Fragment)  =
         fragment {
-            let albedo = color.Sample(vert.tc).XYZ
-            let m = materialProperties.Sample(vert.tc).XY
-            let wPos = wPos.Sample(vert.tc)
-
             let col = 
-                if m.X < 0.0 then //no lighting, just put out the color      
+                if frag.metallic < 0.0 then //no lighting, just put out the color      
                     V3d.Zero
                 else //PBR lightning
-                    let light = uniform.Light
-                    pBRLightning albedo m wPos vert.tc
+                    let metallic = frag.metallic
+                    let roughness = frag.roughness
+                    let albedo = frag.c.XYZ
+                    let n = frag.n
+                    let wPos = frag.wp
+                    pBRLightning metallic roughness albedo n wPos
 
             return V4d(col, 1.0)
         }

@@ -163,6 +163,7 @@ module App =
                             |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
                             |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> Mod.map(fun (v,p)  -> v * p))
                             |> Sg.shader {
+                                do! PBR.getGBufferData
                                 do! PBR.lightingDeferred
                                 do! PBR.shadowDeferred
                                 }
@@ -171,6 +172,7 @@ module App =
                             |> Sg.adapter
                             |> Sg.uniform "Light" (SLEUniform.uniformLight l)
                             |> Sg.shader {
+                                do! PBR.getGBufferData
                                 do! PBR.lightingDeferred
                                 }
                     yield  pass
@@ -181,6 +183,7 @@ module App =
                     |> Sg.texture (Sym.ofString "PrefilteredSpecColor") prefilterdSpecColor
                     |> Sg.texture (Sym.ofString "BRDFLtu") bRDFLtu
                     |> Sg.shader {
+                        do! PBR.getGBufferData
                         do! PBR.abientDeferred
                         do! PBR.nonLightedDeferred
                         }
