@@ -206,9 +206,10 @@ module SLEUniform =
         color : V3d
         attenuationQad :float
         attenuationLinear :float
+        castsShadow: bool
     }
      
-    let noLight = {lightType = LightType.NoLight; lightPosition = V4d.Zero; color = V3d.Zero; attenuationQad = 0.0; attenuationLinear = 0.0}
+    let noLight = {lightType = LightType.NoLight; lightPosition = V4d.Zero; color = V3d.Zero; attenuationQad = 0.0; attenuationLinear = 0.0; castsShadow = false}
 
     let uniformLight (l : IMod<MLight>) : IMod<Light>  =
         //needs to be adaptive because the  Light can change and is an IMod
@@ -219,11 +220,11 @@ module SLEUniform =
             | MDirectionalLight  x' ->
                let! x  = x'
                 //Map to a type more convinient in the shaders
-               let r : Light = {lightType = LightType.DirectionalLight; lightPosition = x.lightDirection; color = x.color.ToV3d() * x.intensity; attenuationQad = 0.0; attenuationLinear = 0.0}
+               let r : Light = {lightType = LightType.DirectionalLight; lightPosition = x.lightDirection; color = x.color.ToV3d() * x.intensity; attenuationQad = 0.0; attenuationLinear = 0.0; castsShadow = true}
                return  r
             | MPointLight  x' ->
                let! x  = x'
-               let r : Light = {lightType = LightType.PointLight; lightPosition = x.lightPosition; color = x.color.ToV3d() * x.intensity; attenuationQad = x.attenuationQad; attenuationLinear = x.attenuationLinear}
+               let r : Light = {lightType = LightType.PointLight; lightPosition = x.lightPosition; color = x.color.ToV3d() * x.intensity; attenuationQad = x.attenuationQad; attenuationLinear = x.attenuationLinear; castsShadow = false}
                return r
         } 
 

@@ -199,7 +199,7 @@ module PBR =
         poissonSamplingStrat samplerShadowMap samplePos wPos (samplePos.Z-shadowBias)
 
     [<ReflectedDefinition>]
-    let pbrDirectO f0 roughness metallic (albedo : V3d) (wPos : V4d) v n nDotV light  = 
+    let pbrDirect f0 roughness metallic (albedo : V3d) (wPos : V4d) v n nDotV light  = 
            
         let (exists, lDir, radiance)  = getLightParams light wPos.XYZ
       
@@ -225,22 +225,10 @@ module PBR =
                 (diffuse + specular) * radiance * nDotL; 
 
             else V3d.Zero
-
-        let shadow = getShadow wPos
-
-        oi*shadow
+        oi
 
     [<ReflectedDefinition>]
-    let pbrDirect f0 roughness metallic (albedo : V3d) (wPos : V4d) v n nDotV =
-
-        let numLights = uniform.NumLights
-        
-        let light = uniform.Light
-        pbrDirectO f0 roughness metallic albedo wPos v n nDotV light 
-       
-
-    [<ReflectedDefinition>]
-    let pBRAbient f0 roughness metallic (albedo : V3d) n r nDotV =
+    let pBRAbientLight f0 roughness metallic (albedo : V3d) n r nDotV =
         let kSA = fresnelSchlickRoughness f0 roughness nDotV
         let kdA  = (1.0 - kSA) * (1.0 - metallic)
         let irradiance = diffuseIrradianceSampler.Sample(n).XYZ
@@ -270,11 +258,12 @@ module PBR =
         let f0 = Lerp (V3d(0.04)) albedo metallic
 
         let nDotV = Vec.dot n v |>  max 0.0
-        let directLight = pbrDirect f0 roughness metallic albedo wPos v n nDotV
+        let light = uniform.Light
+        let directLight = pbrDirect f0 roughness metallic albedo wPos v n nDotV light
         directLight
 
     [<ReflectedDefinition>]
-    let pBRLightningAndAbient albedo (mat : V2d) (wPos : V4d) tc =
+    let pBRAbient albedo (mat : V2d) (wPos : V4d) tc =
         let metallic = mat.X
         let roughness = mat.Y
         
@@ -288,9 +277,8 @@ module PBR =
         let f0 = Lerp (V3d(0.04)) albedo metallic
 
         let nDotV = Vec.dot n v |>  max 0.0
-        let directLight = pbrDirect f0 roughness metallic albedo wPos v n nDotV
-        let ambient = pBRAbient f0 roughness metallic (albedo : V3d) n r nDotV
-        directLight + ambient
+        let ambient = pBRAbientLight f0 roughness metallic albedo n r nDotV
+        ambient
 
     let nonLightedDeferred (vert : Vertex) =
         fragment {
@@ -306,17 +294,17 @@ module PBR =
             return vert.c + V4d(col, 1.0)
         }
 
-    let lightingAndAbientDeferred  (vert : Vertex) =
+    let abientDeferred  (vert : Vertex) =
         fragment {
             let albedo = color.Sample(vert.tc).XYZ
             let m = materialProperties.Sample(vert.tc).XY
             let wPos = wPos.Sample(vert.tc)
 
             let col = 
-                if m.X < 0.0 then //no lighting, just put out the color      
+                if m.X < 0.0 then //no lighting, jusSt put out the color      
                     V3d.Zero
                 else //PBR lightning
-                    pBRLightningAndAbient albedo m wPos vert.tc
+                    pBRAbient albedo m wPos vert.tc
 
             return V4d(col, 1.0)
         }
@@ -331,9 +319,17 @@ module PBR =
                 if m.X < 0.0 then //no lighting, just put out the color      
                     V3d.Zero
                 else //PBR lightning
+                    let light = uniform.Light
                     pBRLightning albedo m wPos vert.tc
 
             return V4d(col, 1.0)
+        }
+
+    let shadowDeferred  (vert : Vertex) =
+        fragment {
+            let wPos = wPos.Sample(vert.tc)
+            let shadow = getShadow wPos
+            return vert.c * shadow
         }
 
     let gammaCorrection (vert : Vertex) =

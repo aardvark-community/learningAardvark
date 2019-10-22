@@ -148,32 +148,45 @@ module App =
 
         // lightning pass per light
         let lightSgs = 
-            m.lights
-            |> AMap.toASet
-            |> ASet.map (
-                fun (i,l) ->  
-                    match i with 
-                    |0 ->   Sg.fullScreenQuad
-                            |> Sg.adapter
-                            |> Sg.uniform "Light" (SLEUniform.uniformLight l)
-                            |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap
-                            |> Sg.texture (Sym.ofString "PrefilteredSpecColor") prefilterdSpecColor
-                            |> Sg.texture (Sym.ofString "BRDFLtu") bRDFLtu
-                            |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
-                            |> Sg.uniform "LightViewMatrix" (lightViewMatrix i |> Mod.map(fun (v,p)  -> v * p))
-                            |> Sg.shader {
-                                do! PBR.lightingAndAbientDeferred
-                                do! PBR.nonLightedDeferred
-                                }
-                    |ii ->  Sg.fullScreenQuad
+            let lightSet =
+                m.lights
+                |> AMap.toASet
+            aset  {
+                for  (i,l) in lightSet do
+                    let! l' = l
+                    let pass = 
+                        match l' with 
+                        |MDirectionalLight _ ->
+                            Sg.fullScreenQuad
                             |> Sg.adapter
                             |> Sg.uniform "Light" (SLEUniform.uniformLight l)
                             |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
                             |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> Mod.map(fun (v,p)  -> v * p))
                             |> Sg.shader {
                                 do! PBR.lightingDeferred
+                                do! PBR.shadowDeferred
                                 }
-                        )
+                        |MPointLight _ ->
+                            Sg.fullScreenQuad
+                            |> Sg.adapter
+                            |> Sg.uniform "Light" (SLEUniform.uniformLight l)
+                            |> Sg.shader {
+                                do! PBR.lightingDeferred
+                                }
+                    yield  pass
+                let pass0 =
+                    Sg.fullScreenQuad
+                    |> Sg.adapter
+                    |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap
+                    |> Sg.texture (Sym.ofString "PrefilteredSpecColor") prefilterdSpecColor
+                    |> Sg.texture (Sym.ofString "BRDFLtu") bRDFLtu
+                    |> Sg.shader {
+                        do! PBR.abientDeferred
+                        do! PBR.nonLightedDeferred
+                        }
+                yield pass0
+            }
+
 
         //additive blending
         let mutable blendMode = BlendMode(true)
