@@ -10,6 +10,7 @@ type DirectionalLightData = {
     lightDirection : V4d
     color : C3d
     intensity : float
+    castsShadow : bool
 }
 
 type PointLightData = {
@@ -36,6 +37,17 @@ type PBRMaterial =
         displacmentMap : ITexture
         displacmentStrength : float
     }
+[<DomainType>]
+type AmbientOcclusionSettings =
+    {
+        occlusionStrength : float
+        scale : float
+        radius : float
+        samples : int
+        threshold : float
+        sigma : float
+        sharpness : float
+    }
 
 [<DomainType>]
 type GlobalEnviorment =
@@ -44,6 +56,7 @@ type GlobalEnviorment =
         skyMapRotation : float
         skyMapIntensity : float
         ambientLightIntensity : float
+        occlusionSettings : AmbientOcclusionSettings
     }
 
 [<DomainType>]
@@ -60,11 +73,13 @@ type Model =
 
 module light =
 
-    let defaultDirectionalLight = DirectionalLight  {lightDirection = V4d(0.0,-1.0,1.0,1.0); color = C3d.White; intensity = 1.0}
+    let defaultDirectionalLight = DirectionalLight  {lightDirection = V4d(0.0,-1.0,1.0,1.0); color = C3d.White; intensity = 1.0; castsShadow = true}
 
     let defaultPointLight = PointLight  {lightPosition = V4d(0.0,1.5,-0.5,1.0); color = C3d.White; attenuationQad = 1.0; attenuationLinear = 0.0; intensity = 1.0}
 
     let defaultLight = defaultPointLight
+
+    let defaultAbientOcclusion = {occlusionStrength = 1.0; scale = 1.0; radius = 0.2; samples = 32; threshold = 0.2; sigma = 2.0; sharpness = 1.0}
 
 module material =
 

@@ -18,6 +18,13 @@ module globalEnviroment =
         | SetSkyMapRotation of float
         | SetAbientLightIntensity of float
         | SetSkyMapIntensity of float
+        | SetAbientOcclusionStrength of float
+        | SetAbientOcclusionRadius of float
+        | SetAbientOcclusionSamples of int
+        | SetAbientOcclusionScale of float
+        | SetAbientOcclusionThreshold of float
+        | SetAbientOcclusionSigma of float
+        | SetAbientOcclusionSharpness of float
 
     let update (m : GlobalEnviorment)  (msg : Message) = 
         match msg  with
@@ -25,6 +32,13 @@ module globalEnviroment =
         | SetSkyMapRotation r -> {m  with skyMapRotation = r}
         | SetAbientLightIntensity i-> {m  with ambientLightIntensity = i}       
         | SetSkyMapIntensity i-> {m  with skyMapIntensity = i}       
+        | SetAbientOcclusionStrength s -> {m with occlusionSettings = {m.occlusionSettings with occlusionStrength = s}}
+        | SetAbientOcclusionRadius s -> {m with occlusionSettings = {m.occlusionSettings with radius = s}}
+        | SetAbientOcclusionSamples s -> {m with occlusionSettings = {m.occlusionSettings with samples = s}}
+        | SetAbientOcclusionScale s -> {m with occlusionSettings = {m.occlusionSettings with scale = s}}
+        | SetAbientOcclusionThreshold s -> {m with occlusionSettings = {m.occlusionSettings with threshold = s}}
+        | SetAbientOcclusionSigma s -> {m with occlusionSettings = {m.occlusionSettings with sigma = s}}
+        | SetAbientOcclusionSharpness s -> {m with occlusionSettings = {m.occlusionSettings with sharpness = s}}
 
     let view (m : MGlobalEnviorment) =
         let numInput name changed state  = labeledFloatInput name 0.0 1.0 0.01 changed state
@@ -34,9 +48,27 @@ module globalEnviroment =
                     { OpenDialogConfig.file with allowMultiple = false; title = "Open sky map hdr"; filters  = [|"*.hdr"|];  startPath = path}
                     [ clazz "ui green button"; onChooseFile SetSkyMap ] 
                     [ text "Open hdr File" ]]]
-            tr [] [ td [] [text "Sky Map Intensity"]; td [style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.skyMapIntensity SetSkyMapIntensity]]
-            tr [] [ td [] [text "Sky Map Rotation"]; td [style "width: 70%;"] [inputSlider {min = 0.0;  max = 1.0; step = 0.01} [] (Mod.map (fun r -> r/(2.0*Math.PI)) m.skyMapRotation)  (fun r -> SetSkyMapRotation (r*2.0*Math.PI)) ]]
-            tr [] [ td [] [text "Ambient Light Intensity"]; td [style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.ambientLightIntensity SetAbientLightIntensity]]
+            tr [] [ td [] [text "Sky Map Intensity"]; 
+                    td [style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.skyMapIntensity SetSkyMapIntensity]]
+            tr [] [ td [] [text "Sky Map Rotation"]; 
+                    td [style "width: 70%;"] [inputSlider {min = 0.0;  max = 1.0; step = 0.01} [] (Mod.map (fun r -> r/(2.0*Math.PI)) m.skyMapRotation)  (fun r -> SetSkyMapRotation (r*2.0*Math.PI)) ]]
+            tr [] [ td [] [text "Ambient Light Intensity"]; 
+                    td [style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.ambientLightIntensity SetAbientLightIntensity]]
+            tr [] [ td [attribute "colspan" "2";style "text-align: center;"] [text "Abient Occlusion"]]
+            tr [] [ td [] [text "Strength"]; 
+                    td [style "width: 70%;"] [inputSlider {min = 0.0;  max = 2.0; step = 0.01} [] m.occlusionSettings.occlusionStrength SetAbientOcclusionStrength ]]
+            tr [] [ td [] [text "Radius"]; 
+                    td [style "width: 70%;"] [inputSlider {min = 0.01;  max = 0.5; step = 0.01} [] m.occlusionSettings.radius SetAbientOcclusionRadius ]]
+            tr [] [ td [] [text "Scale"]; 
+                    td [style "width: 70%;"] [inputSlider {min = 0.1;  max = 1.0; step = 0.01} [] m.occlusionSettings.scale SetAbientOcclusionScale ]]
+            tr [] [ td [] [text "Samples"]; 
+                    td [style "width: 70%;"] [integerInput ""  8 512  SetAbientOcclusionSamples m.occlusionSettings.samples]]
+            tr [] [ td [] [text "Threshold"]; 
+                    td [style "width: 70%;"] [inputSlider {min = 0.01;  max = 0.5; step = 0.0001} [] m.occlusionSettings.threshold SetAbientOcclusionThreshold ]]
+            tr [] [ td [] [text "Sigma"]; 
+                    td [style "width: 70%;"] [inputSlider {min = 0.1;  max = 15.0; step = 0.01} [] m.occlusionSettings.sigma SetAbientOcclusionSigma]]
+            tr [] [ td [] [text "Sharpness"]; 
+                    td [style "width: 70%;"] [inputSlider {min = 0.1;  max = 2.0; step = 0.01} [] m.occlusionSettings.sharpness SetAbientOcclusionSharpness]]
         ]   
 
 module CubeRenderTask =

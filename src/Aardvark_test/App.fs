@@ -23,7 +23,7 @@ type Message =
 module App =   
 
     let cameraConfig  =  {FreeFlyController.initial.freeFlyConfig with zoomMouseWheelSensitivity = 0.5} 
-    let initialView = CameraView.lookAt (V3d(3.0, 2.5, -6.0)) (V3d(0.0, 2.0, 0.0)) (V3d.OIO * 1.0)
+    let initialView = CameraView.lookAt (V3d(0.0, 2.0, -6.0)) (V3d(0.0, 2.0, 0.0)) (V3d.OIO * 1.0)
 
     let import = Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\SLE_Gnom4.obj"
 
@@ -34,7 +34,8 @@ module App =
         enviorment = {skyMap = @"..\..\..\data\GrandCanyon_C_YumaPoint\GCanyon_C_YumaPoint_3k.hdr"; 
                       skyMapRotation = Math.PI; 
                       skyMapIntensity = 1.0;
-                      ambientLightIntensity = 1.0}
+                      ambientLightIntensity = 1.0
+                      occlusionSettings = light.defaultAbientOcclusion}
         expousure  = 1.0
         materials = materials import
         currentMaterial = 
@@ -123,6 +124,71 @@ module App =
                         GBufferRendering.Semantic.MaterialProperties]
                ) size 
 
+    let randomTex ( runtime : IRuntime) = 
+        let img = PixImage<float32>(Col.Format.RGB, V2i.II * 512)
+
+        let rand = RandomSystem()
+        img.GetMatrix<C3f>().SetByCoord (fun _ ->
+            rand.UniformV3dDirection().ToC3d().ToC3f()
+        ) |> ignore
+
+        runtime.PrepareTexture(PixTexture2d(PixImageMipMap [| img :> PixImage |], TextureParams.empty))
+
+    let makeAmbientOcclusion ( runtime : IRuntime) (size : IMod<V2i>) view proj gBuffer (settings : MAmbientOcclusionSettings)=
+        
+        let signature =
+            runtime.CreateFramebufferSignature [
+                DefaultSemantic.Colors, RenderbufferFormat.Rgba8
+            ]
+
+        let aoSize = 
+             Mod.custom (fun t ->
+                let s = size.GetValue t
+                let d = settings.scale.GetValue t
+                V2i(
+                    max 1 (int (float s.X * d)),
+                    max 1 (int (float s.Y * d))
+                )
+            )
+
+        let ambientOc = 
+            Sg.fullScreenQuad
+            |> Sg.adapter
+            |> Sg.shader {
+                do! SSAO.ambientOcclusion
+            }
+            |> Sg.texture ( DefaultSemantic.Normals) (Map.find DefaultSemantic.Normals gBuffer)
+            |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
+            |> Sg.viewTrafo view
+            |> Sg.projTrafo proj
+            |> Sg.uniform "Random" (Mod.constant (randomTex runtime :> ITexture))
+           
+            |> Sg.uniform "Radius" settings.radius
+            |> Sg.uniform "Threshold" settings.threshold
+            |> Sg.uniform "Samples" settings.samples
+            |> Sg.uniform "OcclusionStrength" settings.occlusionStrength
+            |> Sg.compile runtime signature
+            |> RenderTask.renderToColor aoSize
+
+        let blurredAmbientOc =
+            Sg.fullScreenQuad
+            |> Sg.adapter
+            |> Sg.shader {
+                do! SSAO.blur
+            }
+            |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
+            |> Sg.texture (Sym.ofString "AmbientOcclusion") ambientOc
+            |> Sg.viewTrafo view
+            |> Sg.projTrafo proj
+            |> Sg.uniform "Radius" settings.radius
+            |> Sg.uniform "Threshold" settings.threshold
+            |> Sg.uniform "Sigma" settings.sigma
+            |> Sg.uniform "Sharpness" settings.sharpness
+            |> Sg.compile runtime signature
+            |> RenderTask.renderToColor aoSize
+
+        blurredAmbientOc
+
     let compileDeffered(outputSignature : IFramebufferSignature) (view : IMod<Trafo3d>) (proj : IMod<Trafo3d>) (size : IMod<V2i>) (scene : ISg<'msg>) (m : MModel) =
         let size = size |> Mod.map (fun s -> V2i(max 1 s.X, max 1 s.Y))
 
@@ -137,6 +203,8 @@ module App =
         let prefilterdSpecColor = GlobalAmbientLight.prefilterdSpecColor runtime skyBoxTexture
 
         let bRDFLtu = GlobalAmbientLight.BRDFLtu runtime
+
+        let ambientOcclusion = makeAmbientOcclusion runtime size view proj gBuffer m.enviorment.occlusionSettings
 
         let lightViewMatrix i = 
             let light = AMap.find i m.lights
@@ -156,17 +224,28 @@ module App =
                     let! l' = l
                     let pass = 
                         match l' with 
-                        |MDirectionalLight _ ->
-                            Sg.fullScreenQuad
-                            |> Sg.adapter
-                            |> Sg.uniform "Light" (SLEUniform.uniformLight l)
-                            |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
-                            |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> Mod.map(fun (v,p)  -> v * p))
-                            |> Sg.shader {
-                                do! PBR.getGBufferData
-                                do! PBR.lightingDeferred
-                                do! PBR.shadowDeferred
-                                }
+                        |MDirectionalLight dl ->
+                            Mod.map (fun (d : DirectionalLightData)->
+                                if d.castsShadow then
+                                    Sg.fullScreenQuad
+                                    |> Sg.adapter
+                                    |> Sg.uniform "Light" (SLEUniform.uniformLight l)
+                                    |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
+                                    |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> Mod.map(fun (v,p)  -> v * p))
+                                    |> Sg.shader {
+                                        do! PBR.getGBufferData
+                                        do! PBR.lightingDeferred
+                                        do! PBR.shadowDeferred
+                                        }
+                                else
+                                     Sg.fullScreenQuad
+                                    |> Sg.adapter
+                                    |> Sg.uniform "Light" (SLEUniform.uniformLight l)
+                                    |> Sg.shader {
+                                        do! PBR.getGBufferData
+                                        do! PBR.lightingDeferred
+                                        } ) dl
+                            |> Sg.dynamic                                
                         |MPointLight _ ->
                             Sg.fullScreenQuad
                             |> Sg.adapter
@@ -182,6 +261,7 @@ module App =
                     |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap
                     |> Sg.texture (Sym.ofString "PrefilteredSpecColor") prefilterdSpecColor
                     |> Sg.texture (Sym.ofString "BRDFLtu") bRDFLtu
+                    |> Sg.texture (Sym.ofString "AmbientOcclusion") ambientOcclusion
                     |> Sg.shader {
                         do! PBR.getGBufferData
                         do! PBR.abientDeferred
@@ -248,15 +328,23 @@ module App =
         let frustum = 
             Frustum.perspective 30.0 0.1 100.0 1.0 
 
+        let box = Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\box.obj"
+
         let figureMesh =            
-            import.SubstituteMaterial (fun mat -> Some ({importedMaterial = mat; material = (AMap.find ( removeDigits mat.name) m.materials)} :> IO.Loader.IMaterial))
+            [import.SubstituteMaterial (fun mat -> Some ({importedMaterial = mat; material = (AMap.find ( removeDigits mat.name) m.materials)} :> IO.Loader.IMaterial)) 
+             |> Sg.adapter :> ISg
+           (*  box.SubstituteMaterial (fun mat -> Some ({importedMaterial = mat; material = (Mod.constant (MPBRMaterial( defaultMaterial)))} :> IO.Loader.IMaterial)) 
+             |> Sg.adapter 
+             |> Sg.translate 0.0 0.0 1.0 :> ISg*)
+            ] 
+            |>  Sg.group'
             |> Sg.adapter
 
         let att =
             [
                 style "position: fixed; left: 0; top: 0; width: 100%; height: 100%"
                 attribute "showFPS" "true"
-               // attribute "data-renderalways" "1"
+                //attribute "data-renderalways" "1"
             ]
 
         deferrdRenderControl att m.cameraState frustum figureMesh m

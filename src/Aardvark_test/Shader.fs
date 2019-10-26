@@ -103,6 +103,15 @@ module PBR =
             addressV WrapMode.Clamp
             filter Filter.MinMagLinear
         }
+
+    let ambientOcc =
+        sampler2d {
+            texture uniform?AmbientOcclusion
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
+
     [<ReflectedDefinition>] //add this attribute to  make the function callable in the shader
     let  fresnelSchlick (f0 : V3d) (cosTheta : float)=
         f0 + (1.0 - f0) * pow (1.0 - cosTheta) 5.0
@@ -319,7 +328,9 @@ module PBR =
                     let wPos = frag.wp
                     pBRAbient metallic roughness albedo n wPos
 
-            return V4d(col, 1.0)
+            let occlusion = ambientOcc.Sample(frag.tc).X
+
+            return V4d(col * occlusion, 1.0)
         }
 
     let lightingDeferred (frag : Fragment)  =
@@ -665,3 +676,179 @@ module  displacemntMap =
             return {vert with c = V4d(col,vert.c.W); m = V2d(-1.0,-1.0)}
         }
   
+ module SSAO =
+    //open fshadeExt
+
+    [<GLSLIntrinsic("smoothstep({0}, {1}, {2})")>]
+    let smoothStep (edge0 : float) (edge1 : float) (x : float) : 'a =
+        onlyInShaderCode "smooth"
+
+    let normal =
+        sampler2d {
+            texture uniform?Normals
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
+
+    let depth =
+        sampler2d {
+            texture uniform?Depth
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
+
+    let depthCmp =
+        sampler2dShadow {
+            texture uniform?Depth
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            comparison ComparisonFunction.Greater
+            filter Filter.MinMagMipLinear
+        }
+
+    let random =
+        sampler2d {
+            texture uniform?Random
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+            filter Filter.MinMagPoint
+        }
+    
+    let ambientOcc =
+        sampler2d {
+            texture uniform?AmbientOcclusion
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
+
+    type UniformScope with
+        member x.Radius : float = uniform?Radius
+        member x.Threshold : float = uniform?Threshold
+        member x.Sigma : float = uniform?Sigma
+        member x.Sharpness : float = uniform?Sharpness
+        member x.Samples : int = uniform?Samples
+        member x.OcclusionStrength : float = uniform?OcclusionStrength
+ 
+    let sampleDirections =
+        let rand = RandomSystem()
+        let arr = 
+            Array.init 512 (fun _ ->
+                let phi = rand.UniformDouble() * Constant.PiTimesTwo
+                let theta = rand.UniformDouble() * (Constant.PiHalf - 20.0 * Constant.RadiansPerDegree)
+                V3d(
+                    cos phi * sin theta,
+                    sin phi * sin theta,
+                    cos theta
+                )
+            )
+        arr |> Array.map (fun v -> v * rand.UniformDouble())
+
+    [<ReflectedDefinition>]
+    let getLinearDepth (ndc : V2d) =
+        let tc = 0.5 * (ndc + V2d.II)
+        let z = 2.0 * depth.Sample(tc, 0.0).X - 1.0
+
+        let pp = V4d(ndc.X, ndc.Y, z, 1.0) 
+        let temp = uniform.ProjTrafoInv * pp
+        temp.Z / temp.W
+
+    [<ReflectedDefinition>]
+    let project (vp : V3d) =
+        let mutable vp = vp
+        vp.Z <- min -0.01 vp.Z
+        let pp = uniform.ProjTrafo * V4d(vp, 1.0)
+        pp.XYZ / pp.W
+        
+    let ambientOcclusion (v : Vertex) =
+        fragment {
+            let ndc = v.pos.XY / v.pos.W
+            let wn = normal.Sample(v.tc).XYZ.Normalized
+            let z0 = depth.Sample(v.tc).X
+            let z = 2.0 * z0 - 1.0
+            let pp0 = V4d(ndc.X, ndc.Y, z, 1.0) //point in screen space
+
+            let vp =  // point in view space
+                let temp = uniform.ProjTrafoInv * pp0
+                temp.XYZ / temp.W
+
+            let vn = //normal in view space
+                uniform.ViewTrafo * V4d(wn, 0.0) 
+                |> Vec.xyz 
+                |> Vec.normalize
+           
+            //randomized sample direction
+            let x = random.Sample(pp0.XY).XYZ |> Vec.normalize
+            let z = vn
+            let y = Vec.cross z x |> Vec.normalize
+            let x = Vec.cross y z |> Vec.normalize  
+                
+            let mutable occlusion = 0.0
+            for si in 0 .. uniform.Samples - 1 do
+
+                let dir = sampleDirections.[si] * uniform.Radius
+                //bias sampling towards point near the center of the hemispehere
+                let temp  = (float (si)) / (float (uniform.Samples-1))
+                let scale = Fun.Lerp(0.1, 1.0, (temp * temp))
+                let dirscaled = dir * scale
+                let p = vp + x * dirscaled.X + y * dirscaled.Y + z * dirscaled.Z
+          
+                let f = 1.0 - uniform.Threshold / -p.Z
+                let ppo = 0.5 * (project (p * f) + V3d.III)
+                let pp = 0.5 * (project p + V3d.III)
+                let sampleDepth = depth.Sample(pp.XY).X
+                let occ = if sampleDepth > pp.Z then 0.0  else 1.0
+                if depthCmp.Sample(pp.XY, ppo.Z) < 0.5 then
+                    occlusion <- occlusion + occ 
+                
+            let occlusion = occlusion / float uniform.Samples * uniform.OcclusionStrength |> min 1.0
+            let ambient = 1.0 - occlusion
+            
+            return V4d(ambient, ambient, ambient, 1.0)
+        }
+
+    [<ReflectedDefinition>]
+    let getAmbient (ndc : V2d) =
+        let tc = 0.5 * (ndc + V2d.II)
+        ambientOcc.SampleLevel(tc, 0.0)
+
+    let blur (v : Vertex) =
+        fragment {
+            let s = 2.0 / V2d ambientOcc.Size
+            let ndc = v.pos.XY / v.pos.W
+            
+
+            let sigmaPos = uniform.Sigma
+            if sigmaPos <= 0.0 then
+                return getAmbient ndc
+            else
+                let sigmaPos2 = sigmaPos * sigmaPos
+                let sharpness = uniform.Sharpness
+                let sharpness2 = sharpness * sharpness
+                let r = 4
+                let d0 = getLinearDepth ndc
+                let mutable sum = V4d.Zero
+                let mutable wsum = 0.0
+                for x in -r .. r do
+                    for y in -r .. r do
+                        let deltaPos = V2d(x,y) * s
+                        let pos = ndc + deltaPos
+
+                        let deltaDepth = getLinearDepth pos - d0
+                        let value = getAmbient pos
+
+                        let wp = exp (-V2d(x,y).LengthSquared / sigmaPos2)
+                        let wd = exp (-deltaDepth*deltaDepth * sharpness2)
+
+                        let w = wp * wd
+
+                        sum <- sum + w * value
+                        wsum <- wsum + w
+
+
+
+                return sum / wsum
+        }
+

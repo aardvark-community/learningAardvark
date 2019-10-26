@@ -2,6 +2,7 @@ namespace Aardvark.UI
 open Aardvark.Base
 open Aardvark.UI
 open Aardvark.UI.Primitives
+open Aardvark.UI.Operators
 open Aardvark.Base.Incremental
 open System
 
@@ -80,6 +81,21 @@ module  Html =
                 yield 
                      onBoot "$('#__ID__').sidebar('setting', 'dimPage', false);" (accordionMenu false "ui vertical inverted sidebar very wide accordion menu" sectionsAndItems)
             ] 
+
+        let toggleBox (state : IMod<bool>) (toggle : 'msg) =
+
+            let attributes = 
+                amap {
+                     yield "type" => "checkbox"
+                     yield onChange (fun _ -> toggle)
+
+                     let! check = state
+                     if check then
+                        yield "checked" => "checked"
+                }
+
+      //      div [clazz "ui toggle checkbox"] [
+            Incremental.input (AttributeMap.ofAMap attributes) 
 
 module V3dInput =
 

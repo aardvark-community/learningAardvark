@@ -174,6 +174,97 @@ module Mutable =
                 }
     
     
+    type MAmbientOcclusionSettings(__initial : Aardvark_test.Model.AmbientOcclusionSettings) =
+        inherit obj()
+        let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.AmbientOcclusionSettings> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.AmbientOcclusionSettings>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.AmbientOcclusionSettings>
+        let _occlusionStrength = ResetMod.Create(__initial.occlusionStrength)
+        let _scale = ResetMod.Create(__initial.scale)
+        let _radius = ResetMod.Create(__initial.radius)
+        let _samples = ResetMod.Create(__initial.samples)
+        let _threshold = ResetMod.Create(__initial.threshold)
+        let _sigma = ResetMod.Create(__initial.sigma)
+        let _sharpness = ResetMod.Create(__initial.sharpness)
+        
+        member x.occlusionStrength = _occlusionStrength :> IMod<_>
+        member x.scale = _scale :> IMod<_>
+        member x.radius = _radius :> IMod<_>
+        member x.samples = _samples :> IMod<_>
+        member x.threshold = _threshold :> IMod<_>
+        member x.sigma = _sigma :> IMod<_>
+        member x.sharpness = _sharpness :> IMod<_>
+        
+        member x.Current = __current :> IMod<_>
+        member x.Update(v : Aardvark_test.Model.AmbientOcclusionSettings) =
+            if not (System.Object.ReferenceEquals(__current.Value, v)) then
+                __current.Value <- v
+                
+                ResetMod.Update(_occlusionStrength,v.occlusionStrength)
+                ResetMod.Update(_scale,v.scale)
+                ResetMod.Update(_radius,v.radius)
+                ResetMod.Update(_samples,v.samples)
+                ResetMod.Update(_threshold,v.threshold)
+                ResetMod.Update(_sigma,v.sigma)
+                ResetMod.Update(_sharpness,v.sharpness)
+                
+        
+        static member Create(__initial : Aardvark_test.Model.AmbientOcclusionSettings) : MAmbientOcclusionSettings = MAmbientOcclusionSettings(__initial)
+        static member Update(m : MAmbientOcclusionSettings, v : Aardvark_test.Model.AmbientOcclusionSettings) = m.Update(v)
+        
+        override x.ToString() = __current.Value.ToString()
+        member x.AsString = sprintf "%A" __current.Value
+        interface IUpdatable<Aardvark_test.Model.AmbientOcclusionSettings> with
+            member x.Update v = x.Update v
+    
+    
+    
+    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+    module AmbientOcclusionSettings =
+        [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+        module Lens =
+            let occlusionStrength =
+                { new Lens<Aardvark_test.Model.AmbientOcclusionSettings, System.Double>() with
+                    override x.Get(r) = r.occlusionStrength
+                    override x.Set(r,v) = { r with occlusionStrength = v }
+                    override x.Update(r,f) = { r with occlusionStrength = f r.occlusionStrength }
+                }
+            let scale =
+                { new Lens<Aardvark_test.Model.AmbientOcclusionSettings, System.Double>() with
+                    override x.Get(r) = r.scale
+                    override x.Set(r,v) = { r with scale = v }
+                    override x.Update(r,f) = { r with scale = f r.scale }
+                }
+            let radius =
+                { new Lens<Aardvark_test.Model.AmbientOcclusionSettings, System.Double>() with
+                    override x.Get(r) = r.radius
+                    override x.Set(r,v) = { r with radius = v }
+                    override x.Update(r,f) = { r with radius = f r.radius }
+                }
+            let samples =
+                { new Lens<Aardvark_test.Model.AmbientOcclusionSettings, System.Int32>() with
+                    override x.Get(r) = r.samples
+                    override x.Set(r,v) = { r with samples = v }
+                    override x.Update(r,f) = { r with samples = f r.samples }
+                }
+            let threshold =
+                { new Lens<Aardvark_test.Model.AmbientOcclusionSettings, System.Double>() with
+                    override x.Get(r) = r.threshold
+                    override x.Set(r,v) = { r with threshold = v }
+                    override x.Update(r,f) = { r with threshold = f r.threshold }
+                }
+            let sigma =
+                { new Lens<Aardvark_test.Model.AmbientOcclusionSettings, System.Double>() with
+                    override x.Get(r) = r.sigma
+                    override x.Set(r,v) = { r with sigma = v }
+                    override x.Update(r,f) = { r with sigma = f r.sigma }
+                }
+            let sharpness =
+                { new Lens<Aardvark_test.Model.AmbientOcclusionSettings, System.Double>() with
+                    override x.Get(r) = r.sharpness
+                    override x.Set(r,v) = { r with sharpness = v }
+                    override x.Update(r,f) = { r with sharpness = f r.sharpness }
+                }
+    
+    
     type MGlobalEnviorment(__initial : Aardvark_test.Model.GlobalEnviorment) =
         inherit obj()
         let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.GlobalEnviorment> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.GlobalEnviorment>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.GlobalEnviorment>
@@ -181,11 +272,13 @@ module Mutable =
         let _skyMapRotation = ResetMod.Create(__initial.skyMapRotation)
         let _skyMapIntensity = ResetMod.Create(__initial.skyMapIntensity)
         let _ambientLightIntensity = ResetMod.Create(__initial.ambientLightIntensity)
+        let _occlusionSettings = MAmbientOcclusionSettings.Create(__initial.occlusionSettings)
         
         member x.skyMap = _skyMap :> IMod<_>
         member x.skyMapRotation = _skyMapRotation :> IMod<_>
         member x.skyMapIntensity = _skyMapIntensity :> IMod<_>
         member x.ambientLightIntensity = _ambientLightIntensity :> IMod<_>
+        member x.occlusionSettings = _occlusionSettings
         
         member x.Current = __current :> IMod<_>
         member x.Update(v : Aardvark_test.Model.GlobalEnviorment) =
@@ -196,6 +289,7 @@ module Mutable =
                 ResetMod.Update(_skyMapRotation,v.skyMapRotation)
                 ResetMod.Update(_skyMapIntensity,v.skyMapIntensity)
                 ResetMod.Update(_ambientLightIntensity,v.ambientLightIntensity)
+                MAmbientOcclusionSettings.Update(_occlusionSettings, v.occlusionSettings)
                 
         
         static member Create(__initial : Aardvark_test.Model.GlobalEnviorment) : MGlobalEnviorment = MGlobalEnviorment(__initial)
@@ -235,6 +329,12 @@ module Mutable =
                     override x.Get(r) = r.ambientLightIntensity
                     override x.Set(r,v) = { r with ambientLightIntensity = v }
                     override x.Update(r,f) = { r with ambientLightIntensity = f r.ambientLightIntensity }
+                }
+            let occlusionSettings =
+                { new Lens<Aardvark_test.Model.GlobalEnviorment, Aardvark_test.Model.AmbientOcclusionSettings>() with
+                    override x.Get(r) = r.occlusionSettings
+                    override x.Set(r,v) = { r with occlusionSettings = v }
+                    override x.Update(r,f) = { r with occlusionSettings = f r.occlusionSettings }
                 }
     
     

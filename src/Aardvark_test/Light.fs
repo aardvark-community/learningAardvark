@@ -41,6 +41,7 @@ module lightControl =
         | SetAttenuationLinear of float
         | SetIntensity of float
         | SetColor of C3d
+        | ToggleCastShadow
 
     let update (m : Light) (msg : Message) =
         match msg with
@@ -80,6 +81,12 @@ module lightControl =
                 PointLight {r with color = c} 
             | DirectionalLight r -> 
                 DirectionalLight {r with color = c} 
+        | ToggleCastShadow   ->  
+            match m with
+            | DirectionalLight r -> 
+                Log.warn "ToggleCastShadow %b" r.castsShadow
+                DirectionalLight {r with castsShadow = not r.castsShadow} 
+            | x -> x
 
     let attenuationView (l : IMod<float>) (q : IMod<float>)=
         let numInput name changed state  = labeledFloatInput name 0.0 1.0 0.01 changed state
@@ -118,6 +125,9 @@ module lightControl =
                 |> UI.map SetLightDirection
 
                 intensityView i c
+                Html.table [
+                    tr [] [ td [] [text "Cast Shadow"]; td [style "width: 70%;"] [Html.SemUi.toggleBox  (Mod.map (fun l -> l.castsShadow) l') ToggleCastShadow ]]
+                ]
             ]                  
         |MPointLight l' -> 
             let al = Mod.map (fun l -> l.attenuationLinear) l'
@@ -220,7 +230,7 @@ module SLEUniform =
             | MDirectionalLight  x' ->
                let! x  = x'
                 //Map to a type more convinient in the shaders
-               let r : Light = {lightType = LightType.DirectionalLight; lightPosition = x.lightDirection; color = x.color.ToV3d() * x.intensity; attenuationQad = 0.0; attenuationLinear = 0.0; castsShadow = true}
+               let r : Light = {lightType = LightType.DirectionalLight; lightPosition = x.lightDirection; color = x.color.ToV3d() * x.intensity; attenuationQad = 0.0; attenuationLinear = 0.0; castsShadow = x.castsShadow}
                return  r
             | MPointLight  x' ->
                let! x  = x'
