@@ -10,116 +10,6 @@ module Mutable =
 
     
     
-    type MObject(__initial : Aardvark_test.Model.Object) =
-        inherit obj()
-        let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.Object> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.Object>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.Object>
-        let _name = ResetMod.Create(__initial.name)
-        
-        member x.name = _name :> IMod<_>
-        
-        member x.Current = __current :> IMod<_>
-        member x.Update(v : Aardvark_test.Model.Object) =
-            if not (System.Object.ReferenceEquals(__current.Value, v)) then
-                __current.Value <- v
-                
-                ResetMod.Update(_name,v.name)
-                
-        
-        static member Create(__initial : Aardvark_test.Model.Object) : MObject = MObject(__initial)
-        static member Update(m : MObject, v : Aardvark_test.Model.Object) = m.Update(v)
-        
-        override x.ToString() = __current.Value.ToString()
-        member x.AsString = sprintf "%A" __current.Value
-        interface IUpdatable<Aardvark_test.Model.Object> with
-            member x.Update v = x.Update v
-    
-    
-    
-    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-    module Object =
-        [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-        module Lens =
-            let name =
-                { new Lens<Aardvark_test.Model.Object, System.String>() with
-                    override x.Get(r) = r.name
-                    override x.Set(r,v) = { r with name = v }
-                    override x.Update(r,f) = { r with name = f r.name }
-                }
-    [<AbstractClass; System.Runtime.CompilerServices.Extension; StructuredFormatDisplay("{AsString}")>]
-    type MLight() =
-        abstract member TryUpdate : Aardvark_test.Model.Light -> bool
-        abstract member AsString : string
-        
-        static member private CreateValue(__model : Aardvark_test.Model.Light) = 
-            match __model with
-                | DirectionalLight(item) -> MDirectionalLight(__model, item) :> MLight
-                | PointLight(item) -> MPointLight(__model, item) :> MLight
-        
-        static member Create(v : Aardvark_test.Model.Light) =
-            ResetMod.Create(MLight.CreateValue v) :> IMod<_>
-        
-        [<System.Runtime.CompilerServices.Extension>]
-        static member Update(m : IMod<MLight>, v : Aardvark_test.Model.Light) =
-            let m = unbox<ResetMod<MLight>> m
-            if not (m.GetValue().TryUpdate v) then
-                m.Update(MLight.CreateValue v)
-    
-    and private MDirectionalLight(__initial : Aardvark_test.Model.Light, item : Aardvark_test.Model.DirectionalLightData) =
-        inherit MLight()
-        
-        let mutable __current = __initial
-        let _item = ResetMod.Create(item)
-        member x.item = _item :> IMod<_>
-        
-        override x.ToString() = __current.ToString()
-        override x.AsString = sprintf "%A" __current
-        
-        override x.TryUpdate(__model : Aardvark_test.Model.Light) = 
-            if System.Object.ReferenceEquals(__current, __model) then
-                true
-            else
-                match __model with
-                    | DirectionalLight(item) -> 
-                        __current <- __model
-                        _item.Update(item)
-                        true
-                    | _ -> false
-    
-    and private MPointLight(__initial : Aardvark_test.Model.Light, item : Aardvark_test.Model.PointLightData) =
-        inherit MLight()
-        
-        let mutable __current = __initial
-        let _item = ResetMod.Create(item)
-        member x.item = _item :> IMod<_>
-        
-        override x.ToString() = __current.ToString()
-        override x.AsString = sprintf "%A" __current
-        
-        override x.TryUpdate(__model : Aardvark_test.Model.Light) = 
-            if System.Object.ReferenceEquals(__current, __model) then
-                true
-            else
-                match __model with
-                    | PointLight(item) -> 
-                        __current <- __model
-                        _item.Update(item)
-                        true
-                    | _ -> false
-    
-    
-    [<AutoOpen>]
-    module MLightPatterns =
-        let (|MDirectionalLight|MPointLight|) (m : MLight) =
-            match m with
-            | :? MDirectionalLight as v -> MDirectionalLight(v.item)
-            | :? MPointLight as v -> MPointLight(v.item)
-            | _ -> failwith "impossible"
-    
-    
-    
-    
-    
-    
     type MPBRMaterial(__initial : Aardvark_test.Model.PBRMaterial) =
         inherit obj()
         let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.PBRMaterial> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.PBRMaterial>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.PBRMaterial>
@@ -209,6 +99,179 @@ module Mutable =
                     override x.Set(r,v) = { r with displacmentStrength = v }
                     override x.Update(r,f) = { r with displacmentStrength = f r.displacmentStrength }
                 }
+    
+    
+    type MSceneObject(__initial : Aardvark_test.Model.SceneObject) =
+        inherit obj()
+        let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.SceneObject> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.SceneObject>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.SceneObject>
+        let _name = ResetMod.Create(__initial.name)
+        let _file = ResetMod.Create(__initial.file)
+        let _scale = ResetMod.Create(__initial.scale)
+        let _translation = ResetMod.Create(__initial.translation)
+        let _rotation = ResetMod.Create(__initial.rotation)
+        let _materials = MMap.Create(__initial.materials, (fun v -> MPBRMaterial.Create(v)), (fun (m,v) -> MPBRMaterial.Update(m, v)), (fun v -> v))
+        let _currentMaterial = ResetMod.Create(__initial.currentMaterial)
+        let _object = ResetMod.Create(__initial.object)
+        
+        member x.name = _name :> IMod<_>
+        member x.file = _file :> IMod<_>
+        member x.scale = _scale :> IMod<_>
+        member x.translation = _translation :> IMod<_>
+        member x.rotation = _rotation :> IMod<_>
+        member x.materials = _materials :> amap<_,_>
+        member x.currentMaterial = _currentMaterial :> IMod<_>
+        member x.object = _object :> IMod<_>
+        
+        member x.Current = __current :> IMod<_>
+        member x.Update(v : Aardvark_test.Model.SceneObject) =
+            if not (System.Object.ReferenceEquals(__current.Value, v)) then
+                __current.Value <- v
+                
+                ResetMod.Update(_name,v.name)
+                ResetMod.Update(_file,v.file)
+                ResetMod.Update(_scale,v.scale)
+                ResetMod.Update(_translation,v.translation)
+                ResetMod.Update(_rotation,v.rotation)
+                MMap.Update(_materials, v.materials)
+                ResetMod.Update(_currentMaterial,v.currentMaterial)
+                ResetMod.Update(_object,v.object)
+                
+        
+        static member Create(__initial : Aardvark_test.Model.SceneObject) : MSceneObject = MSceneObject(__initial)
+        static member Update(m : MSceneObject, v : Aardvark_test.Model.SceneObject) = m.Update(v)
+        
+        override x.ToString() = __current.Value.ToString()
+        member x.AsString = sprintf "%A" __current.Value
+        interface IUpdatable<Aardvark_test.Model.SceneObject> with
+            member x.Update v = x.Update v
+    
+    
+    
+    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+    module SceneObject =
+        [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+        module Lens =
+            let name =
+                { new Lens<Aardvark_test.Model.SceneObject, System.String>() with
+                    override x.Get(r) = r.name
+                    override x.Set(r,v) = { r with name = v }
+                    override x.Update(r,f) = { r with name = f r.name }
+                }
+            let file =
+                { new Lens<Aardvark_test.Model.SceneObject, System.String>() with
+                    override x.Get(r) = r.file
+                    override x.Set(r,v) = { r with file = v }
+                    override x.Update(r,f) = { r with file = f r.file }
+                }
+            let scale =
+                { new Lens<Aardvark_test.Model.SceneObject, System.Double>() with
+                    override x.Get(r) = r.scale
+                    override x.Set(r,v) = { r with scale = v }
+                    override x.Update(r,f) = { r with scale = f r.scale }
+                }
+            let translation =
+                { new Lens<Aardvark_test.Model.SceneObject, Aardvark.Base.V3d>() with
+                    override x.Get(r) = r.translation
+                    override x.Set(r,v) = { r with translation = v }
+                    override x.Update(r,f) = { r with translation = f r.translation }
+                }
+            let rotation =
+                { new Lens<Aardvark_test.Model.SceneObject, Aardvark.Base.V3d>() with
+                    override x.Get(r) = r.rotation
+                    override x.Set(r,v) = { r with rotation = v }
+                    override x.Update(r,f) = { r with rotation = f r.rotation }
+                }
+            let materials =
+                { new Lens<Aardvark_test.Model.SceneObject, Aardvark.Base.hmap<System.String,Aardvark_test.Model.PBRMaterial>>() with
+                    override x.Get(r) = r.materials
+                    override x.Set(r,v) = { r with materials = v }
+                    override x.Update(r,f) = { r with materials = f r.materials }
+                }
+            let currentMaterial =
+                { new Lens<Aardvark_test.Model.SceneObject, System.String>() with
+                    override x.Get(r) = r.currentMaterial
+                    override x.Set(r,v) = { r with currentMaterial = v }
+                    override x.Update(r,f) = { r with currentMaterial = f r.currentMaterial }
+                }
+            let object =
+                { new Lens<Aardvark_test.Model.SceneObject, Aardvark.SceneGraph.IO.Loader.Scene>() with
+                    override x.Get(r) = r.object
+                    override x.Set(r,v) = { r with object = v }
+                    override x.Update(r,f) = { r with object = f r.object }
+                }
+    [<AbstractClass; System.Runtime.CompilerServices.Extension; StructuredFormatDisplay("{AsString}")>]
+    type MLight() =
+        abstract member TryUpdate : Aardvark_test.Model.Light -> bool
+        abstract member AsString : string
+        
+        static member private CreateValue(__model : Aardvark_test.Model.Light) = 
+            match __model with
+                | DirectionalLight(item) -> MDirectionalLight(__model, item) :> MLight
+                | PointLight(item) -> MPointLight(__model, item) :> MLight
+        
+        static member Create(v : Aardvark_test.Model.Light) =
+            ResetMod.Create(MLight.CreateValue v) :> IMod<_>
+        
+        [<System.Runtime.CompilerServices.Extension>]
+        static member Update(m : IMod<MLight>, v : Aardvark_test.Model.Light) =
+            let m = unbox<ResetMod<MLight>> m
+            if not (m.GetValue().TryUpdate v) then
+                m.Update(MLight.CreateValue v)
+    
+    and private MDirectionalLight(__initial : Aardvark_test.Model.Light, item : Aardvark_test.Model.DirectionalLightData) =
+        inherit MLight()
+        
+        let mutable __current = __initial
+        let _item = ResetMod.Create(item)
+        member x.item = _item :> IMod<_>
+        
+        override x.ToString() = __current.ToString()
+        override x.AsString = sprintf "%A" __current
+        
+        override x.TryUpdate(__model : Aardvark_test.Model.Light) = 
+            if System.Object.ReferenceEquals(__current, __model) then
+                true
+            else
+                match __model with
+                    | DirectionalLight(item) -> 
+                        __current <- __model
+                        _item.Update(item)
+                        true
+                    | _ -> false
+    
+    and private MPointLight(__initial : Aardvark_test.Model.Light, item : Aardvark_test.Model.PointLightData) =
+        inherit MLight()
+        
+        let mutable __current = __initial
+        let _item = ResetMod.Create(item)
+        member x.item = _item :> IMod<_>
+        
+        override x.ToString() = __current.ToString()
+        override x.AsString = sprintf "%A" __current
+        
+        override x.TryUpdate(__model : Aardvark_test.Model.Light) = 
+            if System.Object.ReferenceEquals(__current, __model) then
+                true
+            else
+                match __model with
+                    | PointLight(item) -> 
+                        __current <- __model
+                        _item.Update(item)
+                        true
+                    | _ -> false
+    
+    
+    [<AutoOpen>]
+    module MLightPatterns =
+        let (|MDirectionalLight|MPointLight|) (m : MLight) =
+            match m with
+            | :? MDirectionalLight as v -> MDirectionalLight(v.item)
+            | :? MPointLight as v -> MPointLight(v.item)
+            | _ -> failwith "impossible"
+    
+    
+    
+    
     
     
     type MAmbientOcclusionSettings(__initial : Aardvark_test.Model.AmbientOcclusionSettings) =
@@ -380,19 +443,17 @@ module Mutable =
         let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.Model> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.Model>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.Model>
         let _cameraState = Aardvark.UI.Primitives.Mutable.MCameraControllerState.Create(__initial.cameraState)
         let _lights = MMap.Create(__initial.lights, (fun v -> MLight.Create(v)), (fun (m,v) -> MLight.Update(m, v)), (fun v -> v))
-        let _material = MPBRMaterial.Create(__initial.material)
         let _enviorment = MGlobalEnviorment.Create(__initial.enviorment)
         let _expousure = ResetMod.Create(__initial.expousure)
-        let _materials = MMap.Create(__initial.materials, (fun v -> MPBRMaterial.Create(v)), (fun (m,v) -> MPBRMaterial.Update(m, v)), (fun v -> v))
-        let _currentMaterial = ResetMod.Create(__initial.currentMaterial)
+        let _objects = MMap.Create(__initial.objects, (fun v -> MSceneObject.Create(v)), (fun (m,v) -> MSceneObject.Update(m, v)), (fun v -> v))
+        let _selectedObject = ResetMod.Create(__initial.selectedObject)
         
         member x.cameraState = _cameraState
         member x.lights = _lights :> amap<_,_>
-        member x.material = _material
         member x.enviorment = _enviorment
         member x.expousure = _expousure :> IMod<_>
-        member x.materials = _materials :> amap<_,_>
-        member x.currentMaterial = _currentMaterial :> IMod<_>
+        member x.objects = _objects :> amap<_,_>
+        member x.selectedObject = _selectedObject :> IMod<_>
         
         member x.Current = __current :> IMod<_>
         member x.Update(v : Aardvark_test.Model.Model) =
@@ -401,11 +462,10 @@ module Mutable =
                 
                 Aardvark.UI.Primitives.Mutable.MCameraControllerState.Update(_cameraState, v.cameraState)
                 MMap.Update(_lights, v.lights)
-                MPBRMaterial.Update(_material, v.material)
                 MGlobalEnviorment.Update(_enviorment, v.enviorment)
                 ResetMod.Update(_expousure,v.expousure)
-                MMap.Update(_materials, v.materials)
-                ResetMod.Update(_currentMaterial,v.currentMaterial)
+                MMap.Update(_objects, v.objects)
+                ResetMod.Update(_selectedObject,v.selectedObject)
                 
         
         static member Create(__initial : Aardvark_test.Model.Model) : MModel = MModel(__initial)
@@ -434,12 +494,6 @@ module Mutable =
                     override x.Set(r,v) = { r with lights = v }
                     override x.Update(r,f) = { r with lights = f r.lights }
                 }
-            let material =
-                { new Lens<Aardvark_test.Model.Model, Aardvark_test.Model.PBRMaterial>() with
-                    override x.Get(r) = r.material
-                    override x.Set(r,v) = { r with material = v }
-                    override x.Update(r,f) = { r with material = f r.material }
-                }
             let enviorment =
                 { new Lens<Aardvark_test.Model.Model, Aardvark_test.Model.GlobalEnviorment>() with
                     override x.Get(r) = r.enviorment
@@ -452,15 +506,15 @@ module Mutable =
                     override x.Set(r,v) = { r with expousure = v }
                     override x.Update(r,f) = { r with expousure = f r.expousure }
                 }
-            let materials =
-                { new Lens<Aardvark_test.Model.Model, Aardvark.Base.hmap<System.String,Aardvark_test.Model.PBRMaterial>>() with
-                    override x.Get(r) = r.materials
-                    override x.Set(r,v) = { r with materials = v }
-                    override x.Update(r,f) = { r with materials = f r.materials }
+            let objects =
+                { new Lens<Aardvark_test.Model.Model, Aardvark.Base.hmap<System.String,Aardvark_test.Model.SceneObject>>() with
+                    override x.Get(r) = r.objects
+                    override x.Set(r,v) = { r with objects = v }
+                    override x.Update(r,f) = { r with objects = f r.objects }
                 }
-            let currentMaterial =
+            let selectedObject =
                 { new Lens<Aardvark_test.Model.Model, System.String>() with
-                    override x.Get(r) = r.currentMaterial
-                    override x.Set(r,v) = { r with currentMaterial = v }
-                    override x.Update(r,f) = { r with currentMaterial = f r.currentMaterial }
+                    override x.Get(r) = r.selectedObject
+                    override x.Set(r,v) = { r with selectedObject = v }
+                    override x.Update(r,f) = { r with selectedObject = f r.selectedObject }
                 }

@@ -44,7 +44,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl iris
 Ns 100.0
@@ -82,7 +82,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl nails
 Ns 100.0
@@ -93,7 +93,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl nails2
 Ns 100.0
@@ -104,7 +104,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl nails3
 Ns 100.0
@@ -115,7 +115,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl nails4
 Ns 100.0
@@ -126,7 +126,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl nails5
 Ns 100.0
@@ -137,7 +137,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl nails6
 Ns 100.0
@@ -148,7 +148,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl puppil
 Ns 100.0
@@ -159,7 +159,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl puppil2
 Ns 100.0
@@ -170,7 +170,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin
 Ns 100.0
@@ -181,7 +181,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin10
 Ns 100.0
@@ -192,7 +192,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin11
 Ns 100.0
@@ -203,7 +203,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin12
 Ns 100.0
@@ -214,7 +214,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin13
 Ns 100.0
@@ -225,7 +225,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin14
 Ns 100.0
@@ -236,7 +236,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin15
 Ns 100.0
@@ -247,7 +247,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin16
 Ns 100.0
@@ -258,7 +258,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin17
 Ns 100.0
@@ -269,7 +269,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin18
 Ns 100.0
@@ -280,7 +280,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin19
 Ns 100.0
@@ -291,7 +291,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin2
 Ns 100.0
@@ -302,7 +302,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin20
 Ns 100.0
@@ -313,7 +313,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin21
 Ns 100.0
@@ -324,7 +324,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin22
 Ns 100.0
@@ -335,7 +335,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin23
 Ns 100.0
@@ -346,7 +346,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin24
 Ns 100.0
@@ -357,7 +357,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin25
 Ns 100.0
@@ -368,7 +368,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin26
 Ns 100.0
@@ -379,7 +379,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin27
 Ns 100.0
@@ -390,7 +390,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin28
 Ns 100.0
@@ -401,7 +401,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin29
 Ns 100.0
@@ -412,7 +412,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin3
 Ns 100.0
@@ -423,7 +423,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin30
 Ns 100.0
@@ -434,7 +434,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin31
 Ns 100.0
@@ -445,7 +445,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin32
 Ns 100.0
@@ -456,7 +456,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin33
 Ns 100.0
@@ -467,7 +467,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin34
 Ns 100.0
@@ -478,7 +478,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin35
 Ns 100.0
@@ -489,7 +489,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin36
 Ns 100.0
@@ -500,7 +500,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin37
 Ns 100.0
@@ -511,7 +511,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin38
 Ns 100.0
@@ -522,7 +522,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin39
 Ns 100.0
@@ -533,7 +533,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin4
 Ns 100.0
@@ -544,7 +544,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin40
 Ns 100.0
@@ -555,7 +555,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin41
 Ns 100.0
@@ -566,7 +566,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin5
 Ns 100.0
@@ -577,7 +577,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin6
 Ns 100.0
@@ -588,7 +588,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin7
 Ns 100.0
@@ -599,7 +599,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin8
 Ns 100.0
@@ -610,7 +610,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl skin9
 Ns 100.0
@@ -621,7 +621,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 
 newmtl teeth
 Ns 100.0
@@ -632,7 +632,7 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png 
+bump SLE_Gnom2_n.jpg 
 
 newmtl thounge
 Ns 100.0
@@ -643,5 +643,5 @@ Ka 0.0 0.0 0.0
 Ks 0.0 0.0 0.0
 Ke 0.0 0.0 0.0
 map_Kd SLE_Gnom2.jpg 
-bump SLE_Gnom2_n.png
+bump SLE_Gnom2_n.jpg
 

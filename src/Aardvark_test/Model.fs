@@ -4,6 +4,7 @@ open System
 open Aardvark.Base
 open Aardvark.Base.Incremental
 open Aardvark.UI.Primitives
+open Aardvark.SceneGraph
 
 
 type DirectionalLightData = {
@@ -22,8 +23,27 @@ type PointLightData = {
 }
 
 [<DomainType>]
-type Object = {
+type PBRMaterial = {
+    metallic  : float
+    roughness : float
+    albedoFactor : float
+    normalMapStrenght : float
+    discard : bool
+    displacmentMap : ITexture
+    displacmentStrength : float
+}
+
+[<DomainType>]
+type SceneObject = {
+    [<PrimaryKey>] 
     name : string
+    file : string
+    scale : float
+    translation : V3d
+    rotation : V3d
+    materials : hmap<string, PBRMaterial>
+    currentMaterial : string
+    object  : IO.Loader.Scene 
 }
 
 [<DomainType>]
@@ -31,17 +51,6 @@ type Light =
     | DirectionalLight of DirectionalLightData
     | PointLight of PointLightData
 
-[<DomainType>]
-type PBRMaterial = 
-    {
-        metallic  : float
-        roughness : float
-        albedoFactor : float
-        normalMapStrenght : float
-        discard : bool
-        displacmentMap : ITexture
-        displacmentStrength : float
-    }
 [<DomainType>]
 type AmbientOcclusionSettings =
     {
@@ -69,11 +78,10 @@ type Model =
     {
         cameraState : CameraControllerState
         lights : hmap<int, Light>
-        material : PBRMaterial
         enviorment : GlobalEnviorment
         expousure  : float
-        materials : hmap<string, PBRMaterial>
-        currentMaterial : string
+        objects : hmap<string, SceneObject>
+        selectedObject : string
     }
 
 module light =

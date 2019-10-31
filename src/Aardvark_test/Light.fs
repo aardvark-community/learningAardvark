@@ -166,9 +166,7 @@ module Shadow =
 
     let shadowMapSize = V2i(1024) |> Mod.constant
 
-    let lightViewPoject (scene :ISg<'msg>) (light : MLight) =
-        let s = scene :>  ISg
-        let bb = s.GlobalBoundingBox()
+    let lightViewPoject (bb : IMod<Box3d>) (light : MLight) =
         match light with
         | MPointLight l -> failwith "not implemented"
         | MDirectionalLight l -> 
@@ -190,9 +188,9 @@ module Shadow =
                 return lightView , proj
             }
 
-    let shadowMap (runtime : IRuntime) (scene :ISg<'msg>) (light : MLight) =
-            let v = lightViewPoject scene light |> Mod.map fst
-            let p = lightViewPoject scene light |> Mod.map snd
+    let shadowMap (runtime : IRuntime) (scene :ISg<'msg>) (bb : IMod<Box3d>) (light : MLight) =
+            let v = lightViewPoject bb light |> Mod.map fst
+            let p = lightViewPoject bb light |> Mod.map snd
             scene
             |> Sg.shader {
                 do! DefaultSurfaces.trafo

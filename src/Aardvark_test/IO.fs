@@ -986,6 +986,7 @@ module Loader =
             }
 
         let load (file : string) =
+            Log.warn "load"
             loadFrom file defaultFlags
 
     type Assimp with

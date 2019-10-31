@@ -16,13 +16,14 @@
     <Compile Include="IO.fs" />
     <Compile Include="RenderTask.fs" />
     <Compile Include="UI.fs" />
-    <Compile Include="Model.fs" />
+    <Compile Include="Model.fs"  />
+    <Compile Include="Model.g.fs" />
     <Compile Include="Light.fs" />
     <Compile Include="Material.fs" />
+    <Compile Include="SceneObject.fs" />
     <Compile Include="Shader.fs" />
     <Compile Include="globalEnviroment.fs" />
     <Compile Include="App.fs" />
-    <Compile Include="Model.g.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
