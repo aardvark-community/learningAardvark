@@ -36,7 +36,7 @@ module material =
             let loadTex f =
                 f
                 |> Option.map (fun f -> FileTexture(f, TextureParams.empty) :> ITexture)
-                |> Option.defaultValue (NullTexture() :> ITexture)
+                |> Option.defaultValue (onPixTex C3f.White)
             Mod.bind (fun (m : MPBRMaterial)-> m.metallic.fileName |> Mod.map loadTex)  x.material :> IMod
 
         member x.RoughnessMap =
