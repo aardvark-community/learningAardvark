@@ -10,37 +10,86 @@ module Mutable =
 
     
     
+    type MTextureMappedValue(__initial : Aardvark_test.Model.TextureMappedValue) =
+        inherit obj()
+        let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.TextureMappedValue> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.TextureMappedValue>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.TextureMappedValue>
+        let _fileName = MOption.Create(__initial.fileName)
+        let _factor = ResetMod.Create(__initial.factor)
+        
+        member x.fileName = _fileName :> IMod<_>
+        member x.factor = _factor :> IMod<_>
+        
+        member x.Current = __current :> IMod<_>
+        member x.Update(v : Aardvark_test.Model.TextureMappedValue) =
+            if not (System.Object.ReferenceEquals(__current.Value, v)) then
+                __current.Value <- v
+                
+                MOption.Update(_fileName, v.fileName)
+                ResetMod.Update(_factor,v.factor)
+                
+        
+        static member Create(__initial : Aardvark_test.Model.TextureMappedValue) : MTextureMappedValue = MTextureMappedValue(__initial)
+        static member Update(m : MTextureMappedValue, v : Aardvark_test.Model.TextureMappedValue) = m.Update(v)
+        
+        override x.ToString() = __current.Value.ToString()
+        member x.AsString = sprintf "%A" __current.Value
+        interface IUpdatable<Aardvark_test.Model.TextureMappedValue> with
+            member x.Update v = x.Update v
+    
+    
+    
+    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+    module TextureMappedValue =
+        [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+        module Lens =
+            let fileName =
+                { new Lens<Aardvark_test.Model.TextureMappedValue, Microsoft.FSharp.Core.Option<System.String>>() with
+                    override x.Get(r) = r.fileName
+                    override x.Set(r,v) = { r with fileName = v }
+                    override x.Update(r,f) = { r with fileName = f r.fileName }
+                }
+            let factor =
+                { new Lens<Aardvark_test.Model.TextureMappedValue, System.Double>() with
+                    override x.Get(r) = r.factor
+                    override x.Set(r,v) = { r with factor = v }
+                    override x.Update(r,f) = { r with factor = f r.factor }
+                }
+    
+    
     type MPBRMaterial(__initial : Aardvark_test.Model.PBRMaterial) =
         inherit obj()
         let mutable __current : Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.PBRMaterial> = Aardvark.Base.Incremental.EqModRef<Aardvark_test.Model.PBRMaterial>(__initial) :> Aardvark.Base.Incremental.IModRef<Aardvark_test.Model.PBRMaterial>
-        let _metallic = ResetMod.Create(__initial.metallic)
-        let _roughness = ResetMod.Create(__initial.roughness)
+        let _metallic = MTextureMappedValue.Create(__initial.metallic)
+        let _roughness = MTextureMappedValue.Create(__initial.roughness)
+        let _albedo = MTextureMappedValue.Create(__initial.albedo)
+        let _normal = MTextureMappedValue.Create(__initial.normal)
         let _albedoFactor = ResetMod.Create(__initial.albedoFactor)
         let _normalMapStrenght = ResetMod.Create(__initial.normalMapStrenght)
         let _discard = ResetMod.Create(__initial.discard)
-        let _displacmentMap = ResetMod.Create(__initial.displacmentMap)
-        let _displacmentStrength = ResetMod.Create(__initial.displacmentStrength)
+        let _displacment = MTextureMappedValue.Create(__initial.displacment)
         
-        member x.metallic = _metallic :> IMod<_>
-        member x.roughness = _roughness :> IMod<_>
+        member x.metallic = _metallic
+        member x.roughness = _roughness
+        member x.albedo = _albedo
+        member x.normal = _normal
         member x.albedoFactor = _albedoFactor :> IMod<_>
         member x.normalMapStrenght = _normalMapStrenght :> IMod<_>
         member x.discard = _discard :> IMod<_>
-        member x.displacmentMap = _displacmentMap :> IMod<_>
-        member x.displacmentStrength = _displacmentStrength :> IMod<_>
+        member x.displacment = _displacment
         
         member x.Current = __current :> IMod<_>
         member x.Update(v : Aardvark_test.Model.PBRMaterial) =
             if not (System.Object.ReferenceEquals(__current.Value, v)) then
                 __current.Value <- v
                 
-                ResetMod.Update(_metallic,v.metallic)
-                ResetMod.Update(_roughness,v.roughness)
+                MTextureMappedValue.Update(_metallic, v.metallic)
+                MTextureMappedValue.Update(_roughness, v.roughness)
+                MTextureMappedValue.Update(_albedo, v.albedo)
+                MTextureMappedValue.Update(_normal, v.normal)
                 ResetMod.Update(_albedoFactor,v.albedoFactor)
                 ResetMod.Update(_normalMapStrenght,v.normalMapStrenght)
                 ResetMod.Update(_discard,v.discard)
-                ResetMod.Update(_displacmentMap,v.displacmentMap)
-                ResetMod.Update(_displacmentStrength,v.displacmentStrength)
+                MTextureMappedValue.Update(_displacment, v.displacment)
                 
         
         static member Create(__initial : Aardvark_test.Model.PBRMaterial) : MPBRMaterial = MPBRMaterial(__initial)
@@ -58,16 +107,28 @@ module Mutable =
         [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
         module Lens =
             let metallic =
-                { new Lens<Aardvark_test.Model.PBRMaterial, System.Double>() with
+                { new Lens<Aardvark_test.Model.PBRMaterial, Aardvark_test.Model.TextureMappedValue>() with
                     override x.Get(r) = r.metallic
                     override x.Set(r,v) = { r with metallic = v }
                     override x.Update(r,f) = { r with metallic = f r.metallic }
                 }
             let roughness =
-                { new Lens<Aardvark_test.Model.PBRMaterial, System.Double>() with
+                { new Lens<Aardvark_test.Model.PBRMaterial, Aardvark_test.Model.TextureMappedValue>() with
                     override x.Get(r) = r.roughness
                     override x.Set(r,v) = { r with roughness = v }
                     override x.Update(r,f) = { r with roughness = f r.roughness }
+                }
+            let albedo =
+                { new Lens<Aardvark_test.Model.PBRMaterial, Aardvark_test.Model.TextureMappedValue>() with
+                    override x.Get(r) = r.albedo
+                    override x.Set(r,v) = { r with albedo = v }
+                    override x.Update(r,f) = { r with albedo = f r.albedo }
+                }
+            let normal =
+                { new Lens<Aardvark_test.Model.PBRMaterial, Aardvark_test.Model.TextureMappedValue>() with
+                    override x.Get(r) = r.normal
+                    override x.Set(r,v) = { r with normal = v }
+                    override x.Update(r,f) = { r with normal = f r.normal }
                 }
             let albedoFactor =
                 { new Lens<Aardvark_test.Model.PBRMaterial, System.Double>() with
@@ -87,17 +148,11 @@ module Mutable =
                     override x.Set(r,v) = { r with discard = v }
                     override x.Update(r,f) = { r with discard = f r.discard }
                 }
-            let displacmentMap =
-                { new Lens<Aardvark_test.Model.PBRMaterial, Aardvark.Base.ITexture>() with
-                    override x.Get(r) = r.displacmentMap
-                    override x.Set(r,v) = { r with displacmentMap = v }
-                    override x.Update(r,f) = { r with displacmentMap = f r.displacmentMap }
-                }
-            let displacmentStrength =
-                { new Lens<Aardvark_test.Model.PBRMaterial, System.Double>() with
-                    override x.Get(r) = r.displacmentStrength
-                    override x.Set(r,v) = { r with displacmentStrength = v }
-                    override x.Update(r,f) = { r with displacmentStrength = f r.displacmentStrength }
+            let displacment =
+                { new Lens<Aardvark_test.Model.PBRMaterial, Aardvark_test.Model.TextureMappedValue>() with
+                    override x.Get(r) = r.displacment
+                    override x.Set(r,v) = { r with displacment = v }
+                    override x.Update(r,f) = { r with displacment = f r.displacment }
                 }
     
     
