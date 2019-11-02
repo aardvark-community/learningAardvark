@@ -651,6 +651,22 @@ module  displacemntMap =
             addressV WrapMode.Wrap
         }
 
+    let private metallicSampler =
+        sampler2d {
+            texture uniform?MetallicMap
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
+    let private roughnessSampler =
+        sampler2d {
+            texture uniform?RoughnessMap
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+   
     let gBufferShader (vert : Vertex) =
         fragment {
             let gamma  = 2.2
@@ -658,8 +674,8 @@ module  displacemntMap =
             if uniform.Discard then
                 discard()
             let albedo = pow (vert.c.XYZ * uniform.AlbedoFactor) (V3d(gamma))
-            let metallic = uniform.Metallic
-            let roughness = uniform.Roughness
+            let metallic = uniform.Metallic * metallicSampler.Sample(vert.tc).X
+            let roughness = uniform.Roughness * roughnessSampler.Sample(vert.tc).X
 
             return {vert with c = V4d(albedo,vert.c.W); m = V2d(metallic,roughness)}
         }

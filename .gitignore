@@ -15,3 +15,17 @@ bin/Debug
 /Aardvark.log
 /src/.ionide/*.db
 src/Aardvark_test/.domaincache
+data/granite5-albedo.png
+data/granite5-ao.png
+data/granite5-Height.png
+data/granite5-Metallic.psd
+data/granite5-Normal-ogl.png
+data/gravel_path-albedo.png
+data/gravel_path_Height.png
+data/gravel_path_Metallic.psd
+data/gravel_path_Normal-ogl.png
+data/Rock24_AO.jpg
+data/Rock24_col.jpg
+data/Rock24_disp.jpg
+data/Rock24_nrm.jpg
+data/Rock24_rgh.jpg
