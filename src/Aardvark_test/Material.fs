@@ -110,7 +110,6 @@ module material =
                         traverse state n
 
             traverse [] s.root 
-
     
     let removeDigits = String.filter (Char.IsDigit >> not)
 
@@ -147,7 +146,6 @@ module material =
         |> List.map (fun n -> n, defaultMaterial)
         |> HMap.ofList
     
-
 module textureMappedValueControl =
 
     type Message =

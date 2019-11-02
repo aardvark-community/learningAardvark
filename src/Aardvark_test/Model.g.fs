@@ -166,7 +166,6 @@ module Mutable =
         let _rotation = ResetMod.Create(__initial.rotation)
         let _materials = MMap.Create(__initial.materials, (fun v -> MPBRMaterial.Create(v)), (fun (m,v) -> MPBRMaterial.Update(m, v)), (fun v -> v))
         let _currentMaterial = ResetMod.Create(__initial.currentMaterial)
-        let _object = ResetMod.Create(__initial.object)
         
         member x.name = _name :> IMod<_>
         member x.file = _file :> IMod<_>
@@ -175,7 +174,6 @@ module Mutable =
         member x.rotation = _rotation :> IMod<_>
         member x.materials = _materials :> amap<_,_>
         member x.currentMaterial = _currentMaterial :> IMod<_>
-        member x.object = _object :> IMod<_>
         
         member x.Current = __current :> IMod<_>
         member x.Update(v : Aardvark_test.Model.SceneObject) =
@@ -189,7 +187,6 @@ module Mutable =
                 ResetMod.Update(_rotation,v.rotation)
                 MMap.Update(_materials, v.materials)
                 ResetMod.Update(_currentMaterial,v.currentMaterial)
-                ResetMod.Update(_object,v.object)
                 
         
         static member Create(__initial : Aardvark_test.Model.SceneObject) : MSceneObject = MSceneObject(__initial)
@@ -247,12 +244,6 @@ module Mutable =
                     override x.Get(r) = r.currentMaterial
                     override x.Set(r,v) = { r with currentMaterial = v }
                     override x.Update(r,f) = { r with currentMaterial = f r.currentMaterial }
-                }
-            let object =
-                { new Lens<Aardvark_test.Model.SceneObject, Aardvark.SceneGraph.IO.Loader.Scene>() with
-                    override x.Get(r) = r.object
-                    override x.Set(r,v) = { r with object = v }
-                    override x.Update(r,f) = { r with object = f r.object }
                 }
     [<AbstractClass; System.Runtime.CompilerServices.Extension; StructuredFormatDisplay("{AsString}")>]
     type MLight() =

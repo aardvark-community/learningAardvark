@@ -220,7 +220,7 @@ module App =
             let seed = Box3d(V3d.OOO, V3d.OOO) |> Mod.constant
             let bounds (o : MSceneObject) =
                 adaptive{
-                    let! object  = o.object
+                    let! object  = sceneObject.object o
                     let! trans = sceneObject.trafo o
                     let bounds = object.bounds
                     return bounds.Transformed(trans)
@@ -357,7 +357,7 @@ module App =
         let objects = 
             aset {
                 for _,o in AMap.toASet m.objects do
-                    let! s = sceneObject.sg o 
+                    let! s = sceneObject.sg o
                     yield s |> Sg.trafo (sceneObject.trafo o ) 
             }
             |> Sg.set  
@@ -366,7 +366,7 @@ module App =
             [
                 style "position: fixed; left: 0; top: 0; width: 100%; height: 100%"
                 attribute "showFPS" "true"
-                //attribute "data-renderalways" "1"
+           //     attribute "data-renderalways" "1"
             ]
 
         deferrdRenderControl att m.cameraState frustum objects m

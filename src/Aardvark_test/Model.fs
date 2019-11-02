@@ -50,7 +50,6 @@ type SceneObject = {
     rotation : V3d
     materials : hmap<string, PBRMaterial>
     currentMaterial : string
-    object  : IO.Loader.Scene 
 }
 
 [<DomainType>]

@@ -15,7 +15,7 @@ module sceneObject =
 
     let emptyObject = {Scene.meshes = [||]; animantions = Map.empty; bounds = Box3d.Invalid; root = Empty; rootTrafo = Trafo3d.Identity}
 
-    let defaultObject = {name = "Default"; file  = ""; scale = 1.0; translation = V3d.Zero; rotation = V3d.Zero; materials = HMap.empty;  currentMaterial = ""; object = emptyObject}
+    let defaultObject = {name = "Default"; file  = ""; scale = 1.0; translation = V3d.Zero; rotation = V3d.Zero; materials = HMap.empty;  currentMaterial = ""}
 
     let loadObject (objects : hmap<string,SceneObject>) file = 
 
@@ -35,15 +35,23 @@ module sceneObject =
             |> HSet.toList
             |> List.first
             |> Option.defaultValue "none"
-        let obj = {name = name; file = file; scale = 1.0; translation = V3d.Zero; rotation = V3d.Zero; materials = materials;  currentMaterial = currentMaterial; object = import}
+        let obj = {name = name; file = file; scale = 1.0; translation = V3d.Zero; rotation = V3d.Zero; materials = materials;  currentMaterial = currentMaterial}
         HMap.add name obj objects , name
 
-    let sg (m : MSceneObject) =
+    let object (m : MSceneObject) = 
         Mod.custom (fun toc ->
-            let o = m.object.GetValue toc
+            let f = m.file.GetValue toc
+            let o = Assimp.load f
             o.SubstituteMaterial (fun mat -> Some ({importedMaterial = mat; material = (AMap.find ( removeDigits mat.name) m.materials)} :> IO.Loader.IMaterial))
+        )    
+
+    let sg (m : MSceneObject) =
+        m
+        |> object
+        |> Mod.map (fun o ->
+            o
             |> Sg.adapter
-        )       
+        )   
 
     let trafo (m : MSceneObject) =
         Mod.custom (fun toc ->
