@@ -1,0 +1,406 @@
+{
+  "FsPickler": "4.0.0",
+  "type": "Aardvark_test.projetIO+ExportModel",
+  "value": {
+    "cameraViewParams": {
+      "Item1": {
+        "X": 0.0,
+        "Y": 2.0,
+        "Z": -6.0
+      },
+      "Item2": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 1.0
+      },
+      "Item3": {
+        "X": 0.0,
+        "Y": 1.0,
+        "Z": 0.0
+      }
+    },
+    "lights": {
+      "count": 1,
+      "items": [
+        {
+          "Item1": 0,
+          "Item2": {
+            "Case": "DirectionalLight",
+            "Item": {
+              "lightDirection": {
+                "W": 1.0,
+                "X": 0.0,
+                "Y": -1.0,
+                "Z": 1.0
+              },
+              "color": {
+                "B": 1.0,
+                "G": 1.0,
+                "R": 1.0
+              },
+              "intensity": 1.0,
+              "castsShadow": true
+            }
+          }
+        }
+      ]
+    },
+    "enviorment": {
+      "skyMap": "..\\..\\..\\data\\GrandCanyon_C_YumaPoint\\GCanyon_C_YumaPoint_3k.hdr",
+      "skyMapRotation": 3.1415926535897931,
+      "skyMapIntensity": 1.0,
+      "ambientLightIntensity": 1.0,
+      "occlusionSettings": {
+        "occlusionStrength": 1.0,
+        "scale": 1.0,
+        "radius": 0.2,
+        "samples": 32,
+        "threshold": 0.2,
+        "sigma": 2.0,
+        "sharpness": 1.0
+      }
+    },
+    "expousure": 1.0,
+    "objects": {
+      "count": 1,
+      "items": {
+        "length": 1,
+        "array": [
+          {
+            "Item1": "SLE_Gnom4",
+            "Item2": {
+              "name": "SLE_Gnom4",
+              "file": "..\\..\\..\\data\\SLE_Gnom4.obj",
+              "scale": 1.0,
+              "translation": {
+                "X": 0.0,
+                "Y": 0.0,
+                "Z": 0.0
+              },
+              "rotation": {
+                "X": 0.0,
+                "Y": 0.0,
+                "Z": 0.0
+              },
+              "materials": {
+                "count": 11,
+                "items": [
+                  {
+                    "Item1": "puppil",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "albedoFactor": 1.0,
+                      "normalMapStrenght": 1.0,
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "teeth",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "albedoFactor": 1.0,
+                      "normalMapStrenght": 1.0,
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "cornea",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "albedoFactor": 1.0,
+                      "normalMapStrenght": 1.0,
+                      "discard": true,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "iris",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "albedoFactor": 1.0,
+                      "normalMapStrenght": 1.0,
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "innerMount",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "albedoFactor": 1.0,
+                      "normalMapStrenght": 1.0,
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "thounge",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "albedoFactor": 1.0,
+                      "normalMapStrenght": 1.0,
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "nails",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "albedoFactor": 1.0,
+                      "normalMapStrenght": 1.0,
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "eyewithe",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "albedoFactor": 1.0,
+                      "normalMapStrenght": 1.0,
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "lips",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "albedoFactor": 1.0,
+                      "normalMapStrenght": 1.0,
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "lashes",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "albedoFactor": 1.0,
+                      "normalMapStrenght": 1.0,
+                      "discard": true,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "skin",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.56
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "albedoFactor": 1.0,
+                      "normalMapStrenght": 1.0,
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  }
+                ]
+              },
+              "currentMaterial": "cornea"
+            }
+          }
+        ]
+      }
+    },
+    "selectedObject": "SLE_Gnom4"
+  }
+}

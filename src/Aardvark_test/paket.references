@@ -16,3 +16,4 @@ Aardvark.UI
 Aardvark.UI.Primitives
 Aardvark.Compiler.DomainTypes.MSBuild
 Aardium
+FsPickler.Json

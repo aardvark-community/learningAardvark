@@ -25,6 +25,8 @@ type Message =
     | AddSceneObject of string
     | RemoveSceneObject of string
     | SelectObject of string
+    | SaveProject of string
+    | LoadProject of string
 
 module App =   
 
@@ -89,6 +91,11 @@ module App =
             { m with expousure = e }
         | GlobalEnviormentMessage msg ->
             { m with enviorment = globalEnviroment.update m.enviorment msg }
+        | SaveProject f -> 
+            Log.warn "Save %s" f
+            do projetIO.save m f
+            m
+        | LoadProject f -> projetIO.load f
 
     let makeGBuffer (runtime : IRuntime) (view : IMod<Trafo3d>) projection size skyBoxTexture scene (m : MModel) =
 
@@ -374,6 +381,16 @@ module App =
     // main view for UI and  
     let view runtime (m : MModel) =
         let lights' = AMap.toASet m.lights
+        let saveButton = 
+            openDialogButton 
+                { OpenDialogConfig.file with allowMultiple = false; title = "Save"; filters  = [|"*.*"|];  startPath = ""; mode  = OpenDialogMode.File}
+                [ clazz "ui green button"; onChooseFile SaveProject ] 
+                [ text "Save" ]
+        let loadButton = 
+            openDialogButton 
+                { OpenDialogConfig.file with allowMultiple = false; title = "load"; filters  = [|"*.*"|];  startPath = ""; mode  = OpenDialogMode.File}
+                [ clazz "ui green button"; onChooseFile LoadProject ] 
+                [ text "Load" ]
         require Html.semui ( // we use semantic ui for our gui. the require function loads semui stuff such as stylesheets and scripts
             body [] (        // explit html body for our app (adorner menus need to be immediate children of body). if there is no explicit body the we would automatically generate a body for you.
 
@@ -436,6 +453,11 @@ module App =
                             tr [] [ td [] [text "Exposure"]; td [ style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.expousure SetExpousure]]
                         ]   
                     ]    
+                "Project",
+                    [
+                        saveButton
+                        loadButton
+                    ]  
                 ] [view3D runtime m]
             )
         )
