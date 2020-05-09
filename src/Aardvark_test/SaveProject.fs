@@ -50,6 +50,7 @@ module projetIO =
         let text = pickler.PickleToString em
         do System.IO.File.WriteAllText(f, text)
 
+    //toDo: errorhandling
     let load f = 
         let text = System.IO.File.ReadAllText(f)
         let em = pickler.UnPickleOfString text
