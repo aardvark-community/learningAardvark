@@ -30,6 +30,7 @@ Not obvieous: to make the colorpicker work, the assemblyWebpart for Aardvark.UI.
 issues: Save works only with existing file
 
 could  not get  file filters  and start path to work with openDialogButton.
+No file save dialog, open dialog works only with existing files. 
 
 The imported object contains multipel copies of the same original material with an attached number if the materal is used in different parts of the object
 The copies have number suffixes. we use the material name without the suffixes and assume all material  names taht are different only by Digits are  tehs same

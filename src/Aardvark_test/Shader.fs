@@ -1,4 +1,4 @@
-namespace Aardvark_test
+namespace SLEAardvarkRenderDemo
 
 open Aardvark.Base
 open Aardvark.Base.Rendering

@@ -1,4 +1,4 @@
-namespace Aardvark_test
+namespace SLEAardvarkRenderDemo
 
 open System
 open Aardvark.Base
@@ -9,7 +9,7 @@ open Aardvark.SceneGraph.Semantics
 open Aardvark.UI
 open Aardvark.UI.Primitives
 open Aardvark.Base.Rendering
-open Aardvark_test.Model
+open SLEAardvarkRenderDemo.Model
 open Aardvark.Base.Ag
 open material
 open Aardvark.SceneGraph.IO.Loader.SgSems

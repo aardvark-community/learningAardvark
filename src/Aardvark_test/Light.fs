@@ -1,4 +1,4 @@
-namespace Aardvark_test
+namespace SLEAardvarkRenderDemo
 
 open System
 open Aardvark.Base
@@ -6,7 +6,7 @@ open Aardvark.Base.Incremental
 open Aardvark.UI
 open Aardvark.UI.Primitives
 open Aardvark.Base.Rendering
-open Aardvark_test.Model
+open SLEAardvarkRenderDemo.Model
 (*
     Light UI control
     and light uniforms for shaders 

@@ -1,10 +1,10 @@
-namespace Aardvark_test
+namespace SLEAardvarkRenderDemo
 
 open System
 open Aardvark.Base
 open Aardvark.Base.Incremental
 open Aardvark.Base.Rendering
-open Aardvark_test.Model
+open SLEAardvarkRenderDemo.Model
 open System.IO
 open Aardvark.SceneGraph
 (*

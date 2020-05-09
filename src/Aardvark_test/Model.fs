@@ -1,4 +1,4 @@
-namespace Aardvark_test.Model
+namespace SLEAardvarkRenderDemo.Model
 
 open System
 open Aardvark.Base

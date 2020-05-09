@@ -1,4 +1,4 @@
-open Aardvark_test
+open SLEAardvarkRenderDemo
 
 open Aardium
 open Aardvark.Application.Slim

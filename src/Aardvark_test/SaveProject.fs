@@ -1,7 +1,7 @@
-namespace Aardvark_test
+namespace SLEAardvarkRenderDemo
 
 open MBrace.FsPickler.Json
-open  Aardvark_test.Model
+open  SLEAardvarkRenderDemo.Model
 open Aardvark.Base
 open Aardvark.UI.Primitives
 
