@@ -7,7 +7,9 @@ open Aardvark.SceneGraph
 open Aardvark_test.Model
 open Aardvark.SceneGraph.IO
 
-
+(*
+    functions to load an imported Object into a Scene Model and to build a sceneGraph node from it
+*)
 module sceneObject = 
     open Loader
     open material
@@ -17,6 +19,10 @@ module sceneObject =
 
     let defaultObject = {name = "Default"; file  = ""; scale = 1.0; translation = V3d.Zero; rotation = V3d.Zero; materials = HMap.empty;  currentMaterial = ""}
 
+    //add an external object to the scene model
+    //note that we have to import it to read the materiaal list but discart the import
+    //for rendering we import it again
+    //This is not very efficient, but happens only when adding a new object to a scene
     let loadObject (objects : hmap<string,SceneObject>) file = 
 
         let rec uniqueName name =
@@ -38,6 +44,7 @@ module sceneObject =
         let obj = {name = name; file = file; scale = 1.0; translation = V3d.Zero; rotation = V3d.Zero; materials = materials;  currentMaterial = currentMaterial}
         HMap.add name obj objects , name
 
+    //load an exgternal object into an mod and substitute the material definitions with PBR materials
     let object (m : MSceneObject) = 
         Mod.custom (fun toc ->
             let f = m.file.GetValue toc
@@ -45,6 +52,7 @@ module sceneObject =
             o.SubstituteMaterial (fun mat -> Some ({importedMaterial = mat; material = (AMap.find ( removeDigits mat.name) m.materials)} :> IO.Loader.IMaterial))
         )    
 
+    // build a scene graph node for a object
     let sg (m : MSceneObject) =
         m
         |> object
@@ -62,6 +70,7 @@ module sceneObject =
             Trafo3d.FromComponents(V3d(s),r,t)
         )  
 
+//UI control for a scene object 
 module sceneObjectControl = 
     open Aardvark.UI
     open Aardvark.UI.Primitives

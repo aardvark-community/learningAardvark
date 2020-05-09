@@ -6,19 +6,24 @@ open Aardvark.UI.Operators
 open Aardvark.Base.Incremental
 open System
 
-
+(*
+    some small UI components and bugfixes
+*)
 [<AutoOpen>]
 module Simple =
 
+    //a customized float input
     let floatInput (minValue : float) (maxValue : float) (step : float) (changed : float -> 'msg) (value : IMod<float>) =
         labeledFloatInput' "" minValue maxValue step changed value (AttributeMap.ofList [ clazz "ui small input"; style "width: 60pt"]) (AttributeMap.ofList []) 
 
+     // slider with linked input
     let inputSlider (cfg : SliderConfig) (atts : (string * AttributeValue<'msg>) list )  (value : IMod<float>) (update : float -> 'msg) =
         div atts [
             labeledFloatInput' "" cfg.min cfg.max (cfg.step*10.0) update value (AttributeMap.ofList [ clazz "ui small input"; style "width: 60pt; float: left"]) (AttributeMap.ofList []) 
             slider cfg (AttributeMap.ofList [style "width: auto; margin-left: 68pt"])  value update
         ]
 
+    // a logaritmic  slider with linked input
     let inputLogSlider (cfg : SliderConfig) (atts : (string * AttributeValue<'msg>) list )  (value : IMod<float>) (update : float -> 'msg) =
         if cfg.min <= 0.0 then failwith "min must be positve for log silder"
         let value' = Mod.map Math.Log10 value
@@ -32,6 +37,7 @@ module Simple =
 module  Html =   
     module SemUi =
 
+        //some fixes to get nested accordionMenus working
         let accordionMenu (subMenue : bool) (c : string )(entries : list<string * list<DomNode<'msg>>>) =
             let acc = 
                 div [ clazz c ] (
@@ -82,6 +88,7 @@ module  Html =
                      onBoot "$('#__ID__').sidebar('setting', 'dimPage', false);" (accordionMenu false "ui vertical inverted sidebar very wide accordion menu" sectionsAndItems)
             ] 
 
+        //Bugfix:toggle Box needs to set the attribute "checked" to the  value "checked" to work correctly
         let toggleBox (state : IMod<bool>) (toggle : 'msg) =
 
             let attributes = 
@@ -97,6 +104,7 @@ module  Html =
       //      div [clazz "ui toggle checkbox"] [
             Incremental.input (AttributeMap.ofAMap attributes) 
 
+//a simple Input view vor V3d
 module V3dInput =
 
     type Message = 

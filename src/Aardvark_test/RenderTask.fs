@@ -14,6 +14,13 @@ open OpenTK.Graphics
 open OpenTK.Graphics.OpenGL4
 open Aardvark.Rendering.GL
 
+(*
+    I needed to extent the render task system with the ability to render to cube maps and cube map mip levels. 
+    For a usage example see  globalEnviroment.fs.
+    Because I needed to use some private stuff, this file copies some code from https://github.com/aardvark-platform/aardvark.rendering/blob/master/src/Aardvark.Base.Rendering/RenderTask.fs
+    Idealy this could be integrated into Aardvark.
+    Because of https://github.com/aardvark-platform/aardvark.rendering/issues/53 it dosn't work with the Vulcan Pipeline ant the moment. 
+*)
 [<AutoOpen>]
 module private RefCountedResources = 
 

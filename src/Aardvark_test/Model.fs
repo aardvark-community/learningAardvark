@@ -6,6 +6,10 @@ open Aardvark.Base.Incremental
 open Aardvark.UI.Primitives
 open Aardvark.SceneGraph
 
+(*
+    The Domain Types forming the Model of the Elm-style App
+    They need to be in a sepparat file at the start of the projekt to let the preprocessor generate the addaptive Model 
+*)
 
 type DirectionalLightData = {
     lightDirection : V4d
@@ -22,6 +26,7 @@ type PointLightData = {
     intensity : float
 }
 
+//todo: Optionally use a single color value instead a texture 
 [<DomainType>]
 type TextureMappedValue = {
     fileName : string Option
@@ -90,13 +95,4 @@ type Model =
         selectedObject : string
     }
 
-module light =
-
-    let defaultDirectionalLight = DirectionalLight  {lightDirection = V4d(0.0,-1.0,1.0,1.0); color = C3d.White; intensity = 1.0; castsShadow = true}
-
-    let defaultPointLight = PointLight  {lightPosition = V4d(0.0,1.5,-0.5,1.0); color = C3d.White; attenuationQad = 1.0; attenuationLinear = 0.0; intensity = 1.0}
-
-    let defaultLight = defaultPointLight
-
-    let defaultAbientOcclusion = {occlusionStrength = 1.0; scale = 1.0; radius = 0.2; samples = 32; threshold = 0.2; sigma = 2.0; sharpness = 1.0}
 

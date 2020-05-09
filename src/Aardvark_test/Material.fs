@@ -9,7 +9,37 @@ open Aardvark.SceneGraph
 open Aardvark_test.Model
 open System.IO
 
+(*
+    A proxy Material to subtitute a PBR material into an importend  Object
+    Some UI Views for material values
+*)
 module material = 
+
+    let defaultMaterial = {
+        metallic = {
+            fileName = None
+            factor = 0.0
+        }
+        roughness = {
+            fileName = None
+            factor = 0.8
+        }
+        albedo ={
+            fileName = None
+            factor = 1.0
+        }
+        normal = {
+            fileName = None
+            factor = 1.0
+        }
+        albedoFactor = 1.0
+        normalMapStrenght = 1.0
+        discard = false
+        displacment = {
+            fileName = None
+            factor = 0.0
+        }
+    }
 
     let onePxPix (color :C3f)= 
         let pi = PixImage<byte>(Col.Format.RGB, V2i.II)
@@ -19,6 +49,7 @@ module material =
     let onPixTex (color :C3f) = 
         PixTexture2d(PixImageMipMap [| onePxPix color :> PixImage |], false) :> ITexture
 
+    //PBR material type to replace the imported ASSIMP materials in the imported models
     type ProxyMaterial =
         {
             importedMaterial : IO.Loader.IMaterial
@@ -95,6 +126,7 @@ module material =
 
             member x.Dispose() = x.importedMaterial.Dispose()
 
+    //find all material definitions in a IO.Loader.Scene
     let getMaterials (s : IO.Loader.Scene) =
             let rec traverse (state : IO.Loader.IMaterial list) (n : IO.Loader.Node) =
                 match n with
@@ -111,34 +143,14 @@ module material =
 
             traverse [] s.root 
     
+    //the imported object contains multipel copies of the same original material with an attached number if the materal is used in different parts of the object
+    //The copies have number suffixes. we use the material name without the suffixes and assume all material  names taht are different only by Digits are  tehs same
+    //This most propably will not work for all possible  imports.
     let removeDigits = String.filter (Char.IsDigit >> not)
 
-    let defaultMaterial = {
-        metallic = {
-            fileName = None
-            factor = 0.0
-        }
-        roughness = {
-            fileName = None
-            factor = 0.8
-        }
-        albedo ={
-            fileName = None
-            factor = 1.0
-        }
-        normal = {
-            fileName = None
-            factor = 1.0
-        }
-        albedoFactor = 1.0
-        normalMapStrenght = 1.0
-        discard = false
-        displacment = {
-            fileName = None
-            factor = 0.0
-        }
-    }
-
+    //get a distinct list of all material names from an  imported  object
+    //and use that as Keys for a Map initialized with  the default PBR material
+    //This is used to initialize the materials for an imported object
     let materials model = 
         getMaterials model
         |> List.map (fun m -> removeDigits m.name)
@@ -146,6 +158,7 @@ module material =
         |> List.map (fun n -> n, defaultMaterial)
         |> HMap.ofList
     
+//UI Control for a optionally texture mapped value with linear or logaritmic strength control
 module textureMappedValueControl =
 
     type Message =
@@ -184,6 +197,7 @@ module textureMappedValueControl =
             tr [] [ td [] [openButton]; td [] [name]; td [] [removeButton]]
         ]        
 
+//UI control for a single material
 module materialControl = 
 
     type Message =

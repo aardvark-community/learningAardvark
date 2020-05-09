@@ -5,16 +5,21 @@ open Aardvark.Base.Rendering
 open FShade
 open Aardvark.Base.Rendering.Effects
 open System
+(*
+    Shaders for deffered Rendering, pysical based rendering (PBR) and screen space abient occlusion (SSAO)
 
+    They are mostly ports of the tutorials found at https://learnopengl.com/https://learnopengl.com/ 
+*)
 module fshadeExt = 
-    
+    //some missing intrinsics for fshade  
     [<GLSLIntrinsic("mix({0}, {1}, {2})")>] // Define function as intrinsic, no implementation needed
     let Lerp (a : V3d) (b : V3d) (s : float) : V3d = failwith ""
 
     [<GLSLIntrinsic("exp({0})")>] // Define function as intrinsic, no implementation needed
     let exp (a : V3d) : V3d = failwith ""
 
-
+//physical base rendering, mostly a port of the shaders found here https://learnopengl.com/PBR/Lighting,
+//here https://learnopengl.com/PBR/IBL/Diffuse-irradiance and here https://learnopengl.com/PBR/IBL/Specular-IBL.
 module PBR =
     open fshadeExt
 
@@ -28,7 +33,7 @@ module PBR =
         member x.SkyMapIntensity : float =  x?SkyMapIntensity
         member x.LightViewMatrix : M44d = x?LightViewMatrix
 
-    //Note: Do not use ' in variabel names for shader code,  it will lead  to an error
+    //Note: Do not use ' in variabel names for shader code, it will lead to an error
 
     let private diffuseIrradianceSampler =
         samplerCube {
@@ -145,7 +150,7 @@ module PBR =
         let ggx1 = GeometrySchlickGGX ilb nDotL roughness
         ggx1 * ggx2
 
-    [<ReflectedDefinition>] //add this attribute to  make the function callable in the shader
+    [<ReflectedDefinition>] 
     let  fresnelSchlickRoughness (f0 : V3d) (roughness : float) (cosTheta : float)=
         let r = V3d.Max(V3d(1.0 - roughness), f0)
         f0 + (r  - f0) * pow (1.0 - cosTheta) 5.0
@@ -318,7 +323,7 @@ module PBR =
     let abientDeferred (frag : Fragment) =
         fragment {
             let col = 
-                if frag.metallic < 0.0 then //no lighting, jusSt put out the color      
+                if frag.metallic < 0.0 then //no lighting, just put out the color      
                     V3d.Zero
                 else //PBR lightning
                     let metallic = frag.metallic
@@ -521,7 +526,7 @@ module PBR =
         }
 
 module NormalMap =
-
+    //shader to apply a normal map
     type UniformScope with
         member x.NormalMapStrength : float =  x?NormalMapStrength
 
@@ -550,6 +555,7 @@ module NormalMap =
         }
 
 module  displacemntMap =
+    //simple  displacement mapping, I am not realy happy with the results.
 
     let private samplerDisp =
         sampler2d {
@@ -599,6 +605,7 @@ module  displacemntMap =
 
  module GBufferRendering =
     open fshadeExt
+    //shaders for rendering to a g-buffer
 
     module Semantic =
         let MaterialProperties = Symbol.Create "MaterialProperties"
@@ -694,6 +701,7 @@ module  displacemntMap =
   
  module SSAO =
     //open fshadeExt
+    //Skreen Space Abinet Occlusion
 
     [<GLSLIntrinsic("smoothstep({0}, {1}, {2})")>]
     let smoothStep (edge0 : float) (edge1 : float) (x : float) : 'a =

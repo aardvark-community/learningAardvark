@@ -5,6 +5,9 @@ open  Aardvark_test.Model
 open Aardvark.Base
 open Aardvark.UI.Primitives
 
+(*
+    Scene save and load
+*)
 module projetIO =
 
     type ExportModel  = {
@@ -41,10 +44,11 @@ module projetIO =
 
     let pickler = FsPickler.CreateJsonSerializer(indent = true)
 
+    //toDo: create file  if it dosn't exist
     let save (m : Model) f =
         let em = toExportModel m
         let text = pickler.PickleToString em
-        do System.IO.File. WriteAllText(f, text)
+        do System.IO.File.WriteAllText(f, text)
 
     let load f = 
         let text = System.IO.File.ReadAllText(f)

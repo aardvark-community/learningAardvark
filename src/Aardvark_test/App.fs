@@ -14,14 +14,18 @@ open Aardvark.Base.Ag
 open material
 open Aardvark.SceneGraph.IO.Loader.SgSems
 
+(*
+   The main addaptive elm-style App and the main setup  of the render pipeline
+*)
+//the main app message types
 type Message =
     | CameraMessage of FreeFlyController.Message
-    | LightMessage of int * lightControl.Message
+    | LightMessage of int * lightControl.Message //from light.fs
     | RemoveLight  of int
     | AddLight of Light
     | SetExpousure of float
-    | GlobalEnviormentMessage of globalEnviroment.Message
-    | SceneObjectMessage of sceneObjectControl.Message
+    | GlobalEnviormentMessage of globalEnviroment.Message // from globalEnviroment.fs
+    | SceneObjectMessage of sceneObjectControl.Message //from  SceneObject.fs
     | AddSceneObject of string
     | RemoveSceneObject of string
     | SelectObject of string
@@ -30,6 +34,7 @@ type Message =
 
 module App =   
 
+    //setup the initial state
     let cameraConfig  =  {FreeFlyController.initial.freeFlyConfig with zoomMouseWheelSensitivity = 0.5} 
     let initialView = CameraView.lookAt (V3d(0.0, 2.0, -6.0)) (V3d(0.0, 2.0, 0.0)) (V3d.OIO * 1.0)
 
@@ -48,13 +53,14 @@ module App =
         selectedObject = selected
     }
 
+    //the main update function
     let update (m : Model) (msg : Message) =
-        //compose the update functions from the updates of the sub-model
+        //compose the update function from the updates of the sub-model
         match msg with
         | CameraMessage msg ->
             { m with cameraState = FreeFlyController.update m.cameraState msg }
         | LightMessage (i, lms) -> 
-            let li' = HMap.tryFind i  m.lights
+            let li' = HMap.tryFind i  m.lights //from light.fs
             match  li' with 
             |Some li ->
                 let l = lightControl.update li lms
@@ -75,7 +81,7 @@ module App =
             let o' = HMap.tryFind m.selectedObject m.objects
             match o' with
             |Some o  ->
-                let newo = sceneObjectControl.update o msg
+                let newo = sceneObjectControl.update o msg //from  SceneObject.fs
                 let objects = HMap.update m.selectedObject (fun _ -> newo ) m.objects
                 { m with objects = objects }
             |None -> m
@@ -90,13 +96,14 @@ module App =
         | SetExpousure e ->
             { m with expousure = e }
         | GlobalEnviormentMessage msg ->
-            { m with enviorment = globalEnviroment.update m.enviorment msg }
+            { m with enviorment = globalEnviroment.update m.enviorment msg } // from globalEnviroment.fs
         | SaveProject f -> 
             Log.warn "Save %s" f
             do projetIO.save m f
             m
         | LoadProject f -> projetIO.load f
 
+    //Render task for the Geometry-buffer pass
     let makeGBuffer (runtime : IRuntime) (view : IMod<Trafo3d>) projection size skyBoxTexture scene (m : MModel) =
 
         let signature =
@@ -141,6 +148,7 @@ module App =
                         GBufferRendering.Semantic.MaterialProperties]
                ) size 
 
+    //texture  with random values used in the AO shaders
     let randomTex ( runtime : IRuntime) = 
         let img = PixImage<float32>(Col.Format.RGB, V2i.II * 512)
 
@@ -151,6 +159,7 @@ module App =
 
         runtime.PrepareTexture(PixTexture2d(PixImageMipMap [| img :> PixImage |], TextureParams.empty))
 
+    //Render-Task for the screen-space Abient Occlusion pass
     let makeAmbientOcclusion ( runtime : IRuntime) (size : IMod<V2i>) view proj gBuffer (settings : MAmbientOcclusionSettings)=
 
         let signature =
@@ -206,23 +215,31 @@ module App =
 
         blurredAmbientOc
 
+    //main render task: put all passes together for deferred rendering
     let compileDeffered(outputSignature : IFramebufferSignature) (view : IMod<Trafo3d>) (proj : IMod<Trafo3d>) (size : IMod<V2i>) (scene : ISg<'msg>) (m : MModel) =
         let size = size |> Mod.map (fun s -> V2i(max 1 s.X, max 1 s.Y))
 
         let runtime = outputSignature.Runtime
 
+        //render the speical sky map to a texture cube
+        //Ardvark will only rexecute this if the skyMap or rotation changes
         let skyBoxTexture = SkyBox.getTexture runtime m.enviorment.skyMap m.enviorment.skyMapRotation
 
+        //render the geometry to the gBuffer
         let gBuffer = makeGBuffer runtime view proj size skyBoxTexture scene m
 
+        //render the precalculated  Maps for PBR Global Ambient Light
+        //Ardvark will only rexecute this if the global enviroment changes
         let diffuseIrradianceMap = GlobalAmbientLight.diffuseIrradianceMap runtime skyBoxTexture
 
         let prefilterdSpecColor = GlobalAmbientLight.prefilterdSpecColor runtime skyBoxTexture
 
         let bRDFLtu = GlobalAmbientLight.BRDFLtu runtime
 
+        //render the abient occlousion map    
         let ambientOcclusion = makeAmbientOcclusion runtime size view proj gBuffer m.enviorment.occlusionSettings
 
+        //calculate the  global bounding box
         let bb = //scene?GlobalBoundingBox() //not defined for Sg.set Todo: define semantics
             let seed = Box3d(V3d.OOO, V3d.OOO) |> Mod.constant
             let bounds (o : MSceneObject) =
@@ -237,10 +254,12 @@ module App =
             |> ASet.fold (fun s (_,(o : MSceneObject)) -> Mod.map2( fun s b-> Box3d.Union(s,b)) s (bounds o)) seed 
             |> Mod.bind id
 
+        //adaptive function to calcualte the light view matrix for one light
         let lightViewMatrix i = 
             let light = AMap.find i m.lights
             Mod.bind (Mod.bind (Shadow.lightViewPoject bb)) light
 
+        //adaptive function to calcualte the shadow map for one light
         let shadowMapTex i = 
             let light = AMap.find i m.lights
             Mod.bind (Mod.bind (Shadow.shadowMap runtime scene bb)) light 
@@ -286,7 +305,7 @@ module App =
                                 do! PBR.lightingDeferred
                                 }
                     yield  pass
-                let pass0 =
+                let pass0 = //global  abient  lightnig
                     Sg.fullScreenQuad
                     |> Sg.adapter
                     |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap
@@ -341,6 +360,14 @@ module App =
             }    
         |> Sg.compile runtime outputSignature    
 
+    (*
+        For deferrde Rednering and some other techniques it is nessesary to know the size of the render window.
+        That is not straitforward in Aardvark.media because there could be multiple clients with different screen sizes.
+        The solution is to create a custem scene that takes a function from client values to a IRenderTask and feed taht into a RenderControl.
+        If I understand it correctly, at runtime a render Task per client will be created with the  respectice client values.
+        Thanks to Georg Haaser for the tip. 
+        Note that the ClientValues contain the Output Framebuffer Signature. That is very usefull because you can obtain a reference to the runtime from the signatur. 
+    *)
     let getScene (m : MModel) (sg : ISg<'msg>) =
         Aardvark.Service.Scene.custom (fun values ->
             compileDeffered values.signature values.viewTrafo values.projTrafo values.size sg m
@@ -354,13 +381,12 @@ module App =
         |> FreeFlyController.withControls s CameraMessage (Mod.constant frustum)
 
     //the 3D scene and control
-    let view3D runtime (m : MModel) =
+    let view3D (m : MModel) =
 
         let frustum = 
             Frustum.perspective 30.0 0.1 100.0 1.0 
 
-        let box = Aardvark.SceneGraph.IO.Loader.Assimp.load @"..\..\..\data\box.obj"
-
+        //generate sceen graph from the objects 
         let objects = 
             aset {
                 for _,o in AMap.toASet m.objects do
@@ -379,7 +405,7 @@ module App =
         deferrdRenderControl att m.cameraState frustum objects m
 
     // main view for UI and  
-    let view runtime (m : MModel) =
+    let view (m : MModel) =
         let lights' = AMap.toASet m.lights
         let saveButton = 
             openDialogButton 
@@ -391,9 +417,8 @@ module App =
                 { OpenDialogConfig.file with allowMultiple = false; title = "load"; filters  = [|"*.*"|];  startPath = ""; mode  = OpenDialogMode.File}
                 [ clazz "ui green button"; onChooseFile LoadProject ] 
                 [ text "Load" ]
-        require Html.semui ( // we use semantic ui for our gui. the require function loads semui stuff such as stylesheets and scripts
-            body [] (        // explit html body for our app (adorner menus need to be immediate children of body). if there is no explicit body the we would automatically generate a body for you.
-
+        require Html.semui ( 
+            body [] (        
                 Html.SemUi.adornerAccordeonMenu [ 
                 "Edit Objects",
                     [
@@ -422,7 +447,7 @@ module App =
                         button [clazz "ui button"; onClick (fun _ -> AddLight light.defaultPointLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Point Light"]
                     ]    
                 "Change Light",
-                    [
+                    [   //build a list of light views from the set of lights
                         lights'
                         |> ASet.fold 
                             ( fun items (i, l) -> 
@@ -439,7 +464,9 @@ module App =
                                         ]
                                 item::items
                             ) []
+                         //feed that into a accordeon
                         |> Mod.map (fun items -> Html.SemUi.accordionMenu true "ui vertical inverted fluid accordion menu" items)
+                        // and that  into  a incremantal div to handel the case that the numbers of lights change
                         |> AList.ofModSingle
                         |> Incremental.div AttributeMap.empty
                     ]
@@ -458,15 +485,16 @@ module App =
                         saveButton
                         loadButton
                     ]  
-                ] [view3D runtime m]
+                ] [view3D  m]
             )
         )
 
-    let app runtime=
+    //assmble the map
+    let app =
         {
             initial = initial
             update = update
-            view = view runtime
+            view = view
             threads = Model.Lens.cameraState.Get >> FreeFlyController.threads >> ThreadPool.map CameraMessage
             unpersist = Unpersist.instance
         }

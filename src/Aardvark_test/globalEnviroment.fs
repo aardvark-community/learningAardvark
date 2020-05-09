@@ -7,7 +7,10 @@ open Aardvark.Base.Rendering
 open Aardvark_test.Model
 open System.IO
 open Aardvark.SceneGraph
-
+(*
+    UI View to set up the global enviroment
+    Functions tu render the sky box and the pre renderd maps for the global ambient light
+*)
 module globalEnviroment = 
 
     open Aardvark.UI
@@ -71,6 +74,7 @@ module globalEnviroment =
                     td [style "width: 70%;"] [inputSlider {min = 0.1;  max = 2.0; step = 0.01} [] m.occlusionSettings.sharpness SetAbientOcclusionSharpness]]
         ]   
 
+// helper module to render to an texture cube
 module CubeRenderTask =
 
     let renderToCubeTask runtime size signature source level face =
@@ -111,6 +115,7 @@ module CubeRenderTask =
     let renderToCube (runtime : IRuntime) size signature source=
         RenderTask.renderToColorCubeMip size 1 (renderToCubeTask  runtime size signature (fun _ ->  source))
 
+//convert equirectenggular map to cube map for the sky box
 module SkyBox =
     open CubeRenderTask
     open Aardvark.UI
@@ -139,6 +144,7 @@ module SkyBox =
     let getTexture (runtime : IRuntime) skyMap rotation = 
         renderToCube runtime skyMapSize signature (skyBoxEquirec skyMap rotation)
 
+//render the prefilterd maps for ambient diffuse and  specular lighning
 module GlobalAmbientLight =
     open CubeRenderTask
     open Aardvark.UI

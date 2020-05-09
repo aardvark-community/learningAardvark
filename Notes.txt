@@ -1,0 +1,38 @@
+scene?GlobalBoundingBox()  dosn't work for a scene graph that includes sg.set because the the semantic of GlobalBoundingBox is not defined for sg.set
+
+Maps in model -> AMap. Aset needed for rendering
+
+ClientValues nessesary but not obvious
+
+Nested Html.SemUi.accordeons not working
+
+Html.SemUi.Toggle Box needs to set the attribute "checked" to the  value "checked" to work correctly
+
+Open and Save Dialog
+
+I had to copy aardvark.rendering/src/Aardvark.SceneGraph.IO/IO.fs to my project an make a small change to it:
+The imported scene worked great for me, but I needed to substitute the materials of the imported object with my own implementation
+of an IUniformProvider providing different uniforms.
+Therfore I changed the material type from a concret type to an Interface in the Scene type and made the original type an implementation of the interface.
+So I could substitute them with a different type later (see Material.fs  and SceneObject.fs).
+
+It would be great if could be changed this way in Aardvark, but this would be a big breaking change. So it is propably not possible. 
+If it would be possibel, it may be wise to change the mesh type to an interface, too.
+
+I needed to extent the render task system with the ability to render to cube maps and cube map mip levels. (in RenderTask.fs)
+For a usage example see  globalEnviroment.fs.
+Because I needed to use some private stuff, this file copies some code from https://github.com/aardvark-platform/aardvark.rendering/blob/master/src/Aardvark.Base.Rendering/RenderTask.fs
+Idealy this could be integrated into Aardvark. If this seems usfull and the right way of doing this stuff, I would be happy to prepare a pull request.  
+Because of https://github.com/aardvark-platform/aardvark.rendering/issues/53 it dosn't work with the Vulcan Pipeline ant the moment. 
+
+Not obvieous: to make the colorpicker work, the assemblyWebpart for Aardvark.UI.Primitives needs to be registert in Program.fs 
+
+issues: Save works only with existing file
+
+could  not get  file filters  and start path to work with openDialogButton.
+
+The imported object contains multipel copies of the same original material with an attached number if the materal is used in different parts of the object
+The copies have number suffixes. we use the material name without the suffixes and assume all material  names taht are different only by Digits are  tehs same
+This most propably will not work for all possible  imports.
+
+Todo:  remember Filename for  saving and provide Save as

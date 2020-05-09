@@ -7,9 +7,22 @@ open Aardvark.UI
 open Aardvark.UI.Primitives
 open Aardvark.Base.Rendering
 open Aardvark_test.Model
-
+(*
+    Light UI control
+    and light uniforms for shaders 
+    and some light defaults
+*)
 module light = 
-    
+
+    let defaultDirectionalLight = DirectionalLight  {lightDirection = V4d(0.0,-1.0,1.0,1.0); color = C3d.White; intensity = 1.0; castsShadow = true}
+
+    let defaultPointLight = PointLight  {lightPosition = V4d(0.0,1.5,-0.5,1.0); color = C3d.White; attenuationQad = 1.0; attenuationLinear = 0.0; intensity = 1.0}
+
+    let defaultLight = defaultPointLight
+
+    let defaultAbientOcclusion = {occlusionStrength = 1.0; scale = 1.0; radius = 0.2; samples = 32; threshold = 0.2; sigma = 2.0; sharpness = 1.0}
+   
+    //simple geometry to indicate point light positions
     let lightSourceModels (lights : amap<int,IMod<MLight>> ) =
         let lights' = AMap.toASet lights
         aset {
@@ -30,6 +43,7 @@ module light =
             do! DefaultSurfaces.vertexColor 
             } 
 
+// a control to set the properties of a single light
 module lightControl = 
 
     type Message =
@@ -84,7 +98,6 @@ module lightControl =
         | ToggleCastShadow   ->  
             match m with
             | DirectionalLight r -> 
-                Log.warn "ToggleCastShadow %b" r.castsShadow
                 DirectionalLight {r with castsShadow = not r.castsShadow} 
             | x -> x
 
@@ -153,10 +166,10 @@ module lightControl =
 
                 attenuationView al aq
             ]
+
 module Shadow =
     open Aardvark.SceneGraph
-    open Aardvark.SceneGraph.Semantics
-    open Aardvark.UI
+    open Aardvark.UI //nessary to avoid confusion between SceneGraph.SG and UI.SG 
 
     
     let signatureShadowMap (runtime : IRuntime) =
@@ -166,6 +179,7 @@ module Shadow =
 
     let shadowMapSize = V2i(1024) |> Mod.constant
 
+    //calculate light view and prjection
     let lightViewPoject (bb : IMod<Box3d>) (light : MLight) =
         match light with
         | MPointLight l -> failwith "not implemented"
@@ -189,8 +203,9 @@ module Shadow =
             }
 
     let shadowMap (runtime : IRuntime) (scene :ISg<'msg>) (bb : IMod<Box3d>) (light : MLight) =
-            let v = lightViewPoject bb light |> Mod.map fst
-            let p = lightViewPoject bb light |> Mod.map snd
+            let pv = lightViewPoject bb light
+            let v = pv |> Mod.map fst
+            let p = pv |> Mod.map snd
             scene
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
@@ -202,6 +217,7 @@ module Shadow =
             |> RenderTask.renderToDepth shadowMapSize
 
 module SLEUniform =
+    //light information as shader uniforms
 
     type LightType =
         | NoLight = 0

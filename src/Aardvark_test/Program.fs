@@ -20,7 +20,7 @@ let main args =
 
     let runtime = vapp.Runtime :> IRuntime
 
-    let app = App.app runtime //inject runtime into app
+    let app = App.app  
 
     WebPart.startServer 4321 [
         MutableApp.toWebPart' runtime false (App.start app)
@@ -30,7 +30,7 @@ let main args =
     ] |> ignore
     
     Aardium.run {
-        title "Aardvark rocks \\o/"
+        title "Aardvark rendering Demo"
         width 1600
         height 1000
         url "http://localhost:4321/"

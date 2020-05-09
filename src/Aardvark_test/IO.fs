@@ -8,6 +8,13 @@ open Aardvark.Base.Incremental
 #nowarn "9"
 #nowarn "51"
 
+(*
+     This is basicaly a copy of the same file from Aardvark.rendering (aardvark.rendering/src/Aardvark.SceneGraph.IO/IO.fs)
+     The imported Scene worked great for me, but I needed to substitute the materials of the imported object with my own implementation
+     of an IUniformProvider providing different uniforms.
+     Therfore I changed the material type from a concret type to an Interface in the Scene type and made the original type an implementation of the interface.
+     So I could substitute them with a different type later (see Material.fs  and SceneObject.fs) 
+*)
 module Loader =
     open System
     open System.IO
