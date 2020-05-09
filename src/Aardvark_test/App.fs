@@ -216,9 +216,11 @@ module App =
         blurredAmbientOc
 
     //main render task: put all passes together for deferred rendering
-    let compileDeffered(outputSignature : IFramebufferSignature) (view : IMod<Trafo3d>) (proj : IMod<Trafo3d>) (size : IMod<V2i>) (scene : ISg<'msg>) (m : MModel) =
-        let size = size |> Mod.map (fun s -> V2i(max 1 s.X, max 1 s.Y))
-
+    let compileDeffered (scene : ISg<'msg>) (m : MModel) (values : Aardvark.Service.ClientValues)=
+        let outputSignature = values.signature
+        let view = values.viewTrafo
+        let proj = values.projTrafo
+        let size = values.size |> Mod.map (fun s -> V2i(max 1 s.X, max 1 s.Y))
         let runtime = outputSignature.Runtime
 
         //render the speical sky map to a texture cube
@@ -363,19 +365,13 @@ module App =
     (*
         For deferrde Rednering and some other techniques it is nessesary to know the size of the render window.
         That is not straitforward in Aardvark.media because there could be multiple clients with different screen sizes.
-        The solution is to create a custem scene that takes a function from client values to a IRenderTask and feed taht into a RenderControl.
-        If I understand it correctly, at runtime a render Task per client will be created with the  respectice client values.
+        The solution is to create a custem scene that takes a function from client values to a IRenderTask and feed that into a RenderControl.
+        If I understand it correctly, at runtime a render Task per client will be created with the respectice client values.
         Thanks to Georg Haaser for the tip. 
         Note that the ClientValues contain the Output Framebuffer Signature. That is very usefull because you can obtain a reference to the runtime from the signatur. 
     *)
-    let getScene (m : MModel) (sg : ISg<'msg>) =
-        Aardvark.Service.Scene.custom (fun values ->
-            compileDeffered values.signature values.viewTrafo values.projTrafo values.size sg m
-        )
-
-    let deferrdRenderControl (att : list<string * AttributeValue<Message>>) (s : MCameraControllerState) (frustum : Frustum) (sg : ISg<'msg>) (m : MModel) =
-
-        let scene = getScene m sg
+    let RenderControl (att : list<string * AttributeValue<Message>>) (s : MCameraControllerState) (frustum : Frustum) (task : Aardvark.Service.ClientValues -> IRenderTask) =
+        let scene =  Aardvark.Service.Scene.custom task
         let cam : IMod<Camera> = Mod.map (fun v -> { cameraView = v; frustum = frustum }) s.view 
         DomNode.RenderControl(AttributeMap.ofList att, cam, scene, None)
         |> FreeFlyController.withControls s CameraMessage (Mod.constant frustum)
@@ -402,7 +398,8 @@ module App =
            //     attribute "data-renderalways" "1"
             ]
 
-        deferrdRenderControl att m.cameraState frustum objects m
+        let t = compileDeffered objects m
+        RenderControl att m.cameraState frustum t
 
     // main view for UI and  
     let view (m : MModel) =
