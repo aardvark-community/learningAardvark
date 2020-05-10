@@ -5,7 +5,7 @@ To realy "get" a platform of this scope and conceptual deep, I feel I need to im
 Most shading algorithms I have implementet at to moment are ports of the great tutuorials at [Lern OpenGL](https://learnopengl.com/).
 
 At the moment the Demeo features 
-* deferred rednering
+* deferred rendering
 * phisical based rendering with image based abient diffuse and specular lightning
 * varialble numbers of directional and point lights
 * simple shadow maps
