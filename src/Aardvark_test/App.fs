@@ -40,7 +40,7 @@ module App =
 
     let obj , selected = sceneObject.loadObject HMap.empty @"..\..\..\data\SLE_Gnom4.obj" 
 
-    let initial = { 
+    let defaultModel = { 
         cameraState = {FreeFlyController.initial  with freeFlyConfig = cameraConfig; view = initialView}
         lights = HMap.ofList [(0, light.defaultDirectionalLight)]
         enviorment = {skyMap = @"..\..\..\data\GrandCanyon_C_YumaPoint\GCanyon_C_YumaPoint_3k.hdr"; 
@@ -52,6 +52,13 @@ module App =
         objects = obj
         selectedObject = selected
     }
+
+    let initial = 
+        let file = @"..\..\..\data\initial_scene.json"
+        if (System.IO.File.Exists file)
+        then 
+           projetIO.load file
+        else defaultModel
 
     //the main update function
     let update (m : Model) (msg : Message) =
