@@ -15,7 +15,7 @@ At the moment the Demeo features
 
 The app uses [aardvark.media](https://github.com/aardvark-platform/aardvark.media) and I explored the adaptive elm-style UI concept a bit.
 
-Saving aod loading of scenes is also implemented, but the file handing is a bit primitve at then moment. Creating a new file is not implemented jet. Just create an empty file outside the app and select this in the save dialog.
+Saving and loading of scenes is also implemented, but the file handing is a bit primitve at then moment. Creating a new file is not implemented jet. Just create an empty file outside the app and select this in the save dialog.
 
 Working with Aardvark is great fun and the best way to do 3d stuff with F# I know of. 
 
