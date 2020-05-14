@@ -21,7 +21,7 @@ Working with Aardvark is great fun and the best way to do 3d stuff with F# I kno
 
 To build the app from the command line (e.g. in Visual Studio Code) run "../build.cmd" from the  SRC directory.  This is nessesary initially and after any changes to the domain types in the model. This will generate the addaptiv model in in Model.g.fs.
 
-For all other changes you can just compile und run the app with "dotnet run -p aardvark_test".
+For all other changes you can just compile und run the app with "dotnet run -p AardvarkRenderDemo".
 
 To make the compilation from the command line work, the following entry in fsproject file is nessesary:
 ```
