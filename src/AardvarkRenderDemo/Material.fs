@@ -82,13 +82,13 @@ module material =
                 let! m = x.material 
                 let! f = m.albedo.fileName
                 let im =  x.importedMaterial :?>  IO.Loader.Material
-                let d = 
+                let d () = 
                     match im.textures.TryFind DefaultSemantic.DiffuseColorTexture  with
                     |Some t -> t.texture 
                     |None -> onPixTex C3f.White
                 return match f with
                         | Some file -> FileTexture(file, TextureParams.empty) :> ITexture
-                        | None ->  d
+                        | None ->  d ()
             }
         
         member x.NormalMap =
