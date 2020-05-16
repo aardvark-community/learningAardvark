@@ -32,8 +32,5 @@ To make the compilation from the command line work, the following entry in fspro
 Be carefull if you use Ionide in Visual Studio Code to edit the projet setup, e.g. th order of files: Ionide (resprectivly Forge used by Ionide) will not recognize this entry  and remove it when saving the project file.
 
 A note on importing objects: I have  only tested that on some of my one models in .obj format. It may or may not work for other formats.
-The imported object contains multipel copies of the same original material with an attached number if the materal is used in different parts of the object.
-The copies have number suffixes. I use use the material name without the suffixes and assume all material names that are different only by Digits are the same.
-This most propably will not work for all possible imports.
 
 The project was started based on https://github.com/aardvark-platform/template

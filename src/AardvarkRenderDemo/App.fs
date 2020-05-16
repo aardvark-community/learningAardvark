@@ -15,7 +15,7 @@ open material
 open Aardvark.SceneGraph.IO.Loader.SgSems
 
 (*
-   The main addaptive elm-style App and the main setup  of the render pipeline
+   The main addaptive elm-style App and the main setup of the render pipeline
 *)
 //the main app message types
 type Message =

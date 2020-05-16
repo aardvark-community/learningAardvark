@@ -104,8 +104,8 @@
                         "fileName": null,
                         "factor": 1.0
                       },
-                      "albedoFactor": 1.0,
-                      "normalMapStrenght": 1.0,
+
+
                       "discard": false,
                       "displacment": {
                         "fileName": null,
@@ -134,8 +134,8 @@
                         "fileName": null,
                         "factor": 0.58
                       },
-                      "albedoFactor": 1.0,
-                      "normalMapStrenght": 1.0,
+
+
                       "discard": false,
                       "displacment": {
                         "fileName": null,
@@ -164,8 +164,8 @@
                         "fileName": null,
                         "factor": 1.0
                       },
-                      "albedoFactor": 1.0,
-                      "normalMapStrenght": 1.0,
+
+
                       "discard": false,
                       "displacment": {
                         "fileName": null,
@@ -192,8 +192,8 @@
                         "fileName": null,
                         "factor": 1.0
                       },
-                      "albedoFactor": 1.0,
-                      "normalMapStrenght": 1.0,
+
+
                       "discard": false,
                       "displacment": {
                         "fileName": null,
@@ -220,8 +220,8 @@
                         "fileName": null,
                         "factor": 1.0
                       },
-                      "albedoFactor": 1.0,
-                      "normalMapStrenght": 1.0,
+
+
                       "discard": true,
                       "displacment": {
                         "fileName": null,
@@ -250,8 +250,8 @@
                         "fileName": null,
                         "factor": 1.0
                       },
-                      "albedoFactor": 1.0,
-                      "normalMapStrenght": 1.0,
+
+
                       "discard": true,
                       "displacment": {
                         "fileName": null,
@@ -280,8 +280,8 @@
                         "fileName": null,
                         "factor": 0.0
                       },
-                      "albedoFactor": 1.0,
-                      "normalMapStrenght": 1.0,
+
+
                       "discard": false,
                       "displacment": {
                         "fileName": null,
@@ -308,8 +308,8 @@
                         "fileName": null,
                         "factor": 1.0
                       },
-                      "albedoFactor": 1.0,
-                      "normalMapStrenght": 1.0,
+
+
                       "discard": false,
                       "displacment": {
                         "fileName": null,
@@ -336,8 +336,8 @@
                         "fileName": null,
                         "factor": 1.0
                       },
-                      "albedoFactor": 1.0,
-                      "normalMapStrenght": 1.0,
+
+
                       "discard": false,
                       "displacment": {
                         "fileName": null,
@@ -364,8 +364,8 @@
                         "fileName": null,
                         "factor": 1.0
                       },
-                      "albedoFactor": 1.0,
-                      "normalMapStrenght": 1.0,
+
+
                       "discard": false,
                       "displacment": {
                         "fileName": null,
@@ -392,8 +392,8 @@
                         "fileName": null,
                         "factor": 1.0
                       },
-                      "albedoFactor": 1.0,
-                      "normalMapStrenght": 1.0,
+
+
                       "discard": false,
                       "displacment": {
                         "fileName": null,

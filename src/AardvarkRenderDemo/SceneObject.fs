@@ -44,12 +44,12 @@ module sceneObject =
         let obj = {name = name; file = file; scale = 1.0; translation = V3d.Zero; rotation = V3d.Zero; materials = materials;  currentMaterial = currentMaterial}
         HMap.add name obj objects , name
 
-    //load an exgternal object into an mod and substitute the material definitions with PBR materials
+    //load an external object into an mod and substitute the material definitions with PBR materials
     let object (m : MSceneObject) = 
         Mod.custom (fun toc ->
             let f = m.file.GetValue toc
             let o = Assimp.load f
-            o.SubstituteMaterial (fun mat -> Some ({importedMaterial = mat; material = (AMap.find ( removeDigits mat.name) m.materials)} :> IO.Loader.IMaterial))
+            o.SubstituteMaterial (fun mat -> Some ({importedMaterial = mat; material = (AMap.find  mat.name m.materials)} :> IO.Loader.IMaterial))
         )    
 
     // build a scene graph node for a object

@@ -141,19 +141,12 @@ module material =
 
             traverse [] s.root 
     
-    //the imported object contains multipel copies of the same original material with an attached number if the materal is used in different parts of the object
-    //The copies have number suffixes. we use the material name without the suffixes and assume all material  names taht are different only by Digits are  tehs same
-    //This most propably will not work for all possible  imports.
-    let removeDigits = String.filter (Char.IsDigit >> not)
-
-    //get a distinct list of all material names from an  imported  object
+    //get a list of all material names from an  imported  object
     //and use that as Keys for a Map initialized with  the default PBR material
     //This is used to initialize the materials for an imported object
     let materials model = 
         getMaterials model
-        |> List.map (fun m -> removeDigits m.name)
-        |> List.distinct
-        |> List.map (fun n -> n, defaultMaterial)
+        |> List.map (fun m -> m.name, defaultMaterial)
         |> HMap.ofList
     
 //UI Control for a optionally texture mapped value with linear or logaritmic strength control
@@ -216,7 +209,6 @@ module materialControl =
         | SetDisplacment msg' -> { m with  displacment = textureMappedValueControl.update m.displacment msg'}
 
     let view (m : MPBRMaterial) =
-        let numInput name changed state  = labeledFloatInput name 0.0 1.0 0.01 changed state
         div [] [
             textureMappedValueControl.view textureMappedValueControl.Linear "Metallic" 0.0 1.0 0.01 m.metallic  |> UI.map SetMetallic
             textureMappedValueControl.view textureMappedValueControl.Linear "Roughness" 0.0 1.0 0.01 m.roughness  |> UI.map SetRoughness
