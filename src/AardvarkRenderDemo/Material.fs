@@ -96,13 +96,13 @@ module material =
                 let! m = x.material 
                 let! f = m.normal.fileName
                 let im =  x.importedMaterial :?>  IO.Loader.Material
-                let d = 
+                let d () = 
                     match im.textures.TryFind DefaultSemantic.NormalMapTexture  with
                     |Some t -> t.texture 
                     |None ->  onPixTex C3f.White
                 return match f with
                         | Some file -> FileTexture(file, TextureParams.empty) :> ITexture
-                        | None ->  d
+                        | None ->  d ()
             }
 
         interface IO.Loader.IMaterial with

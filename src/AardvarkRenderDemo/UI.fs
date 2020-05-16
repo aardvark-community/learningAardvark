@@ -23,7 +23,7 @@ module Simple =
             slider cfg (AttributeMap.ofList [style "width: auto; margin-left: 68pt"])  value update
         ]
 
-    // a logaritmic  slider with linked input
+    // a logaritmic slider with linked input
     let inputLogSlider (cfg : SliderConfig) (atts : (string * AttributeValue<'msg>) list )  (value : IMod<float>) (update : float -> 'msg) =
         if cfg.min <= 0.0 then failwith "min must be positve for log silder"
         let value' = Mod.map Math.Log10 value
