@@ -39,8 +39,8 @@ type PBRMaterial = {
     roughness : TextureMappedValue
     albedo : TextureMappedValue
     normal : TextureMappedValue
-    albedoFactor : float
-    normalMapStrenght : float
+    //albedoFactor : float
+    //normalMapStrenght : float
     discard : bool
     displacment : TextureMappedValue
 }

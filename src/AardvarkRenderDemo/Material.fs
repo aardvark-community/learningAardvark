@@ -32,8 +32,6 @@ module material =
             fileName = None
             factor = 1.0
         }
-        albedoFactor = 1.0
-        normalMapStrenght = 1.0
         discard = false
         displacment = {
             fileName = None
@@ -205,8 +203,6 @@ module materialControl =
         | SetRoughness of textureMappedValueControl.Message
         | SetNormal of textureMappedValueControl.Message
         | SetAlbedo of textureMappedValueControl.Message
-        | SetAlbedoFactor of float
-        | SetNormalMapStrength of float
         | SetDiscard 
         | SetDisplacment of textureMappedValueControl.Message
 
@@ -216,8 +212,6 @@ module materialControl =
         | SetRoughness msg' -> { m with  roughness = textureMappedValueControl.update m.roughness msg'}
         | SetAlbedo msg' -> { m with  albedo = textureMappedValueControl.update m.albedo msg'}
         | SetNormal msg' -> { m with  normal = textureMappedValueControl.update m.normal msg'}
-        | SetAlbedoFactor a -> { m with  albedoFactor = a}
-        | SetNormalMapStrength s -> { m with  normalMapStrenght = s}
         | SetDiscard -> { m with  discard = not m.discard}
         | SetDisplacment msg' -> { m with  displacment = textureMappedValueControl.update m.displacment msg'}
 

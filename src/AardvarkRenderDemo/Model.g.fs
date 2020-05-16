@@ -63,8 +63,6 @@ module Mutable =
         let _roughness = MTextureMappedValue.Create(__initial.roughness)
         let _albedo = MTextureMappedValue.Create(__initial.albedo)
         let _normal = MTextureMappedValue.Create(__initial.normal)
-        let _albedoFactor = ResetMod.Create(__initial.albedoFactor)
-        let _normalMapStrenght = ResetMod.Create(__initial.normalMapStrenght)
         let _discard = ResetMod.Create(__initial.discard)
         let _displacment = MTextureMappedValue.Create(__initial.displacment)
         
@@ -72,8 +70,6 @@ module Mutable =
         member x.roughness = _roughness
         member x.albedo = _albedo
         member x.normal = _normal
-        member x.albedoFactor = _albedoFactor :> IMod<_>
-        member x.normalMapStrenght = _normalMapStrenght :> IMod<_>
         member x.discard = _discard :> IMod<_>
         member x.displacment = _displacment
         
@@ -86,8 +82,6 @@ module Mutable =
                 MTextureMappedValue.Update(_roughness, v.roughness)
                 MTextureMappedValue.Update(_albedo, v.albedo)
                 MTextureMappedValue.Update(_normal, v.normal)
-                ResetMod.Update(_albedoFactor,v.albedoFactor)
-                ResetMod.Update(_normalMapStrenght,v.normalMapStrenght)
                 ResetMod.Update(_discard,v.discard)
                 MTextureMappedValue.Update(_displacment, v.displacment)
                 
@@ -129,18 +123,6 @@ module Mutable =
                     override x.Get(r) = r.normal
                     override x.Set(r,v) = { r with normal = v }
                     override x.Update(r,f) = { r with normal = f r.normal }
-                }
-            let albedoFactor =
-                { new Lens<SLEAardvarkRenderDemo.Model.PBRMaterial, System.Double>() with
-                    override x.Get(r) = r.albedoFactor
-                    override x.Set(r,v) = { r with albedoFactor = v }
-                    override x.Update(r,f) = { r with albedoFactor = f r.albedoFactor }
-                }
-            let normalMapStrenght =
-                { new Lens<SLEAardvarkRenderDemo.Model.PBRMaterial, System.Double>() with
-                    override x.Get(r) = r.normalMapStrenght
-                    override x.Set(r,v) = { r with normalMapStrenght = v }
-                    override x.Update(r,f) = { r with normalMapStrenght = f r.normalMapStrenght }
                 }
             let discard =
                 { new Lens<SLEAardvarkRenderDemo.Model.PBRMaterial, System.Boolean>() with
