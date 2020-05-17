@@ -49,7 +49,7 @@ module sceneObject =
         Mod.custom (fun toc ->
             let f = m.file.GetValue toc
             let o = Assimp.load f
-            o.SubstituteMaterial (fun mat -> Some ({importedMaterial = mat; material = (AMap.find  mat.name m.materials)} :> IO.Loader.IMaterial))
+            o.SubstituteMaterial (fun mat -> Some ({Name = mat.name; Material = (AMap.find  mat.name m.materials)} :> IO.Loader.IMaterial))
         )    
 
     // build a scene graph node for a object
@@ -57,6 +57,7 @@ module sceneObject =
         m
         |> object
         |> Mod.map (fun o ->
+        
             o
             |> Sg.adapter
         )   

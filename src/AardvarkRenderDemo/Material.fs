@@ -50,8 +50,8 @@ module material =
     //PBR material type to replace the imported ASSIMP materials in the imported models
     type ProxyMaterial =
         {
-            importedMaterial : IO.Loader.IMaterial
-            material : IMod<MPBRMaterial>
+            Name : string
+            Material : IMod<MPBRMaterial>
         }
         
         member x.DisplacemntMap =
@@ -59,70 +59,60 @@ module material =
                 f
                 |> Option.map (fun f -> FileTexture(f, TextureParams.empty) :> ITexture)
                 |> Option.defaultValue (onPixTex C3f.Gray50)
-            Mod.bind (fun (m : MPBRMaterial)-> m.displacment.fileName |> Mod.map loadTex)  x.material :> IMod
+            Mod.bind (fun (m : MPBRMaterial)-> m.displacment.fileName |> Mod.map loadTex)  x.Material :> IMod
 
         member x.MetallicMap =
             let loadTex f =
                 f
                 |> Option.map (fun f -> FileTexture(f, TextureParams.empty) :> ITexture)
                 |> Option.defaultValue (onPixTex C3f.White)
-            Mod.bind (fun (m : MPBRMaterial)-> m.metallic.fileName |> Mod.map loadTex)  x.material :> IMod
+            Mod.bind (fun (m : MPBRMaterial)-> m.metallic.fileName |> Mod.map loadTex)  x.Material :> IMod
 
         member x.RoughnessMap =
             let loadTex f =
                 f
                 |> Option.map (fun f -> FileTexture(f, TextureParams.empty) :> ITexture)
                 |> Option.defaultValue (onPixTex C3f.White)
-            Mod.bind (fun (m : MPBRMaterial)-> m.roughness.fileName |> Mod.map loadTex)  x.material :> IMod
+            Mod.bind (fun (m : MPBRMaterial)-> m.roughness.fileName |> Mod.map loadTex)  x.Material :> IMod
 
         member x.AlbedoMap =
             adaptive {
-                let! m = x.material 
+                let! m = x.Material 
                 let! f = m.albedo.fileName
-                let im =  x.importedMaterial :?>  IO.Loader.Material
-                let d = 
-                    match im.textures.TryFind DefaultSemantic.DiffuseColorTexture  with
-                    |Some t -> t.texture 
-                    |None -> onPixTex C3f.White
                 return match f with
                         | Some file -> FileTexture(file, TextureParams.empty) :> ITexture
-                        | None ->  d
+                        | None ->  onPixTex C3f.White
             }
         
         member x.NormalMap =
             adaptive {
-                let! m = x.material 
+                let! m = x.Material 
                 let! f = m.normal.fileName
-                let im =  x.importedMaterial :?>  IO.Loader.Material
-                let d () = 
-                    match im.textures.TryFind DefaultSemantic.NormalMapTexture  with
-                    |Some t -> t.texture 
-                    |None ->  onPixTex C3f.White
                 return match f with
                         | Some file -> FileTexture(file, TextureParams.empty) :> ITexture
-                        | None ->  d ()
+                        | None ->  onPixTex C3f.White
             }
 
         interface IO.Loader.IMaterial with
 
-            member x.name = x.importedMaterial.name
+            member x.name = x.Name
 
             member x.TryGetUniform(s, sem) =
                 match string sem with
-                | "Metallic" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.metallic.factor) x.material :> IMod)
+                | "Metallic" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.metallic.factor) x.Material :> IMod)
                 | "MetallicMap" -> Some x.MetallicMap 
-                | "Roughness" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.roughness.factor) x.material :> IMod)
+                | "Roughness" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.roughness.factor) x.Material :> IMod)
                 | "RoughnessMap" -> Some x.RoughnessMap 
                 | "DiffuseColorTexture" -> Some (x.AlbedoMap :> IMod)
-                | "AlbedoFactor" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.albedo.factor) x.material :> IMod)
-                | "NormalMapStrength" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.normal.factor) x.material :> IMod)
+                | "AlbedoFactor" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.albedo.factor) x.Material :> IMod)
+                | "NormalMapStrength" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.normal.factor) x.Material :> IMod)
                 | "NormalMapTexture" -> Some (x.NormalMap :> IMod)
-                | "Discard" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.discard) x.material :> IMod)
-                | "DisplacmentStrength" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.displacment.factor) x.material :> IMod)
+                | "Discard" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.discard) x.Material :> IMod)
+                | "DisplacmentStrength" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.displacment.factor) x.Material :> IMod)
                 | "DisplacmentMap" -> Some x.DisplacemntMap 
-                | _ -> x.importedMaterial.TryGetUniform(s, sem)
-
-            member x.Dispose() = x.importedMaterial.Dispose()
+                | _ -> None
+            
+            member x.Dispose() = ()
 
     //find all material definitions in a IO.Loader.Scene
     let getMaterials (s : IO.Loader.Scene) =
@@ -141,12 +131,27 @@ module material =
 
             traverse [] s.root 
     
+    let getTextureFileName (kind : Symbol) (material : IO.Loader.Material) =
+        match material.textures.TryFind kind with
+            |Some t -> 
+                match t.texture with
+                    | :? FileTexture as f -> Some f.FileName
+                    | _ -> None
+            | None -> None
+
+    let  toPBRMaterial (material : IO.Loader.Material) =
+        let albedoMap = getTextureFileName DefaultSemantic.DiffuseColorTexture material
+        let normalMap = getTextureFileName DefaultSemantic.NormalMapTexture material
+        {defaultMaterial with 
+            albedo = {defaultMaterial.albedo with fileName = albedoMap}
+            normal = {defaultMaterial.normal with fileName = normalMap}
+        }
     //get a list of all material names from an  imported  object
     //and use that as Keys for a Map initialized with  the default PBR material
     //This is used to initialize the materials for an imported object
     let materials model = 
         getMaterials model
-        |> List.map (fun m -> m.name, defaultMaterial)
+        |> List.map (fun m -> m.name, toPBRMaterial (m :?>  IO.Loader.Material))
         |> HMap.ofList
     
 //UI Control for a optionally texture mapped value with linear or logaritmic strength control
