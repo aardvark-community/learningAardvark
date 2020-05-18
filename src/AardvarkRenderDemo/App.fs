@@ -138,7 +138,7 @@ module App =
             do! DefaultSurfaces.trafo
             do! displacemntMap.displacementMap
             do! DefaultSurfaces.vertexColor
-            do! DefaultSurfaces.diffuseTexture 
+            do! AlbedoColor.albedoColor
             do! NormalMap.normalMap 
             do! GBufferRendering.gBufferShader
             }
@@ -402,7 +402,7 @@ module App =
             [
                 style "position: fixed; left: 0; top: 0; width: 100%; height: 100%"
                 attribute "showFPS" "true"
-           //     attribute "data-renderalways" "1"
+                //attribute "data-renderalways" "1"
             ]
 
         let t = compileDeffered objects m

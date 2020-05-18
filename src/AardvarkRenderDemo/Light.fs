@@ -32,7 +32,7 @@ module light =
                     match l' with
                     | MDirectionalLight ld -> Sg.empty
                     | MPointLight lp -> 
-                        Sg.sphere 6 (Mod.map ( fun v -> v.color.ToC4b()) lp ) (Mod.constant 0.03) 
+                        Sg.sphere 6 (Mod.map ( fun (v : PointLightData) -> v.color.ToC4b()) lp ) (Mod.constant 0.03) 
                         |> Sg.translate' (Mod.map ( fun v -> v.lightPosition.XYZ) lp)
                 yield m 
         } 
@@ -146,7 +146,7 @@ module lightControl =
             let al = Mod.map (fun l -> l.attenuationLinear) l'
             let aq = Mod.map (fun l -> l.attenuationQad) l'
             let i = Mod.map (fun l -> l.intensity) l'
-            let c = Mod.map (fun l -> l.color.ToC4b()) l'
+            let c = Mod.map (fun (l : PointLightData) -> l.color.ToC4b()) l'
             div [] [
 
                 Mod.map (fun l -> 

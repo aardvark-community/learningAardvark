@@ -56,12 +56,67 @@ module Mutable =
                 }
     
     
+    type MTextureMappedColor(__initial : SLEAardvarkRenderDemo.Model.TextureMappedColor) =
+        inherit obj()
+        let mutable __current : Aardvark.Base.Incremental.IModRef<SLEAardvarkRenderDemo.Model.TextureMappedColor> = Aardvark.Base.Incremental.EqModRef<SLEAardvarkRenderDemo.Model.TextureMappedColor>(__initial) :> Aardvark.Base.Incremental.IModRef<SLEAardvarkRenderDemo.Model.TextureMappedColor>
+        let _fileName = MOption.Create(__initial.fileName)
+        let _color = ResetMod.Create(__initial.color)
+        let _factor = ResetMod.Create(__initial.factor)
+        
+        member x.fileName = _fileName :> IMod<_>
+        member x.color = _color :> IMod<_>
+        member x.factor = _factor :> IMod<_>
+        
+        member x.Current = __current :> IMod<_>
+        member x.Update(v : SLEAardvarkRenderDemo.Model.TextureMappedColor) =
+            if not (System.Object.ReferenceEquals(__current.Value, v)) then
+                __current.Value <- v
+                
+                MOption.Update(_fileName, v.fileName)
+                ResetMod.Update(_color,v.color)
+                ResetMod.Update(_factor,v.factor)
+                
+        
+        static member Create(__initial : SLEAardvarkRenderDemo.Model.TextureMappedColor) : MTextureMappedColor = MTextureMappedColor(__initial)
+        static member Update(m : MTextureMappedColor, v : SLEAardvarkRenderDemo.Model.TextureMappedColor) = m.Update(v)
+        
+        override x.ToString() = __current.Value.ToString()
+        member x.AsString = sprintf "%A" __current.Value
+        interface IUpdatable<SLEAardvarkRenderDemo.Model.TextureMappedColor> with
+            member x.Update v = x.Update v
+    
+    
+    
+    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+    module TextureMappedColor =
+        [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+        module Lens =
+            let fileName =
+                { new Lens<SLEAardvarkRenderDemo.Model.TextureMappedColor, Microsoft.FSharp.Core.Option<System.String>>() with
+                    override x.Get(r) = r.fileName
+                    override x.Set(r,v) = { r with fileName = v }
+                    override x.Update(r,f) = { r with fileName = f r.fileName }
+                }
+            let color =
+                { new Lens<SLEAardvarkRenderDemo.Model.TextureMappedColor, Aardvark.Base.C3d>() with
+                    override x.Get(r) = r.color
+                    override x.Set(r,v) = { r with color = v }
+                    override x.Update(r,f) = { r with color = f r.color }
+                }
+            let factor =
+                { new Lens<SLEAardvarkRenderDemo.Model.TextureMappedColor, System.Double>() with
+                    override x.Get(r) = r.factor
+                    override x.Set(r,v) = { r with factor = v }
+                    override x.Update(r,f) = { r with factor = f r.factor }
+                }
+    
+    
     type MPBRMaterial(__initial : SLEAardvarkRenderDemo.Model.PBRMaterial) =
         inherit obj()
         let mutable __current : Aardvark.Base.Incremental.IModRef<SLEAardvarkRenderDemo.Model.PBRMaterial> = Aardvark.Base.Incremental.EqModRef<SLEAardvarkRenderDemo.Model.PBRMaterial>(__initial) :> Aardvark.Base.Incremental.IModRef<SLEAardvarkRenderDemo.Model.PBRMaterial>
         let _metallic = MTextureMappedValue.Create(__initial.metallic)
         let _roughness = MTextureMappedValue.Create(__initial.roughness)
-        let _albedo = MTextureMappedValue.Create(__initial.albedo)
+        let _albedo = MTextureMappedColor.Create(__initial.albedo)
         let _normal = MTextureMappedValue.Create(__initial.normal)
         let _discard = ResetMod.Create(__initial.discard)
         let _displacment = MTextureMappedValue.Create(__initial.displacment)
@@ -80,7 +135,7 @@ module Mutable =
                 
                 MTextureMappedValue.Update(_metallic, v.metallic)
                 MTextureMappedValue.Update(_roughness, v.roughness)
-                MTextureMappedValue.Update(_albedo, v.albedo)
+                MTextureMappedColor.Update(_albedo, v.albedo)
                 MTextureMappedValue.Update(_normal, v.normal)
                 ResetMod.Update(_discard,v.discard)
                 MTextureMappedValue.Update(_displacment, v.displacment)
@@ -113,7 +168,7 @@ module Mutable =
                     override x.Update(r,f) = { r with roughness = f r.roughness }
                 }
             let albedo =
-                { new Lens<SLEAardvarkRenderDemo.Model.PBRMaterial, SLEAardvarkRenderDemo.Model.TextureMappedValue>() with
+                { new Lens<SLEAardvarkRenderDemo.Model.PBRMaterial, SLEAardvarkRenderDemo.Model.TextureMappedColor>() with
                     override x.Get(r) = r.albedo
                     override x.Set(r,v) = { r with albedo = v }
                     override x.Update(r,f) = { r with albedo = f r.albedo }

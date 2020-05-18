@@ -26,6 +26,7 @@ module material =
         }
         albedo ={
             fileName = None
+            color = C3d.White
             factor = 1.0
         }
         normal = {
@@ -103,13 +104,14 @@ module material =
                 | "MetallicMap" -> Some x.MetallicMap 
                 | "Roughness" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.roughness.factor) x.Material :> IMod)
                 | "RoughnessMap" -> Some x.RoughnessMap 
-                | "DiffuseColorTexture" -> Some (x.AlbedoMap :> IMod)
+                | "AlbedoColorTexture" -> Some (x.AlbedoMap :> IMod)
                 | "AlbedoFactor" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.albedo.factor) x.Material :> IMod)
                 | "NormalMapStrength" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.normal.factor) x.Material :> IMod)
                 | "NormalMapTexture" -> Some (x.NormalMap :> IMod)
                 | "Discard" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.discard) x.Material :> IMod)
                 | "DisplacmentStrength" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.displacment.factor) x.Material :> IMod)
                 | "DisplacmentMap" -> Some x.DisplacemntMap 
+                | "AlbedoColor" -> Some  (Mod.bind (fun (m : MPBRMaterial)-> m.albedo.color) x.Material :> IMod)
                 | _ -> None
             
             member x.Dispose() = ()
@@ -193,6 +195,48 @@ module textureMappedValueControl =
             tr [] [ td [] [openButton]; td [] [name]; td [] [removeButton]]
         ]        
 
+module textureMappedColorControl =
+
+    type Message =
+        | SetMap of string
+        | RemoveMap
+        | SetFactor of float
+        | SetColor of C3d
+
+    let update (m :TextureMappedColor) (msg : Message)  =
+        match msg with
+        | SetMap file -> {m with fileName = Some file}
+        | RemoveMap -> {m with fileName = None}
+        | SetFactor f -> {m with  factor = f}
+        | SetColor c -> {m with color = c}
+
+    type Kind =
+    |Linear
+    |Log
+
+    let view kind titel min max step (m : MTextureMappedColor) =
+        let slider =
+            match kind with
+            |Linear -> inputSlider {min =min;  max = max; step = step} [] m.factor SetFactor
+            |Log -> inputLogSlider {min =min;  max = max; step = step} [] m.factor SetFactor
+        let openButton = 
+            openDialogButton 
+                { OpenDialogConfig.file with allowMultiple = false; title = sprintf "Open %s" titel; filters  = [|"*.*"|];  startPath = ""; mode  = OpenDialogMode.File}
+                [ clazz "ui green button"; onChooseFile SetMap ] 
+                [ text "Choose File" ]
+        let removeButton = 
+            m.fileName
+            |> Mod.map (fun f -> match f with |Some fn -> PList.single(button [clazz "ui button"; onClick (fun _ -> RemoveMap)]  [text "Remove"]) |None -> PList.empty)
+            |> AList.ofMod
+            |> Incremental.div AttributeMap.empty
+        let name = m.fileName |> Mod.map (Option.map (fun f -> IO.Path.GetFileNameWithoutExtension(f)) >> Option.defaultValue "none") |> Incremental.text
+        let c =Mod.map (fun (col : C3d) -> col.ToC4b()) m.color
+        Html.table [                        
+            tr [] [ td [] [text titel]; td [style "width: 70%;"; attribute "colspan" "2"] [slider]]
+            tr [] [ td [] [text "Color"]; td [] [ColorPicker.viewSimple c (fun (c : C4b) -> (C3d.FromC4b).Invoke(c) |> SetColor)]; td [] []]
+            tr [] [ td [] [openButton]; td [] [name]; td [] [removeButton]]
+        ]   
+
 //UI control for a single material
 module materialControl = 
 
@@ -200,7 +244,7 @@ module materialControl =
         | SetMetallic of textureMappedValueControl.Message
         | SetRoughness of textureMappedValueControl.Message
         | SetNormal of textureMappedValueControl.Message
-        | SetAlbedo of textureMappedValueControl.Message
+        | SetAlbedo of textureMappedColorControl.Message
         | SetDiscard 
         | SetDisplacment of textureMappedValueControl.Message
 
@@ -208,7 +252,7 @@ module materialControl =
         match msg with
         | SetMetallic msg' -> { m with  metallic = textureMappedValueControl.update m.metallic msg'}
         | SetRoughness msg' -> { m with  roughness = textureMappedValueControl.update m.roughness msg'}
-        | SetAlbedo msg' -> { m with  albedo = textureMappedValueControl.update m.albedo msg'}
+        | SetAlbedo msg' -> { m with  albedo = textureMappedColorControl.update m.albedo msg'}
         | SetNormal msg' -> { m with  normal = textureMappedValueControl.update m.normal msg'}
         | SetDiscard -> { m with  discard = not m.discard}
         | SetDisplacment msg' -> { m with  displacment = textureMappedValueControl.update m.displacment msg'}
@@ -217,7 +261,7 @@ module materialControl =
         div [] [
             textureMappedValueControl.view textureMappedValueControl.Linear "Metallic" 0.0 1.0 0.01 m.metallic  |> UI.map SetMetallic
             textureMappedValueControl.view textureMappedValueControl.Linear "Roughness" 0.0 1.0 0.01 m.roughness  |> UI.map SetRoughness
-            textureMappedValueControl.view textureMappedValueControl.Linear "Albedo" 0.0 1.0 0.01 m.albedo  |> UI.map SetAlbedo
+            textureMappedColorControl.view textureMappedColorControl.Linear "Albedo" 0.0 1.0 0.01 m.albedo  |> UI.map SetAlbedo
             textureMappedValueControl.view textureMappedValueControl.Linear "Normal Map" 0.0 1.0 0.01 m.normal  |> UI.map SetNormal
             textureMappedValueControl.view textureMappedValueControl.Linear "Displacement" 0.0 1.0 0.01 m.displacment  |> UI.map SetDisplacment
             Html.table [                        
