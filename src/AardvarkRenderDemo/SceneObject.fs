@@ -109,7 +109,7 @@ module sceneObjectControl =
             tr [] [ td [] [text "Scale"]; td [style "width: 70%;"] [inputLogSlider {min = 0.0001;  max = 100.0; step = 0.01} [] m.scale SetScale]]
             ]
             Html.table [                        
-            tr [] [ td [] [text "Material"]; td [style "width: 70%;"] [Html.SemUi.dropDown' (m.materials |> AMap.keys |> ASet.toAList) m.currentMaterial SetCurrentMaterial id]]
+            tr [] [ td [] [text "Material"]; td [style "width: 70%;"] [Html.SemUi.dropDown' (m.materials |> AMap.keys |> ASet.toAList |> AList.sort) m.currentMaterial SetCurrentMaterial id]]
             ]
             m.currentMaterial
             |> Mod.bind (fun c ->
