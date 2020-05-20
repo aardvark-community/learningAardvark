@@ -2,9 +2,10 @@ namespace SLEAardvarkRenderDemo.Model
 
 open System
 open Aardvark.Base
-open Aardvark.Base.Incremental
+open FSharp.Data.Adaptive
 open Aardvark.UI.Primitives
 open Aardvark.SceneGraph
+open Adaptify
 
 (*
     The Domain Types forming the Model of the Elm-style App
@@ -27,13 +28,13 @@ type PointLightData = {
 }
 
 //todo: Optionally use a single color value instead a texture 
-[<DomainType>]
+[<ModelType>]
 type TextureMappedValue = {
     fileName : string Option
     factor : float 
 }
 
-[<DomainType>]
+[<ModelType>]
 type PBRMaterial = {
     metallic  : TextureMappedValue
     roughness : TextureMappedValue
@@ -45,24 +46,24 @@ type PBRMaterial = {
     displacment : TextureMappedValue
 }
 
-[<DomainType>]
+[<ModelType>]
 type SceneObject = {
-    [<PrimaryKey>] 
+    //[<PrimaryKey>] 
     name : string
     file : string
     scale : float
     translation : V3d
     rotation : V3d
-    materials : hmap<string, PBRMaterial>
+    materials : HashMap<string, PBRMaterial>
     currentMaterial : string
 }
 
-[<DomainType>]
+[<ModelType>]
 type Light =
     | DirectionalLight of DirectionalLightData
     | PointLight of PointLightData
 
-[<DomainType>]
+[<ModelType>]
 type AmbientOcclusionSettings =
     {
         occlusionStrength : float
@@ -74,7 +75,7 @@ type AmbientOcclusionSettings =
         sharpness : float
     }
 
-[<DomainType>]
+[<ModelType>]
 type GlobalEnviorment =
     {
         skyMap : string
@@ -84,14 +85,14 @@ type GlobalEnviorment =
         occlusionSettings : AmbientOcclusionSettings
     }
 
-[<DomainType>]
+[<ModelType>]
 type Model =
     {
         cameraState : CameraControllerState
-        lights : hmap<int, Light>
+        lights : HashMap<int, Light>
         enviorment : GlobalEnviorment
         expousure  : float
-        objects : hmap<string, SceneObject>
+        objects : HashMap<string, SceneObject>
         selectedObject : string
     }
 

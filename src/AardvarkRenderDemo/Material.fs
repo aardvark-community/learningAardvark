@@ -2,7 +2,7 @@ namespace SLEAardvarkRenderDemo
 
 open System
 open Aardvark.Base
-open Aardvark.Base.Incremental
+open FSharp.Data.Adaptive
 open Aardvark.UI
 open Aardvark.UI.Primitives
 open Aardvark.SceneGraph
@@ -53,7 +53,7 @@ module material =
     type ProxyMaterial =
         {
             importedMaterial : IO.Loader.IMaterial
-            material : IMod<MPBRMaterial>
+            material : aval<AdaptivePBRMaterial>
         }
         
         member x.DisplacemntMap =
@@ -61,21 +61,21 @@ module material =
                 f
                 |> Option.map (fun f -> FileTexture(f, TextureParams.empty) :> ITexture)
                 |> Option.defaultValue (onPixTex C3f.Gray50)
-            Mod.bind (fun (m : MPBRMaterial)-> m.displacment.fileName |> Mod.map loadTex)  x.material :> IMod
+            AVal.bind (fun (m : AdaptivePBRMaterial)-> m.displacment.fileName |> AVal.map loadTex)  x.material :> IAdaptiveValue
 
         member x.MetallicMap =
             let loadTex f =
                 f
                 |> Option.map (fun f -> FileTexture(f, TextureParams.empty) :> ITexture)
                 |> Option.defaultValue (onPixTex C3f.White)
-            Mod.bind (fun (m : MPBRMaterial)-> m.metallic.fileName |> Mod.map loadTex)  x.material :> IMod
+            AVal.bind (fun (m : AdaptivePBRMaterial)-> m.metallic.fileName |> AVal.map loadTex)  x.material :> IAdaptiveValue
 
         member x.RoughnessMap =
             let loadTex f =
                 f
                 |> Option.map (fun f -> FileTexture(f, TextureParams.empty) :> ITexture)
                 |> Option.defaultValue (onPixTex C3f.White)
-            Mod.bind (fun (m : MPBRMaterial)-> m.roughness.fileName |> Mod.map loadTex)  x.material :> IMod
+            AVal.bind (fun (m : AdaptivePBRMaterial)-> m.roughness.fileName |> AVal.map loadTex)  x.material :> IAdaptiveValue
 
         member x.AlbedoMap =
             adaptive {
@@ -111,16 +111,16 @@ module material =
 
             member x.TryGetUniform(s, sem) =
                 match string sem with
-                | "Metallic" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.metallic.factor) x.material :> IMod)
+                | "Metallic" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.metallic.factor) x.material :> IAdaptiveValue)
                 | "MetallicMap" -> Some x.MetallicMap 
-                | "Roughness" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.roughness.factor) x.material :> IMod)
+                | "Roughness" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.roughness.factor) x.material :> IAdaptiveValue)
                 | "RoughnessMap" -> Some x.RoughnessMap 
-                | "DiffuseColorTexture" -> Some (x.AlbedoMap :> IMod)
-                | "AlbedoFactor" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.albedo.factor) x.material :> IMod)
-                | "NormalMapStrength" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.normal.factor) x.material :> IMod)
-                | "NormalMapTexture" -> Some (x.NormalMap :> IMod)
-                | "Discard" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.discard) x.material :> IMod)
-                | "DisplacmentStrength" -> Some (Mod.bind (fun (m : MPBRMaterial)-> m.displacment.factor) x.material :> IMod)
+                | "DiffuseColorTexture" -> Some (x.AlbedoMap :> IAdaptiveValue)
+                | "AlbedoFactor" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.albedo.factor) x.material :> IAdaptiveValue)
+                | "NormalMapStrength" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.normal.factor) x.material :> IAdaptiveValue)
+                | "NormalMapTexture" -> Some (x.NormalMap :> IAdaptiveValue)
+                | "Discard" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.discard) x.material :> IAdaptiveValue)
+                | "DisplacmentStrength" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.displacment.factor) x.material :> IAdaptiveValue)
                 | "DisplacmentMap" -> Some x.DisplacemntMap 
                 | _ -> x.importedMaterial.TryGetUniform(s, sem)
 
@@ -156,7 +156,7 @@ module material =
         |> List.map (fun m -> removeDigits m.name)
         |> List.distinct
         |> List.map (fun n -> n, defaultMaterial)
-        |> HMap.ofList
+        |> HashMap.ofList
     
 //UI Control for a optionally texture mapped value with linear or logaritmic strength control
 module textureMappedValueControl =
@@ -176,7 +176,7 @@ module textureMappedValueControl =
     |Linear
     |Log
 
-    let view kind titel min max step (m : MTextureMappedValue) =
+    let view kind titel min max step (m : AdaptiveTextureMappedValue) =
         let slider =
             match kind with
             |Linear -> inputSlider {min =min;  max = max; step = step} [] m.factor SetFactor
@@ -188,10 +188,10 @@ module textureMappedValueControl =
                 [ text "Choose File" ]
         let removeButton = 
             m.fileName
-            |> Mod.map (fun f -> match f with |Some fn -> PList.single(button [clazz "ui button"; onClick (fun _ -> RemoveMap)]  [text "Remove"]) |None -> PList.empty)
-            |> AList.ofMod
+            |> AVal.map (fun f -> match f with |Some fn -> IndexList.single(button [clazz "ui button"; onClick (fun _ -> RemoveMap)]  [text "Remove"]) |None -> IndexList.empty)
+            |> AList.ofAVal
             |> Incremental.div AttributeMap.empty
-        let name = m.fileName |> Mod.map (Option.map (fun f -> IO.Path.GetFileNameWithoutExtension(f)) >> Option.defaultValue "none") |> Incremental.text
+        let name = m.fileName |> AVal.map (Option.map (fun f -> IO.Path.GetFileNameWithoutExtension(f)) >> Option.defaultValue "none") |> Incremental.text
         Html.table [                        
             tr [] [ td [] [text titel]; td [style "width: 70%;"; attribute "colspan" "2"] [slider]]
             tr [] [ td [] [openButton]; td [] [name]; td [] [removeButton]]
@@ -221,7 +221,7 @@ module materialControl =
         | SetDiscard -> { m with  discard = not m.discard}
         | SetDisplacment msg' -> { m with  displacment = textureMappedValueControl.update m.displacment msg'}
 
-    let view (m : MPBRMaterial) =
+    let view (m : AdaptivePBRMaterial) =
         let numInput name changed state  = labeledFloatInput name 0.0 1.0 0.01 changed state
         div [] [
             textureMappedValueControl.view textureMappedValueControl.Linear "Metallic" 0.0 1.0 0.01 m.metallic  |> UI.map SetMetallic

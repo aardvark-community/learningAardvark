@@ -5,7 +5,7 @@
     "tasks": [
         {
             "label": "build",
-            "command": "dotnet build src/Aardvark_test.sln",
+            "command": "dotnet build src/AardvarkRenderDemo.sln",
             "type": "shell",
             "group": "build",
             "presentation": {

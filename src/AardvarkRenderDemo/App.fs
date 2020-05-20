@@ -2,7 +2,7 @@ namespace SLEAardvarkRenderDemo
 
 open System
 open Aardvark.Base
-open Aardvark.Base.Incremental
+open FSharp.Data.Adaptive
 open Aardvark.SceneGraph
 open Aardvark.SceneGraph.IO
 open Aardvark.SceneGraph.Semantics
@@ -38,12 +38,17 @@ module App =
     let cameraConfig  =  {FreeFlyController.initial.freeFlyConfig with zoomMouseWheelSensitivity = 0.5} 
     let initialView = CameraView.lookAt (V3d(0.0, 2.0, -6.0)) (V3d(0.0, 2.0, 0.0)) (V3d.OIO * 1.0)
 
-    let obj , selected = sceneObject.loadObject HMap.empty @"..\..\..\data\SLE_Gnom4.obj" 
+    let (!!) inner = 
+        Path.combine ([__SOURCE_DIRECTORY__;"..";"..";"data";] @ inner)
+
+        
+
+    let obj , selected = sceneObject.loadObject HashMap.empty !!["SLE_Gnom4.obj"]
 
     let defaultModel = { 
         cameraState = {FreeFlyController.initial  with freeFlyConfig = cameraConfig; view = initialView}
-        lights = HMap.ofList [(0, light.defaultDirectionalLight)]
-        enviorment = {skyMap = @"..\..\..\data\GrandCanyon_C_YumaPoint\GCanyon_C_YumaPoint_3k.hdr"; 
+        lights = HashMap.ofList [(0, light.defaultDirectionalLight)]
+        enviorment = {skyMap = !!["GrandCanyon_C_YumaPoint";"GCanyon_C_YumaPoint_3k.hdr"]
                       skyMapRotation = Math.PI; 
                       skyMapIntensity = 1.0;
                       ambientLightIntensity = 1.0
@@ -54,7 +59,7 @@ module App =
     }
 
     let initial = 
-        let file = @"..\..\..\data\initial_scene.json"
+        let file = !!["initial_scene.json"]
         if (System.IO.File.Exists file)
         then 
            projetIO.load file
@@ -67,34 +72,34 @@ module App =
         | CameraMessage msg ->
             { m with cameraState = FreeFlyController.update m.cameraState msg }
         | LightMessage (i, lms) -> 
-            let li' = HMap.tryFind i  m.lights //from light.fs
+            let li' = HashMap.tryFind i  m.lights //from light.fs
             match  li' with 
             |Some li ->
                 let l = lightControl.update li lms
-                { m with lights = HMap.update i (fun _ -> l ) m.lights }
+                { m with lights = HashMap.update i (fun _ -> l ) m.lights }
             |None ->  m
-        | RemoveLight i ->  { m with lights = HMap.remove i m.lights }
+        | RemoveLight i ->  { m with lights = HashMap.remove i m.lights }
         | AddLight l -> 
             let i = 
-                if HMap.isEmpty m.lights then
+                if HashMap.isEmpty m.lights then
                     1
                 else
-                    HMap.keys m.lights
+                    HashMap.keys m.lights
                     |> Seq.max
                     |> max 0
                     |> (+) 1
-            { m with lights = HMap.add i l m.lights }
+            { m with lights = HashMap.add i l m.lights }
         | SceneObjectMessage (msg) ->
-            let o' = HMap.tryFind m.selectedObject m.objects
+            let o' = HashMap.tryFind m.selectedObject m.objects
             match o' with
             |Some o  ->
                 let newo = sceneObjectControl.update o msg //from  SceneObject.fs
-                let objects = HMap.update m.selectedObject (fun _ -> newo ) m.objects
+                let objects = HashMap.update m.selectedObject (fun _ -> newo ) m.objects
                 { m with objects = objects }
             |None -> m
         | RemoveSceneObject name ->
-            let obj =  HMap.remove name m.objects  
-            let selected =  obj |> HMap.keys |> Seq.first |> Option.defaultValue "None"
+            let obj =  HashMap.remove name m.objects  
+            let selected =  obj |> HashMap.keys |> Seq.first |> Option.defaultValue "None"
             { m with objects = obj; selectedObject = selected }           
         | AddSceneObject file ->
             let objects, selected = sceneObject.loadObject m.objects file
@@ -111,7 +116,7 @@ module App =
         | LoadProject f -> projetIO.load f
 
     //Render task for the Geometry-buffer pass
-    let makeGBuffer (runtime : IRuntime) (view : IMod<Trafo3d>) projection size skyBoxTexture scene (m : MModel) =
+    let makeGBuffer (runtime : IRuntime) (view : aval<Trafo3d>) projection size skyBoxTexture scene (m : AdaptiveModel) =
 
         let signature =
             runtime.CreateFramebufferSignature [
@@ -123,11 +128,11 @@ module App =
             ]
 
         let skyBox =
-            Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
-                |> Sg.cullMode (Mod.constant CullMode.None)
+            Sg.box (AVal.constant C4b.White) (AVal.constant (Box3d(-V3d.III,V3d.III)))
+                |> Sg.cullMode (AVal.constant CullMode.None)
                 |> Sg.texture (Sym.ofString "SkyCubeMap") skyBoxTexture
                 |> Sg.uniform "SkyMapIntensity" m.enviorment.skyMapIntensity
-                |> Sg.uniform "CameraLocation" (view |> Mod.map (fun t -> t.Backward.C3.XYZ))
+                |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))
                 |> Sg.shader {
                     do! GBufferRendering.skyBoxTrafo
                     do! GBufferRendering.skyGBuffer
@@ -167,7 +172,7 @@ module App =
         runtime.PrepareTexture(PixTexture2d(PixImageMipMap [| img :> PixImage |], TextureParams.empty))
 
     //Render-Task for the screen-space Abient Occlusion pass
-    let makeAmbientOcclusion ( runtime : IRuntime) (size : IMod<V2i>) view proj gBuffer (settings : MAmbientOcclusionSettings)=
+    let makeAmbientOcclusion ( runtime : IRuntime) (size : aval<V2i>) view proj gBuffer (settings : AdaptiveAmbientOcclusionSettings)=
 
         let signature =
             runtime.CreateFramebufferSignature [
@@ -175,7 +180,7 @@ module App =
             ]
 
         let aoSize = 
-             Mod.custom (fun t ->
+             AVal.custom (fun t ->
                 let s = size.GetValue t
                 let d = settings.scale.GetValue t
                 V2i(
@@ -194,7 +199,7 @@ module App =
             |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
             |> Sg.viewTrafo view
             |> Sg.projTrafo proj
-            |> Sg.uniform "Random" (Mod.constant (randomTex runtime :> ITexture))
+            |> Sg.uniform "Random" (AVal.constant (randomTex runtime :> ITexture))
            
             |> Sg.uniform "Radius" settings.radius
             |> Sg.uniform "Threshold" settings.threshold
@@ -223,11 +228,11 @@ module App =
         blurredAmbientOc
 
     //main render task: put all passes together for deferred rendering
-    let compileDeffered (scene : ISg<'msg>) (m : MModel) (values : Aardvark.Service.ClientValues)=
+    let compileDeffered (scene : ISg<'msg>) (m : AdaptiveModel) (values : Aardvark.Service.ClientValues)=
         let outputSignature = values.signature
         let view = values.viewTrafo
         let proj = values.projTrafo
-        let size = values.size |> Mod.map (fun s -> V2i(max 1 s.X, max 1 s.Y))
+        let size = values.size |> AVal.map (fun s -> V2i(max 1 s.X, max 1 s.Y))
         let runtime = outputSignature.Runtime
 
         //render the speical sky map to a texture cube
@@ -250,8 +255,8 @@ module App =
 
         //calculate the  global bounding box
         let bb = //scene?GlobalBoundingBox() //not defined for Sg.set Todo: define semantics
-            let seed = Box3d(V3d.OOO, V3d.OOO) |> Mod.constant
-            let bounds (o : MSceneObject) =
+            let seed = Box3d(V3d.OOO, V3d.OOO) |> AVal.constant
+            let bounds (o : AdaptiveSceneObject) =
                 adaptive{
                     let! object  = sceneObject.object o
                     let! trans = sceneObject.trafo o
@@ -260,18 +265,18 @@ module App =
                 }    
             m.objects
             |> AMap.toASet       
-            |> ASet.fold (fun s (_,(o : MSceneObject)) -> Mod.map2( fun s b-> Box3d.Union(s,b)) s (bounds o)) seed 
-            |> Mod.bind id
+            |> ASet.fold (fun s (_,(o : AdaptiveSceneObject)) -> AVal.map2( fun (s : Box3d) (b : Box3d)-> Box.Union(s,b)) s (bounds o)) seed 
+            |> AVal.bind id
 
         //adaptive function to calcualte the light view matrix for one light
         let lightViewMatrix i = 
             let light = AMap.find i m.lights
-            Mod.bind (Mod.bind (Shadow.lightViewPoject bb)) light
+            AVal.bind (Shadow.lightViewPoject bb) light
 
         //adaptive function to calcualte the shadow map for one light
         let shadowMapTex i = 
             let light = AMap.find i m.lights
-            Mod.bind (Mod.bind (Shadow.shadowMap runtime scene bb)) light 
+            AVal.bind (Shadow.shadowMap runtime scene bb) light 
 
         // lightning pass per light
         let lightSgs = 
@@ -280,17 +285,17 @@ module App =
                 |> AMap.toASet
             aset  {
                 for  (i,l) in lightSet do
-                    let! l' = l
+                    let l' = l
                     let pass = 
                         match l' with 
-                        |MDirectionalLight dl ->
-                            Mod.map (fun (d : DirectionalLightData)->
+                        |AdaptiveDirectionalLight dl ->
+                            AVal.map (fun (d : DirectionalLightData)->
                                 if d.castsShadow then
                                     Sg.fullScreenQuad
                                     |> Sg.adapter
                                     |> Sg.uniform "Light" (SLEUniform.uniformLight l)
                                     |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
-                                    |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> Mod.map(fun (v,p)  -> v * p))
+                                    |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> AVal.map(fun (v,p)  -> v * p))
                                     |> Sg.shader {
                                         do! PBR.getGBufferData
                                         do! PBR.lightingDeferred
@@ -305,7 +310,7 @@ module App =
                                         do! PBR.lightingDeferred
                                         } ) dl
                             |> Sg.dynamic                                
-                        |MPointLight _ ->
+                        |AdaptivePointLight _ ->
                             Sg.fullScreenQuad
                             |> Sg.adapter
                             |> Sg.uniform "Light" (SLEUniform.uniformLight l)
@@ -347,9 +352,9 @@ module App =
         //render linear HDR output
         let  output = 
             Sg.set lightSgs
-            |> Sg.blendMode (blendMode |> Mod.constant)
+            |> Sg.blendMode (blendMode |> AVal.constant)
             |> Sg.uniform "AmbientIntensity" m.enviorment.ambientLightIntensity
-            |> Sg.uniform "CameraLocation" (view |> Mod.map (fun t -> t.Backward.C3.XYZ))
+            |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))
             |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
             |> Sg.texture ( Sym.ofString "WPos") (Map.find (Sym.ofString "WorldPosition") gBuffer)
             |> Sg.texture ( DefaultSemantic.Normals) (Map.find DefaultSemantic.Normals gBuffer)
@@ -377,14 +382,14 @@ module App =
         Thanks to Georg Haaser for the tip. 
         Note that the ClientValues contain the Output Framebuffer Signature. That is very usefull because you can obtain a reference to the runtime from the signatur. 
     *)
-    let RenderControl (att : list<string * AttributeValue<Message>>) (s : MCameraControllerState) (frustum : Frustum) (task : Aardvark.Service.ClientValues -> IRenderTask) =
+    let RenderControl (att : list<string * AttributeValue<Message>>) (s : AdaptiveCameraControllerState) (frustum : Frustum) (task : Aardvark.Service.ClientValues -> IRenderTask) =
         let scene =  Aardvark.Service.Scene.custom task
-        let cam : IMod<Camera> = Mod.map (fun v -> { cameraView = v; frustum = frustum }) s.view 
+        let cam : aval<Camera> = AVal.map (fun v -> { cameraView = v; frustum = frustum }) s.view 
         DomNode.RenderControl(AttributeMap.ofList att, cam, scene, None)
-        |> FreeFlyController.withControls s CameraMessage (Mod.constant frustum)
+        |> FreeFlyController.withControls s CameraMessage (AVal.constant frustum)
 
     //the 3D scene and control
-    let view3D (m : MModel) =
+    let view3D (m : AdaptiveModel) =
 
         let frustum = 
             Frustum.perspective 30.0 0.1 100.0 1.0 
@@ -409,7 +414,7 @@ module App =
         RenderControl att m.cameraState frustum t
 
     // main view for UI and  
-    let view (m : MModel) =
+    let view (m : AdaptiveModel) =
         let lights' = AMap.toASet m.lights
         let saveButton = 
             openDialogButton 
@@ -435,13 +440,13 @@ module App =
                                 ]]
                             tr [] [ td [] [text "Object"]; td [style "width: 70%;"] [Html.SemUi.dropDown' (m.objects |> AMap.keys |> ASet.toAList) m.selectedObject SelectObject id]]
                             tr [] [ td [attribute "colspan" "2"] [
-                                button [clazz "ui button"; onClick (fun _ -> RemoveSceneObject (Mod.force m.selectedObject))]  [text "Remove selected Object"]
+                                button [clazz "ui button"; onClick (fun _ -> RemoveSceneObject (AVal.force m.selectedObject))]  [text "Remove selected Object"]
                                 ]]
                         ]
                         m.selectedObject
-                        |> Mod.bind (fun n -> AMap.tryFind n m.objects)
-                        |> Mod.map (Option.map  (sceneObjectControl.view >> UI.map SceneObjectMessage))
-                        |> AList.ofModSingle
+                        |> AVal.bind (fun n -> AMap.tryFind n m.objects)
+                        |> AVal.map (Option.map  (sceneObjectControl.view >> UI.map SceneObjectMessage  ) >> IndexList.single)
+                        |> AList.ofAVal
                         |> AList.choose id
                         |> Incremental.div AttributeMap.empty
                     ]    
@@ -457,8 +462,8 @@ module App =
                             ( fun items (i, l) -> 
                                 let name = sprintf "Light %i" i
                                 let d = 
-                                        Mod.map (fun l -> lightControl.view  l |> UI.map (fun msg -> LightMessage (i, msg))) l
-                                        |> AList.ofModSingle
+                                        lightControl.view  l |> UI.map (fun msg -> LightMessage (i, msg)) 
+                                        |> AList.single
                                         |> Incremental.div AttributeMap.empty
                                 
                                 let item = 
@@ -469,9 +474,9 @@ module App =
                                 item::items
                             ) []
                          //feed that into a accordeon
-                        |> Mod.map (fun items -> Html.SemUi.accordionMenu true "ui vertical inverted fluid accordion menu" items)
+                        |> AVal.map (fun items -> Html.SemUi.accordionMenu true "ui vertical inverted fluid accordion menu" items |> IndexList.single)
                         // and that  into  a incremantal div to handel the case that the numbers of lights change
-                        |> AList.ofModSingle
+                        |> AList.ofAVal
                         |> Incremental.div AttributeMap.empty
                     ]
                 "Global Enviorment",
@@ -499,6 +504,6 @@ module App =
             initial = initial
             update = update
             view = view
-            threads = Model.Lens.cameraState.Get >> FreeFlyController.threads >> ThreadPool.map CameraMessage
+            threads = fun _ -> ThreadPool.empty
             unpersist = Unpersist.instance
         }

@@ -195,7 +195,7 @@ module PBR =
         | SLEUniform.LightType.DirectionalLight -> true, -light.lightPosition.XYZ |> Vec.normalize, light.color  
         | SLEUniform.LightType.PointLight -> 
             let lDir = light.lightPosition.XYZ - wPos |> Vec.normalize
-            let dist = V3d.Distance (light.lightPosition.XYZ, wPos)
+            let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
             let attenuation = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
             true, lDir , light.color * attenuation             
         | SLEUniform.LightType.NoLight -> false, V3d(0.0), V3d(0.0)
@@ -409,13 +409,16 @@ module PBR =
             return Math.PI * irradiance / nrSamples
         }
 
+    [<GLSLIntrinsic("uint({0})")>]
+    let u32 (a : int) : uint32 = onlyInShaderCode "uint32"
+
     [<ReflectedDefinition>]
     let radicalInverseVdC (bitss : uint32) =
         let mutable bits = (bitss <<< 16) ||| (bitss >>> 16)
-        bits <- ((bits &&& 0x55555555u) <<< 1) ||| ((bits &&& 0xAAAAAAAAu) >>> 1)
-        bits <- ((bits &&& 0x33333333u) <<< 2) ||| ((bits &&& 0xCCCCCCCCu) >>> 2)
-        bits <- ((bits &&& 0x0F0F0F0Fu) <<< 4) ||| ((bits &&& 0xF0F0F0F0u) >>> 4)
-        bits <- ((bits &&& 0x00FF00FFu) <<< 8) ||| ((bits &&& 0xFF00FF00u) >>> 8)
+        bits <- ((bits &&& u32 0x55555555) <<< 1) ||| ((bits &&& u32 0xAAAAAAAA) >>> 1)
+        bits <- ((bits &&& u32 0x33333333) <<< 2) ||| ((bits &&& u32 0xCCCCCCCC) >>> 2)
+        bits <- ((bits &&& u32 0x0F0F0F0F) <<< 4) ||| ((bits &&& u32 0xF0F0F0F0) >>> 4)
+        bits <- ((bits &&& u32 0x00FF00FF) <<< 8) ||| ((bits &&& u32 0xFF00FF00) >>> 8)
         (float bits) * 2.3283064365386963e-10
 
     [<ReflectedDefinition>]

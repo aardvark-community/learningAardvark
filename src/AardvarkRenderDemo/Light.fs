@@ -2,7 +2,7 @@ namespace SLEAardvarkRenderDemo
 
 open System
 open Aardvark.Base
-open Aardvark.Base.Incremental
+open FSharp.Data.Adaptive
 open Aardvark.UI
 open Aardvark.UI.Primitives
 open Aardvark.Base.Rendering
@@ -23,17 +23,17 @@ module light =
     let defaultAbientOcclusion = {occlusionStrength = 1.0; scale = 1.0; radius = 0.2; samples = 32; threshold = 0.2; sigma = 2.0; sharpness = 1.0}
    
     //simple geometry to indicate point light positions
-    let lightSourceModels (lights : amap<int,IMod<MLight>> ) =
+    let lightSourceModels (lights : amap<int,aval<AdaptiveLightCase>> ) =
         let lights' = AMap.toASet lights
         aset {
             for l in  lights' do
                 let! l' = snd l
                 let  m = 
                     match l' with
-                    | MDirectionalLight ld -> Sg.empty
-                    | MPointLight lp -> 
-                        Sg.sphere 6 (Mod.map ( fun v -> v.color.ToC4b()) lp ) (Mod.constant 0.03) 
-                        |> Sg.translate' (Mod.map ( fun v -> v.lightPosition.XYZ) lp)
+                    | AdaptiveDirectionalLight ld -> Sg.empty
+                    | AdaptivePointLight lp -> 
+                        Sg.sphere 6 (AVal.map ( fun v -> v.color.ToC4b()) lp ) (AVal.constant 0.03) 
+                        |> Sg.translate' (AVal.map ( fun v -> v.lightPosition.XYZ) lp)
                 yield m 
         } 
         |> Sg.set
@@ -101,7 +101,7 @@ module lightControl =
                 DirectionalLight {r with castsShadow = not r.castsShadow} 
             | x -> x
 
-    let attenuationView (l : IMod<float>) (q : IMod<float>)=
+    let attenuationView (l : aval<float>) (q : aval<float>)=
         let numInput name changed state  = labeledFloatInput name 0.0 1.0 0.01 changed state
         Html.table [ 
             tr [] [ td [attribute "colspan" "2"] [text "Attenuation"] ]                          
@@ -109,56 +109,56 @@ module lightControl =
                     td [] [numInput "Quatratic" SetAttenuationQad q]]
         ] 
 
-    let intensityView (i : IMod<float>) (c : IMod<C4b>)=
+    let intensityView (i : aval<float>) (c : aval<C4b>)=
         let numInput name changed state  = labeledFloatInput name 0.0 Double.MaxValue 1.0 changed state
         Html.table [ 
             tr [] [ td [attribute "colspan" "3"] [text "Light"] ]                          
            //Important: to make  the colorpicker work, the  assemblyWebpart for Aardvark.UI.Primitives needs to be registert in Program.fs
-            tr [] [ td [] [text "Color"]; td [] [ColorPicker.viewSimple c (fun (c : C4b) -> (C3d.FromC4b).Invoke(c) |> SetColor)]
+            tr [] [ td [] [text "Color"]; td [] [ColorPicker.viewSimple c (C3d.FromC4b >> SetColor)]
                     td [] [numInput "Intensity" SetIntensity i]]
          ] 
 
-    let view (m : MLight) =
+    let view (m : AdaptiveLightCase) =
         match m with
-        |MDirectionalLight l' -> 
-            let i = Mod.map (fun (l : DirectionalLightData) -> l.intensity) l'
-            let c = Mod.map (fun (l : DirectionalLightData) -> l.color.ToC4b()) l'
+        |AdaptiveDirectionalLight l' -> 
+            let i = AVal.map (fun (l : DirectionalLightData) -> l.intensity) l'
+            let c = AVal.map (fun (l : DirectionalLightData) -> l.color.ToC4b()) l'
             div [] [
-                Mod.map (fun l -> 
+                AVal.map (fun l -> 
                     [
                         button [clazz "ui button"; onClick (fun _ -> DefaultDirectionalLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Reset"]
                         button [clazz "ui button"; onClick (fun _ -> DefaultPointLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Point Light"] 
                     ] 
-                    |> PList.ofList) l'
-                |> AList.ofMod
+                    |> IndexList.ofList) l'
+                |> AList.ofAVal
                 |> Incremental.div AttributeMap.empty 
                 
-                Mod.map (fun l -> l.lightDirection.XYZ) l'
+                AVal.map (fun l -> l.lightDirection.XYZ) l'
                 |> V3dInput.view "Direction"
                 |> UI.map SetLightDirection
 
                 intensityView i c
                 Html.table [
-                    tr [] [ td [] [text "Cast Shadow"]; td [style "width: 70%;"] [Html.SemUi.toggleBox  (Mod.map (fun l -> l.castsShadow) l') ToggleCastShadow ]]
+                    tr [] [ td [] [text "Cast Shadow"]; td [style "width: 70%;"] [Html.SemUi.toggleBox  (AVal.map (fun l -> l.castsShadow) l') ToggleCastShadow ]]
                 ]
             ]                  
-        |MPointLight l' -> 
-            let al = Mod.map (fun l -> l.attenuationLinear) l'
-            let aq = Mod.map (fun l -> l.attenuationQad) l'
-            let i = Mod.map (fun l -> l.intensity) l'
-            let c = Mod.map (fun l -> l.color.ToC4b()) l'
+        |AdaptivePointLight l' -> 
+            let al = AVal.map (fun l -> l.attenuationLinear) l'
+            let aq = AVal.map (fun l -> l.attenuationQad) l'
+            let i = AVal.map (fun l -> l.intensity) l'
+            let c = AVal.map (fun l -> l.color.ToC4b()) l'
             div [] [
 
-                Mod.map (fun l -> 
+                AVal.map (fun l -> 
                     [
                         button [clazz "ui button"; onClick (fun _ -> DefaultPointLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Reset"]
                         button [clazz "ui button"; onClick (fun _ -> DefaultDirectionalLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Directional Light"]
                     ] 
-                    |> PList.ofList) l'
-                |> AList.ofMod
+                    |> IndexList.ofList) l'
+                |> AList.ofAVal
                 |> Incremental.div AttributeMap.empty 
                 
-                Mod.map (fun l -> l.lightPosition.XYZ) l'
+                AVal.map (fun l -> l.lightPosition.XYZ) l'
                 |> V3dInput.view "Position"
                 |> UI.map SetLightPosition
 
@@ -177,13 +177,13 @@ module Shadow =
             DefaultSemantic.Depth, { format = RenderbufferFormat.DepthComponent32; samples = 1 }
         ]
 
-    let shadowMapSize = V2i(1024) |> Mod.constant
+    let shadowMapSize = V2i(1024) |> AVal.constant
 
     //calculate light view and prjection
-    let lightViewPoject (bb : IMod<Box3d>) (light : MLight) =
+    let lightViewPoject (bb : aval<Box3d>) (light : AdaptiveLightCase) =
         match light with
-        | MPointLight l -> failwith "not implemented"
-        | MDirectionalLight l -> 
+        | AdaptivePointLight l -> failwith "not implemented"
+        | AdaptiveDirectionalLight l -> 
             adaptive {
                 let! light = l
                 let! BB = bb
@@ -202,10 +202,10 @@ module Shadow =
                 return lightView , proj
             }
 
-    let shadowMap (runtime : IRuntime) (scene :ISg<'msg>) (bb : IMod<Box3d>) (light : MLight) =
+    let shadowMap (runtime : IRuntime) (scene :ISg<'msg>) (bb : aval<Box3d>) (light : AdaptiveLightCase) =
             let pv = lightViewPoject bb light
-            let v = pv |> Mod.map fst
-            let p = pv |> Mod.map snd
+            let v = pv |> AVal.map fst
+            let p = pv |> AVal.map snd
             scene
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
@@ -215,6 +215,7 @@ module Shadow =
             |> Sg.projTrafo (p)
             |> Sg.compile runtime (signatureShadowMap runtime)
             |> RenderTask.renderToDepth shadowMapSize
+            :> aval<_>
 
 module SLEUniform =
     //light information as shader uniforms
@@ -235,24 +236,24 @@ module SLEUniform =
      
     let noLight = {lightType = LightType.NoLight; lightPosition = V4d.Zero; color = V3d.Zero; attenuationQad = 0.0; attenuationLinear = 0.0; castsShadow = false}
 
-    let uniformLight (l : IMod<MLight>) : IMod<Light>  =
+    let uniformLight (l : AdaptiveLightCase) : aval<Light>  =
         //needs to be adaptive because the  Light can change and is an IMod
-        //we go from IMod<MLight> to IMod<ISg<Message>>
+        //we go from aval<MLight> to aval<ISg<Message>>
         adaptive {
-            let! d = l
+            let d = l
             match d with
-            | MDirectionalLight  x' ->
+            | AdaptiveDirectionalLight  x' ->
                let! x  = x'
                 //Map to a type more convinient in the shaders
                let r : Light = {lightType = LightType.DirectionalLight; lightPosition = x.lightDirection; color = x.color.ToV3d() * x.intensity; attenuationQad = 0.0; attenuationLinear = 0.0; castsShadow = x.castsShadow}
                return  r
-            | MPointLight  x' ->
+            | AdaptivePointLight  x' ->
                let! x  = x'
                let r : Light = {lightType = LightType.PointLight; lightPosition = x.lightPosition; color = x.color.ToV3d() * x.intensity; attenuationQad = x.attenuationQad; attenuationLinear = x.attenuationLinear; castsShadow = false}
                return r
         } 
 
-    let uniformLights (lights : amap<int,IMod<MLight>>)   =
+    let uniformLights (lights : amap<int,AdaptiveLightCase>)   =
         let lights' = AMap.toASet lights
         let numLights = ASet.count lights'
         let a =  Array.init 10 (fun _ -> noLight )
@@ -262,7 +263,7 @@ module SLEUniform =
                     yield l
                 }
                 |> ASet.fold (fun ((i : int), (a : Light [])) l -> a.[i] <- l; (i+1, a)) (0,a)
-                |> Mod.map (fun (i, a) -> a)
+                |> AVal.map (fun (i, a) -> a)
                 |> Sg.uniform "Lights" 
         
         u >> Sg.uniform "NumLights" numLights
