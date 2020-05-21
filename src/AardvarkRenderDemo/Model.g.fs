@@ -203,6 +203,7 @@ module Mutable =
         let _rotation = ResetMod.Create(__initial.rotation)
         let _materials = MMap.Create(__initial.materials, (fun v -> MPBRMaterial.Create(v)), (fun (m,v) -> MPBRMaterial.Update(m, v)), (fun v -> v))
         let _currentMaterial = ResetMod.Create(__initial.currentMaterial)
+        let _materialLinks = MMap.Create(__initial.materialLinks)
         
         member x.name = _name :> IMod<_>
         member x.file = _file :> IMod<_>
@@ -211,6 +212,7 @@ module Mutable =
         member x.rotation = _rotation :> IMod<_>
         member x.materials = _materials :> amap<_,_>
         member x.currentMaterial = _currentMaterial :> IMod<_>
+        member x.materialLinks = _materialLinks :> amap<_,_>
         
         member x.Current = __current :> IMod<_>
         member x.Update(v : SLEAardvarkRenderDemo.Model.SceneObject) =
@@ -224,6 +226,7 @@ module Mutable =
                 ResetMod.Update(_rotation,v.rotation)
                 MMap.Update(_materials, v.materials)
                 ResetMod.Update(_currentMaterial,v.currentMaterial)
+                MMap.Update(_materialLinks, v.materialLinks)
                 
         
         static member Create(__initial : SLEAardvarkRenderDemo.Model.SceneObject) : MSceneObject = MSceneObject(__initial)
@@ -281,6 +284,12 @@ module Mutable =
                     override x.Get(r) = r.currentMaterial
                     override x.Set(r,v) = { r with currentMaterial = v }
                     override x.Update(r,f) = { r with currentMaterial = f r.currentMaterial }
+                }
+            let materialLinks =
+                { new Lens<SLEAardvarkRenderDemo.Model.SceneObject, Aardvark.Base.hmap<System.String,System.String>>() with
+                    override x.Get(r) = r.materialLinks
+                    override x.Set(r,v) = { r with materialLinks = v }
+                    override x.Update(r,f) = { r with materialLinks = f r.materialLinks }
                 }
     [<AbstractClass; System.Runtime.CompilerServices.Extension; StructuredFormatDisplay("{AsString}")>]
     type MLight() =

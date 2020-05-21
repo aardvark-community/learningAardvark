@@ -60,6 +60,7 @@ type SceneObject = {
     rotation : V3d
     materials : hmap<string, PBRMaterial>
     currentMaterial : string
+    materialLinks : hmap<string, string>
 }
 
 [<DomainType>]

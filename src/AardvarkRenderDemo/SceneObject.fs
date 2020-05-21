@@ -15,9 +15,9 @@ module sceneObject =
     open material
     open Aardvark.UI
 
-    let emptyObject = {Scene.meshes = [||]; animantions = Map.empty; bounds = Box3d.Invalid; root = Empty; rootTrafo = Trafo3d.Identity}
+    //let emptyObject = {Scene.meshes = [||]; animantions = Map.empty; bounds = Box3d.Invalid; root = Empty; rootTrafo = Trafo3d.Identity}
 
-    let defaultObject = {name = "Default"; file  = ""; scale = 1.0; translation = V3d.Zero; rotation = V3d.Zero; materials = HMap.empty;  currentMaterial = ""}
+    let defaultObject = {name = "Default"; file  = ""; scale = 1.0; translation = V3d.Zero; rotation = V3d.Zero; materials = HMap.empty;  currentMaterial = ""; materialLinks = HMap.empty}
 
     //add an external object to the scene model
     //note that we have to import it to read the materiaal list but discart the import
@@ -41,7 +41,7 @@ module sceneObject =
             |> HSet.toList
             |> List.first
             |> Option.defaultValue "none"
-        let obj = {name = name; file = file; scale = 1.0; translation = V3d.Zero; rotation = V3d.Zero; materials = materials;  currentMaterial = currentMaterial}
+        let obj = {name = name; file = file; scale = 1.0; translation = V3d.Zero; rotation = V3d.Zero; materials = materials;  currentMaterial = currentMaterial; materialLinks = HMap.empty}
         HMap.add name obj objects , name
 
     //load an external object into an mod and substitute the material definitions with PBR materials
@@ -82,6 +82,7 @@ module sceneObjectControl =
     |SetScale of float
     |MaterialMessage of materialControl.Message * string
     |SetCurrentMaterial of string
+    |SetMaterialLink of string option
 
     let update (m : SceneObject) (msg : Message) =
         match msg with
@@ -95,12 +96,38 @@ module sceneObjectControl =
             {m with  scale = s}
         | MaterialMessage (msg, s) ->
             let m' = materialControl.update m.materials.[s] msg
-            let materials' =  HMap.update  s (fun _ -> m' ) m.materials 
+            let materials' =  
+                m.materials
+                |> HMap.update  s (fun _ -> m' ) 
+                |>  HMap.map (fun k m'' -> if HMap.tryFind k m.materialLinks = Some s then m' else m'')
             { m with materials = materials'}
         | SetCurrentMaterial s ->
-            { m with currentMaterial = s }    
+            { m with currentMaterial = s }   
+        | SetMaterialLink  t -> 
+            let newLinks =
+                m.materialLinks
+                |> HMap.alter m.currentMaterial (fun _ -> t)
+                |> HMap.map (fun k t1 -> match m.currentMaterial, t with
+                                            |t1, Some t' -> t' 
+                                            |_ ->  t1)
+            let newMaterials = 
+                match t with
+                |Some t' -> m.materials 
+                            |> HMap.map (fun k m' -> if HMap.tryFind k newLinks = t then m.materials.[t'] else m')
+                |None -> m.materials
+            { m with materialLinks =  newLinks; materials = newMaterials }
 
     let view (m : MSceneObject) =
+        let linkedMaterial = Mod.bind (fun c -> AMap.tryFind c m.materialLinks) m.currentMaterial
+        let updatedMaterial = Mod.map2 (Option.defaultValue)  m.currentMaterial  linkedMaterial
+        let materialsList = m.materials |> AMap.keys |> ASet.toAList |> AList.sort
+        let materialsToLink = 
+            materialsList
+            |> AList.filteriM (fun _ mat -> 
+                Mod.map (fun c -> c != mat) m.currentMaterial
+                |> Mod.map2 (fun a b -> not a && b) (m.materialLinks |> AMap.keys |> ASet.contains mat)  )
+            |> AList.map (Some)
+            |> AList.append (AList.single None)  
         div [] [
             Incremental.text m.name
             V3dInput.view "Transaltion" m.translation |> UI.map SetTranslation
@@ -109,9 +136,10 @@ module sceneObjectControl =
             tr [] [ td [] [text "Scale"]; td [style "width: 70%;"] [inputLogSlider {min = 0.0001;  max = 100.0; step = 0.01} [] m.scale SetScale]]
             ]
             Html.table [                        
-            tr [] [ td [] [text "Material"]; td [style "width: 70%;"] [Html.SemUi.dropDown' (m.materials |> AMap.keys |> ASet.toAList |> AList.sort) m.currentMaterial SetCurrentMaterial id]]
+            tr [] [ td [] [text "Material"]; td [style "width: 70%;"] [Html.SemUi.dropDown' (materialsList) m.currentMaterial SetCurrentMaterial id]]
+            tr [] [ td [] [text "Linked to"]; td [style "width: 70%;"] [Html.SemUi.dropDown' (materialsToLink) linkedMaterial  SetMaterialLink  (Option.defaultValue "-")]]
             ]
-            m.currentMaterial
+            updatedMaterial
             |> Mod.bind (fun c ->
                 m.materials
                 |> AMap.find c
