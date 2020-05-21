@@ -26,14 +26,13 @@ module material =
         }
         albedo ={
             fileName = None
+            color = C3d.White
             factor = 1.0
         }
         normal = {
             fileName = None
             factor = 1.0
         }
-        albedoFactor = 1.0
-        normalMapStrenght = 1.0
         discard = false
         displacment = {
             fileName = None
@@ -52,8 +51,8 @@ module material =
     //PBR material type to replace the imported ASSIMP materials in the imported models
     type ProxyMaterial =
         {
-            importedMaterial : IO.Loader.IMaterial
-            material : aval<AdaptivePBRMaterial>
+            Name : string
+            Material : aval<AdaptivePBRMaterial>
         }
         
         member x.DisplacemntMap =
@@ -61,70 +60,61 @@ module material =
                 f
                 |> Option.map (fun f -> FileTexture(f, TextureParams.empty) :> ITexture)
                 |> Option.defaultValue (onPixTex C3f.Gray50)
-            AVal.bind (fun (m : AdaptivePBRMaterial)-> m.displacment.fileName |> AVal.map loadTex)  x.material :> IAdaptiveValue
+            AVal.bind (fun (m : AdaptivePBRMaterial)-> m.displacment.fileName |> AVal.map loadTex)  x.Material :> IAdaptiveValue
 
         member x.MetallicMap =
             let loadTex f =
                 f
                 |> Option.map (fun f -> FileTexture(f, TextureParams.empty) :> ITexture)
                 |> Option.defaultValue (onPixTex C3f.White)
-            AVal.bind (fun (m : AdaptivePBRMaterial)-> m.metallic.fileName |> AVal.map loadTex)  x.material :> IAdaptiveValue
+            AVal.bind (fun (m : AdaptivePBRMaterial)-> m.metallic.fileName |> AVal.map loadTex)  x.Material :> IAdaptiveValue
 
         member x.RoughnessMap =
             let loadTex f =
                 f
                 |> Option.map (fun f -> FileTexture(f, TextureParams.empty) :> ITexture)
                 |> Option.defaultValue (onPixTex C3f.White)
-            AVal.bind (fun (m : AdaptivePBRMaterial)-> m.roughness.fileName |> AVal.map loadTex)  x.material :> IAdaptiveValue
+            AVal.bind (fun (m : AdaptivePBRMaterial)-> m.roughness.fileName |> AVal.map loadTex)  x.Material :> IAdaptiveValue
 
         member x.AlbedoMap =
             adaptive {
-                let! m = x.material 
+                let! m = x.Material 
                 let! f = m.albedo.fileName
-                let im =  x.importedMaterial :?>  IO.Loader.Material
-                let d () = 
-                    match im.textures.TryFind DefaultSemantic.DiffuseColorTexture  with
-                    |Some t -> t.texture 
-                    |None -> onPixTex C3f.White
                 return match f with
                         | Some file -> FileTexture(file, TextureParams.empty) :> ITexture
-                        | None ->  d ()
+                        | None ->  onPixTex C3f.White
             }
         
         member x.NormalMap =
             adaptive {
-                let! m = x.material 
+                let! m = x.Material 
                 let! f = m.normal.fileName
-                let im =  x.importedMaterial :?>  IO.Loader.Material
-                let d () = 
-                    match im.textures.TryFind DefaultSemantic.NormalMapTexture  with
-                    |Some t -> t.texture 
-                    |None ->  onPixTex C3f.White
                 return match f with
                         | Some file -> FileTexture(file, TextureParams.empty) :> ITexture
-                        | None ->  d ()
+                        | None ->  onPixTex C3f.White
             }
 
         interface IO.Loader.IMaterial with
 
-            member x.name = x.importedMaterial.name
+            member x.name = x.Name
 
             member x.TryGetUniform(s, sem) =
                 match string sem with
-                | "Metallic" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.metallic.factor) x.material :> IAdaptiveValue)
+                | "Metallic" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.metallic.factor) x.Material :> IAdaptiveValue)
                 | "MetallicMap" -> Some x.MetallicMap 
-                | "Roughness" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.roughness.factor) x.material :> IAdaptiveValue)
+                | "Roughness" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.roughness.factor) x.Material :> IAdaptiveValue)
                 | "RoughnessMap" -> Some x.RoughnessMap 
-                | "DiffuseColorTexture" -> Some (x.AlbedoMap :> IAdaptiveValue)
-                | "AlbedoFactor" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.albedo.factor) x.material :> IAdaptiveValue)
-                | "NormalMapStrength" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.normal.factor) x.material :> IAdaptiveValue)
+                | "AlbedoColorTexture" -> Some (x.AlbedoMap :> IAdaptiveValue)
+                | "AlbedoFactor" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.albedo.factor) x.Material :> IAdaptiveValue)
+                | "NormalMapStrength" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.normal.factor) x.Material :> IAdaptiveValue)
                 | "NormalMapTexture" -> Some (x.NormalMap :> IAdaptiveValue)
-                | "Discard" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.discard) x.material :> IAdaptiveValue)
-                | "DisplacmentStrength" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.displacment.factor) x.material :> IAdaptiveValue)
+                | "Discard" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.discard) x.Material :> IAdaptiveValue)
+                | "DisplacmentStrength" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.displacment.factor) x.Material :> IAdaptiveValue)
                 | "DisplacmentMap" -> Some x.DisplacemntMap 
-                | _ -> x.importedMaterial.TryGetUniform(s, sem)
-
-            member x.Dispose() = x.importedMaterial.Dispose()
+                | "AlbedoColor" -> Some  (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.albedo.color) x.Material :> IAdaptiveValue)
+                | _ -> None
+            
+            member x.Dispose() = ()
 
     //find all material definitions in a IO.Loader.Scene
     let getMaterials (s : IO.Loader.Scene) =
@@ -143,19 +133,27 @@ module material =
 
             traverse [] s.root 
     
-    //the imported object contains multipel copies of the same original material with an attached number if the materal is used in different parts of the object
-    //The copies have number suffixes. we use the material name without the suffixes and assume all material  names taht are different only by Digits are  tehs same
-    //This most propably will not work for all possible  imports.
-    let removeDigits = String.filter (Char.IsDigit >> not)
+    let getTextureFileName (kind : Symbol) (material : IO.Loader.Material) =
+        match material.textures.TryFind kind with
+            |Some t -> 
+                match t.texture with
+                    | :? FileTexture as f -> Some f.FileName
+                    | _ -> None
+            | None -> None
 
-    //get a distinct list of all material names from an  imported  object
+    let  toPBRMaterial (material : IO.Loader.Material) =
+        let albedoMap = getTextureFileName DefaultSemantic.DiffuseColorTexture material
+        let normalMap = getTextureFileName DefaultSemantic.NormalMapTexture material
+        {defaultMaterial with 
+            albedo = {defaultMaterial.albedo with fileName = albedoMap}
+            normal = {defaultMaterial.normal with fileName = normalMap}
+        }
+    //get a list of all material names from an  imported  object
     //and use that as Keys for a Map initialized with  the default PBR material
     //This is used to initialize the materials for an imported object
     let materials model = 
         getMaterials model
-        |> List.map (fun m -> removeDigits m.name)
-        |> List.distinct
-        |> List.map (fun n -> n, defaultMaterial)
+        |> List.map (fun m -> m.name, toPBRMaterial (m :?>  IO.Loader.Material))
         |> HashMap.ofList
     
 //UI Control for a optionally texture mapped value with linear or logaritmic strength control
@@ -197,6 +195,48 @@ module textureMappedValueControl =
             tr [] [ td [] [openButton]; td [] [name]; td [] [removeButton]]
         ]        
 
+module textureMappedColorControl =
+
+    type Message =
+        | SetMap of string
+        | RemoveMap
+        | SetFactor of float
+        | SetColor of C3d
+
+    let update (m :TextureMappedColor) (msg : Message)  =
+        match msg with
+        | SetMap file -> {m with fileName = Some file}
+        | RemoveMap -> {m with fileName = None}
+        | SetFactor f -> {m with  factor = f}
+        | SetColor c -> {m with color = c}
+
+    type Kind =
+    |Linear
+    |Log
+
+    let view kind titel min max step (m : AdaptiveTextureMappedColor) =
+        let slider =
+            match kind with
+            |Linear -> inputSlider {min =min;  max = max; step = step} [] m.factor SetFactor
+            |Log -> inputLogSlider {min =min;  max = max; step = step} [] m.factor SetFactor
+        let openButton = 
+            openDialogButton 
+                { OpenDialogConfig.file with allowMultiple = false; title = sprintf "Open %s" titel; filters  = [|"*.*"|];  startPath = ""; mode  = OpenDialogMode.File}
+                [ clazz "ui green button"; onChooseFile SetMap ] 
+                [ text "Choose File" ]
+        let removeButton = 
+            m.fileName
+            |> AVal.map (fun f -> match f with |Some fn -> IndexList.single(button [clazz "ui button"; onClick (fun _ -> RemoveMap)]  [text "Remove"]) |None -> IndexList.empty)
+            |> AList.ofAVal
+            |> Incremental.div AttributeMap.empty
+        let name = m.fileName |> AVal.map (Option.map (fun f -> IO.Path.GetFileNameWithoutExtension(f)) >> Option.defaultValue "none") |> Incremental.text
+        let c = AVal.map (fun (col : C3d) -> col.ToC4b()) m.color
+        Html.table [                        
+            tr [] [ td [] [text titel]; td [style "width: 70%;"; attribute "colspan" "2"] [slider]]
+            tr [] [ td [] [text "Color"]; td [] [ColorPicker.viewSimple c (fun (c : C4b) -> C3d.FromC4b c |> SetColor)]; td [] []]
+            tr [] [ td [] [openButton]; td [] [name]; td [] [removeButton]]
+        ]   
+
 //UI control for a single material
 module materialControl = 
 
@@ -204,9 +244,7 @@ module materialControl =
         | SetMetallic of textureMappedValueControl.Message
         | SetRoughness of textureMappedValueControl.Message
         | SetNormal of textureMappedValueControl.Message
-        | SetAlbedo of textureMappedValueControl.Message
-        | SetAlbedoFactor of float
-        | SetNormalMapStrength of float
+        | SetAlbedo of textureMappedColorControl.Message
         | SetDiscard 
         | SetDisplacment of textureMappedValueControl.Message
 
@@ -214,19 +252,16 @@ module materialControl =
         match msg with
         | SetMetallic msg' -> { m with  metallic = textureMappedValueControl.update m.metallic msg'}
         | SetRoughness msg' -> { m with  roughness = textureMappedValueControl.update m.roughness msg'}
-        | SetAlbedo msg' -> { m with  albedo = textureMappedValueControl.update m.albedo msg'}
+        | SetAlbedo msg' -> { m with  albedo = textureMappedColorControl.update m.albedo msg'}
         | SetNormal msg' -> { m with  normal = textureMappedValueControl.update m.normal msg'}
-        | SetAlbedoFactor a -> { m with  albedoFactor = a}
-        | SetNormalMapStrength s -> { m with  normalMapStrenght = s}
         | SetDiscard -> { m with  discard = not m.discard}
         | SetDisplacment msg' -> { m with  displacment = textureMappedValueControl.update m.displacment msg'}
 
     let view (m : AdaptivePBRMaterial) =
-        let numInput name changed state  = labeledFloatInput name 0.0 1.0 0.01 changed state
         div [] [
             textureMappedValueControl.view textureMappedValueControl.Linear "Metallic" 0.0 1.0 0.01 m.metallic  |> UI.map SetMetallic
             textureMappedValueControl.view textureMappedValueControl.Linear "Roughness" 0.0 1.0 0.01 m.roughness  |> UI.map SetRoughness
-            textureMappedValueControl.view textureMappedValueControl.Linear "Albedo" 0.0 1.0 0.01 m.albedo  |> UI.map SetAlbedo
+            textureMappedColorControl.view textureMappedColorControl.Linear "Albedo" 0.0 1.0 0.01 m.albedo  |> UI.map SetAlbedo
             textureMappedValueControl.view textureMappedValueControl.Linear "Normal Map" 0.0 1.0 0.01 m.normal  |> UI.map SetNormal
             textureMappedValueControl.view textureMappedValueControl.Linear "Displacement" 0.0 1.0 0.01 m.displacment  |> UI.map SetDisplacment
             Html.table [                        

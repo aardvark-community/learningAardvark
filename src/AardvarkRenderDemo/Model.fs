@@ -35,13 +35,18 @@ type TextureMappedValue = {
 }
 
 [<ModelType>]
+type TextureMappedColor = {
+    fileName : string Option
+    color : C3d
+    factor : float 
+}
+
+[<ModelType>]
 type PBRMaterial = {
     metallic  : TextureMappedValue
     roughness : TextureMappedValue
-    albedo : TextureMappedValue
+    albedo : TextureMappedColor
     normal : TextureMappedValue
-    albedoFactor : float
-    normalMapStrenght : float
     discard : bool
     displacment : TextureMappedValue
 }

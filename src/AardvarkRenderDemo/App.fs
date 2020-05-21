@@ -15,7 +15,7 @@ open material
 open Aardvark.SceneGraph.IO.Loader.SgSems
 
 (*
-   The main addaptive elm-style App and the main setup  of the render pipeline
+   The main addaptive elm-style App and the main setup of the render pipeline
 *)
 //the main app message types
 type Message =
@@ -143,7 +143,7 @@ module App =
             do! DefaultSurfaces.trafo
             do! displacemntMap.displacementMap
             do! DefaultSurfaces.vertexColor
-            do! DefaultSurfaces.diffuseTexture 
+            do! AlbedoColor.albedoColor
             do! NormalMap.normalMap 
             do! GBufferRendering.gBufferShader
             }
@@ -407,7 +407,7 @@ module App =
             [
                 style "position: fixed; left: 0; top: 0; width: 100%; height: 100%"
                 attribute "showFPS" "true"
-           //     attribute "data-renderalways" "1"
+                //attribute "data-renderalways" "1"
             ]
 
         let t = compileDeffered objects m

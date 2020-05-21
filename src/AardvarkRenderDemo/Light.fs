@@ -32,7 +32,7 @@ module light =
                     match l' with
                     | AdaptiveDirectionalLight ld -> Sg.empty
                     | AdaptivePointLight lp -> 
-                        Sg.sphere 6 (AVal.map ( fun v -> v.color.ToC4b()) lp ) (AVal.constant 0.03) 
+                        Sg.sphere 6 (AVal.map ( fun (v : PointLightData) -> v.color.ToC4b()) lp ) (AVal.constant 0.03) 
                         |> Sg.translate' (AVal.map ( fun v -> v.lightPosition.XYZ) lp)
                 yield m 
         } 
@@ -146,7 +146,7 @@ module lightControl =
             let al = AVal.map (fun l -> l.attenuationLinear) l'
             let aq = AVal.map (fun l -> l.attenuationQad) l'
             let i = AVal.map (fun l -> l.intensity) l'
-            let c = AVal.map (fun l -> l.color.ToC4b()) l'
+            let c = AVal.map (fun (l : PointLightData) -> l.color.ToC4b()) l'
             div [] [
 
                 AVal.map (fun l -> 

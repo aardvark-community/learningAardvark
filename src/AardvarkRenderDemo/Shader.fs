@@ -606,6 +606,27 @@ module  displacemntMap =
               }
         }
 
+module AlbedoColor = 
+
+    let private albedoSampler =
+        sampler2d {
+            texture uniform?AlbedoColorTexture
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
+    type UniformScope with
+        member x.AlbedoColor : V4d =  x?AlbedoColor
+
+    let internal albedoColor (v : Vertex) =
+        fragment {
+            let texColor = albedoSampler.Sample(v.tc)
+            let c = uniform.AlbedoColor
+            return texColor * c
+        }
+
+
  module GBufferRendering =
     open fshadeExt
     //shaders for rendering to a g-buffer
