@@ -61,7 +61,7 @@ type SceneObject = {
     rotation : V3d
     materials : HashMap<string, PBRMaterial>
     currentMaterial : string
-    materialLinks : hmap<string, string>
+    materialLinks : HashMap<string, string> 
 }
 
 [<ModelType>]
