@@ -2,8 +2,8 @@ namespace Aardvark.Base
 
 open System
 open Aardvark.Base
-open Aardvark.Base.Incremental
-open Aardvark.Base.Incremental.Operators
+open FSharp.Data.Adaptive
+open FSharp.Data.Adaptive.Operators
 open System.Collections.Generic
 open Aardvark.Base.Rendering
 open System.Runtime.CompilerServices
@@ -24,13 +24,13 @@ open Aardvark.Rendering.GL
 [<AutoOpen>]
 module private RefCountedResources = 
 
-    type IMod<'a> with
+    type IAdaptiveValue<'a> with
         member x.GetValue(c : AdaptiveToken, t : RenderToken) =
             match x with
                 | :? IOutputMod<'a> as x -> x.GetValue(c, t)
                 | _ -> x.GetValue(c)
 
-    type AdaptiveTexture(runtime : IRuntime, format : TextureFormat, samples : int, size : IMod<V2i>) =
+    type AdaptiveTexture(runtime : IRuntime, format : TextureFormat, samples : int, size : aval<V2i>) =
         inherit AbstractOutputMod<ITexture>()
 
         let mutable handle : Option<IBackendTexture> = None
@@ -64,7 +64,7 @@ module private RefCountedResources =
                     handle <- Some tex
                     tex :> ITexture
          
-    type AdaptiveCubeTexture(runtime : IRuntime, format : TextureFormat, samples : int, size : IMod<int>, levels : int) =
+    type AdaptiveCubeTexture(runtime : IRuntime, format : TextureFormat, samples : int, size : aval<int>, levels : int) =
         inherit AbstractOutputMod<ITexture>()
 
         let mutable handle : Option<IBackendTexture> = None
@@ -99,7 +99,7 @@ module private RefCountedResources =
                     tex :> ITexture
 
     
-    type AdaptiveRenderbuffer(runtime : IRuntime, format : RenderbufferFormat, samples : int, size : IMod<V2i>) =  
+    type AdaptiveRenderbuffer(runtime : IRuntime, format : RenderbufferFormat, samples : int, size : aval<V2i>) =  
         inherit AbstractOutputMod<IRenderbuffer>()
 
         let mutable handle : Option<IRenderbuffer> = None
@@ -153,13 +153,13 @@ module private RefCountedResources =
             rb :> IFramebufferOutput
 
     type IRuntime with
-        member x.CreateTexture(format : TextureFormat, samples : int, size : IMod<V2i>) =
+        member x.CreateTexture(format : TextureFormat, samples : int, size : aval<V2i>) =
             AdaptiveTexture(x, format, samples, size) :> IOutputMod<ITexture>
 
-        member x.CreateTextureCube(format : TextureFormat, samples : int, size : IMod<int>, levels : int) =
+        member x.CreateTextureCube(format : TextureFormat, samples : int, size : aval<int>, levels : int) =
             AdaptiveCubeTexture(x, format, samples, size, levels) :> IOutputMod<ITexture>
 
-        member x.CreateRenderbuffer(format : RenderbufferFormat, samples : int, size : IMod<V2i>) =
+        member x.CreateRenderbuffer(format : RenderbufferFormat, samples : int, size : aval<V2i>) =
             AdaptiveRenderbuffer(x, format, samples, size) :> IOutputMod<IRenderbuffer>
 
         member x.CreateTextureAttachment(texture : IOutputMod<ITexture>, slice : int, level : int)  =
@@ -168,7 +168,7 @@ module private RefCountedResources =
         member x.CreateRenderbufferAttachment(renderbuffer : IOutputMod<IRenderbuffer>) =
             AdaptiveRenderbufferAttachment(renderbuffer) :> IOutputMod<_>
 
-    type AdaptiveFramebufferCube(runtime : IRuntime, signature : IFramebufferSignature, textures : Set<Symbol>, size : IMod<int>, levels : int) =
+    type AdaptiveFramebufferCube(runtime : IRuntime, signature : IFramebufferSignature, textures : Set<Symbol>, size : aval<int>, levels : int) =
         inherit AbstractOutputMod<IFramebuffer[]>()
 
         let store = SymDict.empty
@@ -186,7 +186,7 @@ module private RefCountedResources =
             else
                 let rb = 
                     store.GetOrCreate(sem, fun sem ->
-                        runtime.CreateRenderbuffer(att.format, att.samples, size |> Mod.map(fun x -> V2i(x))) :> IOutputMod
+                        runtime.CreateRenderbuffer(att.format, att.samples, size |> AVal.map(fun x -> V2i(x))) :> IOutputMod
                     ) |> unbox<IOutputMod<IRenderbuffer>>
 
                 runtime.CreateRenderbufferAttachment(rb)
@@ -257,12 +257,6 @@ module private RefCountedResources =
                 tasks.[face].Run(token, t, OutputDescription.ofFramebuffer fbo.[face])
             fbo
 
-        override x.Inputs =
-            seq {
-                yield! (Array.toSeq tasks |> Seq.cast<IAdaptiveObject>)
-                yield target :> _
-            }
-
         override x.Create() =
             Log.line "result created"
             target.Acquire()
@@ -284,9 +278,6 @@ module private RefCountedResources =
                 | _ ->
                     failwithf "could not get result for semantic %A as texture" semantic
 
-        override x.Inputs =
-            Seq.singleton (res :> _)
-
         override x.Create() =
             Log.line "texture created"
             res.Acquire()
@@ -302,7 +293,7 @@ module private RefCountedResources =
 type RuntimeFramebufferExtensions private() =
  
     [<Extension>]
-    static member CreateFramebufferCube (this : IRuntime, signature : IFramebufferSignature, textures : Set<Symbol>, size : IMod<int>,  levels : int) : IOutputMod<IFramebuffer[]> =
+    static member CreateFramebufferCube (this : IRuntime, signature : IFramebufferSignature, textures : Set<Symbol>, size : aval<int>,  levels : int) : IOutputMod<IFramebuffer[]> =
         AdaptiveFramebufferCube(this, signature, textures, size, levels) :> IOutputMod<IFramebuffer[]>
 
     [<Extension>]
@@ -367,7 +358,7 @@ module RenderTask =
     let getResultCube (sem : Symbol) (t : IOutputMod<IFramebuffer[]>) =
         t.GetOutputCubeTexture sem
 
-    let renderSemanticsCube (sem : Set<Symbol>) (size : IMod<int>) (levels : int) (tasks' : int -> CubeSide -> IRenderTask) =
+    let renderSemanticsCube (sem : Set<Symbol>) (size : aval<int>) (levels : int) (tasks' : int -> CubeSide -> IRenderTask) =
         let tasks =
             Array.init (6 * levels)  (fun t ->
                 let face = unbox<CubeSide> (t % 6)
@@ -387,10 +378,10 @@ module RenderTask =
             |> renderToCube fbo
         sem |> Seq.map (fun k -> k, getResultCube k res) |> Map.ofSeq
 
-    let renderToColorCubeMip (size : IMod<int>) (levels : int) (tasks : int -> CubeSide -> IRenderTask) =
+    let renderToColorCubeMip (size : aval<int>) (levels : int) (tasks : int -> CubeSide -> IRenderTask) =
        tasks |> renderSemanticsCube (Set.singleton DefaultSemantic.Colors) size levels |> Map.find DefaultSemantic.Colors
 
-    let renderToColorCube (size : IMod<int>) (tasks : CubeSide -> IRenderTask) =
+    let renderToColorCube (size : aval<int>) (tasks : CubeSide -> IRenderTask) =
         (fun _ -> tasks) |> renderToColorCubeMip size 1 
 
  

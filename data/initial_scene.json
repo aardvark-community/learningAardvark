@@ -46,7 +46,7 @@
       ]
     },
     "enviorment": {
-      "skyMap": "GrandCanyon_C_YumaPoint\\GCanyon_C_YumaPoint_3k.hdr",
+      "skyMap": "GrandCanyon_C_YumaPoint/GCanyon_C_YumaPoint_3k.hdr",
       "skyMapRotation": 3.8955748904513436,
       "skyMapIntensity": 4.0738027780411272,
       "ambientLightIntensity": 1.2302687708123812,

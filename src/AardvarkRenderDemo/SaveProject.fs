@@ -4,6 +4,7 @@ open MBrace.FsPickler.Json
 open SLEAardvarkRenderDemo.Model
 open Aardvark.Base
 open Aardvark.UI.Primitives
+open FSharp.Data.Adaptive
 
 (*
     Scene save and load
@@ -12,10 +13,10 @@ module projetIO =
 
     type ExportModel  = {
         cameraViewParams : V3d * V3d * V3d
-        lights : hmap<int, Light>
+        lights : HashMap<int, Light>
         enviorment : GlobalEnviorment
         expousure  : float
-        objects : hmap<string, SceneObject>
+        objects : HashMap<string, SceneObject>
         selectedObject : string
     }
 
@@ -23,10 +24,10 @@ module projetIO =
     let mapFileNames (mapper : string -> string) (m : Model) (f :string) =
         {m with 
             enviorment = {m.enviorment with skyMap = mapper m.enviorment.skyMap}
-            objects = HMap.map (fun _ o -> {
+            objects = HashMap.map (fun _ o -> {
                  o with 
                     file = mapper o.file
-                    materials = HMap.map ( fun _ m -> {
+                    materials = HashMap.map ( fun _ m -> {
                         m with
                             metallic = {m.metallic with fileName = Option.map mapper m.metallic.fileName}
                             roughness = {m.roughness with fileName = Option.map mapper m.roughness.fileName}

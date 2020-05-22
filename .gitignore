@@ -29,3 +29,8 @@ data/Rock24_col.jpg
 data/Rock24_disp.jpg
 data/Rock24_nrm.jpg
 data/Rock24_rgh.jpg
+.DS_Store
+.ionide
+.paket
+build.fsx.lock
+src/Aardvark.log

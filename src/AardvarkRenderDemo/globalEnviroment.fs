@@ -2,7 +2,7 @@ namespace SLEAardvarkRenderDemo
 
 open System
 open Aardvark.Base
-open Aardvark.Base.Incremental
+open FSharp.Data.Adaptive
 open Aardvark.Base.Rendering
 open SLEAardvarkRenderDemo.Model
 open System.IO
@@ -43,9 +43,9 @@ module globalEnviroment =
         | SetAbientOcclusionSigma s -> {m with occlusionSettings = {m.occlusionSettings with sigma = s}}
         | SetAbientOcclusionSharpness s -> {m with occlusionSettings = {m.occlusionSettings with sharpness = s}}
 
-    let view (m : MGlobalEnviorment) =
+    let view (m : AdaptiveGlobalEnviorment) =
         let numInput name changed state  = labeledFloatInput name 0.0 1.0 0.01 changed state
-        let path = Path.GetDirectoryName(Mod.force m.skyMap)
+        let path = Path.GetDirectoryName(AVal.force m.skyMap)
         Html.table [                        
             tr [] [ td [] [text "sky map"]; td [] [openDialogButton 
                     { OpenDialogConfig.file with allowMultiple = false; title = "Open sky map hdr"; filters  = [|"*.hdr"|];  startPath = path}
@@ -54,7 +54,7 @@ module globalEnviroment =
             tr [] [ td [] [text "Sky Map Intensity"]; 
                     td [style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.skyMapIntensity SetSkyMapIntensity]]
             tr [] [ td [] [text "Sky Map Rotation"]; 
-                    td [style "width: 70%;"] [inputSlider {min = 0.0;  max = 1.0; step = 0.01} [] (Mod.map (fun r -> r/(2.0*Math.PI)) m.skyMapRotation)  (fun r -> SetSkyMapRotation (r*2.0*Math.PI)) ]]
+                    td [style "width: 70%;"] [inputSlider {min = 0.0;  max = 1.0; step = 0.01} [] (AVal.map (fun r -> r/(2.0*Math.PI)) m.skyMapRotation)  (fun r -> SetSkyMapRotation (r*2.0*Math.PI)) ]]
             tr [] [ td [] [text "Ambient Light Intensity"]; 
                     td [style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.ambientLightIntensity SetAbientLightIntensity]]
             tr [] [ td [attribute "colspan" "2";style "text-align: center;"] [text "Abient Occlusion"]]
@@ -101,9 +101,9 @@ module CubeRenderTask =
         |> Sg.viewTrafo (
             CameraView.lookAt V3d.OOO lookTo (lookSky * -1.0)
              |> CameraView.viewTrafo 
-             |> Mod.constant
+             |> AVal.constant
         )
-        |> Sg.projTrafo (size |> Mod.map (fun actualSize -> 
+        |> Sg.projTrafo (size |> AVal.map (fun actualSize -> 
                 Frustum.perspective 90.0 0.01 1.0 1.0 |> Frustum.projTrafo
               )
            )
@@ -125,15 +125,15 @@ module SkyBox =
             DefaultSemantic.Colors, { format = RenderbufferFormat.Rgb16f; samples = 1 }
         ]
 
-    let skyMapSize = 1024 |> Mod.init 
+    let skyMapSize = 1024 |> AVal.init 
 
     let skyMapequirectengular  skyMap : ISg<'msg> -> ISg<'msg> = 
         let texture =  
-            Mod.map (fun s -> FileTexture(s, { wantCompressed = false; wantMipMaps = false; wantSrgb = false }) :> ITexture) skyMap
+            AVal.map (fun s -> FileTexture(s, { wantCompressed = false; wantMipMaps = false; wantSrgb = false }) :> ITexture) skyMap
         Sg.texture (Sym.ofString "SkyMapEquirec") texture 
 
     let skyBoxEquirec skyMap rotation=
-        Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
+        Sg.box (AVal.constant C4b.White) (AVal.constant (Box3d(-V3d.III,V3d.III)))
             |> Sg.uniform "SkyMapRotation" rotation
             |> skyMapequirectengular skyMap
             |> Sg.shader {
@@ -154,10 +154,10 @@ module GlobalAmbientLight =
             DefaultSemantic.Colors, { format = RenderbufferFormat.Rgb16f; samples = 1 }
         ]
 
-    let diffuseIrradianceSize = 32 |> Mod.init 
+    let diffuseIrradianceSize = 32 |> AVal.init 
 
     let diffuseIrradianceBox (runtime : IRuntime) skyBoxTexture =
-        Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
+        Sg.box (AVal.constant C4b.White) (AVal.constant (Box3d(-V3d.III,V3d.III)))
             |> Sg.texture (Sym.ofString "SkyCubeMap") skyBoxTexture
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
@@ -167,12 +167,12 @@ module GlobalAmbientLight =
     let diffuseIrradianceMap (runtime : IRuntime) skyBoxTexture = 
         renderToCube runtime diffuseIrradianceSize signature (diffuseIrradianceBox runtime skyBoxTexture) 
 
-    let prefilterSpecSize = 128 |> Mod.init 
+    let prefilterSpecSize = 128 |> AVal.init 
 
     let prefilterSpecBox (runtime : IRuntime) skyBoxTexture (level : int) =
-        Sg.box (Mod.constant C4b.White) (Mod.constant (Box3d(-V3d.III,V3d.III)))
+        Sg.box (AVal.constant C4b.White) (AVal.constant (Box3d(-V3d.III,V3d.III)))
             |> Sg.texture (Sym.ofString "SkyCubeMap") skyBoxTexture
-            |> Sg.uniform "Roughness" (Mod.constant (float level / 4.0) )
+            |> Sg.uniform "Roughness" (AVal.constant (float level / 4.0) )
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
                 do! PBR.prefilterSpec
@@ -186,7 +186,7 @@ module GlobalAmbientLight =
             DefaultSemantic.Colors, { format = RenderbufferFormat.Rg16f; samples = 1 }
         ]
 
-    let LtuSize = V2i(512,512) |> Mod.init 
+    let LtuSize = V2i(512,512) |> AVal.init 
 
     let BRDFLtuTask (runtime : IRuntime)= 
         Sg.fullScreenQuad
@@ -195,8 +195,8 @@ module GlobalAmbientLight =
             do! DefaultSurfaces.trafo
             do! PBR.integrateBRDFLtu
         }
-        |> Sg.viewTrafo (Trafo3d.Identity |> Mod.constant )
-        |> Sg.projTrafo (Trafo3d.Identity |> Mod.constant )
+        |> Sg.viewTrafo (Trafo3d.Identity |> AVal.constant )
+        |> Sg.projTrafo (Trafo3d.Identity |> AVal.constant )
         |> Sg.compile runtime (signatureBRDFLtu runtime)
     
     let BRDFLtu (runtime : IRuntime) =
