@@ -1,488 +1,844 @@
- 0: using cache dir: C:\Users\Stefan\AppData\Roaming\Aardvark\cache
- 0: [cache hit ] Aardvark_test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
- 0: [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
- 0: [cache hit ] FShade.Core, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] FShade.Imperative, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardvark.Base.FSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardvark.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] DevILSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardvark.Base.Telemetry, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardvark.UI.Primitives, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardvark.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardvark.SceneGraph, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardvark.Base.Incremental, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardvark.Base.Rendering, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] FShade.GLSL, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardvark.Base.Essentials, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardvark.Application, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardvark.Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardvark.Rendering.Vulkan, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] GLSLangSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardvark.GPGPU, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardvark.Rendering.GL, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardvark.Base.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
- 0: [cache hit ] Aardvark.Compiler.DomainTypes, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] Aardvark.SceneGraph.IO, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0: [cache hit ] AssimpNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0: initializing aardvark ........................................................................
  0:   System Information:
- 0:     OSVersion: Microsoft Windows NT 6.2.9200.0
- 0:     SystemArchitecture: 64-bit
- 0:     Environment.Version: 4.0.30319.42000
- 0:   Unpacking native dependencies ..............................................................
- 0:     Unpacking native dependencies for Aardvark.Rendering.Vulkan, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     Unpacking native dependencies for Aardvark.Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     Unpacking native dependencies for DevILSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     Unpacking native dependencies for GLSLangSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     Unpacking native dependencies for Aardvark.Rendering.GL, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     Unpacking native dependencies for AssimpNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   Unpacking native dependencies ...................................................... 0.017 s
+ 0:     System:      Microsoft Windows 10.0.18362
+ 0:     Processor:   4 core x64
+ 0:     Process:     x64
+ 0:     Framework:   .NET Core 3.1.4
+ 0:   Loading native dependencies for Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 
+ 0:     found: linux/AMD64/libglfw.so.3
+ 0:     found: mac/AMD64/libglfw.3.dylib
+ 0:     found: windows/AMD64/glfw3.dll
+ 0:     copy glfw3.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-32f42d4c-4cb0-88cf-a5d3-8c852c69d925-64\glfw3.dll
+ 0:     found: windows/x86/glfw3.dll
+ 0:   Loading native dependencies for Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.007 s
+ 0:   Loading native dependencies for Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 
+ 0:     found: linux/AMD64/glvm.so
+ 0:     found: mac/AMD64/glvm.dylib
+ 0:     found: windows/AMD64/glvm.dll
+ 0:     copy glvm.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-96423937-34fa-5842-8198-d81081aad7a9-64\glvm.dll
+ 0:     found: windows/AMD64/glvm.exp
+ 0:     copy glvm.exp to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-96423937-34fa-5842-8198-d81081aad7a9-64\glvm.exp
+ 0:     found: windows/AMD64/glvm.iobj
+ 0:     copy glvm.iobj to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-96423937-34fa-5842-8198-d81081aad7a9-64\glvm.iobj
+ 0:     found: windows/AMD64/glvm.ipdb
+ 0:     copy glvm.ipdb to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-96423937-34fa-5842-8198-d81081aad7a9-64\glvm.ipdb
+ 0:     found: windows/AMD64/glvm.lib
+ 0:     copy glvm.lib to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-96423937-34fa-5842-8198-d81081aad7a9-64\glvm.lib
+ 0:     found: windows/AMD64/glvm.pdb
+ 0:     copy glvm.pdb to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-96423937-34fa-5842-8198-d81081aad7a9-64\glvm.pdb
+ 0:     found: windows/x86/glvm.dll
+ 0:     found: windows/x86/glvm.exp
+ 0:     found: windows/x86/glvm.iobj
+ 0:     found: windows/x86/glvm.ipdb
+ 0:     found: windows/x86/glvm.lib
+ 0:     found: windows/x86/glvm.pdb
+ 0:   Loading native dependencies for Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.001 s
+ 0:   Loading native dependencies for Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 
+ 0:     found: remap.xml
+ 0:     found: linux/AMD64/libturbojpeg.so
+ 0:     found: mac/AMD64/libturbojpeg.dylib
+ 0:     found: windows/AMD64/turbojpeg.dll
+ 0:     copy turbojpeg.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Service-6c07790d-9ae8-a533-bcc3-f89762a0781f-64\turbojpeg.dll
+ 0:     found: windows/x86/turbojpeg.dll
+ 0:   Loading native dependencies for Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.013 s
  0:   Loading plugins ............................................................................
- 0:     [LoadPlugins] Using plugin cache file name: C:\Users\Stefan\AppData\Roaming\Aardvark\cache\Aardvark_test_plugins.bin
- 0:     [ReadCacheFile] loaded cache file: C:\Users\Stefan\AppData\Roaming\Aardvark\cache\Aardvark_test_plugins.bin
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\template_test\bin\Debug\netcoreapp2.0\Aardvark_test.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\template_test\bin\Debug\netcoreapp2.0\Assimp64.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\template_test\bin\Debug\netcoreapp2.0\AssimpNet.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\template_test\bin\Debug\netcoreapp2.0\DevIL.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\template_test\bin\Debug\netcoreapp2.0\GLSLangNative.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\template_test\bin\Debug\netcoreapp2.0\glvm.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\template_test\bin\Debug\netcoreapp2.0\ILU.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\template_test\bin\Debug\netcoreapp2.0\ILUT.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\template_test\bin\Debug\netcoreapp2.0\turbojpeg.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\template_test\bin\Debug\netcoreapp2.0\vkvm.dll
- 0:   Loading plugins .................................................................... 0.032 s
- 0:   [cache hit ] Aardvark_test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [LoadPlugins] Using plugin cache file name: C:\Users\Stefan\AppData\Roaming\Aardvark\cache\AardvarkRenderDemo_plugins.bin
+ 0:     [ReadCacheFile] loaded cache file: C:\Users\Stefan\AppData\Roaming\Aardvark\cache\AardvarkRenderDemo_plugins.bin
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardium.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Application.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Application.Slim.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Application.Slim.GL.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Application.Slim.Vulkan.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Essentials.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.FSharp.dll
+ 0:     [GetPluginAssemblyPaths] plugin found D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.FSharp.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Incremental.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Rendering.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Runtime.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Telemetry.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.TypeProviders.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.GPGPU.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Rendering.GL.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Rendering.Vulkan.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.SceneGraph.dll
+ 0:     [GetPluginAssemblyPaths] plugin found D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.SceneGraph.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.SceneGraph.IO.dll
+ 0:     [GetPluginAssemblyPaths] plugin found D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.SceneGraph.IO.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Service.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.UI.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.UI.Primitives.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\AardvarkRenderDemo.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\AardvarkRenderDemo.exe
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Adaptify.Core.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\AssimpNet.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\DevILSharp.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FShade.Core.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FShade.GLSL.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FShade.Imperative.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FShade.SpirV.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FSharp.Core.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FSharp.Data.Adaptive.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FsPickler.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FsPickler.Json.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\GLSLangSharp.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\OpenTK.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Silk.NET.Core.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Silk.NET.GLFW.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Suave.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\System.Reactive.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\System.Text.Json.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.Loader.dll
+ 0:   Loading plugins .................................................................... 0.250 s
+ 0:   using cache dir: C:\Users\Stefan\AppData\Roaming\Aardvark\cache
+ 0:   Loading native dependencies for DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null 
+ 0:     found: remap.xml
+ 0:     found: mac/AMD64/libDevIL.dylib
+ 0:     found: mac/AMD64/libILU.dylib
+ 0:     found: mac/AMD64/libILUT.dylib
+ 0:     found: windows/AMD64/DevIL.dll
+ 0:     copy DevIL.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64\DevIL.dll
+ 0:     found: windows/AMD64/ILU.dll
+ 0:     copy ILU.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64\ILU.dll
+ 0:     found: windows/AMD64/ILUT.dll
+ 0:     copy ILUT.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64\ILUT.dll
+ 0:     found: windows/x86/DevIL.dll
+ 0:     found: windows/x86/ILU.dll
+ 0:     found: windows/x86/ILUT.dll
+ 0:   Loading native dependencies for DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
+ 0:   Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 
+ 0:     found: remap.xml
+ 0:     found: linux/AMD64/libvkvm.so
+ 0:     found: windows/AMD64/vkvm.dll
+ 0:     copy vkvm.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-bb94696d-9eea-074c-ddff-a32358cb7e99-64\vkvm.dll
+ 0:     found: windows/AMD64/vkvm.exp
+ 0:     copy vkvm.exp to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-bb94696d-9eea-074c-ddff-a32358cb7e99-64\vkvm.exp
+ 0:     found: windows/AMD64/vkvm.lib
+ 0:     copy vkvm.lib to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-bb94696d-9eea-074c-ddff-a32358cb7e99-64\vkvm.lib
+ 0:     found: windows/AMD64/vkvm.pdb
+ 0:     copy vkvm.pdb to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-bb94696d-9eea-074c-ddff-a32358cb7e99-64\vkvm.pdb
+ 0:     found: windows/x86/vkvm.dll
+ 0:     found: windows/x86/vkvm.exp
+ 0:     found: windows/x86/vkvm.lib
+ 0:     found: windows/x86/vkvm.pdb
+ 0:   Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
+ 0:   Loading native dependencies for GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null 
+ 0:     found: linux/AMD64/libGLSLangNative.so
+ 0:     found: windows/AMD64/GLSLangNative.dll
+ 0:     copy GLSLangNative.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64\GLSLangNative.dll
+ 0:     found: windows/AMD64/GLSLangNative.exp
+ 0:     copy GLSLangNative.exp to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64\GLSLangNative.exp
+ 0:     found: windows/AMD64/GLSLangNative.iobj
+ 0:     copy GLSLangNative.iobj to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64\GLSLangNative.iobj
+ 0:     found: windows/AMD64/GLSLangNative.ipdb
+ 0:     copy GLSLangNative.ipdb to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64\GLSLangNative.ipdb
+ 0:     found: windows/AMD64/GLSLangNative.lib
+ 0:     copy GLSLangNative.lib to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64\GLSLangNative.lib
+ 0:     found: windows/AMD64/GLSLangNative.pdb
+ 0:     copy GLSLangNative.pdb to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64\GLSLangNative.pdb
+ 0:   Loading native dependencies for GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null 0.001 s
+ 0:   Loading native dependencies for AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null 
+ 0:     found: linux/AMD64/libassimp.so
+ 0:     found: mac/AMD64/libassimp.dylib
+ 0:     found: windows/AMD64/Assimp64.dll
+ 0:     copy Assimp64.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\AssimpNet-969d1624-35de-e8ae-f27b-d0ea28a223a6-64\Assimp64.dll
+ 0:     found: windows/x86/Assimp32.dll
+ 0:   Loading native dependencies for AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
+ 0:   [cache miss] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+ 0:   [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
- 0:   [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
- 0:   [cache hit ] FShade.Core, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] FShade.Imperative, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Base.FSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   initializing NewAg .........................................................................
- 0:     [cache hit ] Aardvark_test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
- 0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
- 0:     [cache hit ] FShade.Core, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.Imperative, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.FSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] DevILSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Telemetry, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI.Primitives, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.SceneGraph, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Incremental, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Rendering, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.GLSL, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Essentials, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Application, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] GLSLangSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.GPGPU, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.GL, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
- 0:     [cache hit ] Aardvark.Compiler.DomainTypes, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.SceneGraph.IO, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] AssimpNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   initializing NewAg ................................................................. 0.015 s
- 0:   initializing Ag .................................................................... 0.000 s
- 0:   [cache hit ] Aardvark.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Base, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing PixImageDevil .................................................................
- 0:     WARNING: failed: System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.TypeInitializationException: The type initializer for 'Aardvark.Base.PixImageDevil' threw an exception. ---> System.DllNotFoundException: Unable to load DLL 'DevIL': Das angegebene Modul wurde nicht gefunden. (Exception from HRESULT: 0x8007007E)
-   at DevILSharp.IL.internalInit()
-   at DevILSharp.IL.Init() in C:\Users\Schorsch\Desktop\buildtest\DevILSharp\src\DevILSharp\IL.fs:line 170
-   at Aardvark.Base.PixImageDevil.InitDevil() in C:\Users\Schorsch\Development\aardvark.base\src\Aardvark.Base\Images\PixImageDevil.cs:line 26
-   at Aardvark.Base.PixImageDevil..cctor() in C:\Users\Schorsch\Development\aardvark.base\src\Aardvark.Base\Images\PixImageDevil.cs:line 35
-   --- End of inner exception stack trace ---
-   at Aardvark.Base.PixImageDevil.InitDevil() in C:\Users\Schorsch\Development\aardvark.base\src\Aardvark.Base\Images\PixImageDevil.cs:line 21
-   --- End of inner exception stack trace ---
-   at System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
-   at System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
-   at Aardvark.Base.Aardvark.LoadAll(IEnumerable`1 xs) in C:\Users\Schorsch\Development\aardvark.base\src\Aardvark.Base\Introspection\Introspection.cs:line 1032
- 0:   initializing PixImageDevil ......................................................... 0.049 s
- 0:   [cache hit ] DevILSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Base.Telemetry, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     probing paths for DevIL
+ 0:       D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
+ 0:       C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64
+ 0:     [Introspection] loaded native library DevIL from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64\DevIL.dll
+ 0:   initializing PixImageDevil ......................................................... 0.043 s
+ 0:   [cache miss] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] FShade.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] FShade.Imperative, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Base.FSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   initializing CustomPicklerProvider .........................................................
+ 0:     [cache miss] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+ 0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+ 0:     [cache hit ] Aardvark.Base, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Imperative, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.FSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Incremental, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Essentials, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
+ 0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     installing pickler: Aardvark.Base.Picklers.AdaptivePicklers
+ 0:   initializing CustomPicklerProvider ................................................. 0.049 s
  0:   [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.UI.Primitives, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.SceneGraph, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Base.Incremental, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Base.Essentials, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing SceneGraphCompletenessCheck ...................................................
- 0:     [cache hit ] Aardvark_test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+ 0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
- 0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
- 0:     [cache hit ] FShade.Core, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.Imperative, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.FSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] DevILSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Telemetry, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Base, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] FShade.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] FShade.Imperative, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Base.FSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Base.Incremental, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Base.Essentials, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+ 0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+ 0:     [cache hit ] Aardvark.Base, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Imperative, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.FSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI.Primitives, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.SceneGraph, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Incremental, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Rendering, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.GLSL, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Essentials, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Application, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] GLSLangSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.GPGPU, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.GL, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Incremental, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Essentials, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
- 0:     [cache hit ] Aardvark.Compiler.DomainTypes, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.SceneGraph.IO, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] AssimpNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark_test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+ 0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
- 0:     [cache hit ] FShade.Core, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.Imperative, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.FSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] DevILSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Telemetry, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+ 0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+ 0:     [cache hit ] Aardvark.Base, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Imperative, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.FSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI.Primitives, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.SceneGraph, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Incremental, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Rendering, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.GLSL, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Essentials, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Application, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] GLSLangSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.GPGPU, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.GL, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Incremental, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Essentials, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
- 0:     [cache hit ] Aardvark.Compiler.DomainTypes, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.SceneGraph.IO, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] AssimpNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark_test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+ 0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
- 0:     [cache hit ] FShade.Core, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.Imperative, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.FSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] DevILSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Telemetry, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
+ 0:     [cache miss] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+ 0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+ 0:     [cache hit ] Aardvark.Base, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Imperative, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.FSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI.Primitives, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.SceneGraph, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Incremental, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Rendering, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.GLSL, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Essentials, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Application, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] GLSLangSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.GPGPU, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.GL, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Incremental, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Essentials, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
- 0:     [cache hit ] Aardvark.Compiler.DomainTypes, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.SceneGraph.IO, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] AssimpNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   initializing SceneGraphCompletenessCheck ........................................... 0.117 s
- 0:   [cache hit ] Aardvark.Base.Incremental, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   initializing ModModule .....................................................................
- 0:     initializing mod system .......................................................... 0.000 s
- 0:   initializing ModModule ............................................................. 0.027 s
- 0:   [cache hit ] Aardvark.Base.Rendering, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] FShade.GLSL, Version=4.3.9.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Base.Essentials, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Application, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Rendering.Vulkan, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] GLSLangSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.GPGPU, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Rendering.GL, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Base.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+ 0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+ 0:     [cache hit ] Aardvark.Base, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Imperative, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.FSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Incremental, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Essentials, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
+ 0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   initializing SceneGraphCompletenessCheck ........................................... 0.557 s
  0:   [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
- 0:   [cache hit ] Aardvark.Compiler.DomainTypes, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.SceneGraph.IO, Version=4.11.1.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] AssimpNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0: initializing aardvark ................................................................ 0.356 s
- 0: [Vulkan] enabled extension "vk_khr_get_physical_device_properties2"
- 0: instance:
- 0:   layers:
- 0:     VK_LAYER_AMD_switchable_graphics (v1.1.96) ( )
- 0:     VK_LAYER_VALVE_steam_overlay (v1.1.73) ( )
- 0:     VK_LAYER_VALVE_steam_fossilize (v1.1.73) ( )
- 0:     VK_LAYER_LUNARG_standard_validation (v1.0.92) ( )
- 0:   extensions:
- 0:     VK_KHR_surface (v0.0.25) ( )
- 0:     VK_KHR_win32_surface (v0.0.6) ( )
- 0:     VK_KHR_get_physical_device_properties2 (v0.0.1) (X)
- 0:     VK_KHR_get_surface_capabilities2 (v0.0.1) ( )
- 0:     VK_KHR_external_memory_capabilities (v0.0.1) ( )
- 0:     VK_KHR_device_group_creation (v0.0.1) ( )
- 0:     VK_KHR_external_semaphore_capabilities (v0.0.1) ( )
- 0:     VK_KHR_external_fence_capabilities (v0.0.1) ( )
- 0:     VK_EXT_debug_report (v0.0.9) ( )
- 0:     VK_EXT_debug_utils (v0.0.1) ( )
- 0:   devices:
- 0:     0:
- 0:       CHOSEN DEVICE
- 0:       type:     DiscreteGpu
- 0:       vendor:   Advanced Micro Devices, Inc.
- 0:       name:     AMD Radeon (TM) R9 380 Series
- 0:       version:  1.1.96
- 0:       driver:   2.0.68
- 0:       layers:
- 0:         VK_LAYER_AMD_switchable_graphics (v1.1.96)
- 0:       extensions:
- 0:         VK_KHR_sampler_mirror_clamp_to_edge (v0.0.1)
- 0:         VK_KHR_shader_draw_parameters (v0.0.1)
- 0:         VK_KHR_swapchain (v0.0.70)
- 0:         VK_KHR_maintenance1 (v0.0.2)
- 0:         VK_KHR_maintenance2 (v0.0.1)
- 0:         VK_KHR_maintenance3 (v0.0.1)
- 0:         VK_KHR_relaxed_block_layout (v0.0.1)
- 0:         VK_KHR_dedicated_allocation (v0.0.3)
- 0:         VK_KHR_descriptor_update_template (v0.0.1)
- 0:         VK_KHR_external_memory (v0.0.1)
- 0:         VK_KHR_external_memory_win32 (v0.0.1)
- 0:         VK_KHR_device_group (v0.0.3)
- 0:         VK_AMD_calibrated_timestamps (v0.0.1)
- 0:         VK_KHR_bind_memory2 (v0.0.1)
- 0:         VK_KHR_external_semaphore (v0.0.1)
- 0:         VK_KHR_external_semaphore_win32 (v0.0.1)
- 0:         VK_AMD_rasterization_order (v0.0.1)
- 0:         VK_AMD_shader_ballot (v0.0.1)
- 0:         VK_AMD_shader_trinary_minmax (v0.0.1)
- 0:         VK_AMD_shader_explicit_vertex_parameter (v0.0.1)
- 0:         VK_AMD_gcn_shader (v0.0.1)
- 0:         VK_AMD_draw_indirect_count (v0.0.1)
- 0:         VK_KHR_draw_indirect_count (v0.0.1)
- 0:         VK_AMD_shader_info (v0.0.1)
- 0:         VK_EXT_sampler_filter_minmax (v0.0.1)
- 0:         VK_AMD_shader_fragment_mask (v0.0.1)
- 0:         VK_EXT_hdr_metadata (v0.0.1)
- 0:         VK_EXT_swapchain_colorspace (v0.0.3)
- 0:         VK_AMD_wave_limits (v0.0.1)
- 0:         VK_AMD_texture_gather_bias_lod (v0.0.1)
- 0:         VK_AMD_mixed_attachment_samples (v0.0.1)
- 0:         VK_EXT_sample_locations (v0.0.1)
- 0:         VK_EXT_shader_subgroup_vote (v0.0.1)
- 0:         VK_KHR_16bit_storage (v0.0.1)
- 0:         VK_KHR_storage_buffer_storage_class (v0.0.1)
- 0:         VK_AMD_gpa_interface (v0.0.1)
- 0:         VK_EXT_shader_subgroup_ballot (v0.0.1)
- 0:         VK_EXT_shader_stencil_export (v0.0.1)
- 0:         VK_EXT_shader_viewport_index_layer (v0.0.1)
- 0:         VK_KHR_get_memory_requirements2 (v0.0.1)
- 0:         VK_KHR_image_format_list (v0.0.1)
- 0:         VK_KHR_swapchain_mutable_format (v0.0.1)
- 0:         VK_EXT_inline_uniform_block (v0.0.1)
- 0:         VK_KHR_shader_atomic_int64 (v0.0.1)
- 0:         VK_KHR_driver_properties (v0.0.1)
- 0:         VK_KHR_create_renderpass2 (v0.0.1)
- 0:         VK_KHR_8bit_storage (v0.0.1)
- 0:         VK_KHR_multiview (v0.0.1)
- 0:         VK_KHR_external_fence (v0.0.1)
- 0:         VK_KHR_external_fence_win32 (v0.0.1)
- 0:         VK_KHR_win32_keyed_mutex (v0.0.1)
- 0:         VK_EXT_global_priority (v0.0.2)
- 0:         VK_AMD_buffer_marker (v0.0.1)
- 0:         VK_AMD_shader_image_load_store_lod (v0.0.1)
- 0:         VK_EXT_external_memory_host (v0.0.1)
- 0:         VK_EXT_depth_range_unrestricted (v0.0.1)
- 0:         VK_AMD_shader_core_properties (v0.0.1)
- 0:         VK_EXT_queue_family_foreign (v0.0.1)
- 0:         VK_EXT_descriptor_indexing (v0.0.2)
- 0:         VK_KHR_variable_pointers (v0.0.1)
- 0:         VK_EXT_vertex_attribute_divisor (v0.0.3)
- 0:         VK_GOOGLE_hlsl_functionality1 (v0.0.1)
- 0:         VK_GOOGLE_decorate_string (v0.0.1)
- 0:         VK_EXT_scalar_block_layout (v0.0.1)
- 0:         VK_AMD_memory_overallocation_behavior (v0.0.1)
- 0:       limits:
- 0:         image:
- 0:           max 1D size:   16384
- 0:           max 2D size:   [16384, 16384]
- 0:           max 3D size:   [2048, 2048, 2048]
- 0:           max Cube size: [16384, 16384]
- 0:           max layers:    2048
- 0:         sampled image:
- 0:           color samples:      [1; 2; 4; 8]
- 0:           integer samples:    [1; 2; 4; 8]
- 0:           depth samples:      [1; 2; 4; 8]
- 0:           stencil samples:    [1; 2; 4; 8]
- 0:           storage samples:    [1; 2; 4; 8]
- 0:         sampler:
- 0:           max allocations: 1048576
- 0:           max lod bias:    15.99609375
- 0:           max anisotropy:  16.0
- 0:         uniform:
- 0:           max buffer range:   4.000GiB
- 0:           max storage range:  4.000GiB
- 0:           max texel elements: -1
- 0:           max push constants: 128B
- 0:         memory:
- 0:           max allocations:            4096
- 0:           max allocation size:        2.000GiB
- 0:           sparse size:                1012.000GiB
- 0:           buffer/image distance:      1
- 0:           map alignment:              64
- 0:           texel offset align:         1
- 0:           storage offset align:       4
- 0:           buffer/image offset align:  1
- 0:           buffer/image row align:     1
- 0:           non coherent atom size:     128
- 0:         descriptors:
- 0:           max bound sets:          32
- 0:           max samplers:            -1
- 0:           max uniform buffers:     -1
- 0:           max dyn-uniform buffers: 8
- 0:           max storage buffers:     -1
- 0:           max dyn-storage buffers: 8
- 0:           max sampled images:      -1
- 0:           max storage images:      -1
- 0:           max input attachments:   -1
- 0:           per stage:
- 0:             max samplers:          -1
- 0:             max uniform buffers:   -1
- 0:             max storage buffers:   -1
- 0:             max sampled images:    -1
- 0:             max storage images:    -1
- 0:             max input attachments: -1
- 0:             max resources:         -1
- 0:         vertex shader:
- 0:           max in attributes:  64
- 0:           max in bindings:    32
- 0:           max in offset:      4294967295
- 0:           max in stride:      16383
- 0:           max out components: 128
- 0:         tessellation shader:
- 0:           max gen level:  64
- 0:           max patch size: 32
- 0:           control:
- 0:             max vertex in components:  128
- 0:             max vertex out components: 128
- 0:             max patch out components:  120
- 0:             max total out components:  4096
- 0:           evaluation:
- 0:             max in components:  128
- 0:             max out components: 128
- 0:         geometry shader:
- 0:           max invocations:    127
- 0:           max out vertices:   1024
- 0:           max in components:  128
- 0:           max out components:
- 0:             per vertex: 128
- 0:             total:      16384
- 0:         fragment shader:
- 0:           max in components:     128
- 0:           max out attachments:   8
- 0:           max src1 attachments:  1
- 0:           max out resources:     -1
- 0:           max sample masks:      1
- 0:         shader sampling:
- 0:           max clip distances:      8
- 0:           max cull distances:      8
- 0:           max clip/cull distances: 8
- 0:           subpixel offset bits:    8
- 0:           texel offset:            [-64 .. 63]
- 0:           texel grather offset:    [-32 .. 31]
- 0:           interpolation offset:    [-2.000000 .. 2.000000]
- 0:         compute shader:
- 0:           shared memory:         32.0KiB
- 0:           max group counts:      [65535, 65535, 65535]
- 0:           max group invocations: 1024
- 0:           max group size:        [1024, 1024, 1024]
- 0:         precision:
- 0:           subpixel bits:    8
- 0:           subtexel bits:    8
- 0:           mipmap bits:      8
- 0:           timestamps:       true
- 0:           timestamp period: 37.037ns
- 0:           queue priorities: 2
- 0:         draw:
- 0:           max index value:    4294967295
- 0:           max indirect count: 4294967295
- 0:         framebuffer:
- 0:           max size:   [16384, 16384]
- 0:           max layers: 2048
- 0:           max colors: 8
- 0:           samples: 
- 0:             color:   set [1; 2; 4; 8]
- 0:             depth:   set [1; 2; 4; 8]
- 0:             stencil: set [1; 2; 4; 8]
- 0:             empty:   set [1; 2; 4; 8]
- 0:           viewports:
- 0:             max count:      16
- 0:             max size:       [16384, 16384]
- 0:             bounds:         [[-32768, -32768], [32767, 32767]]
- 0:             subpixel bits:  8
- 0:         rasterizer:
- 0:           point size:       [0.000000 .. 0.125000 .. 8191.875000]
- 0:           line width:       [0.000000 .. 0.125000 .. 8191.875000]
- 0:           strict lines:     false
- 0:           standard samples: true
- 0:       heaps:
- 0:         0: 3.750GiB
- 0:         1: 3.731GiB
- 0:         2: 256.00MiB
- 0:       memories:
- 0:         0: DeviceLocal (heap: 0)
- 0:         1: HostVisible, HostCoherent (heap: 1)
- 0:         2: DeviceLocal, HostVisible, HostCoherent (heap: 2)
- 0:         3: HostVisible, HostCoherent, HostCached (heap: 1)
- 0:       queues:
- 0:         0:
- 0:           capabilities:   compute, graphics, transfer, sparsebinding
- 0:           count:          1
- 0:           timestamp bits: 64
- 0:           img transfer:   [1, 1, 1]
- 0:         1:
- 0:           capabilities:   compute, transfer, sparsebinding
- 0:           count:          2
- 0:           timestamp bits: 64
- 0:           img transfer:   [1, 1, 1]
- 0:         2:
- 0:           capabilities:   transfer, sparsebinding
- 0:           count:          2
- 0:           timestamp bits: 64
- 0:           img transfer:   [8, 8, 8]
- 0:   device: Advanced Micro Devices, Inc. AMD Radeon (TM) R9 380 Series
- 0: [Vulkan] enabled extension "vk_ext_shader_subgroup_ballot"
- 0: [Vulkan] enabled extension "vk_ext_shader_subgroup_vote"
- 0: WARNING: [Vulkan] could not enable device-extension 'vk_khr_get_physical_device_properties2' since it is not available
+ 0:   [cache miss] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache hit ] Aardvark.SceneGraph.IO, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   initializing Loader ................................................................ 0.000 s
+ 0: initializing aardvark ................................................................ 2.593 s
+ 0: probing paths for nvapi64
+ 0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-32f42d4c-4cb0-88cf-a5d3-8c852c69d925-64
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-96423937-34fa-5842-8198-d81081aad7a9-64
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Service-6c07790d-9ae8-a533-bcc3-f89762a0781f-64
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-bb94696d-9eea-074c-ddff-a32358cb7e99-64
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\AssimpNet-969d1624-35de-e8ae-f27b-d0ea28a223a6-64
+ 0: [Introspection] could not load native library nvapi64.dll
+ 0: trying to resolve native library libEGL.dll
+ 0: probing paths for libEGL
+ 0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-32f42d4c-4cb0-88cf-a5d3-8c852c69d925-64
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-96423937-34fa-5842-8198-d81081aad7a9-64
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Service-6c07790d-9ae8-a533-bcc3-f89762a0781f-64
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-bb94696d-9eea-074c-ddff-a32358cb7e99-64
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\AssimpNet-969d1624-35de-e8ae-f27b-d0ea28a223a6-64
+ 0: [Introspection] could not load native library libEGL.dll
+ 0: OpenGL 4.5 working
+ 0: backbuffer
+ 0:   color: R8G8B8A8
+ 0:   depth: D24S8
+ 0: probing paths for glvm
+ 0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-96423937-34fa-5842-8198-d81081aad7a9-64
+ 0: [Introspection] loaded native library glvm from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-96423937-34fa-5842-8198-d81081aad7a9-64\glvm.dll
+ 0: backbuffer
+ 0:   color: R8G8B8A8
+ 0:   depth: D24S8
+ 0: initializing OpenGL runtime ..................................................................
+ 0:   probing paths for glvm
+ 0:     D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-32f42d4c-4cb0-88cf-a5d3-8c852c69d925-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-96423937-34fa-5842-8198-d81081aad7a9-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Service-6c07790d-9ae8-a533-bcc3-f89762a0781f-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-bb94696d-9eea-074c-ddff-a32358cb7e99-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\AssimpNet-969d1624-35de-e8ae-f27b-d0ea28a223a6-64
+ 0:   [Introspection] loaded native library glvm from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-96423937-34fa-5842-8198-d81081aad7a9-64\glvm.dll
+ 0:   probing paths for Opengl32
+ 0:     D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-32f42d4c-4cb0-88cf-a5d3-8c852c69d925-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-96423937-34fa-5842-8198-d81081aad7a9-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Service-6c07790d-9ae8-a533-bcc3-f89762a0781f-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-bb94696d-9eea-074c-ddff-a32358cb7e99-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\AssimpNet-969d1624-35de-e8ae-f27b-d0ea28a223a6-64
+ 0:   [Introspection] loaded native library Opengl32.dll from Opengl32.dll
+ 0:   probing paths for opengl32
+ 0:     D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-96423937-34fa-5842-8198-d81081aad7a9-64
+ 0:   [Introspection] loaded native library opengl32.dll from opengl32.dll
+ 0:   probing paths for kernel32
+ 0:     D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-96423937-34fa-5842-8198-d81081aad7a9-64
+ 0:   [Introspection] loaded native library kernel32.dll from kernel32.dll
+ 0:   vendor:   "ATI Technologies Inc."
+ 0:   renderer: "AMD Radeon (TM) R9 380 Series"
+ 0:   version:  OpenGL 4.5.13559 / GLSL 4.6
+ 0: initializing OpenGL runtime .......................................................... 0.130 s
+ 0: WARNING: load
+ 0: probing paths for kernel32
+ 0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\AssimpNet-969d1624-35de-e8ae-f27b-d0ea28a223a6-64
+ 0: [Introspection] loaded native library kernel32.dll from kernel32.dll
+ 0: Aardvark.UI serves template.html
+ 0: Aardvark.UI serves favicon.ico
+ 0: WARNING: [aardvark.media] currently ThreadPool.MinThreads is (4,4)
+ 0: WARNING: [aardvark.media] unfortunately, currently we need to adjust this to at least (12,12) due to an open issue https://github.com/aardvark-platform/aardvark.media/issues/19
+ 0: Aardvark.Service serves aardvark.js
+ 0: Aardvark.Service serves rgbcolor.js
+ 0: Aardvark.Service serves docking.js
+ 0: Aardvark.Service serves semantic.js
+ 0: Aardvark.Service serves jquery-3-3-1.js
+ 0: Aardvark.Service serves touchstick.js
+ 0: Aardvark.Service serves aardfs.js
+ 0: Aardvark.Service serves essentialstuff.js
+ 0: Aardvark.Service serves aardvark.css
+ 0: Aardvark.Service serves docking.css
+ 0: Aardvark.Service serves semantic.css
+ 0: Aardvark.Service serves aardfs.css
+ 0: Aardvark.Service serves semantic-overrides.css
+ 0: Aardvark.Service serves fonts.css
+ 0: Aardvark.Service serves index.html
+ 0: Aardvark.Service serves stats.html
+ 0: Aardvark.Service serves aardvark-light.svg
+ 0: Aardvark.Service serves aardvark.svg
+ 0: Aardvark.Service serves brand-icons.woff2
+ 0: Aardvark.Service serves outline-icons.woff2
+ 0: Aardvark.Service serves icons.woff2
+ 0: Aardvark.Service serves S6u8w4BMUTPHjxsAUi-qJCY.woff2
+ 0: Aardvark.Service serves S6u8w4BMUTPHjxsAXC-q.woff2
+ 0: Aardvark.Service serves S6u9w4BMUTPHh6UVSwaPGR_p.woff2
+ 0: Aardvark.Service serves S6u9w4BMUTPHh6UVSwiPGQ.woff2
+ 0: Aardvark.Service serves S6uyw4BMUTPHjx4wXg.woff2
+ 0: Aardvark.Service serves S6uyw4BMUTPHjxAwXjeu.woff2
+ 0: Aardvark.Service serves S6u_w4BMUTPHjxsI5wq_FQft1dw.woff2
+ 0: Aardvark.Service serves S6u_w4BMUTPHjxsI5wq_Gwft.woff2
+ 0: Aardvark.UI serves template.html
+ 0: Aardvark.UI serves favicon.ico
+ 0: Aardvark.UI.Primitives serves spectrum.css
+ 0: Aardvark.UI.Primitives serves spectrum.js
+ 1: [Server] created client for (500b36f3-7735-1cb1-82e5-ddfa91c1a672/n7), mapping enabled
+ 1: [Client] 1: running n7
+ 2: [Scene] n7: created
+ 2: texture created
+ 2: result created
+ 2: WARNING: load
+ 2: texture created
+ 2: result created
+ 2: WARNING: load
+ 2: texture created
+ 2: result created
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (410ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (5ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveOutputCubeTexture.compute
+ 2: [GL] RenderObjects: +61/-0 (1014ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: texture created
+ 2: [GL] RenderObjects: +60/-0 (28ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: texture created
+ 2: result created
+ 2: texture created
+ 2: result created
+ 2: Compiling shader:
+ 1: #version 460
+ 2: #define __SHADER_STAGE__
+ 3: 
+ 4: 
+ 5: 
+ 6: 
+ 7: layout(std140, binding = 0)
+ 8: uniform Global
+ 9: {
+10:     float OcclusionStrength;
+11:     float Radius;
+12:     int Samples;
+13:     float Threshold;
+14: };
+15: 
+16: 
+17: layout(std140, binding = 1)
+18: uniform PerView
+19: {
+20:     mat4x4 ProjTrafo;
+21:     mat4x4 ProjTrafoInv;
+22:     mat4x4 ViewTrafo;
+23: };
+24: 
+25: 
+26: layout(binding = 0)
+27: uniform sampler2D depth;
+28: 
+29: layout(binding = 1)
+30: uniform sampler2DShadow depthCmp;
+31: 
+32: layout(binding = 2)
+33: uniform sampler2D normal;
+34: 
+35: layout(binding = 3)
+36: uniform sampler2D random;
+37: 
+38: const vec3 _constant0[] = vec3[]( vec3(0.11655637294127753, -0.052633697216678134, 0.10005375848114743), vec3(0.032377478700280925, -0.07577575670379065, 0.12019805694870417), vec3(-0.08166701206027943, -0.33508594358994137, 0.4764521726792078), vec3(0.11935605045987237, -0.019364540253142493, 0.14204506701222075), vec3(0.39366470960604166, -0.11188888078882248, 0.38958198226287655), vec3(0.025397186258323483, -0.09353676614249821, 0.05627785540842563), vec3(0.21014921288828126, -0.09981854898905253, 0.33368391321134855), vec3(-0.018047404517424693, -0.07221600445070324, 0.822256203820567), vec3(0.1952126014938486, -0.4924125096835634, 0.5468171534610602), vec3(-0.06538644994106521, -0.023580945671985085, 0.8012783400373125), vec3(-0.011492231185837616, -0.09230278943515195, 0.8437200241560178), vec3(0.0035564498931122553, -0.03363102853459605, 0.5732095683824288), vec3(-0.16598267523778606, 0.4688669860290792, 0.41667146214059225), vec3(-0.21934167913336355, -0.30287123336193894, 0.5759318977592437), vec3(0.1076338239114336, -0.0815625692542806, 0.31457157943937125), vec3(-0.5812023442656372, 0.40166048307880164, 0.634541519480451), vec3(-0.07170073269142294, 0.31681679075585645, 0.1644669841643984), vec3(0.1356016024493213, -0.11411588511006625, 0.06600116690908814), vec3(-0.005247005329435682, -0.03220798941504268, 0.8201528773110599), vec3(0.028434238077925948, 0.0046191816459586225, 0.09353682169736592), vec3(0.1497867661423359, -0.1091072538196603, 0.6662159511687246), vec3(0.5206497059543265, -0.17920268736635644, 0.6312016898907985), vec3(-0.023855232610830765, -0.0016345917329817965, 0.39926778540472735), vec3(0.07973929992894256, 0.23944885766040336, 0.6261383862239189), vec3(-0.0204492216637663, 0.01706721594801898, 0.4601914867227757), vec3(0.025671724069685035, 0.7260593904175214, 0.31589334268759206), vec3(-0.11757617961262559, -0.18361668205192935, 0.14591015203889773), vec3(-0.46112770363881544, -0.37238992204329036, 0.35637457818585017), vec3(0.24518683568788682, -0.037965284291828265, 0.18277304647684814), vec3(0.2768358644258217, 0.6713102920532446, 0.26730533651490823), vec3(0.280483728803947, -0.3279275736824072, 0.6114362210280119), vec3(-0.13169107462707466, -0.2818706049819152, 0.3257822150945397), vec3(-0.005018286888770398, 0.08618987708302459, 0.6663227671027362), vec3(-0.004078885092395181, -0.0019100573508801298, 0.13480045262788137), vec3(-0.2860719553498897, -0.2357416872229733, 0.3088771797366518), vec3(-0.3032137888832738, 0.4195588828918927, 0.3702445250059286), vec3(-0.14667695411851508, -0.11261194568901496, 0.4637755744404917), vec3(0.05688402277554734, 0.10506308718055592, 0.16702864733140924), vec3(0.13410758985566087, 0.16767771727401232, 0.9626068240710723), vec3(-0.10584978000495521, -0.025304403719926677, 0.33768971145878784), vec3(-0.16233437823698893, -0.016482601403613458, 0.3741158995868324), vec3(0.06448976874253948, 0.03654815027301247, 0.04372811922126866), vec3(0.17442404531658384, 0.10694539797058024, 0.330465879591282), vec3(0.029695666455059916, 0.0051588854179732005, 0.04507391088172456), vec3(-0.00163191673914772, 0.005756309583182935, 0.10625618756595828), vec3(0.4485050707192812, 0.051997531243443876, 0.19092345560446228), vec3(0.01193533780959929, -0.01760963011134789, 0.6081321675363951), vec3(-0.3199596263972325, 0.293272795844733, 0.8241190737370087), vec3(-0.32503297174272083, -0.08699412107553829, 0.8072925111276998), vec3(-0.07824326119736978, 0.14692075118201686, 0.3081183163857933), vec3(-0.10771564404777229, 0.014118047521404928, 0.5108775191712808), vec3(-0.11873725507482091, -0.3985390986496136, 0.3870508371259911), vec3(-0.10832492262010783, -0.3178480327514772, 0.5234678544674907), vec3(-0.07590158668637276, 0.11049623064948338, 0.2952990481684739), vec3(-0.00762465177715743, -0.008323469249139723, 0.09203052205301011), vec3(-0.08293802385603345, -0.25518933493180107, 0.18294228116398975), vec3(0.09045063425339003, 0.6713392705087518, 0.3118713776405717), vec3(-0.5432715686197958, 0.06549302807411729, 0.7309644092489694), vec3(-0.5420049199116966, 0.29366620224833545, 0.38269649721956966), vec3(-0.6267584421506236, -0.14620636374593973, 0.4278363893398731), vec3(0.07975812270314775, 0.04260995193856358, 0.8448993003039472), vec3(-0.047399241761623544, -0.4520057065638702, 0.5521988848604121), vec3(-0.07536857941432624, -0.22583489470526907, 0.45943372670786076), vec3(0.5823849036559071, -0.2619906721675364, 0.7532469343875624), vec3(0.040865144409051, -0.01966133554798169, 0.032709740164601826), vec3(0.32808227814893615, -0.06987166709535758, 0.21486777837298315), vec3(0.08639417885058583, -0.11620738263653603, 0.8906186744473757), vec3(0.03407477054961499, -0.2072704635364376, 0.46908819659382417), vec3(-0.06586929578857474, -0.0725872133713584, 0.17911013575635362), vec3(0.2810050495479434, 0.39584249488772694, 0.5124831404521641), vec3(0.2585197265055778, 0.20834018432131132, 0.3042395838394998), vec3(0.02200287714655898, -0.030100055954924623, 0.154291668814306), vec3(-0.030905679796655178, 0.04483522454191784, 0.19541252609661952), vec3(-0.05352372036439083, -0.4148956587426893, 0.2053290763525595), vec3(-0.5701876709706982, -0.17625762632083872, 0.34573888251345014), vec3(0.45673544763252666, -0.06999402575622227, 0.3912261688697993), vec3(0.06121820714992771, -0.26036032806237314, 0.3605756516615917), vec3(-0.07440391330143138, 0.14088886632696362, 0.30686258289945956), vec3(-0.08973427611024501, 0.03675446868484032, 0.5603344406741321), vec3(0.3500295715860556, -0.05889405298902883, 0.9035246553693531), vec3(-0.14506466674645582, -0.031599015401831174, 0.10820651020772855), vec3(-0.2513933363341934, 0.13784916490415416, 0.16526112364717596), vec3(0.48121441066621745, 0.5341530201938084, 0.3880705278545583), vec3(0.10610099724294851, -0.03882202436410896, 0.9512699275056051), vec3(0.02307719651933462, 0.034714463664285294, 0.2480086064719962), vec3(0.0019183981350117188, -0.0015218172359963199, 0.18025381471592353), vec3(-0.32067246406690647, -0.672863375432081, 0.36184650804621293), vec3(-0.05275648151381318, -0.15422938399534128, 0.3070002895416104), vec3(0.0021368358244279995, 0.02572022591044698, 0.03333150687781467), vec3(0.017527299493866635, 0.08491128494207796, 0.13178968346975528), vec3(-0.011730400035329228, -0.01894175966374888, 0.8904071626653011), vec3(0.051194293267979106, 0.009058595724326228, 0.5838778927254825), vec3(0.044241316337743156, -0.1408074485813655, 0.4565138691767325), vec3(0.08183794741675668, 0.017027563203343803, 0.19639566852759208), vec3(0.07679592624349268, -0.21502075066473555, 0.4505149161567234), vec3(0.326431487873745, -0.2174451245770289, 0.5712889844239041), vec3(-0.4497948210634814, 0.1900134257461797, 0.29136398527051915), vec3(0.1376702347579577, 0.08323707953957028, 0.3674857577290819), vec3(-0.04933259218085072, 0.9337361387454359, 0.3497456329303933), vec3(0.3538361210753632, 0.14210937551627958, 0.5966277798709073), vec3(-0.07255978713730928, 0.40411965714781206, 0.4207759184122825), vec3(0.0016070266531418274, -0.04551204849280418, 0.08284107246132785), vec3(0.6536268635879524, -0.1561716224446644, 0.277983258051719), vec3(0.14463929084227273, 0.028947500245235798, 0.08187426792561214), vec3(0.369343319754458, -0.726740427586935, 0.38105936399530865), vec3(0.1816458507794485, 0.267936180827901, 0.16551907100349197), vec3(0.18433060144148983, -0.09736476602921267, 0.2999094817703988), vec3(-0.05627179438858171, -0.07220686257948206, 0.12620309916328298), vec3(-0.012588239197846494, -0.2610759600252998, 0.5782502647167159), vec3(0.3985486875144922, 0.15568057399410334, 0.23315026006319461), vec3(0.3450257538127119, -0.488074493557615, 0.6401509976529867), vec3(-0.08482331575033038, 0.312654795498709, 0.23461204996349783), vec3(0.02048090990931434, 0.16070194781059763, 0.30395497254202414), vec3(-0.5731443358624052, -0.2908239043811066, 0.39585629055047034), vec3(0.1197228907018949, -0.22025590986633445, 0.5331004745416893), vec3(0.09632595260044471, 0.11811566850581372, 0.4959048040145975), vec3(-0.7075020030942054, 0.09608796708284512, 0.5449178356933028), vec3(0.00634426804641546, 0.018725929622345056, 0.5591513369169193), vec3(-0.04693062919306711, 0.5012067335895636, 0.5369643102610878), vec3(0.5743829312624215, 0.4752757059103635, 0.459293081609406), vec3(0.01783243144757266, 0.11039366590347216, 0.5587178683295665), vec3(-0.4867233704878713, -0.013866026832133912, 0.265755143254736), vec3(0.0005862724771099035, 0.004367847208089341, 0.47179461735799083), vec3(-0.03832078936980212, -0.017973303403214656, 0.0190719260300317), vec3(0.16001844728255557, 0.5001491526511, 0.6235528651512913), vec3(-0.6399326549113038, -0.4373811123037282, 0.3820086716251099), vec3(0.1379015468850133, -0.06125125841142252, 0.6619728337270657), vec3(-0.530227863838423, -0.4826686975741467, 0.6817831126035321), vec3(-0.48318906048258375, 0.7544770659325574, 0.34741180592976506), vec3(0.26325590764125145, 0.5742649458413946, 0.7709896356957233), vec3(-0.006783444939112869, 0.005615639365034389, 0.035770944374907805), vec3(0.024834112032437027, 0.006663654520010876, 0.04027827113312869), vec3(0.07123100884191641, -0.30344757377552023, 0.15352159463571596), vec3(-0.1561489512844443, 0.08544254309271547, 0.8419867973179807), vec3(-0.07954115689200764, 0.24919770190438992, 0.2795384277353796), vec3(0.0001030618873744721, 0.01366012157661948, 0.08812829204558041), vec3(0.0129194243764465, 0.16370526636678223, 0.5809121928540749), vec3(-0.2763656314994543, -0.3949718832963346, 0.4334754295208956), vec3(0.021718102801031435, 0.01802967875395467, 0.050762073658156145), vec3(-0.2290651399711473, -0.064861532202649, 0.8554082727968343), vec3(0.2783182549303148, -0.49872730944729743, 0.5814445057619282), vec3(-0.13885507637052072, -0.15384416754139296, 0.6399285276977642), vec3(0.017842150337139838, -0.19708836806700963, 0.6849970409372319), vec3(-0.07272841303489087, 0.1817179663104867, 0.5192128233533678), vec3(0.11361182762645006, 0.12821835564897177, 0.22392080418570845), vec3(-0.06266292613383857, -0.15338414937458011, 0.46187717686936636), vec3(-0.1376782567860657, 0.05971306580473082, 0.18953923192576513), vec3(-0.022381187697154505, 0.008244669108172726, 0.7245530895247068), vec3(0.02195371114902581, 0.020606040938947523, 0.6236152611596623), vec3(0.31500786834626004, 0.20015483932444952, 0.9129289177293396), vec3(-0.31782418994014516, -0.19429956515677904, 0.7020901731952631), vec3(-0.00380337274498253, -0.004599086468270845, 0.006877388076777498), vec3(-0.16203886851978047, 0.32255842354671244, 0.5586527570636679), vec3(-0.04318936633184803, -0.08276431776202357, 0.0795684664535057), vec3(-0.12319310223364249, -0.023989451657165713, 0.05801983070032701), vec3(-0.02835358980726592, -0.009846263559257442, 0.01414336920497276), vec3(-0.532276090541624, 0.214542147763855, 0.24172679658504762), vec3(-0.06509590661886178, -0.5384409479153704, 0.4115417769307744), vec3(-0.26607900678476276, -0.11401931808358944, 0.20287621660385233), vec3(-0.006850664701608498, -0.021392597440064158, 0.027783983984727804), vec3(-0.08421263931719396, -0.06160922497998929, 0.6766170338272129), vec3(0.2945436128286197, 0.06763267560467075, 0.22342496335423173), vec3(0.1619406974031878, -0.07941421167279744, 0.07404144767107865), vec3(-0.17238538039864687, -0.44355093715571453, 0.42470545528948184), vec3(0.061642947059139475, -0.30568482261872, 0.3250372015556779), vec3(-0.06540424262059678, -0.02893422016107129, 0.8249353785339809), vec3(-0.006533066885361117, 0.012763902587780979, 0.05054154827177769), vec3(-0.16122733614613294, -0.18252560371558788, 0.4180760630178951), vec3(0.02185468240180576, -0.0006173298099048359, 0.3713494486466949), vec3(0.1604786280907752, -0.07275133259667248, 0.4678419823505889), vec3(-0.5758554939137637, -0.21448673997197867, 0.678110346322478), vec3(0.00557669275802057, -0.06118289236303319, 0.24221873327164525), vec3(0.3998361121622537, -0.04707885741215549, 0.29889017217058433), vec3(0.2565035968900402, -0.3883475420352646, 0.7090026442988518), vec3(0.018562093469308504, -0.04124655134071566, 0.04035742526959062), vec3(-0.3467545750295137, 0.08324484965964284, 0.8232302901601737), vec3(-0.2704077261772638, 0.43319998562980333, 0.6691027774076314), vec3(-0.10061949132208613, -0.4801656427172966, 0.7746516700923823), vec3(-0.43813280536715427, 0.5074536933008151, 0.36738661366196473), vec3(-0.07525879003063933, -0.11468372662687148, 0.2940996179828284), vec3(0.103576670826171, -0.5713070935462, 0.2241604877509022), vec3(0.7627454946019495, -0.38077048820784426, 0.42820848082022567), vec3(-0.13418734361995865, 0.15222107509056623, 0.3034795542739995), vec3(-0.20267188914862233, -0.14722085069750301, 0.9419265869097722), vec3(-0.03258773698808351, 0.06439492375142344, 0.18862084837392287), vec3(0.0009149554851249774, -0.016330666980284163, 0.022396461978760628), vec3(0.10987213994322048, -0.14516836360519703, 0.3365742859144851), vec3(0.21103521287695692, -0.0003307187570937706, 0.07742070989624111), vec3(-0.393952960625705, 0.4715335874168617, 0.37975344547728296), vec3(0.014486909742160431, -0.06825586587971398, 0.3426292908465118), vec3(0.08640992366628117, 0.08530360514773588, 0.4503819308629404), vec3(0.07200293392735355, -0.07476219848205587, 0.9169956073951502), vec3(0.04262709710334145, 0.07044698527479515, 0.2830659175910389), vec3(-0.002080350743568981, -0.01828636169503007, 0.01268725481648435), vec3(-0.04252140753169974, -0.0024453227790902825, 0.19879282686276564), vec3(0.05838061849215299, 0.02675055337060274, 0.43447514735180787), vec3(-0.2385203507252004, 0.19590506757609016, 0.36456317772599317), vec3(-0.04815363904321347, -0.004941705404069317, 0.05752056251716495), vec3(-0.040477285428709965, -0.08107575502584109, 0.051933854257878345), vec3(0.13693055660483283, -0.22086298391997405, 0.3721569323091272), vec3(0.15851634937960074, 0.26054727918485165, 0.31459959519014896), vec3(0.2615195292072368, 0.3642535803523994, 0.6110398262607422), vec3(0.292715132137788, -0.13660743774336961, 0.1422396712169908), vec3(-0.11227780899718405, 0.013126563121316397, 0.05197678099138112), vec3(-0.05354442124969683, -0.011559734354843785, 0.04540522474187521), vec3(0.2646236199727888, 0.1956370685564238, 0.43430479266402117), vec3(0.24084632562386163, 0.15736195562288782, 0.4183019280561624), vec3(0.054520707327598054, 0.5158211408652384, 0.6312449665726776), vec3(0.040256338932056, 0.03422196633162618, 0.032526133796100865), vec3(-0.0021313834946255746, -0.039034346689731506, 0.2379298299803273), vec3(0.0004415854755655387, -0.159808034987956, 0.10545483368325122), vec3(-0.03740033094438082, -0.12466038403111299, 0.693680014401652), vec3(0.07785734146373298, 0.6400078169743676, 0.6511536593770892), vec3(0.006796029199347806, 0.0068591624340477095, 0.02732045012557866), vec3(0.15841289419899357, -0.1317583995742044, 0.35832213907575855), vec3(-0.18257501285501054, 0.3780231863923943, 0.5979575961387096), vec3(0.0036606326585148234, -0.00013175087437394787, 0.010116426389698101), vec3(0.12499110838498886, 0.001123308303317076, 0.18141027868689888), vec3(0.1677459717325498, 0.0721490020509072, 0.3957809873985021), vec3(0.05836427251425403, 0.09424353812345007, 0.4079082218585504), vec3(0.0005154179521510724, -0.36892795467423634, 0.24949332321968282), vec3(-0.03359347782668725, 0.6796580140136859, 0.47127738660452795), vec3(0.4189357368196438, 0.20176730041278093, 0.6030587252670118), vec3(0.019558005396284803, 0.0034768612486337286, 0.010200193069328274), vec3(-0.016763318432874756, 0.025764352538559503, 0.013219111643793245), vec3(-0.8240770335629249, 0.2089839889465401, 0.5116864893364261), vec3(0.533103287251456, 0.4908445103088713, 0.6221493534683182), vec3(-0.0019019231932647727, -0.20116980663024417, 0.43477624225216477), vec3(0.5422929551463562, -0.2697420304627228, 0.22120932799024232), vec3(-0.05055186688948479, 0.210833745900742, 0.5823743321073233), vec3(0.044202898991309116, -0.09322454048622839, 0.40658408379150857), vec3(0.09595893228217561, 0.026822465901272293, 0.760031480474535), vec3(-0.43514738263874625, 0.32627831997621937, 0.6035956131272254), vec3(-0.25234295565151704, -0.058868763267080765, 0.17122660927963823), vec3(-0.6952096828435579, 0.03628394296318099, 0.5486277075663956), vec3(-0.6911008454956704, 0.007154296203293664, 0.5192636068348864), vec3(-0.16843545387168796, -0.31715996160088755, 0.48198017859937065), vec3(-0.16388612062206145, 0.1480549781037205, 0.09557491765523586), vec3(-0.7713798835231908, -0.2529112998818539, 0.39667675295493326), vec3(0.4307923578746802, 0.2381425232571583, 0.4352292615991025), vec3(-0.109864714388175, -0.09181813374898669, 0.4999470482137343), vec3(0.474144251005125, -0.2007260045871332, 0.23419884938995592), vec3(0.08798932087611712, -0.018698743220461864, 0.1356226884316944), vec3(-0.12322747985676916, 0.11201140400249034, 0.4514733228344978), vec3(-0.10954554120651311, -0.025105187330429168, 0.11133398761256734), vec3(-0.055500105060502763, -0.024970074245806065, 0.7582401448480521), vec3(0.005204789081692843, 0.0023056020197459158, 0.003168065707902857), vec3(-0.13119821378405103, 0.09950992904618379, 0.20867704815566582), vec3(0.0039572496383882, -0.11176614639650903, 0.5986574117295108), vec3(-0.20063410512888358, 0.16109505401704377, 0.39652978432519215), vec3(0.11389288865859075, 0.0008264730178321284, 0.41301970543801864), vec3(-0.1433432610887292, 0.09645743843323755, 0.19076325597310345), vec3(-0.46432762832800034, 0.13514007228167013, 0.41814631402151436), vec3(0.21818582135266626, 0.3965841726316638, 0.5097933192416172), vec3(-0.003084423121784228, 0.006350020112168013, 0.004798566794860701), vec3(0.003208494154541488, -0.009036083513621597, 0.6103383718607377), vec3(0.577184567628782, -0.3233833297664925, 0.7450602578129388), vec3(-0.09205338924536129, -0.19856724352248695, 0.24780748411181508), vec3(-0.001275742660313374, 0.011796656707171537, 0.09018245854750956), vec3(0.04528962486943137, 0.05476089893315448, 0.034235082782212704), vec3(0.03534320059013018, 0.17186458056263348, 0.5631106003130094), vec3(-0.003371095772779531, 0.024340069760985752, 0.014677302199982164), vec3(0.04083033300540404, 0.07667985394545956, 0.14869041896668977), vec3(-0.13055538360447022, -0.3418922243734824, 0.245384524557708), vec3(0.48804324810391664, 0.5030036668846948, 0.4288464100493359), vec3(0.06652488303226, 0.18771440848823917, 0.37537318192704044), vec3(-0.5997491516823753, -0.0809486935215208, 0.6570570873736993), vec3(-0.09923833652206557, -0.25989160459063027, 0.5380957676679989), vec3(0.024913636192097376, -0.05079508528972056, 0.13092000293059744), vec3(-0.17311241584039466, 0.02034782625484241, 0.5204587520354235), vec3(-0.03878424263624714, 0.0990328388505242, 0.07397706195696582), vec3(0.5917530855783675, -0.12342352368668787, 0.4771368714473635), vec3(0.10890252245244168, -0.1660105467098625, 0.2468488988260208), vec3(0.256380220907361, 0.33851524388149096, 0.6528707037392665), vec3(0.2803189661300495, 0.6968707315218502, 0.5005807076992729), vec3(-0.11608926125926253, 0.6155244971815274, 0.6177154543699809), vec3(0.36310224190298085, 0.02546457410780589, 0.5565422909830047), vec3(-0.004782535565151825, 0.2231422796027991, 0.1695715629665043), vec3(0.5182058846154896, -0.174377693712751, 0.6691670969231641), vec3(-0.0066767403832116694, 0.003128352965301033, 0.272681524877012), vec3(0.42719626667932753, 0.027457164331336506, 0.887954611744143), vec3(-0.3771274547375112, 0.07956769999820877, 0.5714320351568947), vec3(-0.3323226905189938, -0.24553428647893033, 0.7656783581066754), vec3(-0.06344516978149557, 0.0033892377946929367, 0.15995433175527202), vec3(0.05481983826804844, -0.03857693566951829, 0.18097077785066856), vec3(0.018083576692632507, -0.1461848250133421, 0.06765966214292253), vec3(-0.07855476848700498, -0.07924829800665323, 0.06112737979753612), vec3(-0.05076776212459897, -0.04137769180761982, 0.11315959515749566), vec3(-0.034271092300337834, 0.1798767383901672, 0.2402114376130635), vec3(0.1890061044335715, 0.003081631613317866, 0.2010245398530407), vec3(-0.05162727344194263, 0.22458834553816562, 0.8369110569919822), vec3(-0.07875544972201187, -0.06780151271822187, 0.2496670266598423), vec3(-0.08698645968464662, -0.03230118555155861, 0.1174642534216919), vec3(-0.03631221154301548, 0.030771385836008077, 0.8232632205465965), vec3(-0.0378009457953845, 0.04821130232151273, 0.027710444819029522), vec3(-0.14446445736235516, 0.0548828073374894, 0.46649260177549595), vec3(0.17211316833602217, -0.11917833919384642, 0.33311389269864367), vec3(-0.017802758604196264, 0.659038858024684, 0.29463233185106624), vec3(-0.15869423839346009, 0.32985413202122266, 0.5486598900600366), vec3(0.24249860270726473, 0.28397725217408315, 0.6310517220918904), vec3(0.6833532036703326, 0.2851849905314244, 0.4517215657934173), vec3(-0.3232194872348486, -0.1511303315945303, 0.1824754643854777), vec3(0.04937975503468271, 0.01102892322833943, 0.11233150027545896), vec3(0.009818628442843938, 0.0014197895580116344, 0.05931922016976646), vec3(0.1920978113145607, -0.21721531057442228, 0.1834724947199855), vec3(-0.31554916578457504, 0.05210781562191568, 0.5754223606469115), vec3(-0.7357872906785009, -0.2814105695522087, 0.5139379612879789), vec3(-0.06142891545530498, -0.7049397992867498, 0.48960744038978665), vec3(0.003912794920704274, -0.1363633828379724, 0.7670497881132196), vec3(0.007668415531402644, -0.0036603964359051703, 0.12852843596154728), vec3(0.48552771515260773, 0.05183436177304776, 0.8095520654420468), vec3(0.6337659056098088, -0.18997558408440432, 0.273969994507457), vec3(0.15681596472360618, -0.2212297395076521, 0.3795744285283862), vec3(0.16237507085037456, 0.030616879880488203, 0.8013195296787011), vec3(-0.049049063163570036, -0.046766841582575484, 0.06386779007163759), vec3(0.5801896323693864, 0.46829292285462465, 0.5050383522373041), vec3(-0.08004408985355731, 0.06160404134096098, 0.1222402495862094), vec3(-4.7852488195786885E-05, -1.715144400892441E-05, 8.3270984226417E-05), vec3(-0.11120301090240378, -0.15370432875617734, 0.15916229205700805), vec3(-0.03948205202727457, 0.16279708625017492, 0.6379266160105013), vec3(-0.0893218300795593, -0.013792798755176942, 0.2836500887210725), vec3(0.19111399939878537, 0.419915733381374, 0.6071463488202274), vec3(-0.009760587804442158, 0.0022412903238463048, 0.3035438707886888), vec3(-0.02759252279532492, -0.09216196049820186, 0.8613240316668408), vec3(-0.06153442447876644, -0.3603928281496863, 0.5743136313331008), vec3(0.07103627912445658, 0.17043630805450252, 0.8390457070227426), vec3(-0.05976695277539887, -0.020439818688638763, 0.617190499148308), vec3(-0.2962596456264345, 0.16182390111262382, 0.3581247663037838), vec3(0.3571033643551853, -0.32001736826207633, 0.5257527971038689), vec3(0.23455290007071525, 0.07724637162704513, 0.32883142747274924), vec3(-0.17137059289152545, 0.3844576665416069, 0.24352423578376883), vec3(-0.22507954353364795, -0.02045679487313776, 0.915397090511918), vec3(-0.0970198414387645, -0.4456754184297327, 0.42105405395287415), vec3(0.12165652620855198, 0.015072616486616395, 0.04582539165315842), vec3(-0.006826770791360535, 0.13934660586078465, 0.3806350751139078), vec3(0.018317454592905055, 0.022132729019710726, 0.5842897120418498), vec3(0.26962112187999565, -0.3422430649806068, 0.36139565712000343), vec3(-0.6398772389663187, -0.12060932431102846, 0.48162370371920316), vec3(-0.0313169601291029, 0.40731396294176536, 0.7213213952950043), vec3(-0.45082519775967544, -0.0008460659925682196, 0.2874271800061057), vec3(0.06724650666633052, -0.19035806243483466, 0.09114189294439126), vec3(-0.04772566208274242, 0.017738765356277823, 0.2618446701083313), vec3(-0.3165876688821655, 0.04005256130000939, 0.1477587494499997), vec3(0.0016390660993179384, 0.06445049437104602, 0.16079316499979224), vec3(0.18467723960104343, 0.23747732047003717, 0.13693212403452593), vec3(-0.007679414299182087, -0.003317212472052975, 0.1517207940274597), vec3(-0.332342903323695, -0.5517605085464184, 0.4810760539370436), vec3(0.18937616090481332, -0.1498602657797274, 0.22711262690811937), vec3(-0.05116377781825722, -0.6804234871870836, 0.2636647980449445), vec3(0.05513234168796905, -0.1252801504123249, 0.09514269933737365), vec3(0.25379342382541564, 0.011770865301719403, 0.21503798065641952), vec3(0.09969076806046046, -0.17286944987764674, 0.3389578597790185), vec3(-0.03800882594732861, 0.07571638843159317, 0.4668587918177077), vec3(-8.903696260545161E-07, 1.8585476234701009E-06, 1.2704932470796678E-06), vec3(-0.2951639124603606, -0.10381612687602496, 0.30300946917052074), vec3(-0.03477608018188457, 0.04398594673982644, 0.0885790086871372), vec3(0.021226537040446233, 0.016451432641512085, 0.09326124059747187), vec3(-0.019175778060942315, -0.11271227641878698, 0.2296322881568214), vec3(-0.13700443381672123, 0.08331373999992335, 0.34377364965128626), vec3(-0.07876739240373892, -0.3883724397174125, 0.2779147385272721), vec3(-0.02606550644899553, 0.012345342966056806, 0.024611374741885492), vec3(0.09928610127830755, -0.14014335496174452, 0.4142472095593693), vec3(-0.002943260184605651, -0.016968734017672543, 0.14789985984685905), vec3(-0.03058100649835501, 0.030011113946786693, 0.365350028081179), vec3(0.25489696704353976, -0.49661047260826074, 0.31817299553766054), vec3(0.0008304653062922054, 0.00013898701503751337, 0.0023801626500254236), vec3(-0.057346802720125586, -0.044947552593154486, 0.06152043796036398), vec3(0.014880569531734777, -0.03512992443036283, 0.3334400606682085), vec3(0.003118652233390571, 0.002430496987387847, 0.41276204470422334), vec3(0.1003469004068456, -0.1742622521005279, 0.46664487098397406), vec3(-0.12464729598204882, -0.10268529782079226, 0.29290627015686466), vec3(0.010216350311001682, -0.1957980975021414, 0.2883135857258935), vec3(-0.018840661130591088, -0.010298373216041474, 0.16977597344913864), vec3(0.33553740864862963, -0.13249008952162158, 0.6149797718195538), vec3(0.25082073681818184, 0.060154268949984636, 0.35405711597222556), vec3(-0.0004303129063060214, 0.01388041692411137, 0.02766201129498295), vec3(-0.0015303925266991639, 0.01541781822274513, 0.4105966632847221), vec3(-0.02954797671863066, 0.03621467445555792, 0.12181302249817759), vec3(0.20402173555875275, -0.23827648853798852, 0.43480326870193053), vec3(-0.03379712568160041, -0.14217845964558032, 0.5082688784886636), vec3(0.0019228126395492988, -0.014889832551942535, 0.0530974901213457), vec3(0.2159327377276175, 0.010922359194825862, 0.19161716999861067), vec3(-0.049780298086195635, -0.05274035789043936, 0.7571689981878155), vec3(0.15571818755019914, -0.1978514268535982, 0.4832293064034302), vec3(-0.047070734326814835, 0.02755078972918646, 0.05629100768168068), vec3(-0.006292322768545719, 0.043709567920814076, 0.0817944598021293), vec3(-0.20992074138787223, -0.031998747411219775, 0.41750287061197205), vec3(0.005877354566050119, 0.011613703789995555, 0.6206073779362465), vec3(0.28057021677450694, -0.09273028337438488, 0.6293944150916521), vec3(-0.010257327294250268, -0.20617659885561104, 0.21845780403869092), vec3(0.25108358471408904, 0.3681461163842531, 0.1987851006413713), vec3(0.1069583240797999, 0.040872369856297185, 0.2875915048638765), vec3(-0.2393044687619251, -0.189855237385033, 0.3034554293491357), vec3(0.22216423393139687, 0.017578876816905877, 0.2632962817118149), vec3(-0.17571358985945504, 0.23294086683722975, 0.40201536021437817), vec3(0.06253226491955646, 0.5090987132550056, 0.5783940453962756), vec3(-0.022111429372744133, 0.0761373054654886, 0.08719389259090093), vec3(-0.41096329626543987, -0.17051493206897472, 0.877443908550448), vec3(-0.03534066188341211, 0.02421491530627488, 0.5289876002969073), vec3(0.11951691015409129, -0.14591472339624867, 0.2683533982991885), vec3(0.0006946166379623061, 0.03505817828349524, 0.04441741152836337), vec3(0.22215096108150065, 0.025949888746037014, 0.41146916815026857), vec3(0.03687414958531055, 0.7905932866766278, 0.4665544227135885), vec3(0.12218953526337822, -0.15399494014461262, 0.10609696855923832), vec3(0.207564354136672, -0.26608826998596563, 0.7607218876306412), vec3(-0.3357591346482383, 0.45797294571734526, 0.8038382028201749), vec3(0.003078370131834711, -0.02504827755910442, 0.22077159416936926), vec3(0.5762848642125634, 0.29101251998529065, 0.40385247259239554), vec3(0.20976541514265712, 0.36751913317736357, 0.36975798595345993), vec3(0.3243782870568509, 0.19296909765872838, 0.14577640015379822), vec3(0.21416604810812961, 0.09362726990751562, 0.653397333387728), vec3(0.8347104405259158, 0.21601477683587034, 0.4368872058539079), vec3(-0.42864751994813155, 0.31397182284030695, 0.4864358433641914), vec3(0.5903217376540509, 0.4897321232313367, 0.3673974012979659), vec3(0.15532637999829224, -0.3169446096344559, 0.2435632927837081), vec3(-0.5012846109629078, -0.42961585686029813, 0.3537891835396634), vec3(-0.199308106520243, -7.411833627463826E-05, 0.6582957483640259), vec3(-0.28484828180599636, 0.2926542141226908, 0.44502068541854806), vec3(0.18335316692859993, -0.09522687730056568, 0.20275300840635097), vec3(0.399907435402195, 0.18072607628277898, 0.3308049369459323), vec3(0.020698804650974012, -0.08318871073477149, 0.5271997518751381), vec3(-0.0012260072190409632, -0.006318345465927537, 0.47457340544228155), vec3(0.25776074298192464, 0.42481871930675663, 0.403831394472775), vec3(0.012335331657323327, -0.02445567671878569, 0.10882438924946226), vec3(-0.015504502550954952, -0.0029139326893225, 0.012589379019938222), vec3(0.003938582048273828, 0.018530258563389346, 0.01620622105416143), vec3(0.7991233456605376, -0.09721695145825775, 0.44139813735547606), vec3(-0.7026265293502442, 0.2995522365913743, 0.3148874762296562), vec3(-0.03069184912696781, -0.0012896898383254092, 0.2140434645921217), vec3(0.42202187051278583, 0.02161809857988182, 0.5134499535637707), vec3(-0.05475888223034306, -0.8295232672571553, 0.37768843624963355), vec3(0.03121980289662215, 0.011932805593927601, 0.4257732151354754), vec3(-0.04269782054604829, -0.32148910294907723, 0.5045046556204662), vec3(0.1252860903612267, 0.0026426494929561095, 0.1661889592527419), vec3(-0.04727497850310455, -0.25049074216846823, 0.39756670369434544), vec3(0.28581814508828396, -0.19579912199801916, 0.47367161866034285), vec3(-0.09872529255330549, -0.10560273572158595, 0.3407714039013958), vec3(0.1647831854806095, 0.4596694207419056, 0.2240229429516345), vec3(-0.023535653453110858, -0.009609711284820343, 0.7122191822633716), vec3(-0.00492073889268564, -0.06877497108871707, 0.06416817760065996), vec3(0.4763972163206556, -0.6174282755396422, 0.3873297725437859), vec3(-0.05866791331025153, 0.04821435702274211, 0.702805494530452), vec3(-0.0469067203770217, -0.02376885891149436, 0.026286781064593374), vec3(0.16430812993077984, -0.11575465767646001, 0.2100243934010395), vec3(0.09767232865029492, -0.2725107489317257, 0.5330866909321933), vec3(0.34999408194641196, 0.25788264751694473, 0.28779025666888675), vec3(-0.21286997524048004, -0.2654239655119978, 0.48100223780374435), vec3(0.49758273248567736, 0.05494696516992949, 0.29311686400259623), vec3(0.5881154714945055, 0.2942525142888266, 0.637805056809904), vec3(-0.11256488519314164, 0.5502582725429799, 0.49360101162301057), vec3(-0.004940195804987017, -0.02971080019116948, 0.07976330901651771), vec3(-0.03917686188476449, 0.004571807353117304, 0.5123234538159975), vec3(0.2524361430235166, -0.4590651627810509, 0.4556661127928705), vec3(0.6230025190038108, 0.32302905767516604, 0.6857023319057496), vec3(-0.1946855322070386, -0.4135722060432316, 0.6490814621960893), vec3(-0.26394932909284197, 0.18191460194220435, 0.48572700586324963), vec3(-0.23800700392075097, 0.22907918220616597, 0.7592738330161469), vec3(-0.17439327146737973, -0.662724967042344, 0.4252627449703484), vec3(-0.18041305032685595, -0.053833746062578146, 0.076448075788148), vec3(-0.6800407039760855, 0.04503914560142573, 0.43269666949181856), vec3(-0.027041251293693114, -0.011764663664993178, 0.059161474543630486), vec3(-0.023993441172490405, -0.1458718552411839, 0.36740538899083464), vec3(-0.042958767384835846, 0.04835225331889077, 0.5414184038551567), vec3(0.09726601556819146, -0.0979105966478109, 0.8862916955164312), vec3(-0.07467994696038709, 0.18556930092417867, 0.4489615904549898), vec3(0.15194853461963245, -0.18409709617514716, 0.1193139902425446), vec3(-0.0003528438232685088, -0.019286913104578925, 0.36631842701305023), vec3(0.306499961104853, -0.1028447145371461, 0.3973195667743802), vec3(-0.13209262511670272, 0.06534421713582723, 0.34830409795123485), vec3(-0.037462915815214964, 0.7371782109325602, 0.4051040518068945), vec3(0.0549765723918896, -0.09977100735469699, 0.361315153380802), vec3(0.05116681224371323, -0.01846179313094926, 0.1403877461898921), vec3(0.6151304542540313, 0.012505166453355861, 0.644934716378619), vec3(-0.0644523844622709, 0.030801987345526364, 0.18174992540556428), vec3(0.042631263478198116, -0.14719979903246214, 0.6612937552638303), vec3(-0.03606242564526628, 0.09824163869092006, 0.8205814761562682), vec3(0.11158655649862283, 0.19114621692430808, 0.352028683331079), vec3(0.09781950425208372, 0.10450628758593555, 0.31895740938641365), vec3(-0.09304592203055204, -0.04483748969632395, 0.494939956757605), vec3(-0.12658455609421176, -0.3680722991823274, 0.31195829013979887), vec3(0.18206480895966606, -0.3556559864360067, 0.17390909143564076), vec3(-0.07348478202558786, 0.11350795241437964, 0.3097498476305188), vec3(-0.3253165885963625, -0.4054674018544595, 0.7469849742177916), vec3(-0.02291077788190743, -0.18501829620378585, 0.4298182509593279), vec3(-0.08028723234025355, 0.06864240650511483, 0.570016711180447), vec3(-0.08683020901961777, 0.059629525586257136, 0.38511772421317453), vec3(-0.11846241339519983, -0.48570616071911266, 0.5357058370341129), vec3(0.23220391908107058, -0.010886207528750825, 0.5732576945019898), vec3(-0.1865178110390247, 0.08266442423968122, 0.36053607335491145), vec3(-0.25757741515724575, 0.6519693678176773, 0.5488348634707007), vec3(-0.23838974250567785, -0.42270316488050197, 0.5833635107364187), vec3(-0.04188299024375143, 0.07443029164203506, 0.5571447073486738), vec3(0.25929768968160655, 0.06153082428330797, 0.20140825311247232), vec3(-0.018755516651637327, -0.31113113571585743, 0.8500419058514971), vec3(0.016112044455167635, -0.009831119708377724, 0.02079871812058718), vec3(0.14699193830248145, -0.011475018645456928, 0.4512363605106205), vec3(-0.06608887483122539, -0.07068300032006483, 0.12945961887133342), vec3(0.135535480067951, 0.04363255753795942, 0.07688276509880718), vec3(0.4537180469136368, -0.2937944382893514, 0.588671096575634), vec3(-0.1052470908219789, -0.1662600752414268, 0.27697094015068463), vec3(0.013878487622182663, -0.011019848101198835, 0.15352062127018745), vec3(0.04764612890218939, -0.026543888050123986, 0.05427111549192568), vec3(0.004322848237410631, -0.02109650830726633, 0.20075780446797553), vec3(-0.03597366918646977, 0.0290433055305183, 0.0579358495670024), vec3(-0.30284646536161275, 0.06396483089268465, 0.20066230207578467), vec3(0.1447584359961788, -0.08973514630203622, 0.9190547991696945), vec3(0.3607512496634718, -0.4444795109941692, 0.2445509935545964), vec3(0.14186256250084728, 0.06077966053096235, 0.474583216267497), vec3(-0.05837093712719489, -0.05352635770710507, 0.29178047519723876), vec3(-0.2629576319003282, 0.8123843527625105, 0.4531096244513897), vec3(0.0038807672722518684, -0.0854591195718698, 0.14242910431141162), vec3(-0.3455285544144386, 0.1838534757303348, 0.27511950435511767) );
+39: 
+40: 
+41: #ifdef Vertex
+42: layout(location = 0) in vec2 DiffuseColorCoordinates;
+43: layout(location = 1) in vec4 Positions;
+44: layout(location = 0) out vec2 fs_DiffuseColorCoordinates;
+45: layout(location = 1) out vec4 fs_Positions;
+46: void main()
+47: {
+48:     fs_DiffuseColorCoordinates = DiffuseColorCoordinates;
+49:     gl_Position = Positions;
+50:     fs_Positions = Positions;
+51: }
+52: 
+53: #endif
+54: 
+55: 
+56: 
+57: #ifdef Fragment
+58: 
+59: vec3 SLEAardvarkRenderDemo_SSAO_project_3xKKw0NaNrmSOKnCCRYoyQ(vec3 vp)
+60: {
+61:     vec3 vp1 = vp;
+62:     vp1.z = min(-0.01, vp1.z);
+63:     vec4 pp = (vec4(vp1, 1.0) * ProjTrafo);
+64:     return (pp.xyz / pp.w);
+65: }
+66: 
+67: layout(location = 0) in vec2 fs_DiffuseColorCoordinates;
+68: layout(location = 1) in vec4 fs_Positions;
+69: layout(location = 0) out vec4 ColorsOut;
+70: void main()
+71: {
+72:     vec2 ndc = (fs_Positions.xy / fs_Positions.w);
+73:     vec4 pp0 = vec4(ndc.x, ndc.y, ((2.0 * texture(depth, fs_DiffuseColorCoordinates).x) - 1.0), 1.0);
+74:     vec4 temp = (pp0 * ProjTrafoInv);
+75:     vec3 z = normalize((vec4(normalize(texture(normal, fs_DiffuseColorCoordinates).xyz), 0.0) * ViewTrafo).xyz);
+76:     vec3 y = normalize(cross(z, normalize(texture(random, pp0.xy).xyz)));
+77:     float occlusion = 0.0;
+78:     int last = (Samples - 1);
+79:     for(int si = 0; (si <= last); si++)
+80:     {
+81:         vec3 dir = (_constant0[si] * Radius);
+82:         float temp1 = (float(si) / float((Samples - 1)));
+83:         vec3 dirscaled = (dir * mix(1.0, (temp1 * temp1), 0.1));
+84:         vec3 p = ((((temp.xyz / temp.w) + (normalize(cross(y, z)) * dirscaled.x)) + (y * dirscaled.y)) + (z * dirscaled.z));
+85:         vec3 pp = (0.5 * (SLEAardvarkRenderDemo_SSAO_project_3xKKw0NaNrmSOKnCCRYoyQ(p) + vec3(1.0, 1.0, 1.0)));
+86:         if((texture(depthCmp, vec3(pp.xy, (0.5 * (SLEAardvarkRenderDemo_SSAO_project_3xKKw0NaNrmSOKnCCRYoyQ((p * (1.0 - (Threshold / (-p.z))))) + vec3(1.0, 1.0, 1.0))).z)) < 0.5))
+87:         {
+88:             occlusion = (occlusion + ((texture(depth, pp.xy).x > pp.z) ? 0.0 : 1.0));
+89:         }
+90:     }
+91:     float occlusion1 = min(1.0, ((occlusion / float(Samples)) * OcclusionStrength));
+92:     float ambient = (1.0 - occlusion1);
+93:     ColorsOut = vec4(ambient, ambient, ambient, 1.0);
+94: }
+95: 
+96: #endif
+
+ 2: texture created
+ 2: [GL] RenderObjects: +1/-0 (2261ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2282ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: result created
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (11ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveOutputCubeTexture.compute
+ 2: texture created
+ 2: result created
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (8ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (14ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (41ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (41ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (9ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (19ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (36ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (39ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (40ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (4ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveOutputCubeTexture.compute
+ 2: texture created
+ 2: result created
+ 2: [GL] RenderObjects: +1/-0 (11ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +2/-0 (4265ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (5105ms)
+ 2: using optimized native program
+ 3: [Client] 1: stopped

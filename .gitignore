@@ -33,3 +33,4 @@ data/Rock24_rgh.jpg
 .ionide
 .paket
 build.fsx.lock
+src/Aardvark.log
