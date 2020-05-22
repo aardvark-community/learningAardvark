@@ -1,7 +1,7 @@
 FSharp.Core
 
 Aardvark.Base
-Aardvark.Base.Incremental
+FSharp.Data.Adaptive
 Aardvark.Base.FSharp
 
 Aardvark.Base.Rendering
@@ -14,6 +14,6 @@ Aardvark.SceneGraph.IO
 Aardvark.Service
 Aardvark.UI
 Aardvark.UI.Primitives
-Aardvark.Compiler.DomainTypes.MSBuild
+Adaptify.MSBuild
 Aardium
 FsPickler.Json
