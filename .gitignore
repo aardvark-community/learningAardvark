@@ -34,3 +34,4 @@ data/Rock24_rgh.jpg
 .paket
 build.fsx.lock
 src/Aardvark.log
+src/Aardvark.log
