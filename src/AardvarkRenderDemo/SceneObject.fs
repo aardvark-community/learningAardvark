@@ -107,9 +107,13 @@ module sceneObjectControl =
             let newLinks =
                 m.materialLinks
                 |> HashMap.alter m.currentMaterial (fun _ -> t)
-                |> HashMap.map (fun k t1 -> match m.currentMaterial, t with
-                                            |t1, Some t' -> t' 
-                                            |_ ->  t1)
+                |> HashMap.map (fun k t1 -> if t1 =  m.currentMaterial then
+                                                match t with
+                                                |Some t' -> t' 
+                                                |_ ->  t1
+                                            else
+                                                t1
+                               )
             let newMaterials = 
                 match t with
                 |Some t' -> m.materials 
@@ -139,7 +143,7 @@ module sceneObjectControl =
             tr [] [ td [] [text "Material"]; td [style "width: 70%;"] [Html.SemUi.dropDown' (materialsList) m.currentMaterial SetCurrentMaterial id]]
             tr [] [ td [] [text "Linked to"]; td [style "width: 70%;"] [Html.SemUi.dropDown' (materialsToLink) linkedMaterial  SetMaterialLink  (Option.defaultValue "-")]]
             ]
-            m.currentMaterial
+            updatedMaterial
             |> AVal.bind (fun c ->
                 m.materials
                 |> AMap.find c

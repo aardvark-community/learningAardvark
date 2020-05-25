@@ -107,6 +107,15 @@
                         },
                         "factor": 0.97
                       },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 0.0
+                      },
                       "normal": {
                         "fileName": {
                           "Some": "SLE_Gnom2_n.png"
@@ -141,6 +150,15 @@
                           "R": 1.0
                         },
                         "factor": 0.9
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 0.0
                       },
                       "normal": {
                         "fileName": {
@@ -177,6 +195,15 @@
                         },
                         "factor": 0.98
                       },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 0.0
+                      },
                       "normal": {
                         "fileName": {
                           "Some": "SLE_Gnom2_n.png"
@@ -212,6 +239,15 @@
                         },
                         "factor": 1.0
                       },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 0.0
+                      },
                       "normal": {
                         "fileName": null,
                         "factor": 1.0
@@ -244,6 +280,15 @@
                           "R": 0.99215686274509807
                         },
                         "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 0.0
                       },
                       "normal": {
                         "fileName": null,
@@ -278,6 +323,15 @@
                         },
                         "factor": 0.77
                       },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 0.0
+                      },
                       "normal": {
                         "fileName": null,
                         "factor": 1.0
@@ -308,6 +362,15 @@
                           "R": 0.15294117647058825
                         },
                         "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 0.0
                       },
                       "normal": {
                         "fileName": null,
@@ -342,6 +405,15 @@
                         },
                         "factor": 1.0
                       },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 0.0
+                      },
                       "normal": {
                         "fileName": {
                           "Some": "SLE_Gnom2_n.png"
@@ -375,6 +447,15 @@
                         },
                         "factor": 1.0
                       },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 0.0
+                      },
                       "normal": {
                         "fileName": null,
                         "factor": 1.0
@@ -407,6 +488,15 @@
                           "R": 1.0
                         },
                         "factor": 0.99
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 0.0
                       },
                       "normal": {
                         "fileName": {
@@ -442,6 +532,15 @@
                           "R": 1.0
                         },
                         "factor": 0.89
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 0.0
                       },
                       "normal": {
                         "fileName": {

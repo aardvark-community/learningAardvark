@@ -46,6 +46,7 @@ type PBRMaterial = {
     metallic  : TextureMappedValue
     roughness : TextureMappedValue
     albedo : TextureMappedColor
+    emission : TextureMappedColor
     normal : TextureMappedValue
     discard : bool
     displacment : TextureMappedValue
