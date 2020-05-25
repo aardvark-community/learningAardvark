@@ -46,6 +46,7 @@ type PBRMaterial = {
     metallic  : TextureMappedValue
     roughness : TextureMappedValue
     albedo : TextureMappedColor
+    emission : TextureMappedColor
     normal : TextureMappedValue
     discard : bool
     displacment : TextureMappedValue
@@ -61,6 +62,7 @@ type SceneObject = {
     rotation : V3d
     materials : HashMap<string, PBRMaterial>
     currentMaterial : string
+    materialLinks : HashMap<string, string> 
 }
 
 [<ModelType>]

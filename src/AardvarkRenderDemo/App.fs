@@ -125,7 +125,8 @@ module App =
                 DefaultSemantic.Depth, RenderbufferFormat.Depth24Stencil8
                 DefaultSemantic.Normals, RenderbufferFormat.Rgba32f
                 GBufferRendering.Semantic.MaterialProperties, RenderbufferFormat.Rg32f
-            ]
+                GBufferRendering.Semantic.Emission, RenderbufferFormat.Rgb32f
+             ]
 
         let skyBox =
             Sg.box (AVal.constant C4b.White) (AVal.constant (Box3d(-V3d.III,V3d.III)))
@@ -157,7 +158,9 @@ module App =
                         DefaultSemantic.Colors
                         Sym.ofString "WorldPosition"
                         DefaultSemantic.Normals
-                        GBufferRendering.Semantic.MaterialProperties]
+                        GBufferRendering.Semantic.MaterialProperties
+                        GBufferRendering.Semantic.Emission
+                        ]
                ) size 
 
     //texture  with random values used in the AO shaders
@@ -359,6 +362,7 @@ module App =
             |> Sg.texture ( Sym.ofString "WPos") (Map.find (Sym.ofString "WorldPosition") gBuffer)
             |> Sg.texture ( DefaultSemantic.Normals) (Map.find DefaultSemantic.Normals gBuffer)
             |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
+            |> Sg.texture (GBufferRendering.Semantic.Emission) (Map.find GBufferRendering.Semantic.Emission gBuffer)
             |> Sg.texture ( GBufferRendering.Semantic.MaterialProperties) (Map.find GBufferRendering.Semantic.MaterialProperties gBuffer)
             |> Sg.compile runtime signature
             |> RenderTask.renderToColor size    

@@ -101,6 +101,14 @@ module PBR =
             filter Filter.MinMagLinear
         }
 
+    let emission =
+        sampler2d {
+            texture uniform?Emission
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
+
     let materialProperties =
         sampler2d {
             texture uniform?MaterialProperties
@@ -265,6 +273,7 @@ module PBR =
         [<TexCoord>]        tc      : V2d
         [<Semantic("Metallic")>] metallic    : float
         [<Semantic("Roughness")>] roughness    : float
+        [<Semantic("Emission")>] emission    : V3d
     }
 
     [<ReflectedDefinition>]
@@ -303,7 +312,8 @@ module PBR =
             let m = materialProperties.Sample(vert.tc).XY   
             let wPos = wPos.Sample(vert.tc)
             let n = normal.Sample(vert.tc).XYZ |> Vec.normalize
-            return {wp =  wPos; n = n; c = albedo;  tc = vert.tc; metallic = m.X; roughness = m.Y}
+            let em = emission.Sample(vert.tc).XYZ 
+            return {wp =  wPos; n = n; c = albedo;  tc = vert.tc; metallic = m.X; roughness = m.Y; emission =  em}
         }
         
 
@@ -334,8 +344,8 @@ module PBR =
                     pBRAbient metallic roughness albedo n wPos
 
             let occlusion = ambientOcc.Sample(frag.tc).X
-
-            return V4d(col * occlusion, 1.0)
+            let em = frag.emission
+            return V4d(em + col * occlusion, 1.0)
         }
 
     let lightingDeferred (frag : Fragment)  =
@@ -626,13 +636,13 @@ module AlbedoColor =
             return texColor * c
         }
 
-
  module GBufferRendering =
     open fshadeExt
     //shaders for rendering to a g-buffer
 
     module Semantic =
         let MaterialProperties = Symbol.Create "MaterialProperties"
+        let Emission = Symbol.Create "Emission"
 
     type UniformScope with
         member x.Roughness : float = x?Roughness
@@ -640,6 +650,10 @@ module AlbedoColor =
         member x.Metallic : float = x?Metallic
 
         member x.AlbedoFactor : float = x?AlbedoFactor
+
+        member x.EmissionFactor : float = x?EmissionFactor
+
+        member x.EmissionColor : V3d =  x?EmissionColor
 
         member x.Discard : bool =  x?Discard
 
@@ -672,6 +686,7 @@ module AlbedoColor =
         [<Color>]           c       : V4d
         [<TexCoord>]        tc      : V2d
         [<Semantic("MaterialProperties")>] m    : V2d
+        [<Semantic("Emission")>] em : V3d
     }
 
     let private skySampler =
@@ -697,7 +712,15 @@ module AlbedoColor =
             addressU WrapMode.Wrap
             addressV WrapMode.Wrap
         }
-   
+
+    let private emissionSampler =
+        sampler2d {
+            texture uniform?EmissionTexture
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
     let gBufferShader (vert : Vertex) =
         fragment {
             let gamma  = 2.2
@@ -707,8 +730,8 @@ module AlbedoColor =
             let albedo = pow (vert.c.XYZ * uniform.AlbedoFactor) (V3d(gamma))
             let metallic = uniform.Metallic * metallicSampler.Sample(vert.tc).X
             let roughness = uniform.Roughness * roughnessSampler.Sample(vert.tc).X
-
-            return {vert with c = V4d(albedo,vert.c.W); m = V2d(metallic,roughness)}
+            let emission = uniform.EmissionColor * uniform.EmissionFactor * emissionSampler.Sample(vert.tc).XYZ
+            return {vert with c = V4d(albedo,vert.c.W); m = V2d(metallic,roughness); em = emission}
         }
 
     let skyGBuffer (vert : Vertex) =
@@ -720,7 +743,7 @@ module AlbedoColor =
   
             let col = texColor * uniform.SkyMapIntensity
 
-            return {vert with c = V4d(col,vert.c.W); m = V2d(-1.0,-1.0)}
+            return {vert with c = V4d(col,vert.c.W); m = V2d(-1.0,-1.0); em = V3d.OOO}
         }
   
  module SSAO =

@@ -10,7 +10,7 @@ open SLEAardvarkRenderDemo.Model
 open System.IO
 
 (*
-    A proxy Material to subtitute a PBR material into an importend  Object
+    A proxy Material to subtitute a PBR material into an imported  Object
     Some UI Views for material values
 *)
 module material = 
@@ -29,9 +29,14 @@ module material =
             color = C3d.White
             factor = 1.0
         }
+        emission = {
+            fileName = None
+            color = C3d.Black
+            factor = 0.0
+        }
         normal = {
             fileName = None
-            factor = 1.0
+            factor = 0.0
         }
         discard = false
         displacment = {
@@ -84,7 +89,16 @@ module material =
                         | Some file -> FileTexture(file, TextureParams.empty) :> ITexture
                         | None ->  onPixTex C3f.White
             }
-        
+
+        member x.EmissionMap =
+            adaptive {
+                let! m = x.Material 
+                let! f = m.emission.fileName
+                return match f with
+                        | Some file -> FileTexture(file, TextureParams.empty) :> ITexture
+                        | None ->  onPixTex C3f.White
+            }
+
         member x.NormalMap =
             adaptive {
                 let! m = x.Material 
@@ -112,6 +126,9 @@ module material =
                 | "DisplacmentStrength" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.displacment.factor) x.Material :> IAdaptiveValue)
                 | "DisplacmentMap" -> Some x.DisplacemntMap 
                 | "AlbedoColor" -> Some  (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.albedo.color) x.Material :> IAdaptiveValue)
+                | "EmissionTexture" -> Some (x.EmissionMap :> IAdaptiveValue)
+                | "EmissionColor" -> Some  (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.emission.color) x.Material :> IAdaptiveValue)
+                | "EmissionFactor" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.emission.factor) x.Material :> IAdaptiveValue)
                 | _ -> None
             
             member x.Dispose() = ()
@@ -144,9 +161,11 @@ module material =
     let  toPBRMaterial (material : IO.Loader.Material) =
         let albedoMap = getTextureFileName DefaultSemantic.DiffuseColorTexture material
         let normalMap = getTextureFileName DefaultSemantic.NormalMapTexture material
+        let emissionMap = getTextureFileName DefaultSemantic.EmissiveColorTexture material
         {defaultMaterial with 
-            albedo = {defaultMaterial.albedo with fileName = albedoMap}
-            normal = {defaultMaterial.normal with fileName = normalMap}
+            albedo = {defaultMaterial.albedo with fileName = albedoMap; color = C3d.FromC4f(material.diffuse)}
+            normal = {defaultMaterial.normal with fileName = normalMap; factor = match normalMap with |Some _ -> 1.0 |None -> 0.0}
+            emission = {defaultMaterial.emission with fileName = emissionMap; factor = 1.0; color = C3d.FromC4f(material.emissive)}
         }
     //get a list of all material names from an  imported  object
     //and use that as Keys for a Map initialized with  the default PBR material
@@ -247,6 +266,7 @@ module materialControl =
         | SetAlbedo of textureMappedColorControl.Message
         | SetDiscard 
         | SetDisplacment of textureMappedValueControl.Message
+        | SetEmission of textureMappedColorControl.Message
 
     let update  (m : PBRMaterial) (msg : Message)  =
         match msg with
@@ -256,6 +276,7 @@ module materialControl =
         | SetNormal msg' -> { m with  normal = textureMappedValueControl.update m.normal msg'}
         | SetDiscard -> { m with  discard = not m.discard}
         | SetDisplacment msg' -> { m with  displacment = textureMappedValueControl.update m.displacment msg'}
+        | SetEmission msg' -> { m with  emission = textureMappedColorControl.update m.emission msg'}
 
     let view (m : AdaptivePBRMaterial) =
         div [] [
@@ -263,6 +284,7 @@ module materialControl =
             textureMappedValueControl.view textureMappedValueControl.Linear "Roughness" 0.0 1.0 0.01 m.roughness  |> UI.map SetRoughness
             textureMappedColorControl.view textureMappedColorControl.Linear "Albedo" 0.0 1.0 0.01 m.albedo  |> UI.map SetAlbedo
             textureMappedValueControl.view textureMappedValueControl.Linear "Normal Map" 0.0 1.0 0.01 m.normal  |> UI.map SetNormal
+            textureMappedColorControl.view textureMappedColorControl.Linear "Emission" 0.0 10.0 0.01 m.emission  |> UI.map SetEmission
             textureMappedValueControl.view textureMappedValueControl.Linear "Displacement" 0.0 1.0 0.01 m.displacment  |> UI.map SetDisplacment
             Html.table [                        
                  tr [] [ td [] [text "Discard"]; td [style "width: 70%;"] [Html.SemUi.toggleBox  m.discard SetDiscard ]]
