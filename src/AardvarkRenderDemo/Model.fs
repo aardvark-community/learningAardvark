@@ -102,6 +102,7 @@ type GlobalEnviorment =
         skyMapIntensity : float
         ambientLightIntensity : float
         occlusionSettings : AmbientOcclusionSettings
+        lightProbePosition :V3d option
     }
 
 [<ModelType>]

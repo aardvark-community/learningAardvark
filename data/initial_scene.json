@@ -58,7 +58,8 @@
         "threshold": 0.2,
         "sigma": 2.0,
         "sharpness": 1.0
-      }
+      },
+      "lightProbePosition": null
     },
     "expousure": 0.34673685045253161,
     "objects": {

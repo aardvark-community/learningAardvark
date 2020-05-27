@@ -52,7 +52,9 @@ module App =
                       skyMapRotation = Math.PI; 
                       skyMapIntensity = 1.0;
                       ambientLightIntensity = 1.0
-                      occlusionSettings = light.defaultAbientOcclusion}
+                      occlusionSettings = light.defaultAbientOcclusion
+                      lightProbePosition = None
+                      }
         expousure  = 1.0
         objects = obj
         selectedObject = selected

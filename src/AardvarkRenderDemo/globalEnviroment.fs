@@ -28,6 +28,8 @@ module globalEnviroment =
         | SetAbientOcclusionThreshold of float
         | SetAbientOcclusionSigma of float
         | SetAbientOcclusionSharpness of float
+        | ToggleLightProbe 
+        | SetLightProbePosition of V3dInput.Message
 
     let update (m : GlobalEnviorment)  (msg : Message) = 
         match msg  with
@@ -42,10 +44,38 @@ module globalEnviroment =
         | SetAbientOcclusionThreshold s -> {m with occlusionSettings = {m.occlusionSettings with threshold = s}}
         | SetAbientOcclusionSigma s -> {m with occlusionSettings = {m.occlusionSettings with sigma = s}}
         | SetAbientOcclusionSharpness s -> {m with occlusionSettings = {m.occlusionSettings with sharpness = s}}
+        | ToggleLightProbe -> {m with lightProbePosition = match m.lightProbePosition with Some _ -> None |None -> Some V3d.OOO}
+        | SetLightProbePosition vMsg -> 
+            match m.lightProbePosition with
+            |Some p ->
+                let n =  V3dInput.update (p) vMsg
+                {m with lightProbePosition = Some  n}
+            |None -> m
+
+    let lightProbeView (p'' : aval<V3d option>) =
+        alist{
+           let! p' = p''
+           match p' with
+           |Some p ->                
+                yield Html.table [ 
+                    tr [] [ td [] [text "Light Probe"] 
+                            td [style "width: 70%;"]  [button [clazz "ui button"; onClick (fun _ -> ToggleLightProbe); style "margin-bottom: 5px; width: 100%;" ]  [text "Disable"]]                      
+                          ]
+                ]
+                yield p'' |> AVal.map (fun v -> v.Value) |> V3dInput.view "Light Probe Position"   |> UI.map SetLightProbePosition
+            |None ->
+                 yield Html.table [ 
+                    tr [] [ td [] [text "Light Probe"] 
+                            td [style "width: 70%;"]  [button [clazz "ui button"; onClick (fun _ -> ToggleLightProbe); style "margin-bottom: 5px; width: 100%;" ]  [text "Enable"]]                      
+                          ]
+                ]
+        }
+        |> Incremental.div AttributeMap.empty
 
     let view (m : AdaptiveGlobalEnviorment) =
         let numInput name changed state  = labeledFloatInput name 0.0 1.0 0.01 changed state
         let path = Path.GetDirectoryName(AVal.force m.skyMap)
+        let x = m.lightProbePosition
         Html.table [                        
             tr [] [ td [] [text "sky map"]; td [] [openDialogButton 
                     { OpenDialogConfig.file with allowMultiple = false; title = "Open sky map hdr"; filters  = [|"*.hdr"|];  startPath = path}
@@ -57,6 +87,7 @@ module globalEnviroment =
                     td [style "width: 70%;"] [inputSlider {min = 0.0;  max = 1.0; step = 0.01} [] (AVal.map (fun r -> r/(2.0*Math.PI)) m.skyMapRotation)  (fun r -> SetSkyMapRotation (r*2.0*Math.PI)) ]]
             tr [] [ td [] [text "Ambient Light Intensity"]; 
                     td [style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.ambientLightIntensity SetAbientLightIntensity]]
+            tr [] [ td [attribute "colspan" "2"] [lightProbeView m.lightProbePosition]]
             tr [] [ td [attribute "colspan" "2";style "text-align: center;"] [text "Abient Occlusion"]]
             tr [] [ td [] [text "Strength"]; 
                     td [style "width: 70%;"] [inputSlider {min = 0.0;  max = 2.0; step = 0.01} [] m.occlusionSettings.occlusionStrength SetAbientOcclusionStrength ]]
