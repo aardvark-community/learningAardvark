@@ -22,9 +22,20 @@ type DirectionalLightData = {
 type PointLightData = {
     lightPosition : V4d
     color : C3d
-    attenuationQad :float
-    attenuationLinear :float
+    attenuationQad : float
+    attenuationLinear : float
     intensity : float
+}
+
+type SpotLightData = {
+    lightPosition : V4d
+    lightDirection : V4d
+    color : C3d
+    attenuationQad : float
+    attenuationLinear : float
+    intensity : float
+    cutOffInner : float
+    fallOff : float
 }
 
 //todo: Optionally use a single color value instead a texture 
@@ -69,6 +80,7 @@ type SceneObject = {
 type Light =
     | DirectionalLight of DirectionalLightData
     | PointLight of PointLightData
+    | SpotLight of SpotLightData
 
 [<ModelType>]
 type AmbientOcclusionSettings =

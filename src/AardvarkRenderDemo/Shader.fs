@@ -200,12 +200,21 @@ module PBR =
     [<ReflectedDefinition>]
     let getLightParams (light : SLEUniform.Light) (wPos : V3d) = 
         match  light.lightType  with
-        | SLEUniform.LightType.DirectionalLight -> true, -light.lightPosition.XYZ |> Vec.normalize, light.color  
+        | SLEUniform.LightType.DirectionalLight -> true, -light.lightDirection.XYZ |> Vec.normalize, light.color  
         | SLEUniform.LightType.PointLight -> 
             let lDir = light.lightPosition.XYZ - wPos |> Vec.normalize
             let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
             let attenuation = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
-            true, lDir , light.color * attenuation             
+            true, lDir , light.color * attenuation  
+        | SLEUniform.LightType.SpotLight -> 
+            let lDir = light.lightPosition.XYZ - wPos |> Vec.normalize
+            let spotDir = -light.lightDirection.XYZ |> Vec.normalize
+            let tehta = Vec.dot lDir spotDir
+            let epsilon = light.cutOffInner - light.cutOffOuter
+            let intensity = (tehta - light.cutOffOuter) / epsilon |> clamp 0.0 1.0
+            let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
+            let attenuation = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
+            true, lDir , light.color * intensity * attenuation              
         | SLEUniform.LightType.NoLight -> false, V3d(0.0), V3d(0.0)
         |_ ->  false, V3d(0.0), V3d(0.0)  //allways match any cases, otherwise fshade will give a cryptic error 
 
