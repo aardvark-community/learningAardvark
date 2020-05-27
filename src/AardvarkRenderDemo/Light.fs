@@ -14,9 +14,31 @@ open SLEAardvarkRenderDemo.Model
 *)
 module light = 
 
-    let defaultDirectionalLight = DirectionalLight  {lightDirection = V4d(0.0,-1.0,1.0,1.0); color = C3d.White; intensity = 1.0; castsShadow = true}
+    let defaultDirectionalLight = DirectionalLight  {
+        lightDirection = V4d(0.0,-1.0,1.0,1.0); 
+        color = C3d.White; 
+        intensity = 1.0; 
+        castsShadow = true
+    }
 
-    let defaultPointLight = PointLight  {lightPosition = V4d(0.0,1.5,-0.5,1.0); color = C3d.White; attenuationQad = 1.0; attenuationLinear = 0.0; intensity = 1.0}
+    let defaultPointLight = PointLight  {
+        lightPosition = V4d(0.0,1.5,-0.5,1.0); 
+        color = C3d.White; 
+        attenuationQad = 1.0; 
+        attenuationLinear = 0.0; 
+        intensity = 1.0
+    }
+   
+    let defaultSpotLight = SpotLight  {
+        lightPosition = V4d(0.0,1.5,-0.5,1.0); 
+        lightDirection = V4d(0.0,-1.0,1.0,1.0); 
+        color = C3d.White; 
+        attenuationQad = 1.0; 
+        attenuationLinear = 0.0; 
+        intensity = 1.0; 
+        cutOffInner = 30.0; 
+        fallOff = 10.0
+    }
 
     let defaultLight = defaultPointLight
 
@@ -31,9 +53,10 @@ module light =
                 let  m = 
                     match l' with
                     | AdaptiveDirectionalLight ld -> Sg.empty
+                    | AdaptiveSpotLight ls -> Sg.empty
                     | AdaptivePointLight lp -> 
                         Sg.sphere 6 (AVal.map ( fun (v : PointLightData) -> v.color.ToC4b()) lp ) (AVal.constant 0.03) 
-                        |> Sg.translate' (AVal.map ( fun v -> v.lightPosition.XYZ) lp)
+                        |> Sg.translate' (AVal.map ( fun (v : PointLightData) -> v.lightPosition.XYZ) lp)
                 yield m 
         } 
         |> Sg.set
@@ -49,39 +72,117 @@ module lightControl =
     type Message =
         | DefaultDirectionalLight
         | DefaultPointLight
+        | DefaultSpotLight
+        | ToDirectionalLight
+        | ToPointLight
+        | ToSpotLight
         | SetLightDirection of V3dInput.Message
         | SetLightPosition of V3dInput.Message
         | SetAttenuationQad of float
         | SetAttenuationLinear of float
         | SetIntensity of float
         | SetColor of C3d
+        | SetCutOffInner of float
+        | SetFallOff of float
         | ToggleCastShadow
 
     let update (m : Light) (msg : Message) =
         match msg with
+        | ToDirectionalLight ->
+            match m with
+            | PointLight r -> 
+                DirectionalLight  {
+                    lightDirection = -r.lightPosition
+                    color = r.color
+                    intensity = r.intensity
+                    castsShadow = true
+                }
+            | SpotLight r -> 
+                DirectionalLight  {
+                    lightDirection = r.lightDirection
+                    color = r.color
+                    intensity = r.intensity
+                    castsShadow = true
+                }
+            | x -> x
+        | ToPointLight ->
+            match m with
+            | DirectionalLight r -> 
+                PointLight  {
+                    lightPosition = -r.lightDirection
+                    color = r.color
+                    attenuationQad = 1.0
+                    attenuationLinear = 0.0
+                    intensity = r.intensity
+                }
+            | SpotLight r -> 
+                PointLight  {
+                    lightPosition = r.lightPosition
+                    color = r.color
+                    attenuationQad = r.attenuationQad 
+                    attenuationLinear = r.attenuationLinear
+                    intensity = r.intensity
+                }
+            | x -> x
+        | ToSpotLight ->
+            match m with
+            | DirectionalLight r -> 
+                SpotLight  {
+                    lightPosition = -r.lightDirection
+                    lightDirection = r.lightDirection
+                    color = r.color
+                    attenuationQad = 1.0
+                    attenuationLinear = 0.0
+                    intensity = r.intensity 
+                    cutOffInner = 30.0
+                    fallOff = 10.0
+                }
+            | PointLight r -> 
+                SpotLight  {
+                    lightPosition = r.lightPosition
+                    lightDirection = -r.lightPosition
+                    color = r.color
+                    attenuationQad = r.attenuationQad
+                    attenuationLinear = r.attenuationLinear
+                    intensity = r.intensity 
+                    cutOffInner = 30.0
+                    fallOff = 10.0
+                }
+            | x -> x
         | DefaultDirectionalLight -> light.defaultDirectionalLight
         | DefaultPointLight -> light.defaultPointLight
+        | DefaultSpotLight -> light.defaultSpotLight
         | SetLightDirection vMsg  ->  
             match m with
             | DirectionalLight r -> 
                 let n = V3dInput.update (r.lightDirection.XYZ) vMsg
                 DirectionalLight {r with lightDirection = V4d(n, 0.0)} 
+            | SpotLight r -> 
+                let n = V3dInput.update (r.lightDirection.XYZ) vMsg
+                SpotLight {r with lightDirection = V4d(n, 0.0)} 
             | x -> x
         | SetLightPosition vMsg ->  
             match m with
             | PointLight r -> 
                 let n = V3dInput.update (r.lightPosition.XYZ) vMsg
                 PointLight {r with lightPosition = V4d(n, 1.0)} 
+            | SpotLight r -> 
+                let n = V3dInput.update (r.lightPosition.XYZ) vMsg
+                SpotLight {r with lightPosition = V4d(n, 1.0)} 
             | x -> x
         | SetAttenuationQad v ->  
             match m with
             | PointLight r -> 
                 PointLight {r with attenuationQad = v} 
+            | SpotLight r -> 
+                SpotLight {r with attenuationQad = v} 
             | x -> x
         | SetAttenuationLinear v ->  
             match m with
             | PointLight r -> 
                 PointLight {r with attenuationLinear = v} 
+            | SpotLight r -> 
+                SpotLight {r with attenuationLinear = v} 
             | x -> x
         | SetIntensity i ->  
             match m with
@@ -89,13 +190,27 @@ module lightControl =
                 PointLight {r with intensity = i} 
             | DirectionalLight r -> 
                 DirectionalLight {r with intensity = i} 
+            | SpotLight r -> 
+                SpotLight {r with intensity = i} 
         | SetColor c ->  
             match m with
             | PointLight r -> 
                 PointLight {r with color = c} 
             | DirectionalLight r -> 
                 DirectionalLight {r with color = c} 
-        | ToggleCastShadow   ->  
+            | SpotLight r -> 
+                SpotLight {r with color = c} 
+         | SetCutOffInner w ->  
+            match m with
+            | SpotLight r -> 
+                SpotLight {r with cutOffInner = w} 
+            | x -> x
+         | SetFallOff w ->  
+            match m with
+            | SpotLight r -> 
+                SpotLight {r with fallOff = w} 
+            | x -> x
+         | ToggleCastShadow   ->  
             match m with
             | DirectionalLight r -> 
                 DirectionalLight {r with castsShadow = not r.castsShadow} 
@@ -108,6 +223,15 @@ module lightControl =
             tr [] [ td [] [numInput "Linear" SetAttenuationLinear l]
                     td [] [numInput "Quatratic" SetAttenuationQad q]]
         ] 
+
+    let cutOffView (c : aval<float>) (f : aval<float>) =
+        let numInput name changed state  = labeledFloatInput name 0.0 360.0 1.0 changed state
+        Html.table [ 
+            tr [] [ td [attribute "colspan" "4"] [text "Cutoff"] ]                          
+            tr [] [ td [] [numInput "Cutoff inner" SetCutOffInner c]
+                    td [] [numInput "Falloff" SetFallOff f]
+                   ]
+        ]
 
     let intensityView (i : aval<float>) (c : aval<C4b>)=
         let numInput name changed state  = labeledFloatInput name 0.0 Double.MaxValue 1.0 changed state
@@ -127,13 +251,14 @@ module lightControl =
                 AVal.map (fun l -> 
                     [
                         button [clazz "ui button"; onClick (fun _ -> DefaultDirectionalLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Reset"]
-                        button [clazz "ui button"; onClick (fun _ -> DefaultPointLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Point Light"] 
+                        button [clazz "ui button"; onClick (fun _ -> ToPointLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Point Light"] 
+                        button [clazz "ui button"; onClick (fun _ -> ToSpotLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Spot Light"]
                     ] 
                     |> IndexList.ofList) l'
                 |> AList.ofAVal
                 |> Incremental.div AttributeMap.empty 
                 
-                AVal.map (fun l -> l.lightDirection.XYZ) l'
+                AVal.map (fun (l : DirectionalLightData) -> l.lightDirection.XYZ) l'
                 |> V3dInput.view "Direction"
                 |> UI.map SetLightDirection
 
@@ -143,22 +268,23 @@ module lightControl =
                 ]
             ]                  
         |AdaptivePointLight l' -> 
-            let al = AVal.map (fun l -> l.attenuationLinear) l'
-            let aq = AVal.map (fun l -> l.attenuationQad) l'
-            let i = AVal.map (fun l -> l.intensity) l'
+            let al = AVal.map (fun (l : PointLightData) -> l.attenuationLinear) l'
+            let aq = AVal.map (fun (l : PointLightData) -> l.attenuationQad) l'
+            let i = AVal.map (fun (l : PointLightData) -> l.intensity) l'
             let c = AVal.map (fun (l : PointLightData) -> l.color.ToC4b()) l'
             div [] [
 
                 AVal.map (fun l -> 
                     [
                         button [clazz "ui button"; onClick (fun _ -> DefaultPointLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Reset"]
-                        button [clazz "ui button"; onClick (fun _ -> DefaultDirectionalLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Directional Light"]
+                        button [clazz "ui button"; onClick (fun _ -> ToSpotLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Spot Light"]
+                        button [clazz "ui button"; onClick (fun _ -> ToDirectionalLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Directional Light"]
                     ] 
                     |> IndexList.ofList) l'
                 |> AList.ofAVal
                 |> Incremental.div AttributeMap.empty 
                 
-                AVal.map (fun l -> l.lightPosition.XYZ) l'
+                AVal.map (fun (l : PointLightData) -> l.lightPosition.XYZ) l'
                 |> V3dInput.view "Position"
                 |> UI.map SetLightPosition
 
@@ -166,7 +292,39 @@ module lightControl =
 
                 attenuationView al aq
             ]
+        |AdaptiveSpotLight l' -> 
+            let al = AVal.map (fun (l : SpotLightData) -> l.attenuationLinear) l'
+            let aq = AVal.map (fun (l : SpotLightData) -> l.attenuationQad) l'
+            let i = AVal.map (fun (l : SpotLightData) -> l.intensity) l'
+            let c = AVal.map (fun (l : SpotLightData) -> l.color.ToC4b()) l'
+            let ci = AVal.map (fun (l : SpotLightData) -> l.cutOffInner) l'
+            let fo = AVal.map (fun (l : SpotLightData) -> l.fallOff) l'
+            div [] [
 
+                AVal.map (fun l -> 
+                    [
+                        button [clazz "ui button"; onClick (fun _ -> DefaultSpotLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Reset"]
+                        button [clazz "ui button"; onClick (fun _ -> ToPointLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Point Light"]
+                        button [clazz "ui button"; onClick (fun _ -> ToDirectionalLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Directional Light"]
+                    ] 
+                    |> IndexList.ofList) l'
+                |> AList.ofAVal
+                |> Incremental.div AttributeMap.empty 
+                
+                AVal.map (fun (l : SpotLightData) -> l.lightPosition.XYZ) l'
+                |> V3dInput.view "Position"
+                |> UI.map SetLightPosition
+
+                AVal.map (fun (l : SpotLightData) -> l.lightDirection.XYZ) l'
+                |> V3dInput.view "Direction"
+                |> UI.map SetLightDirection
+
+                intensityView i c
+
+                attenuationView al aq
+
+                cutOffView ci fo
+            ]
 module Shadow =
     open Aardvark.SceneGraph
     open Aardvark.UI //nessary to avoid confusion between SceneGraph.SG and UI.SG 
@@ -183,6 +341,7 @@ module Shadow =
     let lightViewPoject (bb : aval<Box3d>) (light : AdaptiveLightCase) =
         match light with
         | AdaptivePointLight l -> failwith "not implemented"
+        | AdaptiveSpotLight l -> failwith "not implemented"
         | AdaptiveDirectionalLight l -> 
             adaptive {
                 let! light = l
@@ -224,17 +383,38 @@ module SLEUniform =
         | NoLight = 0
         | DirectionalLight = 1
         | PointLight = 2
+        | SpotLight = 3
 
     type Light = {
         lightType : LightType
         lightPosition : V4d
+        lightDirection : V4d
         color : V3d
         attenuationQad :float
         attenuationLinear :float
         castsShadow: bool
+        cutOffInner  : float
+        cutOffOuter : float
     }
      
-    let noLight = {lightType = LightType.NoLight; lightPosition = V4d.Zero; color = V3d.Zero; attenuationQad = 0.0; attenuationLinear = 0.0; castsShadow = false}
+    let noLight = {
+        lightType = LightType.NoLight
+        lightPosition = V4d.Zero
+        lightDirection = V4d.Zero
+        color = V3d.Zero
+        attenuationQad = 0.0
+        attenuationLinear = 0.0
+        castsShadow = false
+        cutOffInner = 0.0
+        cutOffOuter = 0.0
+        }
+
+    let spotLightAxis (lightDirection : V4d) rotation =
+        let d = Vec.normalize lightDirection.YXZ
+        let s = if d = (Vec.normalize V3d.IOO) then V3d.OOI else V3d.IOO
+        let a0 = Vec.cross d s
+        let r = M44d.RotationInDegrees(d,rotation)
+        V4d(a0,1.0) * r
 
     let uniformLight (l : AdaptiveLightCase) : aval<Light>  =
         //needs to be adaptive because the  Light can change and is an IMod
@@ -245,15 +425,49 @@ module SLEUniform =
             | AdaptiveDirectionalLight  x' ->
                let! x  = x'
                 //Map to a type more convinient in the shaders
-               let r : Light = {lightType = LightType.DirectionalLight; lightPosition = x.lightDirection; color = x.color.ToV3d() * x.intensity; attenuationQad = 0.0; attenuationLinear = 0.0; castsShadow = x.castsShadow}
+               let r : Light = {
+                   lightType = LightType.DirectionalLight
+                   lightPosition = V4d.Zero
+                   lightDirection = x.lightDirection
+                   color = x.color.ToV3d() * x.intensity
+                   attenuationQad = 0.0
+                   attenuationLinear = 0.0
+                   castsShadow = x.castsShadow
+                   cutOffInner = 0.0
+                   cutOffOuter = 0.0
+                }
                return  r
             | AdaptivePointLight  x' ->
                let! x  = x'
-               let r : Light = {lightType = LightType.PointLight; lightPosition = x.lightPosition; color = x.color.ToV3d() * x.intensity; attenuationQad = x.attenuationQad; attenuationLinear = x.attenuationLinear; castsShadow = false}
+               let r : Light = {
+                   lightType = LightType.PointLight
+                   lightPosition = x.lightPosition
+                   lightDirection = V4d.Zero 
+                   color = x.color.ToV3d() * x.intensity
+                   attenuationQad = x.attenuationQad
+                   attenuationLinear = x.attenuationLinear
+                   castsShadow = false
+                   cutOffInner = 0.0
+                   cutOffOuter = 0.0
+                }
+               return r
+            | AdaptiveSpotLight  x' ->
+               let! x  = x'
+               let r : Light = {
+                   lightType = LightType.SpotLight
+                   lightPosition = x.lightPosition
+                   lightDirection = x.lightDirection
+                   color = x.color.ToV3d() * x.intensity
+                   attenuationQad = x.attenuationQad
+                   attenuationLinear = x.attenuationLinear
+                   castsShadow = false
+                   cutOffInner = x.cutOffInner |> radians |> cos 
+                   cutOffOuter = x.fallOff+x.cutOffInner |> radians |> cos 
+                 }
                return r
         } 
 
-    let uniformLights (lights : amap<int,AdaptiveLightCase>)   =
+(*    let uniformLights (lights : amap<int,AdaptiveLightCase>)   =
         let lights' = AMap.toASet lights
         let numLights = ASet.count lights'
         let a =  Array.init 10 (fun _ -> noLight )
@@ -267,3 +481,4 @@ module SLEUniform =
                 |> Sg.uniform "Lights" 
         
         u >> Sg.uniform "NumLights" numLights
+*)

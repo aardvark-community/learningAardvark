@@ -313,7 +313,7 @@ module App =
                                         do! PBR.lightingDeferred
                                         } ) dl
                             |> Sg.dynamic                                
-                        |AdaptivePointLight _ ->
+                        |AdaptivePointLight _ |AdaptiveSpotLight _ ->
                             Sg.fullScreenQuad
                             |> Sg.adapter
                             |> Sg.uniform "Light" (SLEUniform.uniformLight l)
@@ -458,6 +458,7 @@ module App =
                     [
                         button [clazz "ui button"; onClick (fun _ -> AddLight light.defaultDirectionalLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Directional Light"]
                         button [clazz "ui button"; onClick (fun _ -> AddLight light.defaultPointLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Point Light"]
+                        button [clazz "ui button"; onClick (fun _ -> AddLight light.defaultSpotLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Spot Light"]
                     ]    
                 "Change Light",
                     [   //build a list of light views from the set of lights
