@@ -232,3 +232,90 @@ module GlobalAmbientLight =
     
     let BRDFLtu (runtime : IRuntime) =
         RenderTask.renderToColor LtuSize (BRDFLtuTask runtime)
+
+module LightProbe =
+    open CubeRenderTask
+    open Aardvark.UI
+
+    let signature (runtime : IRuntime) =
+        runtime.CreateFramebufferSignature [
+            DefaultSemantic.Colors, { format = RenderbufferFormat.Rgb16f; samples = 1 }
+        ]
+
+    let probeSize = 512 |> AVal.init 
+    
+    let renderLightProbeSide runtime size signature scene (lightSgs0 : aset<ISg<obj>>) skyBoxTexture skyMapIntensity ambientLightIntensity position face =
+        let lookTo = 
+            match face with
+            |CubeSide.PositiveY  -> position+V3d.OIO
+            |CubeSide.PositiveZ -> position+V3d.OOI
+            |CubeSide.PositiveX -> position+V3d.IOO
+            |CubeSide.NegativeZ-> position-V3d.OOI
+            |CubeSide.NegativeX -> position-V3d.IOO
+            |CubeSide.NegativeY -> position-V3d.OIO
+            |_ -> failwith "unexpected enum"
+        let lookSky = 
+            match face with
+            |CubeSide.PositiveY  -> V3d.OOI * -1.0
+            |CubeSide.PositiveZ -> V3d.OIO
+            |CubeSide.PositiveX -> V3d.OIO
+            |CubeSide.NegativeZ-> V3d.OIO
+            |CubeSide.NegativeX -> V3d.OIO
+            |CubeSide.NegativeY -> V3d.OOI
+            |_ -> failwith "unexpected enum"
+
+        let view =
+             CameraView.lookAt position lookTo (lookSky * -1.0)
+             |> CameraView.viewTrafo 
+             |> AVal.constant
+        
+        let proj = size |> AVal.map (fun actualSize -> 
+                Frustum.perspective 90.0 0.1 100.0 1.0 |> Frustum.projTrafo
+              )
+
+        let gBuffer = GeometryBuffer.makeGBuffer runtime view proj size skyBoxTexture scene skyMapIntensity
+
+        let lightSgs =
+            aset {
+                yield! lightSgs0
+                let pass0 = //global  abient  lightnig
+                    Sg.fullScreenQuad
+                    |> Sg.adapter
+                    |> Sg.shader {
+                        do! PBR.getGBufferData
+                        do! PBR.abientDeferredSimple
+                        do! PBR.nonLightedDeferred
+                        }
+                yield pass0
+           } 
+            
+        //additive blending
+        let mutable blendMode = BlendMode(true)
+        blendMode.AlphaOperation <- BlendOperation.Add
+        blendMode.Operation <- BlendOperation.Add
+        blendMode.SourceFactor <- BlendFactor.One
+        blendMode.SourceAlphaFactor <- BlendFactor.One
+        blendMode.DestinationFactor <- BlendFactor.One
+        blendMode.DestinationAlphaFactor <- BlendFactor.One
+
+        //render linear HDR output
+        let  output = 
+            Sg.set lightSgs
+            |> Sg.blendMode (blendMode |> AVal.constant)
+            |> Sg.uniform "AmbientIntensity" ambientLightIntensity
+            |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))
+            |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
+            |> Sg.texture ( Sym.ofString "WPos") (Map.find (Sym.ofString "WorldPosition") gBuffer)
+            |> Sg.texture ( DefaultSemantic.Normals) (Map.find DefaultSemantic.Normals gBuffer)
+            |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
+            |> Sg.texture (GBufferRendering.Semantic.Emission) (Map.find GBufferRendering.Semantic.Emission gBuffer)
+            |> Sg.texture ( GBufferRendering.Semantic.MaterialProperties) (Map.find GBufferRendering.Semantic.MaterialProperties gBuffer)
+            |> Sg.compile runtime signature   
+        
+        output
+
+    let lightProbe runtime scene lightSgs0 skyBoxTexture skyMapIntensity ambientLightIntensity position = 
+       let size = AVal.map (fun (s : int) -> V2i(s,s)) probeSize
+       let sign = signature runtime
+       let task = renderLightProbeSide runtime size sign scene lightSgs0 skyBoxTexture skyMapIntensity ambientLightIntensity position
+       RenderTask.renderToColorCubeMip probeSize 1 (fun _ -> task)

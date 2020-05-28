@@ -117,55 +117,7 @@ module App =
             m
         | LoadProject f -> projetIO.load f
 
-    //Render task for the Geometry-buffer pass
-    let makeGBuffer (runtime : IRuntime) (view : aval<Trafo3d>) projection size skyBoxTexture scene (m : AdaptiveModel) =
-
-        let signature =
-            runtime.CreateFramebufferSignature [
-                DefaultSemantic.Colors, RenderbufferFormat.Rgba32f
-                Sym.ofString "WorldPosition", RenderbufferFormat.Rgba32f
-                DefaultSemantic.Depth, RenderbufferFormat.Depth24Stencil8
-                DefaultSemantic.Normals, RenderbufferFormat.Rgba32f
-                GBufferRendering.Semantic.MaterialProperties, RenderbufferFormat.Rg32f
-                GBufferRendering.Semantic.Emission, RenderbufferFormat.Rgb32f
-             ]
-
-        let skyBox =
-            Sg.box (AVal.constant C4b.White) (AVal.constant (Box3d(-V3d.III,V3d.III)))
-                |> Sg.cullMode (AVal.constant CullMode.None)
-                |> Sg.texture (Sym.ofString "SkyCubeMap") skyBoxTexture
-                |> Sg.uniform "SkyMapIntensity" m.enviorment.skyMapIntensity
-                |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))
-                |> Sg.shader {
-                    do! GBufferRendering.skyBoxTrafo
-                    do! GBufferRendering.skyGBuffer
-                }
-
-        scene
-        |> Sg.shader {
-            do! DefaultSurfaces.trafo
-            do! displacemntMap.displacementMap
-            do! DefaultSurfaces.vertexColor
-            do! AlbedoColor.albedoColor
-            do! NormalMap.normalMap 
-            do! GBufferRendering.gBufferShader
-            }
-        |> (Sg.andAlso <| skyBox )
-        |> Sg.viewTrafo (view)
-        |> Sg.projTrafo (projection)
-        |> Sg.compile runtime signature
-        |> RenderTask.renderSemantics(
-                    Set.ofList [
-                        DefaultSemantic.Depth
-                        DefaultSemantic.Colors
-                        Sym.ofString "WorldPosition"
-                        DefaultSemantic.Normals
-                        GBufferRendering.Semantic.MaterialProperties
-                        GBufferRendering.Semantic.Emission
-                        ]
-               ) size 
-
-    //texture  with random values used in the AO shaders
+     //texture  with random values used in the AO shaders
     let randomTex ( runtime : IRuntime) = 
         let img = PixImage<float32>(Col.Format.RGB, V2i.II * 512)
 
@@ -244,20 +196,6 @@ module App =
         //Ardvark will only rexecute this if the skyMap or rotation changes
         let skyBoxTexture = SkyBox.getTexture runtime m.enviorment.skyMap m.enviorment.skyMapRotation
 
-        //render the geometry to the gBuffer
-        let gBuffer = makeGBuffer runtime view proj size skyBoxTexture scene m
-
-        //render the precalculated  Maps for PBR Global Ambient Light
-        //Ardvark will only rexecute this if the global enviroment changes
-        let diffuseIrradianceMap = GlobalAmbientLight.diffuseIrradianceMap runtime skyBoxTexture
-
-        let prefilterdSpecColor = GlobalAmbientLight.prefilterdSpecColor runtime skyBoxTexture
-
-        let bRDFLtu = GlobalAmbientLight.BRDFLtu runtime
-
-        //render the abient occlousion map    
-        let ambientOcclusion = makeAmbientOcclusion runtime size view proj gBuffer m.enviorment.occlusionSettings
-
         //calculate the  global bounding box
         let bb = //scene?GlobalBoundingBox() //not defined for Sg.set Todo: define semantics
             let seed = Box3d(V3d.OOO, V3d.OOO) |> AVal.constant
@@ -284,7 +222,7 @@ module App =
             AVal.bind (Shadow.shadowMap runtime scene bb) light 
 
         // lightning pass per light
-        let lightSgs = 
+        let lightSgs0 = 
             let lightSet =
                 m.lights
                 |> AMap.toASet
@@ -324,6 +262,34 @@ module App =
                                 do! PBR.lightingDeferred
                                 }
                     yield  pass
+            }
+
+        let enviromentTexture = 
+            m.enviorment.lightProbePosition
+            |> AVal.bind 
+                (fun (p' : V3d option) -> 
+                    match p' with
+                    |Some p -> LightProbe.lightProbe runtime scene lightSgs0 skyBoxTexture m.enviorment.skyMapIntensity m.enviorment.ambientLightIntensity p :> aval<ITexture>
+                    |None -> skyBoxTexture :> aval<ITexture>
+                )
+
+        //render the precalculated  Maps for PBR Global Ambient Light
+        //Ardvark will only rexecute this if the global enviroment changes
+        let diffuseIrradianceMap = GlobalAmbientLight.diffuseIrradianceMap runtime enviromentTexture
+
+        let prefilterdSpecColor = GlobalAmbientLight.prefilterdSpecColor runtime enviromentTexture
+
+        let bRDFLtu = GlobalAmbientLight.BRDFLtu runtime
+
+        //render the geometry to the gBuffer
+        let gBuffer = GeometryBuffer.makeGBuffer runtime view proj size skyBoxTexture scene m.enviorment.skyMapIntensity
+
+        //render the abient occlousion map    
+        let ambientOcclusion = makeAmbientOcclusion runtime size view proj gBuffer m.enviorment.occlusionSettings
+
+        let lightSgs =
+            aset {
+                yield! lightSgs0
                 let pass0 = //global  abient  lightnig
                     Sg.fullScreenQuad
                     |> Sg.adapter
@@ -337,9 +303,8 @@ module App =
                         do! PBR.nonLightedDeferred
                         }
                 yield pass0
-            }
-
-
+           } 
+            
         //additive blending
         let mutable blendMode = BlendMode(true)
         blendMode.AlphaOperation <- BlendOperation.Add

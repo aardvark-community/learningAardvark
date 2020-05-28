@@ -18,6 +18,7 @@
     <Compile Include="Material.fs" />
     <Compile Include="Shader.fs" />
     <Compile Include="SceneObject.fs" />
+    <Compile Include="GeometryBuffer.fs" />
     <Compile Include="globalEnviroment.fs" />
     <Compile Include="SaveProject.fs" />
     <Compile Include="App.fs" />

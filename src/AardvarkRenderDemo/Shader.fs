@@ -357,6 +357,19 @@ module PBR =
             return V4d(em + col * occlusion, 1.0)
         }
 
+    let abientDeferredSimple (frag : Fragment) =
+        fragment {
+            let col = 
+                if frag.metallic < 0.0 then //no lighting, just put out the color      
+                    V3d.Zero
+                else //ambient
+                    let albedo = frag.c.XYZ
+                    let ambientIntensity = uniform.AmbientIntensity
+                    albedo * ambientIntensity
+            let em = frag.emission
+            return V4d(em + col, 1.0)
+        }
+
     let lightingDeferred (frag : Fragment)  =
         fragment {
             let col = 
