@@ -332,12 +332,14 @@ module App =
             |> Sg.texture (GBufferRendering.Semantic.Emission) (Map.find GBufferRendering.Semantic.Emission gBuffer)
             |> Sg.texture ( GBufferRendering.Semantic.MaterialProperties) (Map.find GBufferRendering.Semantic.MaterialProperties gBuffer)
             |> Sg.compile runtime signature
-            |> RenderTask.renderToColor size    
+            |> RenderTask.renderToColor size   
 
+        let bloomed = bloom.bloom runtime size output
+        
         //tone mapping and gamma correction
         Sg.fullScreenQuad
         |> Sg.adapter
-        |> Sg.texture DefaultSemantic.DiffuseColorTexture output
+        |> Sg.texture DefaultSemantic.DiffuseColorTexture bloomed
         |> Sg.uniform "Expousure" m.expousure
         |> Sg.shader {
             do! DefaultSurfaces.diffuseTexture
@@ -346,7 +348,7 @@ module App =
         |> Sg.compile runtime outputSignature    
 
     (*
-        For deferrde Rednering and some other techniques it is nessesary to know the size of the render window.
+        For deferrde Rendering and some other techniques it is nessesary to know the size of the render window.
         That is not straitforward in Aardvark.media because there could be multiple clients with different screen sizes.
         The solution is to create a custem scene that takes a function from client values to a IRenderTask and feed that into a RenderControl.
         If I understand it correctly, at runtime a render Task per client will be created with the respectice client values.
