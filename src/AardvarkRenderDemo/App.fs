@@ -24,6 +24,7 @@ type Message =
     | RemoveLight  of int
     | AddLight of Light
     | SetExpousure of float
+    | BloomMessage of BloomControl.Message
     | GlobalEnviormentMessage of globalEnviroment.Message // from globalEnviroment.fs
     | SceneObjectMessage of sceneObjectControl.Message //from  SceneObject.fs
     | AddSceneObject of string
@@ -56,6 +57,7 @@ module App =
                       lightProbePosition = None
                       }
         expousure  = 1.0
+        bloom = bloom.defaultBloom
         objects = obj
         selectedObject = selected
     }
@@ -109,6 +111,8 @@ module App =
         | SelectObject name -> { m with selectedObject = name }
         | SetExpousure e ->
             { m with expousure = e }
+        | BloomMessage msg ->  
+             { m with bloom = BloomControl.update m.bloom msg }
         | GlobalEnviormentMessage msg ->
             { m with enviorment = globalEnviroment.update m.enviorment msg } // from globalEnviroment.fs
         | SaveProject f -> 
@@ -334,7 +338,7 @@ module App =
             |> Sg.compile runtime signature
             |> RenderTask.renderToColor size   
 
-        let bloomed = bloom.bloom runtime size output
+        let bloomed = bloom.bloom runtime size output m.bloom
         
         //tone mapping and gamma correction
         Sg.fullScreenQuad
@@ -459,9 +463,10 @@ module App =
                     ]  
                 "Render Settings",
                     [
-                         Html.table [                        
+                        Html.table [                        
                             tr [] [ td [] [text "Exposure"]; td [ style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.expousure SetExpousure]]
-                        ]   
+                        ]  
+                        BloomControl.view m.bloom |>  UI.map BloomMessage 
                     ]    
                 "Project",
                     [

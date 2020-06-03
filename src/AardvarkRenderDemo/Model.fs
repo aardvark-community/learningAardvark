@@ -95,6 +95,14 @@ type AmbientOcclusionSettings =
     }
 
 [<ModelType>]
+type Bloom =
+    {   
+        threshold : float
+        blurSize : int
+        sigma : float
+    }
+
+[<ModelType>]
 type GlobalEnviorment =
     {
         skyMap : string
@@ -112,6 +120,7 @@ type Model =
         lights : HashMap<int, Light>
         enviorment : GlobalEnviorment
         expousure  : float
+        bloom : Bloom
         objects : HashMap<string, SceneObject>
         selectedObject : string
     }
