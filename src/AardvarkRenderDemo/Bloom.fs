@@ -1,5 +1,6 @@
 namespace SLEAardvarkRenderDemo
 
+open System
 open Aardvark.Base
 open Aardvark.Base.Rendering
 open FShade
@@ -29,7 +30,8 @@ module bloomShader =
 
     type UniformScope with
         member x.horizontal : bool = x?horizontal
-        member x.weights  : Arr<N<5>, float> = Arr<N<5>, float>([|0.227027; 0.1945946; 0.1216216; 0.054054; 0.016216|])
+        member x.blurSize : int = 3
+        member x.sigma : float = 3.0
 
     let inputImage =
         sampler2d {
@@ -41,18 +43,27 @@ module bloomShader =
 
     let  gaussianBlur (frag : Fragment) =
         fragment {
+            // Incremental Gaussian Coefficent Calculation (See GPU Gems 3 pp. 877 - 889)
+            let sigma = uniform.sigma
+            let x = 1.0 / (sqrt(2.0 * Math.PI) * sigma)
+            let y = Math.Exp(-0.5 / (sigma * sigma))
+            let mutable incrementalGaussian =  V3d(x, y, y*y)
+
             let size = inputImage.Size
             let texoffset =  V2d(1.0/(float)size.X, 1.0/(float)size.Y)
-            let mutable result = inputImage.Sample(frag.tc) * uniform.weights.[0]
-            if uniform.horizontal then
-                for i in 1 .. 4 do
-                    result <- result + inputImage.Sample(frag.tc + V2d(texoffset.X * (float  i),0.0) ) * uniform.weights.[i]
-                    result <- result + inputImage.Sample(frag.tc - V2d(texoffset.X * (float  i),0.0) ) * uniform.weights.[i]
-            else
-                for i in 1 .. 4 do
-                    result <- result + inputImage.Sample(frag.tc + V2d(0.0 ,texoffset.Y * (float  i)) ) * uniform.weights.[i]
-                    result <- result + inputImage.Sample(frag.tc - V2d(0.0, texoffset.Y * (float  i)) ) * uniform.weights.[i]       
-            return result
+            let mutable result = inputImage.Sample(frag.tc) * incrementalGaussian.X
+            let mutable coefficientSum = incrementalGaussian.X
+            incrementalGaussian <- V3d(incrementalGaussian.XY * incrementalGaussian.YZ, incrementalGaussian.Z);
+            for i in 1 .. uniform.blurSize do
+                if uniform.horizontal then
+                    result <- result + inputImage.Sample(frag.tc + V2d(texoffset.X * (float  i),0.0) ) * incrementalGaussian.X
+                    result <- result + inputImage.Sample(frag.tc - V2d(texoffset.X * (float  i),0.0) ) * incrementalGaussian.X
+                else
+                    result <- result + inputImage.Sample(frag.tc + V2d(0.0 ,texoffset.Y * (float  i)) ) * incrementalGaussian.X
+                    result <- result + inputImage.Sample(frag.tc - V2d(0.0, texoffset.Y * (float  i)) ) * incrementalGaussian.X
+                coefficientSum <- coefficientSum + 2.0 * incrementalGaussian.X
+                incrementalGaussian <- V3d(incrementalGaussian.XY * incrementalGaussian.YZ, incrementalGaussian.Z);       
+            return result/coefficientSum
         }
 
     let blend  (frag : Fragment) =
@@ -93,20 +104,12 @@ module bloom =
 
         let r1 = task true brightColor |> RenderTask.renderToColor  size
         let r2 = task false r1 |> RenderTask.renderToColor  size
-        let r3 = task true r2 |> RenderTask.renderToColor  size
-        let r4 = task false r3 |> RenderTask.renderToColor  size
-        (*let r5 = task true r4 |> RenderTask.renderToColor  size
-        let r6 = task false r5 |> RenderTask.renderToColor  size
-        let r7 = task true r6 |> RenderTask.renderToColor  size
-        let r8 = task false r7 |> RenderTask.renderToColor  size
-        let r9 = task true r8 |> RenderTask.renderToColor  size
-        let r10 = task false r9 |> RenderTask.renderToColor  size*)
 
           
         Sg.fullScreenQuad
             |> Sg.adapter
             |> Sg.texture DefaultSemantic.DiffuseColorTexture inputTexture
-            |> Sg.texture ( Sym.ofString "inputImage")  r4
+            |> Sg.texture ( Sym.ofString "inputImage")  r2
             |> Sg.shader {
                 do! DefaultSurfaces.diffuseTexture
                 do! bloomShader.blend
