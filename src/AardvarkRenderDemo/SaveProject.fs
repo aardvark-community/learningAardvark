@@ -69,6 +69,7 @@ module projetIO =
             lights  = em.lights
             enviorment = em.enviorment
             expousure = em.expousure
+            fxAA = true
             bloom = em.bloom
             objects = em.objects
             selectedObject = em.selectedObject

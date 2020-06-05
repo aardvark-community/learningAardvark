@@ -32,6 +32,7 @@ type Message =
     | SelectObject of string
     | SaveProject of string
     | LoadProject of string
+    | TogglefxAA 
 
 module App =   
 
@@ -57,6 +58,7 @@ module App =
                       lightProbePosition = None
                       }
         expousure  = 1.0
+        fxAA = true
         bloom = bloom.defaultBloom
         objects = obj
         selectedObject = selected
@@ -120,6 +122,7 @@ module App =
             do projetIO.save m f
             m
         | LoadProject f -> projetIO.load f
+        | TogglefxAA  -> {m with fxAA = not m.fxAA}
 
      //texture  with random values used in the AO shaders
     let randomTex ( runtime : IRuntime) = 
@@ -340,17 +343,28 @@ module App =
 
         let bloomed = bloom.bloom runtime size output m.bloom
         
+        let postprocessed = AVal.bind (fun doAA  ->  
+            if doAA then  
+                fxAA.fxAA runtime size signature bloomed m.fxAA :> aval<ITexture>
+            else 
+                bloomed :> aval<ITexture>) m.fxAA
+
         //tone mapping and gamma correction
+        //let toneMapped =
         Sg.fullScreenQuad
         |> Sg.adapter
-        |> Sg.texture DefaultSemantic.DiffuseColorTexture bloomed
+        |> Sg.texture DefaultSemantic.DiffuseColorTexture postprocessed
         |> Sg.uniform "Expousure" m.expousure
         |> Sg.shader {
             do! DefaultSurfaces.diffuseTexture
             do! PBR.gammaCorrection
             }    
-        |> Sg.compile runtime outputSignature    
+        |> Sg.compile runtime outputSignature 
+               
 
+        
+
+        
     (*
         For deferrde Rendering and some other techniques it is nessesary to know the size of the render window.
         That is not straitforward in Aardvark.media because there could be multiple clients with different screen sizes.
@@ -465,6 +479,7 @@ module App =
                     [
                         Html.table [                        
                             tr [] [ td [] [text "Exposure"]; td [ style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.expousure SetExpousure]]
+                            tr [] [ td [] [text "fxAA"]; td [ style "width: 70%;"] [Html.SemUi.toggleBox m.fxAA TogglefxAA]]
                         ]  
                         BloomControl.view m.bloom |>  UI.map BloomMessage 
                     ]    

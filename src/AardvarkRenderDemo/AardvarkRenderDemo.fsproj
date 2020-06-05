@@ -21,6 +21,7 @@
     <Compile Include="GeometryBuffer.fs" />
     <Compile Include="globalEnviroment.fs" />
     <Compile Include="Bloom.fs" />
+    <Compile Include="fxaa.fs" />
     <Compile Include="SaveProject.fs" />
     <Compile Include="App.fs" />
     <Compile Include="Program.fs" />

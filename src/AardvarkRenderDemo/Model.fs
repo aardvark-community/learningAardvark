@@ -120,6 +120,7 @@ type Model =
         lights : HashMap<int, Light>
         enviorment : GlobalEnviorment
         expousure  : float
+        fxAA : bool
         bloom : Bloom
         objects : HashMap<string, SceneObject>
         selectedObject : string

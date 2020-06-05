@@ -65,8 +65,8 @@
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Service.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.UI.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.UI.Primitives.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\AardvarkRenderDemo.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\AardvarkRenderDemo.exe
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\AardvarkRenderDemo.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\AardvarkRenderDemo.exe
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Adaptify.Core.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\AssimpNet.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\DevILSharp.dll
@@ -92,7 +92,7 @@
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\System.Text.Json.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.Loader.dll
- 0:   Loading plugins .................................................................... 0.028 s
+ 0:   Loading plugins .................................................................... 0.074 s
  0:   using cache dir: C:\Users\Stefan\AppData\Roaming\Aardvark\cache
  0:   Loading native dependencies for DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: remap.xml
@@ -147,7 +147,7 @@
  0:     copy Assimp64.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\AssimpNet-969d1624-35de-e8ae-f27b-d0ea28a223a6-64\Assimp64.dll
  0:     found: windows/x86/Assimp32.dll
  0:   Loading native dependencies for AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
- 0:   [cache hit ] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
  0:   [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
@@ -158,7 +158,7 @@
  0:       D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
  0:       C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64
  0:     [Introspection] loaded native library DevIL from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64\DevIL.dll
- 0:   initializing PixImageDevil ......................................................... 0.026 s
+ 0:   initializing PixImageDevil ......................................................... 0.025 s
  0:   [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -166,7 +166,7 @@
  0:   [cache hit ] FShade.Imperative, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.FSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing CustomPicklerProvider .........................................................
- 0:     [cache hit ] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
  0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
@@ -204,7 +204,7 @@
  0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     installing pickler: Aardvark.Base.Picklers.AdaptivePicklers
- 0:   initializing CustomPicklerProvider ................................................. 0.036 s
+ 0:   initializing CustomPicklerProvider ................................................. 0.040 s
  0:   [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -213,7 +213,7 @@
  0:   [cache hit ] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing SceneGraphCompletenessCheck ...................................................
- 0:     [cache hit ] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
  0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
@@ -232,99 +232,7 @@
  0:     [cache hit ] Aardvark.Base.Essentials, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
- 0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
- 0:     [cache hit ] Aardvark.Base, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.Imperative, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.FSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Incremental, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Essentials, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
- 0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
- 0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
- 0:     [cache hit ] Aardvark.Base, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.Imperative, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.FSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Incremental, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Essentials, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
- 0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
- 0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
  0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
@@ -398,7 +306,99 @@
  0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   initializing SceneGraphCompletenessCheck ........................................... 0.127 s
+ 0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
+ 0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+ 0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+ 0:     [cache hit ] Aardvark.Base, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Imperative, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.FSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Incremental, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Essentials, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
+ 0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+ 0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+ 0:     [cache hit ] Aardvark.Base, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Imperative, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.FSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Incremental, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Essentials, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
+ 0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   initializing SceneGraphCompletenessCheck ........................................... 0.131 s
  0:   [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
  0:   [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -419,7 +419,7 @@
  0:   [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.SceneGraph.IO, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing Loader ................................................................ 0.000 s
- 0: initializing aardvark ................................................................ 0.414 s
+ 0: initializing aardvark ................................................................ 0.503 s
  0: probing paths for nvapi64
  0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
  0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-32f42d4c-4cb0-88cf-a5d3-8c852c69d925-64
@@ -484,7 +484,7 @@
  0:   vendor:   "ATI Technologies Inc."
  0:   renderer: "AMD Radeon (TM) R9 380 Series"
  0:   version:  OpenGL 4.5.13559 / GLSL 4.6
- 0: initializing OpenGL runtime .......................................................... 0.128 s
+ 0: initializing OpenGL runtime .......................................................... 0.126 s
  0: WARNING: load
  0: probing paths for kernel32
  0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
@@ -527,52 +527,80 @@
  0: Aardvark.UI serves favicon.ico
  0: Aardvark.UI.Primitives serves spectrum.css
  0: Aardvark.UI.Primitives serves spectrum.js
- 1: [Server] created client for (1697483e-589d-bc23-e0bd-b5ed5436df56/n7), mapping enabled
+ 1: [Server] created client for (4717c5a1-7bec-b1fd-321a-93f47d5da213/n7), mapping enabled
  1: [Client] 1: running n7
  2: [Scene] n7: created
+ 2: Compiling shader:
+ 1: #version 460
+ 2: #define __SHADER_STAGE__
+ 3: 
+ 4: 
+ 5: 
+ 6: 
+ 7: layout(binding = 0)
+ 8: uniform sampler2D inputImage;
+ 9: 
+10: 
+11: #ifdef Vertex
+12: 
+13: layout(location = 0) in vec2 DiffuseColorCoordinates;
+14: layout(location = 1) in vec4 Positions;
+15: layout(location = 0) out vec2 fs_DiffuseColorCoordinates;
+16: layout(location = 1) out vec2 fs_TexCoordShifted;
+17: void main()
+18: {
+19:     ivec2 size = textureSize(inputImage, 0);
+20:     fs_DiffuseColorCoordinates = DiffuseColorCoordinates;
+21:     gl_Position = Positions;
+22:     fs_TexCoordShifted = (DiffuseColorCoordinates - (vec2((1.0 / float(size.x)), (1.0 / float(size.y))) * 0.75));
+23: }
+24: 
+25: #endif
+26: 
+27: 
+28: 
+29: #ifdef Fragment
+30: 
+31: vec3 helper(vec2 DiffuseColorCoordinates, float lumMax, float lumMin, float lumNE, float lumNW, float lumSE, float lumSW, ivec2 size)
+32: {
+33:     vec2 dir0 = vec2((-((lumNW + lumNE) - (lumSW + lumSE))), ((lumNW + lumSW) - (lumNE + lumSE)));
+34:     vec2 dir = (vec2((1.0 / float(size.x)), (1.0 / float(size.y))) * min(vec2(8.0, 8.0), max(vec2(-8.0, -8.0), (dir0 * (1.0 / (min(abs(dir0.x), abs(dir0.y)) + max(0.0078125, (((((lumNW + lumNE) + lumSW) + lumSE) * 0.25) * 0.125))))))));
+35:     vec3 rgb2Tab = ((texture(inputImage, (DiffuseColorCoordinates + (dir * -0.16666666666666669))).xyz + texture(inputImage, (DiffuseColorCoordinates + (dir * 0.16666666666666663))).xyz) / 2.0);
+36:     vec3 rgb4Tab = ((rgb2Tab / 2.0) + ((texture(inputImage, (DiffuseColorCoordinates + (dir * -0.5))).xyz + texture(inputImage, (DiffuseColorCoordinates + (dir * 0.5))).xyz) / 4.0));
+37:     float lumB = dot(rgb4Tab, vec3(0.2126, 0.7152, 0.0722));
+38:     if(((lumB < lumMin) || (lumB > lumMax)))
+39:     {
+40:         return rgb2Tab;
+41:     }
+42:     else
+43:     {
+44:         return rgb4Tab;
+45:     }
+46: }
+47: 
+48: layout(location = 0) in vec2 fs_DiffuseColorCoordinates;
+49: layout(location = 1) in vec2 fs_TexCoordShifted;
+50: layout(location = 0) out vec4 ColorsOut;
+51: void main()
+52: {
+53:     ivec2 size = textureSize(inputImage, 0);
+54:     vec3 rgbM = texture(inputImage, fs_DiffuseColorCoordinates).xyz;
+55:     float lumM = dot(rgbM, vec3(0.2126, 0.7152, 0.0722));
+56:     float lumNW = dot(texture(inputImage, fs_TexCoordShifted).xyz, vec3(0.2126, 0.7152, 0.0722));
+57:     float lumNE = dot(textureOffset(inputImage, fs_TexCoordShifted, ivec2(1, 0)).xyz, vec3(0.2126, 0.7152, 0.0722));
+58:     float lumSW = dot(textureOffset(inputImage, fs_TexCoordShifted, ivec2(0, 1)).xyz, vec3(0.2126, 0.7152, 0.0722));
+59:     float lumSE = dot(textureOffset(inputImage, fs_TexCoordShifted, ivec2(1, 1)).xyz, vec3(0.2126, 0.7152, 0.0722));
+60:     float lumMin = min(lumSE, min(lumSW, min(lumNE, min(lumNW, lumM))));
+61:     float lumMax = max(lumSE, max(lumSW, max(lumNE, max(lumNW, lumM))));
+62:     ColorsOut = vec4((((lumMax - lumMin) <= (lumMax * 0.5)) ? rgbM : helper(fs_DiffuseColorCoordinates, lumMax, lumMin, lumNE, lumNW, lumSE, lumSW, size)), 1.0);
+63: }
+64: 
+65: #endif
+
  2: texture created
  2: result created
  2: texture created
  2: result created
- 2: WARNING: load
- 2: texture created
- 2: result created
- 2: WARNING: load
- 2: texture created
- 2: result created
- 2: WARNING: AdaptiveFramebufferCube.compute
- 2: WARNING: AdaptiveFramebufferCube.compute
- 2: WARNING: AdaptiveFramebufferCube.compute
- 2: WARNING: AdaptiveFramebufferCube.compute
- 2: WARNING: AdaptiveFramebufferCube.compute
- 2: WARNING: AdaptiveFramebufferCube.compute
- 2: WARNING: AdaptiveRenderingResultCube.compute
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (425ms)
- 2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (5ms)
- 2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: WARNING: AdaptiveOutputCubeTexture.compute
- 2: [GL] RenderObjects: +61/-0 (1101ms)
- 2: using optimized native program
- 2: texture created
- 2: texture created
- 2: [GL] RenderObjects: +60/-0 (19ms)
- 2: using optimized native program
- 2: texture created
  2: texture created
  2: result created
  2: texture created
@@ -615,7 +643,7 @@
 35: layout(binding = 3)
 36: uniform sampler2D random;
 37: 
-38: const vec3 _constant0[] = vec3[]( vec3(0.021838668570476123, 0.061459570436589464, 0.12193587822215499), vec3(0.06449883504000913, 0.09171745688175915, 0.7015297461779583), vec3(0.06125351902835829, 0.02076144021234272, 0.060071953112519914), vec3(-0.11690702313695, -0.026170081210845336, 0.09371152520207489), vec3(0.053361689862576424, 0.09410886792405349, 0.2801486545867835), vec3(0.24894654165100524, -0.5097301339844265, 0.6959060747480936), vec3(0.007705427804797491, -0.12403295453741427, 0.8452389299555226), vec3(0.1718601628737308, -0.03032643432807859, 0.39364345616374996), vec3(-0.29575261739655495, -0.7391136125965138, 0.29993701312637827), vec3(0.14892043100234859, 0.11657242552350884, 0.7115321776596191), vec3(0.07729470325727712, -0.1582809449937328, 0.9683352961032431), vec3(-0.5039656594897641, 0.42501405657275093, 0.6205041319991077), vec3(-0.269152190340805, 0.16888540616709516, 0.3879905041789121), vec3(0.1721217640246822, -0.08666518639961715, 0.08660078186633866), vec3(0.5743055263677992, -0.39741724914834814, 0.5572088959235002), vec3(-0.39924570912076146, -0.33863273641221453, 0.47673265191162373), vec3(-0.11458775706977534, 0.07795935714113911, 0.24520530910914512), vec3(0.006994488431726085, 0.005350618824303645, 0.19347614314642347), vec3(0.17878354156000745, -0.706098707464257, 0.5421285186528233), vec3(0.01812934556782032, -0.010687773799497369, 0.1999207389887067), vec3(-0.16033165392336843, -0.03290944770931479, 0.5907031988682503), vec3(0.6999796578203554, 0.27320215043718143, 0.3937605601661679), vec3(0.027218496325623696, 0.1870349761814035, 0.5516035366358953), vec3(-0.038923582676861815, -0.2038987724828836, 0.26611564059499304), vec3(-0.3266252405282735, -0.12378293798814807, 0.2066532561183653), vec3(0.12685104075613915, 0.04423457888159144, 0.27982867346747936), vec3(-0.035039892860451886, -0.17105865610339027, 0.20799137481005686), vec3(-0.018887741953692812, 0.026651007789713313, 0.5519998671291478), vec3(0.3268604751410983, 0.02788203284207145, 0.4874978393352116), vec3(-0.10295229977850785, -0.5203465285471206, 0.7768729779608213), vec3(-0.003094489377125553, -0.18188634213854946, 0.20451921486538419), vec3(0.09906395665590752, -0.15891293046196056, 0.3199809870550075), vec3(-0.030979181912285946, -0.07779815368877016, 0.4806176477917035), vec3(0.1059422871716282, 0.15562380449173152, 0.4285560633834432), vec3(0.7986098231312289, 0.07830358001394619, 0.36657239795801877), vec3(-0.18721795361668558, -0.06356495847346068, 0.09253434523131278), vec3(0.008394493465479875, 0.004315250345182534, 0.3889949324866575), vec3(-0.10348918874156941, -0.22143210259066543, 0.2707559722081759), vec3(0.05207441572502279, 0.03216259667857282, 0.08789842635289558), vec3(-0.12249259033947023, 0.047934460818156305, 0.7581211798414101), vec3(0.14569786166043447, -0.22430939812916562, 0.5284161139265011), vec3(-0.023967483793338983, 0.02184527258863072, 0.47989121091609016), vec3(-0.023710739224550977, -0.051316665130080194, 0.1827105456231775), vec3(0.8221064614267525, -0.19317225455907455, 0.5209498178972498), vec3(0.010223510630353134, 0.005044702733848522, 0.16772056711685773), vec3(0.3334905020315843, 0.050002096171381016, 0.8637905335500519), vec3(0.06856583088471999, 0.019029749741200763, 0.12454561753943919), vec3(-0.039263083396031455, 0.06312904815126484, 0.033718024798361744), vec3(-0.41805630923574805, 0.3802738452668043, 0.589147423172251), vec3(0.02076554710662857, 0.06521986533640503, 0.6505157207293397), vec3(0.18194312105998076, 0.16106402604197198, 0.4834931323454567), vec3(-0.4271171555314071, -0.07224518193321189, 0.4550824846768106), vec3(-0.012292524678930305, 0.04102181984743724, 0.2760340223764484), vec3(-0.0412092239846805, 0.1572661963744485, 0.14202850134064027), vec3(0.3124429819094723, -0.25450758152653996, 0.311516076573946), vec3(0.16555064095193833, -0.0421484951631256, 0.23429018828192022), vec3(0.0795074234067432, 0.02265887835748486, 0.09686373022995111), vec3(-0.19190008106513573, -0.25953329354208743, 0.677842733042134), vec3(0.1418322472694988, 0.5934142134540756, 0.42969117971746446), vec3(0.0073138859861492265, -0.5110652037874497, 0.8477453720564914), vec3(0.10490679121386122, 0.21559549287401883, 0.5785387525677769), vec3(-0.02760277041430654, 0.2764388100485062, 0.11678022967342586), vec3(0.21299148728660208, -0.13276836755533025, 0.8047680586837971), vec3(0.485488916002389, -0.43164157403344733, 0.6372933374091247), vec3(-0.152533988317822, -0.3311588710952267, 0.28459230541164965), vec3(0.06450076574351313, 0.32191835806902414, 0.5182297774029863), vec3(-0.05095681345307648, 0.16779876991802548, 0.3788661180399515), vec3(0.01759881140528859, 0.0028204444648033075, 0.02826503572261561), vec3(0.1638868647715737, -0.20623097911045535, 0.19722159107852963), vec3(0.023651613135335165, -0.42293598127332116, 0.5257320100210765), vec3(0.09750458530543299, -0.02845417252101989, 0.30234107735527693), vec3(0.3322107510493009, -0.12652000446110928, 0.8451838410978989), vec3(0.04159834475429778, 0.028357450731777322, 0.07042286007148549), vec3(-0.004894154716713694, 0.07434882229629751, 0.11679770845577696), vec3(0.09266065009319109, -0.5577316485813633, 0.2257224086422233), vec3(-0.014052675946420295, -0.08706543773499792, 0.09817973598752977), vec3(0.367580171138195, -0.3743125892427354, 0.39562267301676396), vec3(0.407916261078274, -0.2665528742491783, 0.3341246304849686), vec3(0.08095172647651934, 0.07168179665277079, 0.13039498460068852), vec3(-0.006861543523851992, -0.02773258107612753, 0.4777124768606368), vec3(0.006173200235168159, 0.11750054756541917, 0.11846191634783299), vec3(0.03396511369375584, 0.003573649333194192, 0.1868405080771332), vec3(-0.4143322673449245, -0.07511601941705996, 0.6043564441181133), vec3(0.1358548901929997, 0.6831137525773776, 0.6215318068822333), vec3(-0.08604865197478517, -0.029766310503569007, 0.38905438869292297), vec3(-0.3389152966288936, -0.014667887166894105, 0.5490860852444129), vec3(0.021545191194297337, 0.0033569190444166746, 0.08877413413562892), vec3(-0.243661319737309, 0.016435015260970246, 0.11971930567253986), vec3(-0.6355476317431473, 0.6006329502082818, 0.3930539151663398), vec3(0.18496092510654694, -0.21039212085210585, 0.5218053059622458), vec3(0.04445410873097316, -0.003643724236251731, 0.07926139073540547), vec3(0.34191585034650845, -0.3440780968832369, 0.41494872258265575), vec3(0.4217653771231696, 0.04976854336789603, 0.4496573304748524), vec3(-0.06097893551447127, -0.03798641845607866, 0.09260226026088536), vec3(-0.037769612231746935, 0.013078400596030043, 0.13750235614542117), vec3(-0.05684415660881692, 0.08347383764365983, 0.27280166950510554), vec3(0.46434981580091356, 0.14537144723570591, 0.41264461339707637), vec3(-0.040972432264955394, 0.09720580477079306, 0.2606904801828661), vec3(0.0038481701353548633, 0.4370046180381616, 0.2993773048027161), vec3(0.10834119053364484, -0.35344020521324376, 0.413469975889172), vec3(-0.07996325088698973, 0.31762539342986174, 0.39065772706882823), vec3(0.061575540956745355, -0.038114529835678694, 0.08283203487852682), vec3(-0.2401571685366267, 0.04907929868084676, 0.7115241078742014), vec3(-0.09271723419868567, -0.0468285864340852, 0.09568659358192312), vec3(-0.034622764406289745, 0.3123625221415995, 0.11646123033709735), vec3(-0.11393130701659623, 0.06810558325306025, 0.6099430791272766), vec3(-0.05928879194105084, -0.1901131142214063, 0.5037907998508353), vec3(0.10993305175550849, 0.04505716235009187, 0.07555166442465666), vec3(0.02196282289359793, -0.22352470105600777, 0.564032956844325), vec3(0.2325579667356195, 0.24543978943146766, 0.16759609496872802), vec3(0.39312614310872224, -0.25146308902725256, 0.4275084676747929), vec3(0.009785890820873238, 0.20509865975211902, 0.4956664374001503), vec3(0.08392858531288895, -0.1268609043098328, 0.5611230918030631), vec3(-0.08290525411983583, 0.05657991273538414, 0.24815516105429938), vec3(0.12967351229272833, -0.11628283595146152, 0.8042963048945136), vec3(-0.14712432763178615, -0.2453952784436257, 0.3294065639572077), vec3(0.11331645589620892, 0.14165617674376307, 0.5348473426322727), vec3(0.33370037369304184, 0.29058385484622934, 0.7946127528686246), vec3(-0.17482286958392965, -0.008527120401976554, 0.47951851697853526), vec3(0.04632507100928497, 0.6448404273126311, 0.4996793981842711), vec3(0.45000423761355557, 0.130910727523894, 0.23002044751059111), vec3(-0.010750114669964636, 0.07552214191183029, 0.12390258603480497), vec3(0.006310518231579824, -0.014023710833054056, 0.0730802326437656), vec3(-0.49222450832864095, -0.3051340380275624, 0.4555386885347982), vec3(-0.19717275119619762, -0.2646537064820945, 0.4820500903579759), vec3(-0.590928887660827, -0.18846118754571528, 0.28019637702489814), vec3(-0.13459971981532992, -0.22699651206696975, 0.1392570734126582), vec3(-0.25100001062699884, -0.6081151999460929, 0.7119426333583732), vec3(-0.3118768850261588, 0.5785197527345413, 0.7475039377873502), vec3(-0.003011667763283423, -0.09599867113686168, 0.30301791799165206), vec3(0.10332061787294033, -0.11445896021920807, 0.46930347237157866), vec3(0.011311556405925932, -0.04108884097203766, 0.37342252458658376), vec3(-0.02531015920827253, 0.04523031954827895, 0.032361791485419), vec3(0.3044901835671507, 0.06359963871004472, 0.5302590699573227), vec3(0.23661665029985848, 0.6456806270855752, 0.6823646188907525), vec3(-0.012375609688648068, 0.028923618501304146, 0.04746172847391531), vec3(0.1772788192781136, 0.08560259595759842, 0.39056359774337485), vec3(0.36685416416103594, -0.42144694901050156, 0.20555505176688174), vec3(-0.40913290077429226, 0.27363724201052486, 0.34019266075741333), vec3(-0.5680417706917, -0.01484808372456442, 0.5275154798811487), vec3(-0.05207155420134028, -0.05431596523780545, 0.07136286500329193), vec3(-0.2195491070778792, -0.3793981799342436, 0.8435211131092011), vec3(-0.36332972578816347, -0.3652641486092859, 0.4202750545373047), vec3(0.15607013689951382, -0.08506905218767981, 0.5535193721855872), vec3(-0.4851922230239369, -0.26653119033522327, 0.7835315037814266), vec3(0.42619201705809256, 0.26002745658983645, 0.24113414358058707), vec3(-0.05142694203352549, -0.013708048674997487, 0.020308547684296838), vec3(0.20973632633295244, -0.1962838709058774, 0.2013979474628636), vec3(0.04680096153629523, 0.04367366283730925, 0.28721657063299166), vec3(0.48022421221847056, 0.4538668857463783, 0.2511245702413723), vec3(0.08857962344950253, 0.1030417669225288, 0.7132943864568994), vec3(-0.0017611959441429736, -0.0005245730491664516, 0.7284783247016979), vec3(0.029141743002357303, 0.05905104581266374, 0.7679421405421633), vec3(0.16159496103626203, -0.17911994741144044, 0.6705612288720406), vec3(0.02404657288535187, 0.0036989931548169585, 0.021648754181872565), vec3(0.06291354310642576, 0.2134929944216388, 0.28839795434527965), vec3(0.0026516266329066986, 0.0015945885323385076, 0.03520818843888208), vec3(-0.0027595698652904967, -0.0026870943994223573, 0.015261888596791121), vec3(-0.21806319765879068, -0.14486883400650216, 0.49167093026233016), vec3(-0.4321632608261608, 0.08924513116274867, 0.48343691967264346), vec3(0.22239944684626356, -0.14452127516649893, 0.18925141173240861), vec3(0.26059831901745545, -0.33906592392453483, 0.3804163892310913), vec3(-0.06321983096171047, -0.024498067266885054, 0.128680418699404), vec3(0.027467372022225333, -0.011344898979400721, 0.2877008982360807), vec3(-0.08488183747949785, -0.0010018899704815017, 0.8793020023910629), vec3(0.05052368509687827, -0.04885434457482478, 0.24724513227257283), vec3(-0.1346444697378907, -0.24562998495410446, 0.3841235755599548), vec3(-0.515587270126389, -0.11958036949459451, 0.8088315272710771), vec3(0.1595287289246038, 0.14690692318053192, 0.20571909948295986), vec3(0.10419145793698707, 0.46936948916593907, 0.5963130289093809), vec3(0.44344811830753916, -0.544301633601356, 0.710618801380159), vec3(0.10733013283532909, 0.8512558944841215, 0.45122883664690083), vec3(-0.05870625423878687, 0.18435429305091605, 0.24371912188875589), vec3(0.1950158433145837, -0.3481848156841373, 0.6173589580035945), vec3(-0.3462477467996258, 0.3954167411833429, 0.4823759115911479), vec3(0.15705021392404672, 0.4108781013852614, 0.3647822969618323), vec3(-0.06705297990410397, -0.2747536750087904, 0.38861050451552537), vec3(0.18327433630427675, 0.10098312527754197, 0.4467428742320781), vec3(-0.2069579590514403, 0.6398514043792548, 0.3901359466875401), vec3(-0.022737175058755492, 0.0084732001834042, 0.017238689484300844), vec3(0.34322971384809847, 0.3765134780200847, 0.35966425597999185), vec3(0.16665269560443888, -0.85072309701795, 0.38259495858981846), vec3(0.24155310806927538, -0.5795376003495252, 0.2480914809325979), vec3(0.12486527213328012, -0.13672230843434247, 0.22120287255813423), vec3(-0.10420321083114874, -0.023619885905480455, 0.5820274573980058), vec3(0.5997062110502509, 0.3490825365963878, 0.3232516847753418), vec3(0.21493583758742799, 0.4988286401491135, 0.2666495285880669), vec3(-0.0022979878300133792, -0.11300420496695565, 0.3296285198855989), vec3(-0.5133466217859146, -0.16112129133542502, 0.2224141005392264), vec3(-0.005526794179536111, 0.0044809013235621795, 0.6044317422980792), vec3(-0.010705392731388663, -0.004685496848575894, 0.018163214629265984), vec3(-0.0672361461694895, -0.34989727266773435, 0.22544529751709402), vec3(0.005595912459326621, -0.004817094539998097, 0.037614400301084816), vec3(-0.17717580264944296, -0.016505175664802592, 0.926848562292033), vec3(-0.08901216787817928, 0.0381410950176877, 0.43896484810617387), vec3(0.07666575050621205, 0.14927939543765162, 0.5041482891891101), vec3(0.07341162797390804, 0.40148901037603557, 0.6940547645693009), vec3(-0.030931659398758544, 0.016240234457210075, 0.3740142702208331), vec3(0.14821589151699624, -0.18591255733375767, 0.6562235169441052), vec3(0.23820933207504438, 0.12435261851271794, 0.6488809161235193), vec3(-0.010341849251235111, -0.022493545764134155, 0.07504882828108757), vec3(0.02157070987962661, -0.009457829136346548, 0.08723005585756834), vec3(-0.013614979606439108, -0.009131593746466571, 0.049250656114841945), vec3(-0.42803312140135225, -0.09220473987313631, 0.2955513265921558), vec3(0.06741676398990311, -0.5877328006918396, 0.38883522852395486), vec3(0.11108162233679238, -0.2798205665626822, 0.694238964533177), vec3(-0.20545131053964363, 0.04747001133296625, 0.36010775407950424), vec3(0.00572677345375923, 0.025216732953809766, 0.02453192836148176), vec3(0.8490212148754791, 0.3534678539799104, 0.39078189386483136), vec3(0.30836612923626083, 0.11904263332292968, 0.32151285395833906), vec3(-0.6574556094926075, 0.15601000551405, 0.5694551396740036), vec3(0.15185901976925728, 0.1719849977381122, 0.49106830811844576), vec3(0.19822568616593353, -0.03252624839015592, 0.12816057199743983), vec3(-0.1099699873642996, -0.40364547521396377, 0.3209082039457128), vec3(-0.02253296289927834, 0.0015414898299194887, 0.021107849494897378), vec3(-0.10248420270788093, 0.06213182701225224, 0.3587739048313876), vec3(0.0587018767412023, -0.049630412680159455, 0.8939583706417833), vec3(-0.1471731539707476, 0.2749374508755864, 0.798224913766072), vec3(-0.39378935261150577, -0.08468777676595485, 0.5694153076434253), vec3(0.010239884901740347, 0.08075500009056416, 0.08526822023148341), vec3(-0.3536781171971615, -0.35317782180259893, 0.41859387986607416), vec3(-0.06666579093076437, 0.0572445330426491, 0.0916121054828024), vec3(-0.2213487886922323, 0.2430126431049158, 0.1993101548288692), vec3(0.17318686080424459, -0.5428247878100072, 0.3969877222137213), vec3(0.10913928619431908, 0.5852370985020748, 0.4468979739374016), vec3(0.5126439349944603, 0.04341866120086927, 0.26191464625093563), vec3(0.06934246855534036, 0.4541614802410368, 0.8098410281880931), vec3(0.21428952401394807, -0.26425197064375716, 0.13869325061390456), vec3(0.12999452928466806, 0.1315249119477317, 0.2176418271119666), vec3(0.007648318950086084, 0.14730477814395887, 0.10669582272610899), vec3(-0.5890790685262594, -0.21351574616421143, 0.44111357920822625), vec3(-0.004642928166346056, 0.011600314229361692, 0.10423999185817368), vec3(-0.39182142598638353, 0.29800436870550073, 0.6247041102499424), vec3(-0.032824655079650336, 0.011440758349714556, 0.06661806878155319), vec3(0.6720921960753521, 0.5238351416873278, 0.42165343144710477), vec3(0.22926669048762296, 0.24627955182241057, 0.4137362738515765), vec3(-0.06559344314273532, -0.44891775886434154, 0.7722532541136221), vec3(0.11429207454084157, 0.02128809178734789, 0.08969219707359875), vec3(-0.15442490202680403, 0.30092875421756204, 0.4718256142352871), vec3(0.1363856864737968, -0.008432856098308615, 0.8237896635529468), vec3(0.31110569938568616, 0.042743098182694464, 0.1504371114365277), vec3(-0.43579215033694835, -0.08164963709159881, 0.35732763026271325), vec3(-0.11289783452687699, -0.17089131727569007, 0.2828575989761903), vec3(0.06340746678293281, 0.015431883426993491, 0.10198515778642746), vec3(0.07289530569289474, 0.2975858293251329, 0.6524508539074919), vec3(0.19067659820707167, 0.3981705582731706, 0.18733741627877826), vec3(-0.007424606413731222, 0.09681042541540646, 0.15553645635755445), vec3(0.3976174936095295, 0.18263531697855725, 0.2640786742524531), vec3(-0.2608538445421778, 0.17855020731315788, 0.8563828955762584), vec3(0.007799719563039071, 0.059584786428501, 0.038294915327598815), vec3(-0.23578313878338547, 0.1878143136306976, 0.5578523703212874), vec3(-0.14523149791109022, -0.32033390820158175, 0.8805423520919081), vec3(-0.24810474228990517, -0.2574950556490733, 0.5762351456014061), vec3(0.22104645239666743, 0.4231025568026622, 0.32957554688213125), vec3(-0.005309658506556007, 0.004222821364866918, 0.049907544058421585), vec3(-0.4044082117734647, -0.5107893061595767, 0.694273381647327), vec3(-0.07896331558092431, -0.04758109035496722, 0.6998931603863252), vec3(0.0022237679496675245, -0.25041097629789266, 0.2550880220315625), vec3(-0.01332414132530488, 0.5100258150601177, 0.595097703954704), vec3(-0.10723011863476888, 0.04201603329248397, 0.06162900991799494), vec3(-0.7679253509899073, -0.03992009572861679, 0.3005908371523088), vec3(0.016369084072323715, 0.035882473697116585, 0.030568781932816314), vec3(-0.01909662588125631, -0.15660411693325496, 0.733267870623066), vec3(-0.07656114322493247, 0.25351483718395823, 0.773096324943807), vec3(-0.10556404176905836, 0.11788289188050682, 0.6765815967254665), vec3(-0.01897087928584069, 0.028532239987780643, 0.7779259315941702), vec3(-0.028466638237217862, 0.15027028263276176, 0.7308378180424909), vec3(-0.005884979246009162, -0.11138610538705968, 0.11904595288169288), vec3(0.011654105601138892, 0.1515843821242751, 0.556117047430284), vec3(0.09743598788121477, 0.07318238453289433, 0.4824761906542311), vec3(-0.07651113807389415, 0.12123860951259305, 0.4608177509411387), vec3(0.08300248372540174, 0.04089038191598439, 0.7446959200704928), vec3(-0.03723273127657065, -0.17125933395205983, 0.21378416340926099), vec3(-0.11180215629191707, 0.1176862797006843, 0.8470181828243224), vec3(-0.10755830947528722, -0.37344705429495456, 0.6643640862197482), vec3(-0.05956196389556474, -0.036292071062366045, 0.04408393819952437), vec3(0.18556193937990836, -0.25926748164539487, 0.709358357988523), vec3(-0.04904375212980473, 0.11724979076110965, 0.23063865682241233), vec3(0.14622872161226438, 0.8740785643279437, 0.4032011289903687), vec3(-0.12218676727204267, -0.06753475803804791, 0.22503680600526518), vec3(0.1923498149305777, 0.2944693212026419, 0.17745721992314456), vec3(-0.09272390110786578, 0.04732740746622854, 0.40690554787855104), vec3(0.03312939174827975, -0.3053928699259242, 0.3350303519272653), vec3(-0.05442346930569298, 0.08937241130535863, 0.1870606795768375), vec3(-0.059831713614329, 0.06735278910445697, 0.5405029560958026), vec3(-0.028549752578966192, 0.021432261129038788, 0.8173120654760732), vec3(-0.12118899110542952, 0.017182476800201036, 0.4088949096151719), vec3(-0.06502429723450187, -0.018423184018253432, 0.20438459070395684), vec3(0.0020413463119559596, -0.0013344693880644066, 0.024655110932666622), vec3(0.20063551734588592, 0.038396992288068685, 0.9775364226399895), vec3(0.04619542849105476, -0.13481510838400976, 0.8149816828127294), vec3(-0.4490732044195065, -0.19351903409638305, 0.22480509876908258), vec3(-0.17321119330376, -0.12744719478094088, 0.2924072984112869), vec3(0.1573319478579313, 0.3775582051428543, 0.1874090496109316), vec3(0.00227569411053654, -0.0029035047170797913, 0.008667757671903545), vec3(-0.08388929778295222, 0.06711330661926879, 0.27828617678187384), vec3(-0.37708074800552943, -0.44469984297434006, 0.5757255357618885), vec3(0.25983898434665, 0.0747588341675709, 0.4582027930157451), vec3(0.16252620622602187, -0.33449063949033636, 0.20827639171939347), vec3(-0.06272270189140874, 0.10762210811451274, 0.9338559648202105), vec3(0.10527088819835084, 0.6650691514725745, 0.28939971985229257), vec3(0.00317754776503346, -0.012577465150320488, 0.015508035556469006), vec3(0.5683714715404627, 0.12973438129680276, 0.7304107541449923), vec3(-0.16103718974297415, 0.23136630987919043, 0.30488765988826927), vec3(0.01187252271075589, -0.03517819536612962, 0.58748273535469), vec3(-0.1534506637216134, -0.004235154695005221, 0.8702296552388221), vec3(0.269136710508819, -0.18011002475567034, 0.5885319888020459), vec3(-0.009336013733381839, -0.01318764308685263, 0.8155717406724039), vec3(-0.24185228241881226, 0.3891960657645541, 0.668419307234923), vec3(-0.22938371218924195, -0.17575311467024232, 0.9237085371783315), vec3(-0.0722871859808053, 0.03960530851469397, 0.15365804453263332), vec3(-0.018139889228063782, -0.007401379353274761, 0.44216680902778466), vec3(-0.0020934169061686482, -0.04484494884786652, 0.3811933449015778), vec3(-0.35253168235014226, 0.2641261479566548, 0.2745217148286333), vec3(0.03357189436917468, 0.090532217101202, 0.7303089155009279), vec3(-0.018400989052929913, 0.0073648386238052265, 0.4051295854305227), vec3(-0.011074501419585601, -0.5372870788596142, 0.2562251584905848), vec3(0.43261735051401407, -0.1600547021051994, 0.272412866261238), vec3(-0.1512953133579346, 0.20200779846210704, 0.09375948554712324), vec3(0.042411295048611214, -0.03193107453524897, 0.8751400570519365), vec3(0.10690119607182938, 0.2011491398361654, 0.2681702226074477), vec3(0.29802266350208756, 0.326481292448605, 0.29492248962766976), vec3(0.018858026350469625, -0.03703134727511977, 0.1319726043902277), vec3(-0.12490748116630457, 0.09636017097124275, 0.5559212551002037), vec3(0.02322267153651014, -0.0005727147961289848, 0.6698766870995715), vec3(0.30276015154209823, 0.21379254846253554, 0.8686403121378656), vec3(-0.0035077743807208736, 0.04039466851477436, 0.3853251427871699), vec3(-0.2635959642317091, -0.6456653945965364, 0.44359307209227977), vec3(-0.5278449019494961, 0.42667483615842383, 0.5166799688761519), vec3(0.20141928808618048, -0.37979282308414036, 0.19335486287390188), vec3(0.08840134356832427, 0.12782872530739278, 0.21230970887231415), vec3(-0.15996247975400504, 0.09148855118764165, 0.16249271813723715), vec3(-0.3425272324285952, -0.2916241981215942, 0.7059526381875174), vec3(-0.023365657263345285, 0.01784473325661959, 0.011332521671852367), vec3(-0.4331966621342754, 0.0878953432208248, 0.29589288474936226), vec3(-0.07850831601795125, -0.130687439912751, 0.3412290855794401), vec3(-0.2520973974960111, -0.17038357401909324, 0.37827604450317875), vec3(0.029953702750776582, 0.015479718381787636, 0.02020289501642623), vec3(-0.0650005876763594, 0.4956200252264013, 0.3763190060415357), vec3(0.09064509994486185, 0.3651955566199203, 0.5474507125225584), vec3(-0.009300343699355064, -0.028954033957431544, 0.14314964443535824), vec3(0.06131325747332016, -0.1059763423492817, 0.5986994294183203), vec3(0.053804664201804395, 0.003296668063087999, 0.40126267821680506), vec3(0.006746302363759624, -0.040569324070002924, 0.03935151451845198), vec3(0.01282030358441767, 0.12132217982651651, 0.815204429950488), vec3(-0.24794362087926816, 0.06821271008138477, 0.2861840616074847), vec3(0.07083037051852364, 0.12321642543082047, 0.06024898866802079), vec3(0.4805451675742286, -0.36847874560645666, 0.5878056944039799), vec3(0.196734918855802, 0.30595236861930725, 0.6135295982983109), vec3(0.09193500238371702, 0.2405060989838223, 0.5461560973309095), vec3(0.20475632730314106, -0.2691771072810095, 0.6162387744423132), vec3(0.0034094543648343577, -0.06625230121577412, 0.27581995785342694), vec3(-0.13785772447777936, 0.1574248116958449, 0.15897378484333952), vec3(-0.03807344017979611, -0.417049316480282, 0.3557490150949002), vec3(0.5055695182885929, 0.03148524819646128, 0.30302763136832706), vec3(-0.13373780743797764, -0.044625988290604976, 0.14396889786841108), vec3(-0.3386024890187005, -0.09117500066505786, 0.8091405898862281), vec3(0.022488060208367192, 0.3316974801508035, 0.1291819827052908), vec3(-0.09135804190059028, -0.20662942911399115, 0.7098707118100598), vec3(-0.1486431914503841, -0.3403822888748574, 0.5264016113062595), vec3(-0.14707640711957157, -0.35923832740550554, 0.30910129114591134), vec3(0.0029169501954979167, -0.34725112314228024, 0.7705910909267744), vec3(-0.0429918646335403, 0.06274495717189783, 0.9597102296759373), vec3(0.10544913868313019, 0.2133893605686575, 0.24141557530925806), vec3(-0.1883418950665847, -0.29098670450473824, 0.6136043531355592), vec3(-0.31461346559823133, -0.7247051287655509, 0.4881319157455621), vec3(-0.47822851745751793, -0.20918048798799244, 0.3068719089964004), vec3(-0.0781986680525289, -0.0937842932307026, 0.3304815808804353), vec3(-0.5947596455344218, 0.3611054607316892, 0.7001955727899372), vec3(0.03490916193076499, -0.1059844833715338, 0.3453464447141328), vec3(-0.05271748438106198, 0.05352272293331079, 0.9170770382416706), vec3(-0.14817240603633633, -0.20668000332459244, 0.4944914300905465), vec3(-0.6946146684902815, -0.32863216339111345, 0.48750076472999926), vec3(0.4814618482035201, 0.1812603662050659, 0.3182678842994297), vec3(-0.1298241826275573, -0.6432129190050498, 0.32080139971825417), vec3(0.6520615753205512, -0.11892927216762336, 0.330769550676011), vec3(0.002114999715220279, -0.09434214568777866, 0.08429596385593424), vec3(-0.0054889182553239215, -0.010356016351027694, 0.0805926558730636), vec3(-0.19557387416843108, -0.30605876144128913, 0.6602843317012588), vec3(0.058835995078500604, -0.08361302116424973, 0.2666005444321375), vec3(-0.08391907745649511, -0.044083972746036246, 0.7843337202998044), vec3(0.34017705384456254, 0.11230428030085716, 0.408760863121137), vec3(0.04686557787291303, 0.07347334889747884, 0.07235679818621031), vec3(0.16923087711457296, 0.07790941636727773, 0.16551363219050153), vec3(-0.23722463673783215, -0.6633851807656743, 0.30681555383011216), vec3(-0.04714799857891013, -0.02190088105208588, 0.978050234247483), vec3(-0.46895698144776, 0.147298036569193, 0.8511542903714352), vec3(0.13626076216935298, 0.14356612840221503, 0.20867010511240652), vec3(0.16320639388100316, 0.09552916836238907, 0.398660844378345), vec3(0.032293545062072083, -0.19426021320655318, 0.26531723587905903), vec3(0.2008649784585512, 0.009381989985309477, 0.448900216419645), vec3(0.08873692974006843, -0.049686741396211834, 0.07901861793057045), vec3(-0.22759852250883897, 0.07459145136183504, 0.17110714669544888), vec3(0.7570759115705146, 0.4109529036110066, 0.4702903784775727), vec3(0.04353594445247601, 0.08995531517025213, 0.1351441401511748), vec3(-0.0003829945503884762, -0.0004088322021230874, 0.3011204438494813), vec3(0.09871109107987168, -0.35916069467933204, 0.5307016861117526), vec3(-0.00939961273706712, -0.01959726544828192, 0.062154489165705366), vec3(0.026510435303190274, 0.0026997142400075457, 0.351172339224079), vec3(0.10086695479862497, 0.766055245435995, 0.45286192807328857), vec3(0.009132669536671119, -0.3369414400724739, 0.702576861815038), vec3(0.42226917972089134, 0.4906455596678592, 0.4735365227939201), vec3(-0.43350641723247474, 0.6438606659099759, 0.36281306157353815), vec3(-0.1301254163765487, 0.03755423451746211, 0.32308810948071065), vec3(-0.03974087361577379, -0.015673299505765306, 0.6823210294911602), vec3(0.0509527194593213, 0.011028948393743153, 0.1373311243782987), vec3(-0.09526570694616102, -0.10862789023820349, 0.344596541358976), vec3(-0.04838404825747008, 0.1777145649213929, 0.63154059894246), vec3(0.12777746881120147, 0.27015305971694187, 0.7626192175588608), vec3(0.2445119793908351, 0.29338329496355703, 0.7588099545338448), vec3(-0.011157712258142929, -0.013382905187277003, 0.07291881040499999), vec3(-0.16847877969930353, -0.013693244749763953, 0.7823650942822715), vec3(-0.1627075685547557, 0.3495245868400549, 0.46375769380016496), vec3(-0.002059188485522094, 0.42146016605153225, 0.18285693516617668), vec3(-0.0007199335817773721, -0.7380162921803407, 0.43011397526615863), vec3(-0.020488222229581327, -0.01591288262619815, 0.952335840846788), vec3(0.4426981406974576, 0.49193227714983995, 0.3126912837311658), vec3(0.05781743114847574, -0.5002335834026923, 0.5054946355434129), vec3(0.027237939508837548, 0.10034382897400398, 0.5610345400507225), vec3(-0.3504122912692486, 0.2521004065949215, 0.5828615923774014), vec3(-0.3322040777703528, 0.6761183477042054, 0.5718572461343969), vec3(-0.020058261765970364, 0.04487834067009849, 0.3140621805290027), vec3(-0.35959546245498436, 0.02887209868125482, 0.8366137085746884), vec3(-0.23672764034242286, 0.2647778256783124, 0.5523755879009127), vec3(0.1162472928871943, 0.436783293737552, 0.7445993792575292), vec3(0.4979999313498256, 0.3414760526977909, 0.5115062143309858), vec3(0.19896626652189614, -0.10523437203746232, 0.13351138157148107), vec3(0.1378493705680195, 0.5725794912081194, 0.717931362890978), vec3(0.24362037527670732, -0.32138934160519045, 0.16794560717164278), vec3(-0.33142845775802704, 0.1090003420540387, 0.2501168641096066), vec3(-0.023640500904638748, -0.04790858771211899, 0.07538648509631579), vec3(-0.041060665743696365, -0.020939728888070497, 0.03947938154916358), vec3(-0.00977704028512657, 0.0034451807045555636, 0.729184878835838), vec3(0.3384304569673862, 0.560829859068793, 0.554148522287888), vec3(-0.3388844121466647, -0.12599112785856875, 0.3544114757528557), vec3(0.03541324200502644, 0.005484650451775321, 0.9873430480705621), vec3(0.3889801279525164, -0.264517078484326, 0.5003054852661432), vec3(0.6276783477536034, 0.24387105925814923, 0.358650223149095), vec3(0.18170262677457347, -0.1814987041639632, 0.5038732013871235), vec3(-0.2240557355326182, -0.5353731234535488, 0.2224584294149443), vec3(0.14830948021441992, 0.47235002203929394, 0.3490661999093725), vec3(-0.005873946954564291, -0.11755837784959844, 0.30298359344608283), vec3(0.021283966939888807, -0.41551747908440867, 0.21543540485607962), vec3(0.16403236337257382, 0.11873696879356928, 0.5560121189130168), vec3(-0.015032093984416225, -0.06180602787598269, 0.24739569585953702), vec3(0.04831205846449454, -0.1981572580123534, 0.6606971552664604), vec3(-0.11099484808292487, -0.3457425390329119, 0.3801415620273338), vec3(0.3937722137773555, -0.581544577890885, 0.4515022726071712), vec3(0.037178448475152046, 0.07797855342158849, 0.0934083307874384), vec3(-0.0496667228644018, -0.10729513607592657, 0.18004084203691445), vec3(0.19757655371867014, 0.3574803285070086, 0.3963883975215158), vec3(0.49918626770749397, -0.3120941814283134, 0.7262014392918832), vec3(-0.03518979931639722, 0.018746196077656777, 0.4936496988329914), vec3(0.0779668283573772, -0.21443346734633242, 0.5838758003124284), vec3(0.08860962420685935, -0.35893896555774274, 0.8749011102890102), vec3(-0.09580740974123905, -0.23023189903004582, 0.38816109603636595), vec3(-0.07716021892100154, 0.4715580187212149, 0.7520008218396623), vec3(-0.1582351641996318, -0.08068094347697896, 0.09214932180558065), vec3(0.012328557829184253, -0.15573684897365736, 0.4531048800759592), vec3(0.5270587313192853, -0.1792115358619911, 0.6973441492240243), vec3(0.6614106096131039, -0.4086654165158797, 0.42319617897338635), vec3(0.1848939154150419, -0.001208802852385285, 0.4048490683806498), vec3(0.11731432471646935, -0.13656622148022823, 0.12815299031668761), vec3(-0.0625483593109717, 0.11525517813826454, 0.36708036162021807), vec3(0.031518995958631425, -0.21736944844809133, 0.7245438364867655), vec3(-0.001237907719651218, -0.00435793677780554, 0.013545839168538337), vec3(-0.005087737098495574, -0.017439795566842213, 0.06880061796215002), vec3(0.1871109014495922, -0.4216560533314754, 0.5851189141125153), vec3(0.1477268633335665, -0.15343889177440412, 0.9290353137652214), vec3(0.47589377524480836, -0.44021548288452517, 0.5745074635427317), vec3(0.18600530095515577, 0.11663894228749126, 0.15012822719971933), vec3(-0.4388672633274662, 0.0072875557295142305, 0.863898640601061), vec3(-0.056102838615265584, -0.006638838196073787, 0.13675455900751088), vec3(0.2662008188976257, -0.05204795263721321, 0.909460447719285), vec3(0.10449410132869606, 0.03328077779049155, 0.04756640837209206), vec3(0.5221982162080286, 0.1898035979579182, 0.2767810328193816), vec3(-0.06954064260641013, -0.11441100897705521, 0.8387371354170315), vec3(-0.10268564848854235, -0.04344256555278501, 0.2992435705610543), vec3(-0.14110479345694826, -0.21091967817014468, 0.3108330624984169), vec3(-0.043283236739079516, -0.11935833717365778, 0.12700487647784536), vec3(-0.013128156658386195, -0.15831741219967263, 0.21292082034761978), vec3(-0.2593570345950744, -0.05287001386854551, 0.33477356028848354), vec3(-0.28643938704089467, -0.27343679635180135, 0.6966746944243433), vec3(0.0013770070302525593, -0.017381980839276105, 0.22078170998628968), vec3(-0.018129706832820693, -0.023941629912701698, 0.8595908782679896), vec3(0.10126968545357759, 0.014093675617791323, 0.11985242345460123), vec3(-0.13427268504582351, 0.11027457381872852, 0.5380730729034322), vec3(-0.014192040478038993, 0.0034264940805474034, 0.1013378774926874), vec3(-0.45238471575590117, 0.42293640922616615, 0.6642748552296739), vec3(0.013603256036838773, -0.02405262257984946, 0.035418252377760494), vec3(0.004007976001008832, -0.01010397970782796, 0.09641326103679423), vec3(0.04695439105716195, 0.40795649504381515, 0.26108386005977297), vec3(0.09269165209834303, 0.2158174167801151, 0.15904663370717476), vec3(-0.35028439962265195, -0.25820466788705204, 0.5137097067650912), vec3(-0.26409557199833933, -0.35223166281064244, 0.5902497948341079), vec3(0.0460746878751864, -0.03797011086987737, 0.14919436365404962), vec3(-0.029827943254187434, 0.0019076642896764242, 0.09966975204121863), vec3(0.0481335165001502, -0.013870794884373842, 0.06073837197849521), vec3(-0.061445088870907896, 0.7628412236367589, 0.3330351598402706), vec3(0.00237741654418916, -0.0280261565360426, 0.23951273012231622), vec3(-0.5178298790950889, -0.19780566706656788, 0.27839288431279013), vec3(-0.016470422342838485, -0.01050965333478491, 0.7803638176187816), vec3(0.43774066296349, -0.2102643740696786, 0.7360194417328968), vec3(-0.1239272176740238, -0.013177589458235002, 0.22934655851656394), vec3(-0.24472357852747825, -0.4276080146057148, 0.8115788333646725), vec3(0.026136209748526325, -0.016225027635577403, 0.599370263350061), vec3(-0.019620396067998883, -0.14427705675991517, 0.7733045569269764), vec3(0.19210628682339917, -0.33619492683109914, 0.3852451555755912), vec3(-0.10303198939634498, 0.3728877305744272, 0.3282224221908534), vec3(-0.17998377225260126, 0.2116406214789871, 0.17634794352433505), vec3(0.06066467333580775, -0.12488972287195645, 0.5960482341567), vec3(-0.07376202307825071, 0.04244088565446354, 0.5652585623161969) );
+38: const vec3 _constant0[] = vec3[]( vec3(0.07748807887772652, -0.3182395587554798, 0.5463025430133859), vec3(0.0014855141716442267, 0.0007179401396345198, 0.37865436829633287), vec3(-0.026454996545574015, 0.0024180842135471336, 0.1236371947734896), vec3(0.36967350599351334, -0.4443524975000576, 0.76544149743947), vec3(-0.21760657359635194, 0.6812849061465149, 0.5474004207450169), vec3(-0.512905617039318, -0.08165649894824346, 0.6506913716284332), vec3(0.07725350714233555, 0.10343532119876231, 0.3793262558961001), vec3(-0.08092739132971156, 0.5217225499339796, 0.4590562183364451), vec3(-0.5124616844527226, 0.2722434024328601, 0.6537329383916658), vec3(-0.526519719321807, -0.10766647786086998, 0.5787944915670432), vec3(0.04900632681317494, -0.017161869380801085, 0.06784624657200639), vec3(0.05215466099979633, 0.35239021732160075, 0.6300291843565318), vec3(-0.5102519527979078, -0.06323809524253628, 0.2596077487520665), vec3(-0.13446268905460765, 0.03731585223918705, 0.701836104034464), vec3(-0.5958615954423468, -0.08603487103370731, 0.5574853154502942), vec3(0.005789443575843138, -0.009415754439023259, 0.171960960614102), vec3(-0.41183955557637597, 0.12196166427428136, 0.5641738748165354), vec3(-0.051160600454845925, -0.013804551864385412, 0.09088143345900092), vec3(-0.08366532345571666, -0.16003500603041204, 0.07840438872598654), vec3(-0.2179387182325503, 0.165616850416907, 0.49974674850185447), vec3(-0.07443890315614413, 0.013135968592070989, 0.44622297708406355), vec3(-0.02231443535006726, -0.19873066998042843, 0.20035997588127477), vec3(0.07069062968287233, 0.0898139068295182, 0.544929260480426), vec3(0.45844490275922367, 0.2972380941248353, 0.7574058050107967), vec3(0.5724135266716552, -0.09288962253310118, 0.44221201775825136), vec3(0.5611554451367077, 0.16097379112065488, 0.4760733555314405), vec3(-0.09928484190013447, -0.23783250507971496, 0.7615547534845288), vec3(-0.02957885621240239, -0.200107245440787, 0.6325679331859534), vec3(0.026054079121670192, 0.11814857519135168, 0.11876513521040014), vec3(-0.3428253776781332, 0.034708087058243825, 0.399554505395521), vec3(-0.07290965847337243, -0.3393715293001184, 0.3018973390848282), vec3(0.4522937935965142, 0.018709735264675422, 0.4729785884651342), vec3(0.05014391923038111, -0.030399393805432884, 0.09001688895198383), vec3(0.456730418653418, 0.31968213609771706, 0.5963706829301086), vec3(-0.1036778679266937, -0.698952990801081, 0.4250848360168712), vec3(0.5171729837444824, 0.08716310559677798, 0.8067285497094953), vec3(0.00019550143001811232, 0.0005724373292045987, 0.004030014192075265), vec3(0.006670121163536749, 0.008096614310965141, 0.006908465729851435), vec3(0.15897864719744695, -0.464545233850141, 0.5664717300125894), vec3(-0.008728915210082256, 0.05032418704605663, 0.1119306513069813), vec3(0.09859011987098512, -0.24253792383736864, 0.11558973409159636), vec3(0.14553352132949784, 0.3436996665010837, 0.27191928866884946), vec3(-0.056589367183336604, -0.06013416177161723, 0.5997960639433834), vec3(-0.0867355546696043, 0.09778636213704621, 0.561887589156777), vec3(0.1075691526436187, -0.2931728011148503, 0.8486249155105324), vec3(0.0024701944590700274, 0.011604037398852182, 0.4241382836230536), vec3(-0.4897443175182226, 0.10462785092165891, 0.3253973801982658), vec3(-0.1886054361489189, -0.5120864266751445, 0.39548747639645326), vec3(0.02809843851590931, 0.030213381309466943, 0.31295780585731797), vec3(-0.08491957322728486, -0.6342967844057875, 0.596977140271776), vec3(0.045432247580626424, 0.02209188981860465, 0.07679579880406762), vec3(0.0002800049271571432, -0.0012546564320028777, 0.0079034197103029), vec3(-0.018487646839835243, -0.12108300612239035, 0.14554069106690531), vec3(-0.23212577131589113, -0.04147025263475811, 0.28546156980654325), vec3(0.04122006829409195, 0.04214706343321087, 0.028458003370470483), vec3(-0.23489571220975847, 0.07493374122535486, 0.2538563993168625), vec3(-0.09326837810976346, 0.09551153138594476, 0.8109566418111822), vec3(0.020530432170580513, -0.15434553405155937, 0.11327620600018926), vec3(-0.06519357946750266, -0.00555985311125409, 0.22039150608584318), vec3(0.12222299179390761, -0.003779764792044456, 0.08220185918069432), vec3(0.020027947240470252, 0.015964532836807686, 0.012653964652101272), vec3(0.13676451575798704, -0.3497813886027212, 0.6336276571542674), vec3(-0.0016787073687206074, -0.0016956566696948482, 0.5300826612632932), vec3(0.15640466309059894, 0.005243674744834545, 0.3091624986795973), vec3(-0.12892607669681824, 0.06254702511370382, 0.2970287819107325), vec3(-0.14087823518770287, -0.2911193550973915, 0.2844969007390605), vec3(0.25631188790942816, -0.3273800295475071, 0.454965065877994), vec3(-0.05361974568070498, 0.29765572965262593, 0.6968033600972553), vec3(0.03148802030702686, 0.049935726149924156, 0.889006471542696), vec3(0.0576123798819495, 0.016532941449708755, 0.8561937760150815), vec3(-0.1206035143417086, -0.07014721030292496, 0.09401641037060444), vec3(0.5723307205847823, 0.2278973943530257, 0.32499822126538397), vec3(0.1222062522579485, -0.19868660351537576, 0.2683473545234226), vec3(-0.017204586700988088, -0.023611554506871003, 0.0678126864610958), vec3(0.24689440583977146, 0.06843710900762941, 0.12162945881607569), vec3(-0.04899737088058534, 0.878422341730032, 0.45567444005913016), vec3(0.46744018847834773, 0.3977739974060643, 0.28715378937466723), vec3(-0.17713765590737313, -0.07557079490338721, 0.9607849706138614), vec3(-0.006080049752990483, -0.01057269727363529, 0.027024473635986025), vec3(-0.23532598121238374, -0.009140495571247133, 0.19376097106134052), vec3(-0.025012573112535175, -0.011254214369876002, 0.15363942485063994), vec3(0.06779527939028201, 0.07887591368415015, 0.07803565067624647), vec3(0.018607115272123984, 0.2772882690369923, 0.2102086678841756), vec3(0.03740998157827957, -0.23425214416919363, 0.17429237583344667), vec3(0.13576720052871405, -0.17462884845102694, 0.37536665316516227), vec3(-0.1848955593923196, -0.15384714630578014, 0.382717156388252), vec3(0.15146526457352974, 0.39512328619222636, 0.1914986061051207), vec3(0.054825186159862295, 0.2642098747264564, 0.6860127456554801), vec3(0.3975806029423601, -0.5486630371933385, 0.323663894266872), vec3(-0.0186347804101258, -0.013572234212850356, 0.47016070834770024), vec3(-0.06242075930452239, 0.08162713505007821, 0.09560216113838828), vec3(-0.2529170662753095, 0.3957638012343585, 0.6617982251719589), vec3(0.49557058904905776, 0.4050145741424309, 0.45048027238162625), vec3(-0.4732478648137878, -0.27180483258040317, 0.25480547002437054), vec3(0.012933058309176354, 0.003483106192462338, 0.09351133051977883), vec3(-0.22634601834031043, -0.4012054236947435, 0.29980904964500765), vec3(-0.34124135893411595, -0.10637717842252467, 0.8604103122556537), vec3(-0.13211779379938754, 0.00838321908609185, 0.22254134425597624), vec3(-0.04607055938945003, -0.0761070410035682, 0.23053187305605255), vec3(-0.028103129175285214, -0.038187939790678346, 0.471141449746987), vec3(0.26415640069229956, -0.6611885486763207, 0.3819268538926387), vec3(-0.560406293968357, 0.07874385604497669, 0.6175309503467883), vec3(-0.2482154178417367, 0.5995664365117767, 0.4381585364684778), vec3(-0.028247273205226377, -0.09246591905735388, 0.44704095166883046), vec3(-0.05425234062042972, -0.21185971388199087, 0.6722526146984152), vec3(-0.1189044090551277, 0.289014184542371, 0.2422499793916705), vec3(-0.007044926082102998, -0.35169378343384855, 0.5495022786690694), vec3(-0.06995152277409308, 0.07610616270419034, 0.05348083707260211), vec3(0.020148698752015137, -0.05697956432999636, 0.06209059012522136), vec3(-0.023229333568098684, -0.03188849370703359, 0.06339890377124033), vec3(0.27144518698550746, 0.5141769804230818, 0.34534058872628304), vec3(-0.10259844999799088, -0.6528512825106295, 0.521709305943525), vec3(0.01487417162751122, -0.13389155900151226, 0.09158894415447803), vec3(0.6852885308130738, -0.42785168449347466, 0.45035625341474267), vec3(-0.7639984244886853, 0.259118181807098, 0.5760112556849752), vec3(-0.3464430277330747, -0.43733375657665996, 0.7043369763896082), vec3(-0.03153291320269613, 0.22740787319521694, 0.3129259967455595), vec3(0.016396226240430942, 0.12727250775312754, 0.19773137668189092), vec3(0.24260865329814804, 0.6684952606342238, 0.569077414200783), vec3(0.1141085582022946, 0.30324138547154633, 0.8157755070357278), vec3(0.4041156968009794, 0.22515938184502937, 0.84832854301367), vec3(0.14332371709504577, 0.7049519811268621, 0.5053921700182086), vec3(0.002631452865651864, -0.00740737734908167, 0.0037395743039153654), vec3(0.03840650840466355, 0.017094763881818402, 0.41813084091881847), vec3(0.45731467914991414, -0.1360507027433091, 0.536456036143701), vec3(-0.009082111562151178, -0.01032131650544637, 0.35645058008746033), vec3(-0.12393442246901178, -0.1743751392402575, 0.8884529340630053), vec3(0.5859369570624043, -0.3749371728633194, 0.2889536593543146), vec3(0.42205186626079394, 0.6427649118071164, 0.6065441517225638), vec3(0.23064544610318669, -0.36562193953959315, 0.593178997670722), vec3(0.03843261883625582, -0.03243825646476652, 0.031019347737902596), vec3(-0.056213513320048064, -0.37600128768708857, 0.17539614702456546), vec3(-0.4439424342704339, -0.3867681408022293, 0.4362474263286069), vec3(-0.15135435895038693, 0.024896044561486644, 0.5345561450613289), vec3(0.03753777339156655, 0.4404319321915201, 0.22719204729263806), vec3(-0.008444546821618487, -0.0261710934038714, 0.3172630273395702), vec3(-0.13004164878410554, 0.05234641364318538, 0.3174648697965055), vec3(-0.50549711231967, 0.5072966646707877, 0.5302337942953417), vec3(-0.3695155321000001, -0.3883183368297767, 0.2403063729718109), vec3(0.031691768444318265, -0.013855126581255097, 0.0206399893315432), vec3(-0.08358059669369179, -0.6732120253726527, 0.42322826091783833), vec3(0.25916992677369194, -0.15220826198998455, 0.17558211489444026), vec3(0.27532396526251046, 0.34606026432540654, 0.47709915291283017), vec3(0.05159728326913419, -0.03915665176241843, 0.6731247593058648), vec3(-0.19688143041021658, -0.1601568298231406, 0.7528421156064037), vec3(-0.06137460246967547, 0.1451812765534051, 0.25334822786831285), vec3(0.3750012416287185, -0.2956056183362478, 0.43898131819120756), vec3(-0.22466092219428324, 0.12164167452929808, 0.8187991943374147), vec3(-0.08642570616595172, -0.19062382073770137, 0.574062282000571), vec3(0.004654231771016709, 0.008512701757103208, 0.19568530334800607), vec3(-0.1306990370168466, 0.04409404288172407, 0.08401557227902272), vec3(0.027294228587478046, -0.039865181966864206, 0.6943006241242813), vec3(0.17471068092500944, -0.13609489648984607, 0.2685920744210937), vec3(-0.11461610005399278, -0.07524881187179354, 0.34294814963719306), vec3(0.03748222356376032, -0.0813851673237337, 0.49928017535260355), vec3(-0.12312432501937781, 0.20963256908773784, 0.8964298761208127), vec3(0.26153907257799136, -0.7315567921680994, 0.2889896723332731), vec3(0.0057478021365218665, -0.025610028575064156, 0.3618005759972045), vec3(0.5632583530678457, -0.3195712254449349, 0.3569136733258751), vec3(0.00023208531180694608, -0.00093129439693151, 0.3502140650887563), vec3(0.15017166558001702, -0.1658799709513096, 0.42642713581812913), vec3(-0.6072959568790873, -0.5705445085353652, 0.3379656101943415), vec3(-0.03494294831723689, -0.020210809117667167, 0.13093156793108274), vec3(0.12521712873244398, 0.2536385041395532, 0.21061206688348819), vec3(0.0021080977705246417, -0.0011704640908554729, 0.015395288323231235), vec3(0.09120574827498958, 0.051496530546341165, 0.23530748246301167), vec3(0.012381074271595823, -0.09611248856450837, 0.050296053652466866), vec3(-0.42952192380132503, 0.3240712751739072, 0.280467995216708), vec3(0.36902104163343785, -0.0381516067063569, 0.21329834074445686), vec3(0.4220941737388795, -0.1132299620272315, 0.5115706663632908), vec3(0.358973826500256, 0.04388044008254436, 0.41637422206891606), vec3(-0.01645508260653693, 0.26606337258877993, 0.41949969790190883), vec3(0.06959953383343678, -0.03188935045611473, 0.643750542997236), vec3(-0.45224872408394284, -0.6298916275790463, 0.3956656851581164), vec3(0.026045551422277012, -0.02097347942861465, 0.0706732635790695), vec3(-0.24779463021875742, 0.45282691482197307, 0.34012893039035424), vec3(-0.046625840712084615, 0.0007923179706854084, 0.2238262435407467), vec3(0.009893104943296566, 0.018958133708851955, 0.33178261822603233), vec3(0.10994885657278015, 0.5375811022339028, 0.3008380514182524), vec3(-0.29504290762562685, 0.049761611325413936, 0.29411155169372205), vec3(-0.4570004326224633, 0.3909806182328235, 0.3737356938327452), vec3(-0.03266603628389638, 0.02634829729060804, 0.0372518010232256), vec3(0.12268229652582821, 0.051757495067091645, 0.04999149792041917), vec3(-0.6631805635679012, 0.23228375389834705, 0.3464456686951004), vec3(-0.41614713719820273, -0.29091837938834475, 0.26442402104728485), vec3(0.023346504058482417, 0.012020044346649238, 0.3621586610799963), vec3(0.01543657173645532, -0.009111842768752796, 0.06825505107245712), vec3(0.1219319448959356, -0.013163457220607038, 0.3421361435177895), vec3(0.006118566432125327, 0.0070021129612022935, 0.04797860090760263), vec3(0.30885408122593, 0.07662962991947622, 0.47071291110086927), vec3(-0.1352859896835588, -0.09056406036709805, 0.4616785349898708), vec3(0.4236067407056114, -0.452515156878638, 0.7645954606923819), vec3(0.014588217480289116, -0.047447297849333867, 0.14328490202123956), vec3(0.08989531266610135, -0.1314123409227974, 0.17584888699733978), vec3(-0.04219656043256118, -0.22430294316612093, 0.5099654680443773), vec3(-0.054285150141686014, -0.10575476946060863, 0.8925004605785896), vec3(-0.05832232744024913, 0.051279825585148306, 0.19626940834130405), vec3(0.02454721391324319, 0.06350202803340667, 0.2899813088213749), vec3(0.1471795396048161, 0.39627387640201783, 0.5077056449043431), vec3(-0.395812479996495, 0.2883214168543342, 0.22016009528663052), vec3(-0.08701949722661867, -0.120575459241373, 0.11698164602073284), vec3(-0.012717931060294252, 0.03720239645956929, 0.014343743632301916), vec3(-0.03133325366165495, 0.13587339467535053, 0.4065474094328776), vec3(0.25309389014812217, -0.1996490759479194, 0.8810865021268726), vec3(0.22605536577078925, 0.5245651424784793, 0.2983477495803519), vec3(0.043034515370936624, -0.024732844844649857, 0.6626208274696187), vec3(0.02304132745703639, -0.03812684305100516, 0.017030579510918263), vec3(0.06000236425875472, 0.022030320591009282, 0.47328076872721986), vec3(0.24054069385044233, -0.060379927851798756, 0.15253162663096553), vec3(0.5751650110265755, -0.45165081651597716, 0.505628462674449), vec3(0.36444147346233247, 0.47754897274202507, 0.35969568788590045), vec3(0.05518170690314258, 0.1403606074396211, 0.47297598643933075), vec3(0.13533925960113363, 0.6683493495504502, 0.2795295727131426), vec3(-0.09922771585921415, -0.1918510633216322, 0.23595085455625675), vec3(0.5260197316216537, 0.0628218093744381, 0.362876986587645), vec3(0.23107024579477747, 0.14324180957920835, 0.32725804290612304), vec3(0.003945312936814587, -0.09108568612419017, 0.7514552110547308), vec3(0.15725530221751155, -0.2618812581492316, 0.17803952369261603), vec3(0.6735190321375999, -0.10641041020977457, 0.37912005548873495), vec3(-0.05279614321342856, 0.38811102330124553, 0.5218277116061), vec3(-0.08557728440122726, 0.08110365760090955, 0.14514201277549843), vec3(-0.5484353756206712, 0.3150061710943507, 0.3950965154600528), vec3(-0.3412199465054842, 0.16725789784118847, 0.4084703680160901), vec3(-0.05506930960528331, 0.39833421656413154, 0.7599131435654707), vec3(-0.0002737811322917031, 0.018198069264799287, 0.18237397514112896), vec3(0.03335422275428489, 0.23857282599354157, 0.5135224380522438), vec3(-0.10721145102297161, -0.20798768567134404, 0.25405192771229046), vec3(0.09273968199116625, -0.3297822059925193, 0.22719856850077874), vec3(-0.018031969375015472, -0.005824302257260676, 0.31125566237586055), vec3(0.013140331037043753, -0.0662194516218083, 0.16448810196660274), vec3(-0.11494123815089155, -0.07961536902868294, 0.38233650076883086), vec3(-0.04874849713143774, 0.4252290645183897, 0.8265166130350403), vec3(0.09164828117954313, -0.26276361759799133, 0.6114719567230428), vec3(-0.023317933112472114, 0.06566082481477586, 0.055150169735624664), vec3(0.03289309501520391, 0.045735946779017655, 0.22336514853531472), vec3(0.048671242763976545, 0.055079619796948705, 0.6621735191631345), vec3(-0.2506197339635056, -0.10448480352496407, 0.5644023475700114), vec3(-0.11393547653372083, 0.07101031950876423, 0.15362805562555992), vec3(-0.05332612774073919, 0.026293315047074998, 0.12566856774997012), vec3(0.2783117399136349, -0.5445871048715122, 0.6711440112440553), vec3(-0.035043079493809366, -0.09816027214546916, 0.2976981676979713), vec3(-0.32928290369250546, 0.4281586164017773, 0.24472950119961062), vec3(-0.051425957677696824, -0.022731983766503754, 0.045447990853305045), vec3(0.022446848058153366, -0.017833980337867178, 0.15719844049821619), vec3(-0.010694502338001217, 0.029592024438078273, 0.8674342823059541), vec3(-0.29929763085669037, 0.8470444779700642, 0.4233064994362818), vec3(0.1923769522088453, 0.12072526691194314, 0.0978526273562229), vec3(0.08484477106866133, -0.03952501841501411, 0.8264725176281773), vec3(-0.004711859783780802, 0.018239575123590968, 0.5947976295063906), vec3(0.012501129251651887, 0.0020011762403506117, 0.13265536841008338), vec3(-0.03155859910138437, 0.0811728614822849, 0.11394426016756799), vec3(0.000788941119522854, 0.052523107721290284, 0.8558986609729943), vec3(0.08167388296874198, -0.028482384125734783, 0.5104072606764675), vec3(0.0008571941953793142, -0.00287267244125314, 0.007608174623603076), vec3(0.02796786157523066, 0.08243018075248035, 0.33890939898496875), vec3(-0.07329917416195583, 0.06944526505010992, 0.4318201888135678), vec3(0.016452122598082985, 0.10211705158954877, 0.4727667269467784), vec3(-0.15553210915612903, -0.15234842725432773, 0.5268311838926302), vec3(0.27055247600538684, -0.12190303492694501, 0.6941569131018139), vec3(0.0031639978542953207, -0.006222668449182527, 0.07689004207859473), vec3(-0.058438498697435594, 0.01640759130334486, 0.3132590242085572), vec3(-0.08552507201987136, 0.0386166340337208, 0.6296717249063079), vec3(0.0336650931649843, -0.0250569684669443, 0.16034466472240264), vec3(0.07688126981924395, 0.0006238007965965646, 0.08329209084515196), vec3(-0.16869554653825514, 0.07123472848135955, 0.44583761357193036), vec3(-0.10675245215555473, 0.346106027112629, 0.6788309891660036), vec3(-0.33727120952194206, 0.558646746088062, 0.5041425212060577), vec3(-0.036053557104368895, 0.12163083730273136, 0.6355833000867751), vec3(0.032004472962128785, 0.005698616641039405, 0.08341336606792522), vec3(0.48741791481186375, -0.027876391317948328, 0.8449822343635802), vec3(0.478842994307012, -0.21385902180498395, 0.6029801693356982), vec3(0.06367815445238863, -0.020817300358372638, 0.5488693027367045), vec3(-0.01775960616767883, -0.02456767499435169, 0.21238999781535267), vec3(-0.2386939957679921, -0.7460031556804787, 0.3836694145620435), vec3(-0.10932072727243859, 0.2006916923350627, 0.2477482568213923), vec3(0.2942797537484692, 0.4616523077963822, 0.23047168323185974), vec3(0.18707938312764724, 0.5889564790739645, 0.2676596377054334), vec3(-0.0532484753121817, -0.050920998090160034, 0.39123334601710835), vec3(0.12257622270223369, 0.09104003797274245, 0.979921514427015), vec3(0.08607148323372259, 0.12166259590011008, 0.11814182824568693), vec3(0.04728959108314918, 0.05440299656345113, 0.31168732555658163), vec3(0.31076286381792145, -0.3275409689903952, 0.24487833844377233), vec3(0.6361308547877335, -0.41407854830748686, 0.29947535592556057), vec3(0.05857407531905552, -0.0789723207312652, 0.14906728988930948), vec3(0.013446411717177057, -0.012557861891695676, 0.02905085200099755), vec3(-0.10122252922511707, 0.36805751196932684, 0.3953973253800109), vec3(-0.10271398130485204, 0.16240333838090043, 0.3656656928884399), vec3(0.36704996307182036, 0.44917924493912903, 0.3223874672578161), vec3(0.07816337302432307, 0.28184005948452356, 0.6786081801084364), vec3(-0.631745116662037, 0.11759858694377606, 0.4541665770356097), vec3(-0.01961834723875059, -0.0010873483719028125, 0.18122918786865339), vec3(-0.009147651078950719, 0.04676426892794805, 0.029939023957738207), vec3(0.09723824504273702, 0.1517701752339822, 0.4113378413525722), vec3(0.008642044316892748, 0.026670984549045346, 0.05509421220504742), vec3(0.07223941336915957, 0.0730310875247161, 0.5798880765384756), vec3(0.5634513125793416, 0.22137786105918855, 0.3070368349871103), vec3(0.07519721960457877, 0.10651543199821123, 0.4068652943098262), vec3(-0.2012226868557444, 0.7315570555562636, 0.5864380311824834), vec3(-0.012730488425146954, -0.05712664259771236, 0.6752806902027674), vec3(0.026040089458223722, 0.06731245260576998, 0.06716552152736407), vec3(-0.004125723052884478, 0.045237915129649635, 0.1622430765061526), vec3(0.5117483046567907, 0.10584172079367499, 0.29313924419322446), vec3(-0.18368587422068186, 0.40927442212621673, 0.5913221954731732), vec3(-0.37616142451956386, -0.352428502834782, 0.3431047946250671), vec3(0.09796653217158029, -0.24656136857296695, 0.20310234430011395), vec3(0.44874513772842156, -0.16023800182412623, 0.34872719013875486), vec3(-0.15662967009404025, -0.23301692085628417, 0.5784256882104242), vec3(0.005122220726640739, 0.03726099100149744, 0.6444081303113147), vec3(0.03003913676167073, -0.020337316493780563, 0.6701394239422277), vec3(-0.09196398471388804, -0.4761602010130587, 0.579833658269154), vec3(0.07266099761673206, -0.40891232185161286, 0.6484346884843711), vec3(-0.04000935717181367, 0.054063272680321565, 0.05333606878038447), vec3(-0.21763020344163267, 0.15291834043309507, 0.5135010354926798), vec3(-0.05851614519131619, 0.008781606562828755, 0.5616395495735056), vec3(0.2792012422046553, 0.21185885728889223, 0.6713077320791829), vec3(0.07468873572298436, 0.11051630907858556, 0.7943275697856752), vec3(0.42706281836701315, 0.5284984981570967, 0.4601961246420072), vec3(-0.33516310429586565, -0.037317339300181454, 0.9277829668358718), vec3(0.035877492641200916, 0.013155671931549748, 0.06910306638702542), vec3(-0.6461637033061418, -0.03825446942663399, 0.6710846101111108), vec3(-0.0328029119666763, -0.1621195645931528, 0.315616175051267), vec3(-0.06340833084369134, -0.03235817997950416, 0.14438148252289437), vec3(0.10139525437603544, 0.29977406912391813, 0.8523137994780999), vec3(0.006653572496905855, 0.24708188367048653, 0.17462122941019861), vec3(0.23099553297753697, 0.03745020591719716, 0.7583053709665424), vec3(0.2962055449378522, -0.4550056110142921, 0.5070182952285378), vec3(-0.042409807234003644, 0.057509018049958574, 0.07535277036990172), vec3(0.09954284083505317, -0.0779417626420186, 0.08568105168722834), vec3(0.06943479939817787, -0.0720561675739866, 0.26500009467168556), vec3(-0.5811611656343446, 0.13079886366035756, 0.2801025829720672), vec3(0.09525270810944393, 0.03424661000513878, 0.13252221166594716), vec3(-0.10396687656546842, -0.3320753196524261, 0.6240254041856059), vec3(-0.4965226301831432, -0.3397966092716166, 0.3960212850372631), vec3(-0.5409580960036556, -0.5530332461503765, 0.44636653515492486), vec3(0.011874036193747084, -0.015869624092646743, 0.008823401831116046), vec3(0.40693086970907166, -0.021029485800640572, 0.5944907557128799), vec3(-0.08404147115803288, -0.01870412981329518, 0.7665845275274689), vec3(0.05299768688654439, -0.07114956576913185, 0.17562162501185943), vec3(0.6084454641234801, -0.4958249048876768, 0.311517350921965), vec3(-0.0585099854376836, -0.014569430022027464, 0.4397991822570503), vec3(0.4150958325850906, 0.5384398842330008, 0.5997896476220099), vec3(0.6180482083005747, 0.24621613516173255, 0.38284220399569563), vec3(-0.5245729533686094, -0.17773319667264836, 0.823610286126164), vec3(0.12757575325646459, -0.5699304464279787, 0.7907511788465588), vec3(0.010697123193158516, -0.007351673139062778, 0.010752583823010456), vec3(-0.06608081929726416, 0.04003263141624881, 0.05773866126356139), vec3(0.29648330268579426, -0.09903113457334503, 0.3615957897812576), vec3(-0.17697554084371386, -0.08760836009994283, 0.8620197303296419), vec3(-0.020434877421979095, -0.05501793558730336, 0.29881605663206917), vec3(0.06587137404280517, -0.35225511156053063, 0.6967048566327984), vec3(-0.2011819488195655, -0.33648992904297137, 0.7633469361291706), vec3(0.040162146340326645, -0.018884978559983216, 0.4378311000674365), vec3(-0.007381658244442811, 0.3648707460266036, 0.8007369405824767), vec3(0.15264768836399503, 0.17532083811588908, 0.7082515117162662), vec3(0.05235755994837078, -0.4309982774585735, 0.6020369146771306), vec3(0.0055627244237716955, -0.0036778942095781267, 0.00344320151365841), vec3(0.012124256121012311, -0.2883762151059201, 0.62674836192055), vec3(0.03571069498144278, -0.18418914090403665, 0.3975510120592523), vec3(-0.6982337141743438, 0.11705768566076645, 0.42475429906239626), vec3(0.05259688440285386, -0.06014166812738632, 0.5858473060833775), vec3(0.06215339286066811, 0.009519558942357738, 0.48254853983832785), vec3(0.07578425697092628, -0.022951763947783487, 0.48380442739969165), vec3(-0.09929847618131477, -0.018673147080215464, 0.3478645351632709), vec3(-0.011366677351342686, -0.0031576992314112737, 0.005105660442731602), vec3(-0.42611559472123917, -0.04945223528639446, 0.4038258249648969), vec3(-0.016084454230869228, -0.04023953938670949, 0.034754846865669056), vec3(0.021758933605029653, 0.06295483118497058, 0.35942086326764616), vec3(-0.5174319762652287, 0.17793594251440562, 0.412343151319759), vec3(0.04426353328533942, -0.5030980388050517, 0.19959753062262922), vec3(-0.0070531018842348095, -0.005477198312439378, 0.03545316401600899), vec3(-0.011835545584983228, 0.016597725043742705, 0.02726708333772315), vec3(0.002639966414793404, -0.2880138972293985, 0.5534320435562777), vec3(0.032251751389026424, -0.07796757908698877, 0.1151136492495163), vec3(0.42218705627821523, 0.009871699199437776, 0.47429057225007726), vec3(0.0021584101259969203, -0.006242718061394852, 0.024900344636848502), vec3(-0.12380429340578632, -0.49194822886481226, 0.29881751094510645), vec3(-0.033795088675356896, 0.11804334330337662, 0.11532936672983113), vec3(-0.38510883569635945, 0.438679029949059, 0.7189907058545596), vec3(-0.21703211579614148, 0.09367042501102857, 0.16059740399576333), vec3(-0.017577723061062353, -0.0060925819582273, 0.6968916092933229), vec3(0.020726824970015132, -0.055485886742416904, 0.258172941627418), vec3(-0.0015036448589889635, -0.02715326138156027, 0.21780521622444118), vec3(0.07840222666302894, -0.1615333914094613, 0.8289771025104545), vec3(-0.10718980144134753, -0.3199820775301635, 0.36867151985365804), vec3(0.018956812368559405, -0.01271683073433929, 0.7998038264512128), vec3(-0.3393918132428786, -0.23678879271050193, 0.5973375291278777), vec3(0.044307371800894925, 0.602375027095232, 0.575831693313127), vec3(0.043261318404016424, -0.5562388702301012, 0.7994395868743639), vec3(-0.058299880082646534, 0.07555183097718267, 0.11688562069977994), vec3(-8.800456271472003E-05, 0.00018591744968896845, 0.014188808554015072), vec3(0.003937208957809519, 0.02785691876978428, 0.01232798805833687), vec3(0.07223196356000745, 0.09736424635937292, 0.3088643906791435), vec3(0.3057214820082571, -0.08507029081772793, 0.1924604735789098), vec3(-0.14096686196217398, 0.05781542699142837, 0.20219877733752523), vec3(0.18646182930798064, -0.826310987365389, 0.44591183130260237), vec3(-0.16829596547424852, 0.3464442611759558, 0.15820365347667334), vec3(-0.23577413462614696, 0.12097593682511801, 0.306712254549935), vec3(-0.154114556433586, 0.11943492812880223, 0.9600688077941678), vec3(0.060011489888676044, -0.27439174732107774, 0.2761614888011401), vec3(-0.6097100276979123, -0.29092143299636586, 0.6839045133025249), vec3(0.14347912338611823, -0.30911510231794276, 0.6466011740127265), vec3(-0.23974532271476004, -0.5999168261715403, 0.45956788267490856), vec3(-0.06632516326647439, -0.05868559474052157, 0.3296064415976877), vec3(-0.14277591025329314, -0.12067962829839171, 0.19198053077282407), vec3(0.5426747900701857, -0.36321359172283296, 0.3677134732102648), vec3(0.0590413158834941, 0.19665610034740905, 0.11273499311408353), vec3(-0.18068206697175276, 0.02641610195758417, 0.23467706891753248), vec3(0.05822753673131166, -0.2042880570068426, 0.1219250602165747), vec3(0.3553683555650073, 0.0821962987871536, 0.620381376216162), vec3(0.08779445201399508, 0.11298722527066374, 0.05558480791036996), vec3(-0.014618777022748355, -0.17239437529242507, 0.8210182462168074), vec3(0.006819025388249292, -0.014171512066877752, 0.7637349213124706), vec3(-0.032202871984382236, -0.10212272356396508, 0.11043194376319387), vec3(0.08308104940980165, 0.03996820399022478, 0.08948365639925585), vec3(-0.023676464458362842, 0.21661962423091916, 0.24299340288055774), vec3(-0.04487952030308937, -0.19760117820134848, 0.17406568589205929), vec3(0.4744339086505178, -0.03114177246019689, 0.43146283973106314), vec3(0.2580676722321667, 0.6855801662978976, 0.4551823962940553), vec3(-0.004762242402966978, 0.09251308951806987, 0.1914956979101529), vec3(-0.24654367778555844, -0.6327100162487688, 0.5317334333084097), vec3(0.02560612431293644, 0.18237698773907585, 0.12224293548464404), vec3(-0.25302266981394383, -0.24498383547587857, 0.1690680953276671), vec3(-0.10940908358085884, -0.2551393700963158, 0.4564615639790468), vec3(-0.4652723882394578, 0.029818367139031073, 0.24965526032065977), vec3(0.0008644104619964864, -0.003451945669444114, 0.004635988433775622), vec3(0.20181488260622643, 0.20910146959941853, 0.6392874702371032), vec3(-0.16637411296908156, -0.00514571531999045, 0.19020925285453208), vec3(0.5158021837846479, -0.36836702287811784, 0.6241381357068759), vec3(-0.4413543624866961, -0.22713325862609543, 0.46150223239367444), vec3(0.501373045450549, 0.26846144678481243, 0.21884843539319904), vec3(0.10471867793833657, 0.13238075007947187, 0.07177730765625932), vec3(-0.045732967880815205, 0.05210151501786252, 0.17559850114632197), vec3(0.1767385726203371, 0.24809573411095437, 0.43642690265741446), vec3(0.201017432032729, -0.17685875750277097, 0.18329019559053594), vec3(-0.5178448783523878, 0.726722178058708, 0.3705523173423306), vec3(-0.27669123075353946, -0.20379210899490083, 0.3236378300563707), vec3(-0.015168689416550885, -0.41476532849603975, 0.7739343454863998), vec3(0.015331247021564045, -0.5262135055215527, 0.24400241043806953), vec3(-0.6397423356543755, -0.19710258257007807, 0.33903215020085364), vec3(-0.08455254400449831, 0.15080960706336816, 0.5388297945282936), vec3(0.062119402517310164, 0.07550353865341217, 0.4180512531557024), vec3(0.30607802902563047, -0.34272336981181994, 0.3694042701611764), vec3(-0.10825440323707594, 0.020274906413674403, 0.2302206148808754), vec3(0.14538157539864296, 0.44640356703530987, 0.8799858517894044), vec3(0.021046797690813555, -0.1058698579072676, 0.13792322541334975), vec3(-0.005485532503639959, 0.17492206364782326, 0.2014070322208508), vec3(-0.034061526098077013, 0.1307896971301179, 0.11580876833509961), vec3(-0.06430153060259312, -0.045781375811476926, 0.2294605911500784), vec3(-0.32429376357265194, 0.12506338323197272, 0.8591431605778903), vec3(0.017517229029750572, -0.15512241855415165, 0.6722666504719574), vec3(-0.537885493328352, -0.22113928632672053, 0.5112557882330888), vec3(-0.4483912100566783, -0.09956624836275106, 0.289418376690174), vec3(0.3751984906437036, -0.16288625771781626, 0.6487639226310418), vec3(-0.05218897609269451, -0.04050340230948541, 0.527312976433222), vec3(0.3447626571185382, -0.5932534687442294, 0.2778045806286789), vec3(0.20033865682701887, 0.1486537691361391, 0.2313697911159701), vec3(-0.11861537506713674, 0.1835446458024288, 0.13822270646167875), vec3(0.41847481434221184, -0.6190026088204166, 0.3190052107859552), vec3(0.15426653445975544, 0.09870583934282313, 0.1875262369178831), vec3(0.02014906086222625, -0.03300218907393641, 0.02703696970089188), vec3(-0.16539894224239954, 0.5215484268485588, 0.8148248071906914), vec3(0.3383155468486174, 0.027979414493509415, 0.2259709657698988), vec3(-0.002762277677224455, -0.010370440405470546, 0.5670600049902234), vec3(-0.003695437479977085, 0.0036110222471445338, 0.11016503375455189), vec3(0.1811962198288695, -0.5089421660119388, 0.8057364185394565), vec3(-0.18211197179544683, 0.012557148533467963, 0.624113697474159), vec3(0.02709278614058684, 0.030382110929261855, 0.22807408287862538), vec3(-0.15274152324774776, -0.4008768561340555, 0.709780960748558), vec3(-0.004585469568485833, -0.006592524132681971, 0.16205319310552507), vec3(0.003046248309640976, -0.010090067659456881, 0.8542755064101902), vec3(0.0029691441177999373, -0.046303439495077224, 0.3861542972231798), vec3(-0.0471149168525319, -0.021224301705109503, 0.033908057700032634), vec3(-0.06826204157609153, 0.02607097574069683, 0.08497140995672084), vec3(0.01264015856324612, 0.3487561295705665, 0.5446158697523951), vec3(0.1970553625325583, -0.23454842316070532, 0.3062026838383712), vec3(0.22261029608781643, 0.477717270155768, 0.3478211737531553), vec3(-0.12495112908711717, 0.017845520949445755, 0.049172460061424644), vec3(0.038956165554798486, -0.03311030621913593, 0.5344204370294663), vec3(-0.1135468100536398, -0.2507062472431082, 0.22219933337751188), vec3(0.49437308096146815, 0.4465810298455326, 0.31987239348521174), vec3(0.2895390944242804, 0.16780443523247804, 0.40355260587342917), vec3(-0.00123456598248749, 0.004006200298921925, 0.009188706773640788), vec3(-0.8349900916952842, 0.09594782513275395, 0.4695668366240474), vec3(-0.22788980393907957, -0.05782485373804981, 0.9592192005446253), vec3(0.2644551067767971, 0.28894192613040937, 0.7374687989992401), vec3(-0.012602417842714717, 0.03706905437654198, 0.6393301430921058), vec3(0.18482086335591705, -0.3058480754797567, 0.22416958751682978), vec3(0.00018790004977041832, 3.1045894529018483E-05, 0.0007598997956225815), vec3(0.12403086401071635, -0.07162543988031835, 0.5663824424883561), vec3(-0.06319923253340433, 0.07346784850614259, 0.6184381727856679), vec3(0.025487542273755354, -0.1897128609445018, 0.09449080757073823), vec3(0.005693462490793712, 0.011557673532443576, 0.06449089498750313), vec3(-0.07664943527548572, 0.222278600273842, 0.21427579914200015), vec3(0.004486266059117637, -0.1301422400763693, 0.6910306293701703), vec3(-0.0167324160925194, 0.3980606172031486, 0.4275487134232966), vec3(0.0015465377113663527, -0.01939426172995811, 0.009219611043971341), vec3(0.01745964597707409, -0.009089863350664541, 0.010725958287287674), vec3(0.030388513568727675, -0.015124289842452879, 0.1408915334451351), vec3(0.0022240563245477987, -0.006800830156014166, 0.02635068441724024), vec3(-0.16036375190716431, 0.29784898137861426, 0.4013317681623674), vec3(0.00196788397965289, 0.0005289557338818456, 0.035081910402579936), vec3(-0.09426347233523429, 0.16074608467647875, 0.29465209282694454), vec3(-0.006901447910828638, 0.010742793441736382, 0.07938539132305385), vec3(0.05087683889919437, -0.009132825955335747, 0.05076061715176662), vec3(0.21546756972773626, -0.06174396171102799, 0.20123639543741748), vec3(0.20815326293371797, 0.3345360977029999, 0.5936876066761205), vec3(-0.2697142054589225, 0.29937529302670446, 0.15243470229851172), vec3(0.01507429737518698, 0.020227330394580384, 0.11742697520336615), vec3(-0.012512961918127516, 0.010414154189750374, 0.0969450139339485), vec3(0.08628071368758584, 0.026535996678488216, 0.060728382874591855), vec3(0.07065833317357127, 0.06089440052821729, 0.18230694832165972), vec3(0.3969712340378814, -0.15700422057620966, 0.5819305044555491) );
 39: 
 40: 
 41: #ifdef Vertex
@@ -676,10 +704,8 @@
 96: #endif
 
  2: texture created
- 2: [GL] RenderObjects: +1/-0 (2290ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2304ms)
- 2: using optimized native program
+ 2: result created
+ 2: WARNING: load
  2: texture created
  2: result created
  2: WARNING: AdaptiveFramebufferCube.compute
@@ -690,7 +716,7 @@
  2: WARNING: AdaptiveFramebufferCube.compute
  2: WARNING: AdaptiveRenderingResultCube.compute
  2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: [GL] RenderObjects: +1/-0 (409ms)
  2: using optimized native program
  2: WARNING: AdaptiveRenderingResultCube.compute1
  2: [GL] RenderObjects: +1/-0 (2ms)
@@ -705,9 +731,46 @@
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveOutputCubeTexture.compute
+ 2: [GL] RenderObjects: +61/-0 (1010ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: [GL] RenderObjects: +1/-0 (2348ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2369ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: texture created
+ 2: result created
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveFramebufferCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: WARNING: AdaptiveOutputCubeTexture.compute
+ 2: texture created
  2: texture created
  2: texture created
  2: result created
@@ -743,296 +806,166 @@
  2: WARNING: AdaptiveFramebufferCube.compute
  2: WARNING: AdaptiveRenderingResultCube.compute
  2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (6ms)
- 2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: WARNING: AdaptiveRenderingResultCube.compute1
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: [GL] RenderObjects: +1/-0 (16ms)
  2: using optimized native program
  2: WARNING: AdaptiveRenderingResultCube.compute1
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: WARNING: AdaptiveRenderingResultCube.compute1
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (22ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: WARNING: AdaptiveRenderingResultCube.compute1
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (23ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: WARNING: AdaptiveRenderingResultCube.compute1
  2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: WARNING: AdaptiveRenderingResultCube.compute1
  2: [GL] RenderObjects: +1/-0 (44ms)
  2: using optimized native program
  2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (13ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (25ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (4ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (30ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (37ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (46ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (31ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (14ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute1
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: WARNING: AdaptiveOutputCubeTexture.compute
+ 2: texture created
+ 2: result created
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: WARNING: load
+ 2: [GL] RenderObjects: +60/-0 (11ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +2/-0 (3227ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: result created
+ 2: texture created
+ 2: result created
+ 2: texture created
+ 2: result created
  2: [GL] RenderObjects: +1/-0 (5ms)
  2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (11ms)
+ 2: [GL] RenderObjects: +1/-0 (12ms)
  2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: [GL] RenderObjects: +1/-0 (19ms)
  2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (38ms)
+ 2: [GL] RenderObjects: +1/-0 (3263ms)
  2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: [GL] RenderObjects: +1/-0 (4410ms)
  2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (41ms)
+ 2: [GL] RenderObjects: +1/-0 (5226ms)
  2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (43ms)
- 2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
  2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
  2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: WARNING: AdaptiveOutputCubeTexture.compute
- 2: texture created
- 2: result created
- 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +2/-0 (4342ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: texture created
- 2: result created
- 2: texture created
- 2: result created
- 2: texture created
- 2: result created
- 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (9ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (21ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (4386ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (5251ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 3: WARNING: Save D:\Users\Stefan\Documents\GitHub\learningAardvark\data\initial_scene.json
- 2: WARNING: load
- 2: WARNING: load
- 2: WARNING: load
- 2: WARNING: load
- 2: [GL] RenderObjects: +299/-0 (589ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +12/-1 (1363ms)
- 2: WARNING: AdaptiveRenderingResultCube.compute
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveFramebufferCube.compute
- 2: WARNING: AdaptiveFramebufferCube.compute
- 2: WARNING: AdaptiveFramebufferCube.compute
- 2: WARNING: AdaptiveFramebufferCube.compute
- 2: WARNING: AdaptiveFramebufferCube.compute
- 2: WARNING: AdaptiveFramebufferCube.compute
- 2: WARNING: AdaptiveRenderingResultCube.compute
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: texture created
- 2: result created
- 2: WARNING: AdaptiveRenderingResultCube.compute
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveOutputCubeTexture.compute
- 2: [GL] RenderObjects: +300/-0 (2756ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: texture created
- 2: texture created
- 2: texture created
- 2: texture created
- 2: [GL] RenderObjects: +13/-0 (2857ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: texture created
- 2: result created
- 2: [GL] RenderObjects: +300/-0 (494ms)
+ 2: [GL] RenderObjects: +1/-0 (0ms)
  2: using optimized native program
- 2: texture created
- 2: texture created
- 2: texture created
- 2: texture created
- 2: [GL] RenderObjects: +13/-0 (572ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: texture created
- 2: result created
- 2: [GL] RenderObjects: +300/-0 (518ms)
+ 2: [GL] RenderObjects: +1/-0 (0ms)
  2: using optimized native program
- 2: texture created
- 2: texture created
- 2: texture created
- 2: texture created
- 2: [GL] RenderObjects: +13/-0 (563ms)
+ 2: [GL] RenderObjects: +1/-0 (0ms)
  2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: texture created
- 2: result created
- 2: [GL] RenderObjects: +300/-0 (541ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: texture created
- 2: texture created
- 2: texture created
- 2: texture created
- 2: [GL] RenderObjects: +13/-0 (595ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: texture created
- 2: result created
- 2: [GL] RenderObjects: +300/-0 (590ms)
+ 2: [GL] RenderObjects: +1/-0 (0ms)
  2: using optimized native program
- 2: texture created
- 2: texture created
- 2: texture created
- 2: texture created
- 2: [GL] RenderObjects: +13/-0 (639ms)
+ 2: [GL] RenderObjects: +1/-0 (0ms)
  2: using optimized native program
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: texture created
- 2: result created
- 2: [GL] RenderObjects: +300/-0 (570ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: texture created
- 2: texture created
- 2: texture created
- 2: texture created
- 2: [GL] RenderObjects: +13/-0 (642ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: WARNING: AdaptiveOutputCubeTexture.compute
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveOutputCubeTexture.compute
- 2: WARNING: AdaptiveRenderingResultCube.compute
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveOutputCubeTexture.compute
- 2: [GL] RenderObjects: +299/-60 (639ms)
- 2: WARNING: AdaptiveRenderingResultCube.compute
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveOutputCubeTexture.compute
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveOutputCubeTexture.compute
- 2: WARNING: AdaptiveRenderingResultCube.compute
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveRenderingResultCube.compute1
- 2: WARNING: AdaptiveOutputCubeTexture.compute
- 3: WARNING: Save D:\Users\Stefan\Downloads\level19\level19_scene.json
- 4: [Client] 1: stopped
+ 3: [Client] 1: stopped
