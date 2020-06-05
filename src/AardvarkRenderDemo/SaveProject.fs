@@ -19,6 +19,7 @@ module projetIO =
         objects : HashMap<string, SceneObject>
         selectedObject : string
         bloom : Bloom
+        fxAA : fxAA
     }
 
     //store all file paths relative to the dir of the scene file
@@ -56,6 +57,7 @@ module projetIO =
             enviorment = m'.enviorment
             expousure = m'.expousure
             bloom = m'.bloom
+            fxAA  =m'.fxAA
             objects = m'.objects
             selectedObject = m'.selectedObject
         }
@@ -69,7 +71,7 @@ module projetIO =
             lights  = em.lights
             enviorment = em.enviorment
             expousure = em.expousure
-            fxAA = true
+            fxAA = em.fxAA
             bloom = em.bloom
             objects = em.objects
             selectedObject = em.selectedObject

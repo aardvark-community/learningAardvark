@@ -570,9 +570,18 @@
     },
     "selectedObject": "SLE_Gnom4",
     "bloom": {
+      "on": true,
       "threshold": 5.248074602497728,
       "blurSize": 3,
       "sigma": 3.0
+    },
+    "fxAA": {
+      "on": true,
+      "threshold": 0.5,
+      "subpixshift": 0.25,
+      "spanmax": 8.0,
+      "reducemul": 0.125,
+      "reducemin": 0.0078125
     }
   }
 }

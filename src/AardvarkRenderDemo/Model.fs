@@ -97,9 +97,21 @@ type AmbientOcclusionSettings =
 [<ModelType>]
 type Bloom =
     {   
+        on : bool
         threshold : float
         blurSize : int
         sigma : float
+    }
+
+[<ModelType>]
+type fxAA =
+    {   
+        on : bool
+        threshold : float
+        subpix_shift : float
+        span_max : float
+        reduce_mul : float
+        reduce_min : float
     }
 
 [<ModelType>]
@@ -120,7 +132,7 @@ type Model =
         lights : HashMap<int, Light>
         enviorment : GlobalEnviorment
         expousure  : float
-        fxAA : bool
+        fxAA : fxAA
         bloom : Bloom
         objects : HashMap<string, SceneObject>
         selectedObject : string

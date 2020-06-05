@@ -73,7 +73,7 @@ module bloomShader =
 
 module bloom =
 
-    let defaultBloom = {threshold = 1.0;  blurSize  = 3; sigma = 3.0}
+    let defaultBloom = {on = true; threshold = 1.0;  blurSize  = 3; sigma = 3.0}
 
     let bloom (runtime : IRuntime)  (size : aval<V2i>)  (inputTexture : aval<ITexture>)  (model : AdaptiveBloom)=
 
@@ -127,20 +127,23 @@ module BloomControl =
     open Aardvark.UI.Primitives
 
     type Message =
+        | ToggleOn
         | SetThreshold of float
         | SetBlurSize of int
         | SetSigma of float
 
     let update (m : Bloom)  (msg : Message) = 
         match msg  with
+        | ToggleOn -> {m with on = not m.on}
         | SetThreshold t-> {m  with threshold = t}       
         | SetBlurSize s -> {m with blurSize = s}
         | SetSigma s -> {m with sigma = s}
 
     let view (m : AdaptiveBloom) =
-        let numInput name changed state  = labeledFloatInput name 0.0 1.0 0.01 changed state
         Html.table [                        
             tr [] [ td [attribute "colspan" "2"] [text "Bloom"]]
+            tr [] [ td [] [text "Active"]; 
+                    td [style "width: 70%;"] [Html.SemUi.toggleBox m.on ToggleOn]]
             tr [] [ td [] [text "Threshold"]; 
                     td [style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.threshold SetThreshold]]
             tr [] [ td [] [text "Blur Size"]; 

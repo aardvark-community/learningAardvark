@@ -32,7 +32,7 @@ type Message =
     | SelectObject of string
     | SaveProject of string
     | LoadProject of string
-    | TogglefxAA 
+    | FxAAMessage  of fxAA.Message
 
 module App =   
 
@@ -58,7 +58,7 @@ module App =
                       lightProbePosition = None
                       }
         expousure  = 1.0
-        fxAA = true
+        fxAA = fxAA.defaultfxAA
         bloom = bloom.defaultBloom
         objects = obj
         selectedObject = selected
@@ -122,7 +122,8 @@ module App =
             do projetIO.save m f
             m
         | LoadProject f -> projetIO.load f
-        | TogglefxAA  -> {m with fxAA = not m.fxAA}
+        | FxAAMessage msg -> 
+            { m with fxAA = fxAA.update m.fxAA msg }
 
      //texture  with random values used in the AO shaders
     let randomTex ( runtime : IRuntime) = 
@@ -341,13 +342,21 @@ module App =
             |> Sg.compile runtime signature
             |> RenderTask.renderToColor size   
 
-        let bloomed = bloom.bloom runtime size output m.bloom
+        let bloomed = 
+            AVal.bind (fun doBloom  ->  
+                if doBloom then
+                    bloom.bloom runtime size output m.bloom :> aval<ITexture>
+                else 
+                    output :> aval<ITexture>) 
+                m.bloom.on
         
-        let postprocessed = AVal.bind (fun doAA  ->  
-            if doAA then  
-                fxAA.fxAA runtime size signature bloomed m.fxAA :> aval<ITexture>
-            else 
-                bloomed :> aval<ITexture>) m.fxAA
+        let postprocessed = 
+            AVal.bind (fun doAA  ->  
+                if doAA then  
+                    fxAA.fxAA runtime size signature bloomed m.fxAA :> aval<ITexture>
+                else 
+                    bloomed) 
+                m.fxAA.on
 
         //tone mapping and gamma correction
         //let toneMapped =
@@ -466,7 +475,7 @@ module App =
                                 item::items
                             ) []
                          //feed that into a accordeon
-                        |> AVal.map (fun items -> Html.SemUi.accordionMenu true "ui vertical inverted fluid accordion menu" items |> IndexList.single)
+                        |> AVal.map (Html.SemUi.accordionMenu true "ui vertical inverted fluid accordion menu" >> IndexList.single)
                         // and that  into  a incremantal div to handel the case that the numbers of lights change
                         |> AList.ofAVal
                         |> Incremental.div AttributeMap.empty
@@ -479,9 +488,9 @@ module App =
                     [
                         Html.table [                        
                             tr [] [ td [] [text "Exposure"]; td [ style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.expousure SetExpousure]]
-                            tr [] [ td [] [text "fxAA"]; td [ style "width: 70%;"] [Html.SemUi.toggleBox m.fxAA TogglefxAA]]
                         ]  
                         BloomControl.view m.bloom |>  UI.map BloomMessage 
+                        fxAA.view m.fxAA |>  UI.map FxAAMessage 
                     ]    
                 "Project",
                     [

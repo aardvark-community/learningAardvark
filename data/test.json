@@ -87,7 +87,175 @@
                 "count": 11,
                 "items": [
                   {
-                    "Item1": "lips",
+                    "Item1": "thounge",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_Gnom2.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": {
+                          "Some": "SLE_Gnom2_n.png"
+                        },
+                        "factor": 1.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "skin",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_Gnom2.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": {
+                          "Some": "SLE_Gnom2_n.png"
+                        },
+                        "factor": 1.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "cornea",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "eyewithe",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.9843140244483948,
+                          "G": 0.9843140244483948,
+                          "R": 0.9764710068702698
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "puppil",
                     "Item2": {
                       "metallic": {
                         "fileName": null,
@@ -171,219 +339,7 @@
                     }
                   },
                   {
-                    "Item1": "cornea",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "albedo": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "thounge",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2_n.png"
-                        },
-                        "factor": 1.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "teeth",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2_n.png"
-                        },
-                        "factor": 1.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "eyewithe",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "albedo": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.9843140244483948,
-                          "G": 0.9843140244483948,
-                          "R": 0.9764710068702698
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
                     "Item1": "nails",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2_n.png"
-                        },
-                        "factor": 1.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "puppil",
                     "Item2": {
                       "metallic": {
                         "fileName": null,
@@ -471,6 +427,50 @@
                     }
                   },
                   {
+                    "Item1": "teeth",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_Gnom2.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": {
+                          "Some": "SLE_Gnom2_n.png"
+                        },
+                        "factor": 1.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
                     "Item1": "lashes",
                     "Item2": {
                       "metallic": {
@@ -511,7 +511,7 @@
                     }
                   },
                   {
-                    "Item1": "skin",
+                    "Item1": "lips",
                     "Item2": {
                       "metallic": {
                         "fileName": null,
@@ -556,7 +556,7 @@
                   }
                 ]
               },
-              "currentMaterial": "lips",
+              "currentMaterial": "thounge",
               "materialLinks": {
                 "count": 0,
                 "items": []
@@ -568,9 +568,18 @@
     },
     "selectedObject": "SLE_Gnom4",
     "bloom": {
+      "on": true,
       "threshold": 1.0,
       "blurSize": 3,
       "sigma": 3.0
+    },
+    "fxAA": {
+      "on": true,
+      "threshold": 0.5,
+      "subpixshift": 0.25,
+      "spanmax": 8.0,
+      "reducemul": 0.125,
+      "reducemin": 0.0078125
     }
   }
 }
