@@ -415,7 +415,6 @@ module App =
 
     // main view for UI and  
     let view (m : AdaptiveModel) =
-        let lights' = AMap.toASet m.lights
         let saveButton = 
             openDialogButton 
                 { OpenDialogConfig.file with allowMultiple = false; title = "Save"; filters  = [|"*.*"|];  startPath = ""; mode  = OpenDialogMode.File}
@@ -458,10 +457,14 @@ module App =
                     ]    
                 "Change Light",
                     [   //build a list of light views from the set of lights
-                        lights'
-                        |> ASet.fold 
-                            ( fun items (i, l) -> 
-                                let name = sprintf "Light %i" i
+                        m.lights
+                        |> AMap.fold 
+                            ( fun items i l -> 
+                                let name = 
+                                    match l with
+                                    |AdaptiveDirectionalLight _ -> sprintf "Directional Light %i" i
+                                    |AdaptivePointLight _ -> sprintf "Point Light %i" i
+                                    |AdaptiveSpotLight _ -> sprintf "Spot Light %i" i
                                 let d = 
                                         lightControl.view  l |> UI.map (fun msg -> LightMessage (i, msg)) 
                                         |> AList.single
