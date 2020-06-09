@@ -261,7 +261,29 @@ module App =
                                         do! PBR.lightingDeferred
                                         } ) dl
                             |> Sg.dynamic                                
-                        |AdaptivePointLight _ |AdaptiveSpotLight _ ->
+                        |AdaptiveSpotLight sl ->
+                            AVal.map (fun (d : SpotLightData)->
+                                //if d.castsShadow then
+                                    Sg.fullScreenQuad
+                                    |> Sg.adapter
+                                    |> Sg.uniform "Light" (SLEUniform.uniformLight l)
+                                    |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
+                                    |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> AVal.map(fun (v,p)  -> v * p))
+                                    |> Sg.shader {
+                                        do! PBR.getGBufferData
+                                        do! PBR.lightingDeferred
+                                        do! PBR.shadowDeferred
+                                        }
+                               (* else
+                                     Sg.fullScreenQuad
+                                    |> Sg.adapter
+                                    |> Sg.uniform "Light" (SLEUniform.uniformLight l)
+                                    |> Sg.shader {
+                                        do! PBR.getGBufferData
+                                        do! PBR.lightingDeferred
+                                        } *)) sl
+                            |> Sg.dynamic                          
+                        |AdaptivePointLight _ ->
                             Sg.fullScreenQuad
                             |> Sg.adapter
                             |> Sg.uniform "Light" (SLEUniform.uniformLight l)
