@@ -37,7 +37,8 @@ module light =
         attenuationLinear = 0.0; 
         intensity = 1.0; 
         cutOffInner = 30.0; 
-        fallOff = 10.0
+        fallOff = 10.0; 
+        castsShadow = true
     }
 
     let defaultLight = defaultPointLight
@@ -135,7 +136,8 @@ module lightControl =
                     attenuationLinear = 0.0
                     intensity = r.intensity 
                     cutOffInner = 30.0
-                    fallOff = 10.0
+                    fallOff = 10.0 
+                    castsShadow = r.castsShadow
                 }
             | PointLight r -> 
                 SpotLight  {
@@ -146,7 +148,8 @@ module lightControl =
                     attenuationLinear = r.attenuationLinear
                     intensity = r.intensity 
                     cutOffInner = 30.0
-                    fallOff = 10.0
+                    fallOff = 10.0 
+                    castsShadow = true
                 }
             | x -> x
         | DefaultDirectionalLight -> light.defaultDirectionalLight
@@ -214,6 +217,8 @@ module lightControl =
             match m with
             | DirectionalLight r -> 
                 DirectionalLight {r with castsShadow = not r.castsShadow} 
+            | SpotLight r -> 
+                SpotLight {r with castsShadow = not r.castsShadow} 
             | x -> x
 
     let attenuationView (l : aval<float>) (q : aval<float>)=
@@ -264,7 +269,7 @@ module lightControl =
 
                 intensityView i c
                 Html.table [
-                    tr [] [ td [] [text "Cast Shadow"]; td [style "width: 70%;"] [Html.SemUi.toggleBox  (AVal.map (fun l -> l.castsShadow) l') ToggleCastShadow ]]
+                    tr [] [ td [] [text "Cast Shadow"]; td [style "width: 70%;"] [Html.SemUi.toggleBox  (AVal.map (fun (l : DirectionalLightData) -> l.castsShadow) l') ToggleCastShadow ]]
                 ]
             ]                  
         |AdaptivePointLight l' -> 
@@ -289,7 +294,6 @@ module lightControl =
                 |> UI.map SetLightPosition
 
                 intensityView i c
-
                 attenuationView al aq
             ]
         |AdaptiveSpotLight l' -> 
@@ -324,6 +328,9 @@ module lightControl =
                 attenuationView al aq
 
                 cutOffView ci fo
+                Html.table [
+                    tr [] [ td [] [text "Cast Shadow"]; td [style "width: 70%;"] [Html.SemUi.toggleBox  (AVal.map (fun (l : SpotLightData) -> l.castsShadow) l') ToggleCastShadow ]]
+                ]
             ]
 module Shadow =
     open Aardvark.SceneGraph
@@ -354,7 +361,6 @@ module Shadow =
                 let proj = 
                     Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) 1.0 size 1.0
                     |> Frustum.projTrafo
-                Log.warn "lightViewPoject"
                 return lightView , proj
             }
         | AdaptiveDirectionalLight l -> 
@@ -475,25 +481,9 @@ module SLEUniform =
                    color = x.color.ToV3d() * x.intensity
                    attenuationQad = x.attenuationQad
                    attenuationLinear = x.attenuationLinear
-                   castsShadow = true
+                   castsShadow = x.castsShadow
                    cutOffInner = x.cutOffInner |> radians |> cos 
                    cutOffOuter = x.fallOff+x.cutOffInner |> radians |> cos 
                  }
                return r
         } 
-
-(*    let uniformLights (lights : amap<int,AdaptiveLightCase>)   =
-        let lights' = AMap.toASet lights
-        let numLights = ASet.count lights'
-        let a =  Array.init 10 (fun _ -> noLight )
-        let u = aset{
-                for l  in  lights' do
-                    let! l =  snd l |> uniformLight
-                    yield l
-                }
-                |> ASet.fold (fun ((i : int), (a : Light [])) l -> a.[i] <- l; (i+1, a)) (0,a)
-                |> AVal.map (fun (i, a) -> a)
-                |> Sg.uniform "Lights" 
-        
-        u >> Sg.uniform "NumLights" numLights
-*)

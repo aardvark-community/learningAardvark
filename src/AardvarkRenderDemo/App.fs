@@ -263,7 +263,7 @@ module App =
                             |> Sg.dynamic                                
                         |AdaptiveSpotLight sl ->
                             AVal.map (fun (d : SpotLightData)->
-                                //if d.castsShadow then
+                                if d.castsShadow then
                                     Sg.fullScreenQuad
                                     |> Sg.adapter
                                     |> Sg.uniform "Light" (SLEUniform.uniformLight l)
@@ -274,14 +274,14 @@ module App =
                                         do! PBR.lightingDeferred
                                         do! PBR.shadowDeferred
                                         }
-                               (* else
+                                else
                                      Sg.fullScreenQuad
                                     |> Sg.adapter
                                     |> Sg.uniform "Light" (SLEUniform.uniformLight l)
                                     |> Sg.shader {
                                         do! PBR.getGBufferData
                                         do! PBR.lightingDeferred
-                                        } *)) sl
+                                        } ) sl
                             |> Sg.dynamic                          
                         |AdaptivePointLight _ ->
                             Sg.fullScreenQuad

@@ -36,6 +36,7 @@ type SpotLightData = {
     intensity : float
     cutOffInner : float
     fallOff : float
+    castsShadow : bool
 }
 
 //todo: Optionally use a single color value instead a texture 

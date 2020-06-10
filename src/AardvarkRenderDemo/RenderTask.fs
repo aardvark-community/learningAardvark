@@ -232,7 +232,6 @@ module private RefCountedResources =
                         |> Map.map (fun sem att -> 
                             att.GetValue(token, t))
 
-                Log.warn "AdaptiveFramebufferCube.compute"
                 match handle.[i] with
                     | Some h -> 
                         runtime.DeleteFramebuffer(h)
@@ -253,7 +252,6 @@ module private RefCountedResources =
             let fbo = target.GetValue(token, t)
             Log.warn "AdaptiveRenderingResultCube.compute"
             for face in 0..tasks.Length-1 do
-                Log.warn "AdaptiveRenderingResultCube.compute1"
                 tasks.[face].Run(token, t, OutputDescription.ofFramebuffer fbo.[face])
             fbo
 
@@ -271,7 +269,6 @@ module private RefCountedResources =
 
         override x.Compute(token : AdaptiveToken, t : RenderToken) =
             let res = res.GetValue(token, t)
-            Log.warn "AdaptiveOutputCubeTexture.compute"
             match Map.tryFind semantic res.[0].Attachments with
                 | Some (:? IBackendTextureOutputView as t) ->
                     t.texture :> ITexture
@@ -279,11 +276,9 @@ module private RefCountedResources =
                     failwithf "could not get result for semantic %A as texture" semantic
 
         override x.Create() =
-            Log.line "texture created"
             res.Acquire()
 
         override x.Destroy() =
-            Log.line "texture deleted"
             res.Release()
     
 
