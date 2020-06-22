@@ -18,6 +18,7 @@ module projetIO =
         expousure  : float
         objects : HashMap<string, SceneObject>
         selectedObject : string
+        toneMapping : ToneMapping
         bloom : Bloom
         fxAA : fxAA
     }
@@ -58,6 +59,7 @@ module projetIO =
             expousure = m'.expousure
             bloom = m'.bloom
             fxAA  =m'.fxAA
+            toneMapping = m'.toneMapping
             objects = m'.objects
             selectedObject = m'.selectedObject
         }
@@ -71,7 +73,7 @@ module projetIO =
             lights  = em.lights
             enviorment = em.enviorment
             expousure = em.expousure
-            toneMapping = filmicToneMapping.defaultToneMapping
+            toneMapping = em.toneMapping
             fxAA = em.fxAA
             bloom = em.bloom
             objects = em.objects

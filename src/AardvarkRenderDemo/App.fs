@@ -127,7 +127,6 @@ module App =
         | FxAAMessage msg -> 
             { m with fxAA = fxAA.update m.fxAA msg }
         | ToneMappingMessage msg -> 
-            Log.warn "ToneMappingMessage %A" msg
             { m with toneMapping = filmicToneMappingControl.update m.toneMapping msg }
 
      //texture  with random values used in the AO shaders
