@@ -71,6 +71,7 @@ module projetIO =
             lights  = em.lights
             enviorment = em.enviorment
             expousure = em.expousure
+            toneMapping = filmicToneMapping.defaultToneMapping
             fxAA = em.fxAA
             bloom = em.bloom
             objects = em.objects

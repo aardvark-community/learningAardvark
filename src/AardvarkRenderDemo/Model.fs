@@ -39,7 +39,6 @@ type SpotLightData = {
     castsShadow : bool
 }
 
-//todo: Optionally use a single color value instead a texture 
 [<ModelType>]
 type TextureMappedValue = {
     fileName : string Option
@@ -126,6 +125,16 @@ type GlobalEnviorment =
         lightProbePosition :V3d option
     }
 
+type ToneMapping =  
+    {
+        ToeLength : float
+        ToeStrength : float
+        ShoulderLength : float
+        ShoulderStrength : float
+        ShoulderAngle  : float
+        Gamma : float
+    }
+
 [<ModelType>]
 type Model =
     {
@@ -133,6 +142,7 @@ type Model =
         lights : HashMap<int, Light>
         enviorment : GlobalEnviorment
         expousure  : float
+        toneMapping : ToneMapping
         fxAA : fxAA
         bloom : Bloom
         objects : HashMap<string, SceneObject>

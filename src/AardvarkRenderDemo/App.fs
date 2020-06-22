@@ -33,6 +33,7 @@ type Message =
     | SaveProject of string
     | LoadProject of string
     | FxAAMessage  of fxAA.Message
+    | ToneMappingMessage of filmicToneMappingControl.Message
 
 module App =   
 
@@ -58,6 +59,7 @@ module App =
                       lightProbePosition = None
                       }
         expousure  = 1.0
+        toneMapping = filmicToneMapping.defaultToneMapping
         fxAA = fxAA.defaultfxAA
         bloom = bloom.defaultBloom
         objects = obj
@@ -124,6 +126,9 @@ module App =
         | LoadProject f -> projetIO.load f
         | FxAAMessage msg -> 
             { m with fxAA = fxAA.update m.fxAA msg }
+        | ToneMappingMessage msg -> 
+            Log.warn "ToneMappingMessage %A" msg
+            { m with toneMapping = filmicToneMappingControl.update m.toneMapping msg }
 
      //texture  with random values used in the AO shaders
     let randomTex ( runtime : IRuntime) = 
@@ -382,7 +387,7 @@ module App =
 
         //tone mapping and gamma correction
         //let toneMapped =
-        Sg.fullScreenQuad
+(*       Sg.fullScreenQuad
         |> Sg.adapter
         |> Sg.texture DefaultSemantic.DiffuseColorTexture postprocessed
         |> Sg.uniform "Expousure" m.expousure
@@ -391,8 +396,17 @@ module App =
             do! PBR.gammaCorrection
             }    
         |> Sg.compile runtime outputSignature 
-               
-
+ *)              
+        Sg.fullScreenQuad
+        |> Sg.adapter
+        |> Sg.texture DefaultSemantic.DiffuseColorTexture postprocessed
+        |> Sg.uniform "Expousure" m.expousure
+        |> Sg.uniform "mappingCurve" (AVal.map filmicToneMapping.modelToCurve m.toneMapping)
+        |> Sg.shader {
+            do! DefaultSurfaces.diffuseTexture
+            do! filmicToneMappingShader.toneMapping
+            }    
+        |> Sg.compile runtime outputSignature 
         
 
         
@@ -514,6 +528,7 @@ module App =
                         Html.table [                        
                             tr [] [ td [] [text "Exposure"]; td [ style "width: 70%;"] [inputLogSlider {min = 0.01;  max = 10.0; step = 0.01} [] m.expousure SetExpousure]]
                         ]  
+                        filmicToneMappingControl.view m.toneMapping |> UI.map ToneMappingMessage
                         BloomControl.view m.bloom |>  UI.map BloomMessage 
                         fxAA.view m.fxAA |>  UI.map FxAAMessage 
                     ]    
