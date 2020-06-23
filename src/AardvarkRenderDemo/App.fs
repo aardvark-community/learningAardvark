@@ -32,7 +32,7 @@ type Message =
     | SelectObject of string
     | SaveProject of string
     | LoadProject of string
-    | FxAAMessage  of fxAA.Message
+    | FxAAMessage  of fxAA_old.Message
     | ToneMappingMessage of filmicToneMappingControl.Message
 
 module App =   
@@ -60,7 +60,7 @@ module App =
                       }
         expousure  = 1.0
         toneMapping = filmicToneMapping.defaultToneMapping
-        fxAA = fxAA.defaultfxAA
+        fxAA = fxAA_old.defaultfxAA
         bloom = bloom.defaultBloom
         objects = obj
         selectedObject = selected
@@ -125,7 +125,7 @@ module App =
             m
         | LoadProject f -> projetIO.load f
         | FxAAMessage msg -> 
-            { m with fxAA = fxAA.update m.fxAA msg }
+            { m with fxAA = fxAA_old.update m.fxAA msg }
         | ToneMappingMessage msg -> 
             { m with toneMapping = filmicToneMappingControl.update m.toneMapping msg }
 
@@ -379,7 +379,7 @@ module App =
         let postprocessed = 
             AVal.bind (fun doAA  ->  
                 if doAA then  
-                    fxAA.fxAA runtime size signature bloomed m.fxAA :> aval<ITexture>
+                    fxAA_old.fxAA runtime size signature bloomed m.fxAA :> aval<ITexture>
                 else 
                     bloomed) 
                 m.fxAA.on
@@ -529,7 +529,7 @@ module App =
                         ]  
                         filmicToneMappingControl.view m.toneMapping |> UI.map ToneMappingMessage
                         BloomControl.view m.bloom |>  UI.map BloomMessage 
-                        fxAA.view m.fxAA |>  UI.map FxAAMessage 
+                        fxAA_old.view m.fxAA |>  UI.map FxAAMessage 
                     ]    
                 "Project",
                     [

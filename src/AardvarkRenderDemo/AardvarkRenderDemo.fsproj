@@ -21,7 +21,8 @@
     <Compile Include="GeometryBuffer.fs" />
     <Compile Include="globalEnviroment.fs" />
     <Compile Include="Bloom.fs" />
-    <Compile Include="fxaa.fs" />
+    <Compile Include="fxaa_old.fs" />
+    <Compile Include="FXAA.fs" />
     <Compile Include="filmicToneMapping.fs" />
     <Compile Include="SaveProject.fs" />
     <Compile Include="App.fs" />
