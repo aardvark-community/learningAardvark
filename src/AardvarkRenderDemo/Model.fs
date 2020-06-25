@@ -106,12 +106,10 @@ type Bloom =
 [<ModelType>]
 type fxAA =
     {   
-        on : bool
         threshold : float
-        subpix_shift : float
-        span_max : float
-        reduce_mul : float
-        reduce_min : float
+        thresholdMin : float
+        subpix : float
+        preset : HiliteShaders.FXAA.PRESET
     }
 
 [<ModelType>]

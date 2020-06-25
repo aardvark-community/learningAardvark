@@ -13,6 +13,7 @@
     <Compile Include="IO.fs" />
     <Compile Include="RenderTask.fs" />
     <Compile Include="UI.fs" />
+    <Compile Include="FXAA.fs" />
     <Compile Include="Model.fs" />
     <Compile Include="Light.fs" />
     <Compile Include="Material.fs" />
@@ -21,8 +22,7 @@
     <Compile Include="GeometryBuffer.fs" />
     <Compile Include="globalEnviroment.fs" />
     <Compile Include="Bloom.fs" />
-    <Compile Include="fxaa_old.fs" />
-    <Compile Include="FXAA.fs" />
+    <Compile Include="fxAAWrapper.fs" />
     <Compile Include="filmicToneMapping.fs" />
     <Compile Include="SaveProject.fs" />
     <Compile Include="App.fs" />

@@ -32,7 +32,7 @@ type Message =
     | SelectObject of string
     | SaveProject of string
     | LoadProject of string
-    | FxAAMessage  of fxAA_old.Message
+    | FxAAMessage  of fxAA.Message
     | ToneMappingMessage of filmicToneMappingControl.Message
 
 module App =   
@@ -60,7 +60,7 @@ module App =
                       }
         expousure  = 1.0
         toneMapping = filmicToneMapping.defaultToneMapping
-        fxAA = fxAA_old.defaultfxAA
+        fxAA = fxAA.defaultFxAA
         bloom = bloom.defaultBloom
         objects = obj
         selectedObject = selected
@@ -125,7 +125,7 @@ module App =
             m
         | LoadProject f -> projetIO.load f
         | FxAAMessage msg -> 
-            { m with fxAA = fxAA_old.update m.fxAA msg }
+            { m with fxAA = fxAA.update m.fxAA msg }
         | ToneMappingMessage msg -> 
             { m with toneMapping = filmicToneMappingControl.update m.toneMapping msg }
 
@@ -368,7 +368,7 @@ module App =
             |> Sg.compile runtime signature
             |> RenderTask.renderToColor size   
 
-        let bloomed = 
+        let postprocessed = 
             AVal.bind (fun doBloom  ->  
                 if doBloom then
                     bloom.bloom runtime size output m.bloom :> aval<ITexture>
@@ -376,41 +376,16 @@ module App =
                     output :> aval<ITexture>) 
                 m.bloom.on
         
-        let postprocessed = 
-            AVal.bind (fun doAA  ->  
-                if doAA then  
-                    fxAA_old.fxAA runtime size signature bloomed m.fxAA :> aval<ITexture>
-                else 
-                    bloomed) 
-                m.fxAA.on
-
         //tone mapping and gamma correction
-        //let toneMapped =
-(*       Sg.fullScreenQuad
-        |> Sg.adapter
-        |> Sg.texture DefaultSemantic.DiffuseColorTexture postprocessed
-        |> Sg.uniform "Expousure" m.expousure
-        |> Sg.shader {
-            do! DefaultSurfaces.diffuseTexture
-            do! PBR.gammaCorrection
-            }    
-        |> Sg.compile runtime outputSignature 
- *)              
-        Sg.fullScreenQuad
-        |> Sg.adapter
-        |> Sg.texture DefaultSemantic.DiffuseColorTexture postprocessed
-        |> Sg.uniform "Expousure" m.expousure
-        |> Sg.uniform "mappingCurve" (AVal.map filmicToneMapping.modelToCurve m.toneMapping)
-        |> Sg.shader {
-            do! DefaultSurfaces.diffuseTexture
-            do! filmicToneMappingShader.toneMapping
-            }    
-        |> Sg.compile runtime outputSignature 
-        
+        let toneMapped =  
+            filmicToneMapping.toneMapping runtime outputSignature postprocessed m        
+            |> RenderTask.renderToColor size
+
+        fxAA.fxAA runtime outputSignature toneMapped m.fxAA
 
         
     (*
-        For deferrde Rendering and some other techniques it is nessesary to know the size of the render window.
+        For deferred Rendering and some other techniques it is nessesary to know the size of the render window.
         That is not straitforward in Aardvark.media because there could be multiple clients with different screen sizes.
         The solution is to create a custem scene that takes a function from client values to a IRenderTask and feed that into a RenderControl.
         If I understand it correctly, at runtime a render Task per client will be created with the respectice client values.
@@ -529,7 +504,7 @@ module App =
                         ]  
                         filmicToneMappingControl.view m.toneMapping |> UI.map ToneMappingMessage
                         BloomControl.view m.bloom |>  UI.map BloomMessage 
-                        fxAA_old.view m.fxAA |>  UI.map FxAAMessage 
+                        fxAA.view m.fxAA |>  UI.map FxAAMessage 
                     ]    
                 "Project",
                     [

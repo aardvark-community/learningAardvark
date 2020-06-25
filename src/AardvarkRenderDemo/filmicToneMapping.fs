@@ -39,10 +39,11 @@ module filmicToneMapping =
             Shoulder : SegmentParams
         }
 
+    [<ReflectedDefinition>]    
     let evalSegment (s : SegmentParams)  (x : float)=
         let x0 = (x - s.Offset.X) * s.Scale.X
         let y0 = if x0 > 0.0 then exp (s.LnA + s.B * log(x0)) else 0.0
-        y0 * (s.Scale.Y ) + s.Offset.Y
+        y0 * s.Scale.Y + s.Offset.Y
 
      // convert to y=mx+b
     let asSlopeInterceptf (p0 : V2d) (p1 :V2d) =
@@ -211,26 +212,18 @@ module filmicToneMapping =
         defaultToneMapping
         |> modelToCurve
 
-module filmicToneMappingShader =
-
     type UniformScope with
-        member x.mappingCurve : filmicToneMapping.Curve = x?mappingCurve
+        member x.mappingCurve : Curve = x?mappingCurve
         member x.Expousure : float =  x?Expousure
 
-    [<ReflectedDefinition>]    
-    let evalSegment (s : filmicToneMapping.SegmentParams)  (x : float)=
-        let x0 = (x - s.Offset.X) * s.Scale.X
-        let y0 = if x0 > 0.0 then exp (s.LnA + s.B * log(x0)) else 0.0
-        y0 * s.Scale.Y + s.Offset.Y
-
     [<ReflectedDefinition>]
-    let evalCurve  (curve  : filmicToneMapping.Curve) (x: float) =
+    let evalCurve  (curve  : Curve) (x: float) =
         let xn = x / curve.W
         if xn < curve.X0  then evalSegment curve.Toe xn
         elif xn <  curve.X1 then evalSegment curve.Linear xn
         else evalSegment curve.Shoulder xn
 
-    let toneMapping (vert : Vertex) =
+    let toneMappingShader (vert : Vertex) =
         fragment {
             // tone mapping
             let expousure = uniform.Expousure
@@ -243,6 +236,18 @@ module filmicToneMappingShader =
 
             return V4d(colg, 1.0)
         }
+
+    let toneMapping (runtime : IRuntime) outputSignature (inputTexture : aval<ITexture>) (m : AdaptiveModel) =             
+        Sg.fullScreenQuad
+            |> Sg.adapter
+            |> Sg.texture DefaultSemantic.DiffuseColorTexture inputTexture
+            |> Sg.uniform "Expousure" m.expousure
+            |> Sg.uniform "mappingCurve" (AVal.map modelToCurve m.toneMapping)
+            |> Sg.shader {
+                do! DefaultSurfaces.diffuseTexture
+                do! toneMappingShader
+                }    
+            |> Sg.compile runtime outputSignature 
 
 module filmicToneMappingControl =
     open Aardvark.UI

@@ -584,12 +584,10 @@
       "sigma": 3.0
     },
     "fxAA": {
-      "on": true,
-      "threshold": 0.5,
-      "subpixshift": 0.25,
-      "spanmax": 8.0,
-      "reducemul": 0.125,
-      "reducemin": 0.0078125
+      "threshold": 0.166,
+      "thresholdMin": 0.0833,
+      "subpix": 0.75,
+      "preset": "Quality25"
     }
   }
 }
