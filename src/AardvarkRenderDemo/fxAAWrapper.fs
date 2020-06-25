@@ -11,7 +11,7 @@ open Aardvark.SceneGraph
 open FShade
 open HiliteShaders.FXAA
 (*
-
+   Wrapper around Christian Luksch's Port of NIVIDA fxAA
 *)
 module fxAA = 
 

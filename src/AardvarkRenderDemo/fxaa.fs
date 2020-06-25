@@ -1,5 +1,7 @@
 ﻿namespace HiliteShaders
-
+(*
+Christian Luksch's Port of NIVIDA fxAA
+*)
 module FXAA =
     open System.Runtime.CompilerServices
     open FShade
