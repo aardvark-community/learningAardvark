@@ -660,7 +660,7 @@ module AlbedoColor =
 
  module SSAO =
     //open fshadeExt
-    //Skreen Space Abinet Occlusion
+    //Screen Space Ambinet Occlusion
 
     [<GLSLIntrinsic("smoothstep({0}, {1}, {2})")>]
     let smoothStep (edge0 : float) (edge1 : float) (x : float) : 'a =
@@ -714,20 +714,7 @@ module AlbedoColor =
         member x.Sharpness : float = uniform?Sharpness
         member x.Samples : int = uniform?Samples
         member x.OcclusionStrength : float = uniform?OcclusionStrength
- 
-    let sampleDirections =
-        let rand = RandomSystem()
-        let arr = 
-            Array.init 512 (fun _ ->
-                let phi = rand.UniformDouble() * Constant.PiTimesTwo
-                let theta = rand.UniformDouble() * (Constant.PiHalf - 20.0 * Constant.RadiansPerDegree)
-                V3d(
-                    cos phi * sin theta,
-                    sin phi * sin theta,
-                    cos theta
-                )
-            )
-        arr |> Array.map (fun v -> v * rand.UniformDouble())
+        member x.SampleDirections : Arr<N<128>, V3d> = uniform?SampleDirections
 
     [<ReflectedDefinition>]
     let getLinearDepth (ndc : V2d) =
@@ -769,11 +756,12 @@ module AlbedoColor =
             let x = Vec.cross y z |> Vec.normalize  
                 
             let mutable occlusion = 0.0
-            for si in 0 .. uniform.Samples - 1 do
+            let samples = clamp 1 64 uniform.Samples
+            for si in 0 .. samples - 1 do
 
-                let dir = sampleDirections.[si] * uniform.Radius
+                let dir = uniform.SampleDirections.[si] * uniform.Radius
                 //bias sampling towards point near the center of the hemispehere
-                let temp  = (float (si)) / (float (uniform.Samples-1))
+                let temp  = (float (si)) / (float (samples-1))
                 let scale = Fun.Lerp(0.1, 1.0, (temp * temp))
                 let dirscaled = dir * scale
                 let p = vp + x * dirscaled.X + y * dirscaled.Y + z * dirscaled.Z
@@ -786,7 +774,7 @@ module AlbedoColor =
                 if depthCmp.Sample(pp.XY, ppo.Z) < 0.5 then
                     occlusion <- occlusion + occ 
                 
-            let occlusion = occlusion / float uniform.Samples * uniform.OcclusionStrength |> min 1.0
+            let occlusion = occlusion / float samples * uniform.OcclusionStrength |> min 1.0
             let ambient = 1.0 - occlusion
             
             return V4d(ambient, ambient, ambient, 1.0)

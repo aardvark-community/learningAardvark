@@ -158,6 +158,21 @@ module App =
                 )
             )
 
+        let sampleDirections =
+            let rand = RandomSystem()
+            let arr = 
+                Array.init 128 (fun _ ->
+                    let phi = rand.UniformDouble() * Constant.PiTimesTwo
+                    let theta = rand.UniformDouble() * (Constant.PiHalf - 20.0 * Constant.RadiansPerDegree)
+                    V3d(
+                        cos phi * sin theta,
+                        sin phi * sin theta,
+                        cos theta
+                    )
+                )
+            arr |> Array.map (fun v -> v * rand.UniformDouble())
+            |> AVal.constant
+
         let ambientOc = 
             Sg.fullScreenQuad
             |> Sg.adapter
@@ -169,7 +184,7 @@ module App =
             |> Sg.viewTrafo view
             |> Sg.projTrafo proj
             |> Sg.uniform "Random" (AVal.constant (randomTex runtime :> ITexture))
-           
+            |> Sg.uniform "SampleDirections" sampleDirections
             |> Sg.uniform "Radius" settings.radius
             |> Sg.uniform "Threshold" settings.threshold
             |> Sg.uniform "Samples" settings.samples
@@ -319,7 +334,9 @@ module App =
         let gBuffer = GeometryBuffer.makeGBuffer runtime view proj size skyBoxTexture scene m.enviorment.skyMapIntensity
 
         //render the abient occlousion map    
-        let ambientOcclusion = makeAmbientOcclusion runtime size view proj gBuffer m.enviorment.occlusionSettings
+        let ambientOcclusion = 
+            //material.onPixTex C3f.White |> AVal.constant
+            makeAmbientOcclusion runtime size view proj gBuffer m.enviorment.occlusionSettings
 
         let lightSgs =
             aset {
@@ -417,7 +434,7 @@ module App =
             [
                 style "position: fixed; left: 0; top: 0; width: 100%; height: 100%"
                 attribute "showFPS" "true"
-                //attribute "data-renderalways" "1"
+               // attribute "data-renderalways" "1"
             ]
 
         let t = compileDeffered objects m
