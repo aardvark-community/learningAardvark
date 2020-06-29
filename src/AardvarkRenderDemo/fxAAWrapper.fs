@@ -58,7 +58,7 @@ module fxAA =
     let fxAAShader (v : Vertex) =
             fragment {
                 let i = uniform.FxAAPreset
-                let c = //workaround because for some reason we can not have an expression or uniform with the PRESET enum as return type. Its ugly but works 
+                let c = //workaround because the preset must be a constant when compiling diffuseSampler.SampleLevelFXAA due to arrays of different length used for different presets
                     match i with
                     | 0 -> diffuseSampler.SampleLevelFXAA(v.tc, 0.0, PRESET.Dither10, uniform.EdgeThreshold, uniform.EdgeThresholdMin, uniform.Subpix)
                     | 1 -> diffuseSampler.SampleLevelFXAA(v.tc, 0.0, PRESET.Dither11, uniform.EdgeThreshold, uniform.EdgeThresholdMin, uniform.Subpix)  
