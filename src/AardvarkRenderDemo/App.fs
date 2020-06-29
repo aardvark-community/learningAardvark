@@ -129,89 +129,7 @@ module App =
         | ToneMappingMessage msg -> 
             { m with toneMapping = filmicToneMappingControl.update m.toneMapping msg }
 
-     //texture  with random values used in the AO shaders
-    let randomTex ( runtime : IRuntime) = 
-        let img = PixImage<float32>(Col.Format.RGB, V2i.II * 512)
-
-        let rand = RandomSystem()
-        img.GetMatrix<C3f>().SetByCoord (fun _ ->
-            rand.UniformV3dDirection().ToC3d().ToC3f()
-        ) |> ignore
-
-        runtime.PrepareTexture(PixTexture2d(PixImageMipMap [| img :> PixImage |], TextureParams.empty))
-
-    //Render-Task for the screen-space Abient Occlusion pass
-    let makeAmbientOcclusion ( runtime : IRuntime) (size : aval<V2i>) view proj gBuffer (settings : AdaptiveAmbientOcclusionSettings)=
-
-        let signature =
-            runtime.CreateFramebufferSignature [
-                DefaultSemantic.Colors, RenderbufferFormat.Rgba8
-            ]
-
-        let aoSize = 
-             AVal.custom (fun t ->
-                let s = size.GetValue t
-                let d = settings.scale.GetValue t
-                V2i(
-                    max 1 (int (float s.X * d)),
-                    max 1 (int (float s.Y * d))
-                )
-            )
-
-        let sampleDirections =
-            let rand = RandomSystem()
-            let arr = 
-                Array.init 128 (fun _ ->
-                    let phi = rand.UniformDouble() * Constant.PiTimesTwo
-                    let theta = rand.UniformDouble() * (Constant.PiHalf - 20.0 * Constant.RadiansPerDegree)
-                    V3d(
-                        cos phi * sin theta,
-                        sin phi * sin theta,
-                        cos theta
-                    )
-                )
-            arr |> Array.map (fun v -> v * rand.UniformDouble())
-            |> AVal.constant
-
-        let ambientOc = 
-            Sg.fullScreenQuad
-            |> Sg.adapter
-            |> Sg.shader {
-                do! SSAO.ambientOcclusion
-            }
-            |> Sg.texture ( DefaultSemantic.Normals) (Map.find DefaultSemantic.Normals gBuffer)
-            |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
-            |> Sg.viewTrafo view
-            |> Sg.projTrafo proj
-            |> Sg.uniform "Random" (AVal.constant (randomTex runtime :> ITexture))
-            |> Sg.uniform "SampleDirections" sampleDirections
-            |> Sg.uniform "Radius" settings.radius
-            |> Sg.uniform "Threshold" settings.threshold
-            |> Sg.uniform "Samples" settings.samples
-            |> Sg.uniform "OcclusionStrength" settings.occlusionStrength
-            |> Sg.compile runtime signature
-            |> RenderTask.renderToColor aoSize
-
-        let blurredAmbientOc =
-            Sg.fullScreenQuad
-            |> Sg.adapter
-            |> Sg.shader {
-                do! SSAO.blur
-            }
-            |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
-            |> Sg.texture (Sym.ofString "AmbientOcclusion") ambientOc
-            |> Sg.viewTrafo view
-            |> Sg.projTrafo proj
-            |> Sg.uniform "Radius" settings.radius
-            |> Sg.uniform "Threshold" settings.threshold
-            |> Sg.uniform "Sigma" settings.sigma
-            |> Sg.uniform "Sharpness" settings.sharpness
-            |> Sg.compile runtime signature
-            |> RenderTask.renderToColor aoSize
-
-        blurredAmbientOc
-
-    //main render task: put all passes together for deferred rendering
+     //main render task: put all passes together for deferred rendering
     let compileDeffered (scene : ISg<'msg>) (m : AdaptiveModel) (values : Aardvark.Service.ClientValues)=
         let outputSignature = values.signature
         let view = values.viewTrafo
@@ -336,7 +254,7 @@ module App =
         //render the abient occlousion map    
         let ambientOcclusion = 
             //material.onPixTex C3f.White |> AVal.constant
-            makeAmbientOcclusion runtime size view proj gBuffer m.enviorment.occlusionSettings
+            SSAO.makeAmbientOcclusion runtime size view proj gBuffer m.enviorment.occlusionSettings
 
         let lightSgs =
             aset {

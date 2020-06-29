@@ -96,7 +96,7 @@ module globalEnviroment =
             tr [] [ td [] [text "Scale"]; 
                     td [style "width: 70%;"] [inputSlider {min = 0.1;  max = 1.0; step = 0.01} [] m.occlusionSettings.scale SetAbientOcclusionScale ]]
             tr [] [ td [] [text "Samples"]; 
-                    td [style "width: 70%;"] [integerInput ""  8 512  SetAbientOcclusionSamples m.occlusionSettings.samples]]
+                    td [style "width: 70%;"] [integerInput ""  8 128  SetAbientOcclusionSamples m.occlusionSettings.samples]]
             tr [] [ td [] [text "Threshold"]; 
                     td [style "width: 70%;"] [inputSlider {min = 0.01;  max = 0.5; step = 0.0001} [] m.occlusionSettings.threshold SetAbientOcclusionThreshold ]]
             tr [] [ td [] [text "Sigma"]; 
