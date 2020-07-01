@@ -124,12 +124,12 @@ module GeometryBuffer  =
 
         let signature =
             runtime.CreateFramebufferSignature [
-                DefaultSemantic.Colors, RenderbufferFormat.Rgba32f
+                DefaultSemantic.Colors, RenderbufferFormat.Rgba16f
                 Sym.ofString "WorldPosition", RenderbufferFormat.Rgba32f
-                DefaultSemantic.Depth, RenderbufferFormat.Depth24Stencil8
+                DefaultSemantic.Depth, RenderbufferFormat.DepthComponent24
                 DefaultSemantic.Normals, RenderbufferFormat.Rgba32f
-                GBufferRendering.Semantic.MaterialProperties, RenderbufferFormat.Rg32f
-                GBufferRendering.Semantic.Emission, RenderbufferFormat.Rgb32f
+                GBufferRendering.Semantic.MaterialProperties, RenderbufferFormat.Rg16f
+                GBufferRendering.Semantic.Emission, RenderbufferFormat.Rgb16f
              ]
 
         let skyBox =

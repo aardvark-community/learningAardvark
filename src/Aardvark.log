@@ -32,7 +32,7 @@
  0:     found: windows/x86/glvm.ipdb
  0:     found: windows/x86/glvm.lib
  0:     found: windows/x86/glvm.pdb
- 0:   Loading native dependencies for Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.001 s
+ 0:   Loading native dependencies for Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
  0:   Loading native dependencies for Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: remap.xml
  0:     found: linux/AMD64/libturbojpeg.so
@@ -40,7 +40,7 @@
  0:     found: windows/AMD64/turbojpeg.dll
  0:     copy turbojpeg.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Service-6c07790d-9ae8-a533-bcc3-f89762a0781f-64\turbojpeg.dll
  0:     found: windows/x86/turbojpeg.dll
- 0:   Loading native dependencies for Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.026 s
+ 0:   Loading native dependencies for Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.013 s
  0:   Loading plugins ............................................................................
  0:     [LoadPlugins] Using plugin cache file name: C:\Users\Stefan\AppData\Roaming\Aardvark\cache\AardvarkRenderDemo_plugins.bin
  0:     [ReadCacheFile] loaded cache file: C:\Users\Stefan\AppData\Roaming\Aardvark\cache\AardvarkRenderDemo_plugins.bin
@@ -92,7 +92,7 @@
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\System.Text.Json.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.Loader.dll
- 0:   Loading plugins .................................................................... 0.131 s
+ 0:   Loading plugins .................................................................... 0.045 s
  0:   using cache dir: C:\Users\Stefan\AppData\Roaming\Aardvark\cache
  0:   Loading native dependencies for DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: remap.xml
@@ -124,7 +124,7 @@
  0:     found: windows/x86/vkvm.exp
  0:     found: windows/x86/vkvm.lib
  0:     found: windows/x86/vkvm.pdb
- 0:   Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.002 s
+ 0:   Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
  0:   Loading native dependencies for GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: linux/AMD64/libGLSLangNative.so
  0:     found: windows/AMD64/GLSLangNative.dll
@@ -139,7 +139,7 @@
  0:     copy GLSLangNative.lib to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64\GLSLangNative.lib
  0:     found: windows/AMD64/GLSLangNative.pdb
  0:     copy GLSLangNative.pdb to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64\GLSLangNative.pdb
- 0:   Loading native dependencies for GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null 0.001 s
+ 0:   Loading native dependencies for GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
  0:   Loading native dependencies for AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: linux/AMD64/libassimp.so
  0:     found: mac/AMD64/libassimp.dylib
@@ -148,7 +148,7 @@
  0:     found: windows/x86/Assimp32.dll
  0:   Loading native dependencies for AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
  0:   [cache miss] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache miss] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
  0:   [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
@@ -158,7 +158,7 @@
  0:       D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
  0:       C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64
  0:     [Introspection] loaded native library DevIL from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64\DevIL.dll
- 0:   initializing PixImageDevil ......................................................... 0.042 s
+ 0:   initializing PixImageDevil ......................................................... 0.024 s
  0:   [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -167,7 +167,7 @@
  0:   [cache hit ] Aardvark.Base.FSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing CustomPicklerProvider .........................................................
  0:     [cache miss] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache miss] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
  0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
@@ -185,10 +185,10 @@
  0:     [cache hit ] Aardvark.Base.Essentials, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache miss] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
+ 0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
  0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache miss] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -204,7 +204,7 @@
  0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     installing pickler: Aardvark.Base.Picklers.AdaptivePicklers
- 0:   initializing CustomPicklerProvider ................................................. 0.131 s
+ 0:   initializing CustomPicklerProvider ................................................. 0.039 s
  0:   [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -214,7 +214,7 @@
  0:   [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing SceneGraphCompletenessCheck ...................................................
  0:     [cache miss] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache miss] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
  0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
@@ -233,98 +233,6 @@
  0:     [cache hit ] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache miss] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache miss] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
- 0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
- 0:     [cache hit ] Aardvark.Base, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.Imperative, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.FSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Incremental, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Essentials, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache miss] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
- 0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache miss] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
- 0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
- 0:     [cache hit ] Aardvark.Base, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.Imperative, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.FSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Incremental, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Essentials, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
- 0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache miss] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
- 0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache miss] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
  0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
@@ -398,11 +306,103 @@
  0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   initializing SceneGraphCompletenessCheck ........................................... 0.179 s
- 0:   [cache miss] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
+ 0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
+ 0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+ 0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+ 0:     [cache hit ] Aardvark.Base, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Imperative, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.FSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Incremental, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Essentials, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
+ 0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+ 0:     [cache hit ] FSharp.Data.Adaptive, Version=0.0.25.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+ 0:     [cache hit ] Aardvark.Base, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.Imperative, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.FSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Incremental, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Essentials, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.SceneGraph, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
+ 0:     [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] FsPickler.Json, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.GLFW, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   initializing SceneGraphCompletenessCheck ........................................... 0.135 s
+ 0:   [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
  0:   [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache miss] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.GPGPU, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -419,7 +419,7 @@
  0:   [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.SceneGraph.IO, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing Loader ................................................................ 0.000 s
- 0: initializing aardvark ................................................................ 1.874 s
+ 0: initializing aardvark ................................................................ 0.496 s
  0: probing paths for nvapi64
  0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
  0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-32f42d4c-4cb0-88cf-a5d3-8c852c69d925-64
@@ -484,7 +484,7 @@
  0:   vendor:   "ATI Technologies Inc."
  0:   renderer: "AMD Radeon (TM) R9 380 Series"
  0:   version:  OpenGL 4.5.13559 / GLSL 4.6
- 0: initializing OpenGL runtime .......................................................... 0.130 s
+ 0: initializing OpenGL runtime .......................................................... 0.132 s
  0: WARNING: load
  0: probing paths for kernel32
  0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
@@ -527,45 +527,319 @@
  0: Aardvark.UI serves favicon.ico
  0: Aardvark.UI.Primitives serves spectrum.css
  0: Aardvark.UI.Primitives serves spectrum.js
- 1: [Server] created client for (fbbcd32e-da52-7c35-cbf9-5029eb59ff2f/n7), mapping enabled
+ 1: [Server] created client for (e45a758b-00c3-ffd8-7db1-a2473f44f5f8/n7), mapping enabled
  1: [Client] 1: running n7
  2: [Scene] n7: created
  2: texture created
  2: result created
  2: texture created
  2: result created
- 2: texture created
- 2: result created
- 2: texture created
- 2: result created
+ 2: WARNING: load
  2: texture created
  2: result created
  2: WARNING: load
+ 2: Compiling shader:
+ 1: #version 460
+ 2: #define __SHADER_STAGE__
+ 3: 
+ 4: 
+ 5: 
+ 6: 
+ 7: layout(std140, binding = 0)
+ 8: uniform PerView
+ 9: {
+10:     vec3 CameraLocation;
+11:     mat4x4 ViewProjTrafo;
+12: };
+13: 
+14: 
+15: layout(std140, binding = 1)
+16: uniform PerModel
+17: {
+18:     mat4x4 ModelTrafo;
+19: };
+20: 
+21: 
+22: layout(std140, binding = 2)
+23: uniform Global
+24: {
+25:     float SkyMapIntensity;
+26: };
+27: 
+28: 
+29: layout(binding = 0)
+30: uniform samplerCube skySampler;
+31: 
+32: 
+33: #ifdef Vertex
+34: 
+35: layout(location = 0) in vec4 Colors;
+36: layout(location = 1) in vec3 Normals;
+37: layout(location = 2) in vec4 Positions;
+38: layout(location = 0) out vec4 fs_Colors;
+39: layout(location = 1) out vec3 fs_Normals;
+40: layout(location = 2) out vec4 fs_WorldPosition;
+41: void main()
+42: {
+43:     vec4 wp = (Positions * ModelTrafo);
+44:     vec4 clipPos = ((wp + vec4(CameraLocation, 0.0)) * ViewProjTrafo);
+45:     fs_Colors = Colors;
+46:     fs_Normals = Normals;
+47:     gl_Position = vec4(clipPos.x, clipPos.y, clipPos.w, clipPos.w);
+48:     fs_WorldPosition = wp;
+49: }
+50: 
+51: #endif
+52: 
+53: 
+54: 
+55: #ifdef Fragment
+56: 
+57: layout(location = 0) in vec4 fs_Colors;
+58: layout(location = 1) in vec3 fs_Normals;
+59: layout(location = 2) in vec4 fs_WorldPosition;
+60: layout(location = 0) out vec4 ColorsOut;
+61: layout(location = 1) out vec3 EmissionOut;
+62: layout(location = 2) out vec2 MaterialPropertiesOut;
+63: layout(location = 3) out vec3 NormalsOut;
+64: layout(location = 4) out vec4 WorldPositionOut;
+65: void main()
+66: {
+67:     ColorsOut = vec4((texture(skySampler, normalize(fs_WorldPosition.xyz)).xyz * SkyMapIntensity), fs_Colors.w);
+68:     EmissionOut = vec3(0.0, 0.0, 0.0);
+69:     MaterialPropertiesOut = vec2(-1.0, -1.0);
+70:     NormalsOut = fs_Normals;
+71:     WorldPositionOut = fs_WorldPosition;
+72: }
+73: 
+74: #endif
+
  2: result created
  2: WARNING: AdaptiveRenderingResultCube.compute
- 2: [GL] RenderObjects: +1/-0 (470ms)
+ 2: [GL] RenderObjects: +1/-0 (404ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (4ms)
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: Compiling shader:
+  1: #version 460
+  2: #define __SHADER_STAGE__
+  3: 
+  4: 
+  5: 
+  6: 
+  7: layout(std140, binding = 0)
+  8: uniform Global
+  9: {
+ 10:     vec4 AlbedoColor;
+ 11:     float AlbedoFactor;
+ 12:     bool Discard;
+ 13:     float DisplacmentStrength;
+ 14:     vec3 EmissionColor;
+ 15:     float EmissionFactor;
+ 16:     float Metallic;
+ 17:     float NormalMapStrength;
+ 18:     float Roughness;
+ 19: };
+ 20: 
+ 21: 
+ 22: layout(std140, binding = 1)
+ 23: uniform PerModel
+ 24: {
+ 25:     mat4x4 ModelTrafo;
+ 26:     mat4x4 ModelTrafoInv;
+ 27: };
+ 28: 
+ 29: 
+ 30: layout(std140, binding = 2)
+ 31: uniform PerView
+ 32: {
+ 33:     mat4x4 ViewProjTrafo;
+ 34: };
+ 35: 
+ 36: 
+ 37: layout(binding = 0)
+ 38: uniform sampler2D albedoSampler;
+ 39: 
+ 40: layout(binding = 1)
+ 41: uniform sampler2D emissionSampler;
+ 42: 
+ 43: layout(binding = 2)
+ 44: uniform sampler2D metallicSampler;
+ 45: 
+ 46: layout(binding = 3)
+ 47: uniform sampler2D normalSampler;
+ 48: 
+ 49: layout(binding = 4)
+ 50: uniform sampler2D roughnessSampler;
+ 51: 
+ 52: layout(binding = 5)
+ 53: uniform sampler2D samplerDisp;
+ 54: 
+ 55: 
+ 56: #ifdef Vertex
+ 57: 
+ 58: layout(location = 0) in vec2 DiffuseColorCoordinates;
+ 59: layout(location = 1) in vec3 DiffuseColorUTangents;
+ 60: layout(location = 2) in vec3 DiffuseColorVTangents;
+ 61: layout(location = 3) in vec3 Normals;
+ 62: layout(location = 4) in vec4 Positions;
+ 63: layout(location = 0) out vec2 tc_DiffuseColorCoordinates;
+ 64: layout(location = 1) out vec3 tc_DiffuseColorUTangents;
+ 65: layout(location = 2) out vec3 tc_DiffuseColorVTangents;
+ 66: layout(location = 3) out vec3 tc_Normals;
+ 67: layout(location = 4) out vec4 tc_WorldPosition;
+ 68: void main()
+ 69: {
+ 70:     tc_DiffuseColorCoordinates = DiffuseColorCoordinates;
+ 71:     tc_DiffuseColorUTangents = (vec4(DiffuseColorUTangents, 0.0) * ModelTrafo).xyz;
+ 72:     tc_DiffuseColorVTangents = (vec4(DiffuseColorVTangents, 0.0) * ModelTrafo).xyz;
+ 73:     tc_Normals = (ModelTrafoInv * vec4(Normals, 0.0)).xyz;
+ 74:     tc_WorldPosition = (Positions * ModelTrafo);
+ 75: }
+ 76: 
+ 77: #endif
+ 78: 
+ 79: 
+ 80: 
+ 81: #ifdef TessControl
+ 82: 
+ 83: layout(vertices = 3) out;
+ 84: layout(location = 0) in vec2 tc_DiffuseColorCoordinates[];
+ 85: layout(location = 1) in vec3 tc_DiffuseColorUTangents[];
+ 86: layout(location = 2) in vec3 tc_DiffuseColorVTangents[];
+ 87: layout(location = 3) in vec3 tc_Normals[];
+ 88: layout(location = 4) in vec4 tc_WorldPosition[];
+ 89: layout(location = 0) out vec2 te_DiffuseColorCoordinates[];
+ 90: layout(location = 1) out vec3 te_DiffuseColorUTangents[];
+ 91: layout(location = 2) out vec3 te_DiffuseColorVTangents[];
+ 92: layout(location = 3) out vec3 te_Normals[];
+ 93: layout(location = 4) out vec4 te_WorldPosition[];
+ 94: void main()
+ 95: {
+ 96:     if((gl_InvocationID == 0))
+ 97:     {
+ 98:         float level = ((DisplacmentStrength == 0.0) ? 1.0 : 32.0);
+ 99:         gl_TessLevelInner[0] = level;
+100:         gl_TessLevelOuter[0] = level;
+101:         gl_TessLevelOuter[1] = level;
+102:         gl_TessLevelOuter[2] = level;
+103:     }
+104:     te_DiffuseColorCoordinates[gl_InvocationID] = tc_DiffuseColorCoordinates[gl_InvocationID];
+105:     te_DiffuseColorUTangents[gl_InvocationID] = tc_DiffuseColorUTangents[gl_InvocationID];
+106:     te_DiffuseColorVTangents[gl_InvocationID] = tc_DiffuseColorVTangents[gl_InvocationID];
+107:     te_Normals[gl_InvocationID] = tc_Normals[gl_InvocationID];
+108:     te_WorldPosition[gl_InvocationID] = tc_WorldPosition[gl_InvocationID];
+109: }
+110: 
+111: #endif
+112: 
+113: 
+114: 
+115: #ifdef TessEval
+116: 
+117: layout(triangles, equal_spacing, ccw) in;
+118: layout(location = 0) in vec2 te_DiffuseColorCoordinates[];
+119: layout(location = 1) in vec3 te_DiffuseColorUTangents[];
+120: layout(location = 2) in vec3 te_DiffuseColorVTangents[];
+121: layout(location = 3) in vec3 te_Normals[];
+122: layout(location = 4) in vec4 te_WorldPosition[];
+123: layout(location = 0) out vec2 fs_DiffuseColorCoordinates;
+124: layout(location = 1) out vec3 fs_DiffuseColorUTangents;
+125: layout(location = 2) out vec3 fs_DiffuseColorVTangents;
+126: layout(location = 3) out vec3 fs_Normals;
+127: layout(location = 4) out vec4 fs_WorldPosition;
+128: void main()
+129: {
+130:     vec3 n = normalize((((gl_TessCoord.x * te_Normals[0]) + (gl_TessCoord.y * te_Normals[1])) + (gl_TessCoord.z * te_Normals[2])));
+131:     vec2 tc = (((gl_TessCoord.x * te_DiffuseColorCoordinates[0]) + (gl_TessCoord.y * te_DiffuseColorCoordinates[1])) + (gl_TessCoord.z * te_DiffuseColorCoordinates[2]));
+132:     vec4 wp = ((((gl_TessCoord.x * te_WorldPosition[0]) + (gl_TessCoord.y * te_WorldPosition[1])) + (gl_TessCoord.z * te_WorldPosition[2])) + vec4((n * ((-0.5 + texture(samplerDisp, tc).x) * DisplacmentStrength)), 0.0));
+133:     fs_DiffuseColorCoordinates = tc;
+134:     fs_DiffuseColorUTangents = (((gl_TessCoord.x * te_DiffuseColorUTangents[0]) + (gl_TessCoord.y * te_DiffuseColorUTangents[1])) + (gl_TessCoord.z * te_DiffuseColorUTangents[2]));
+135:     fs_DiffuseColorVTangents = (((gl_TessCoord.x * te_DiffuseColorVTangents[0]) + (gl_TessCoord.y * te_DiffuseColorVTangents[1])) + (gl_TessCoord.z * te_DiffuseColorVTangents[2]));
+136:     fs_Normals = n;
+137:     gl_Position = (wp * ViewProjTrafo);
+138:     fs_WorldPosition = wp;
+139: }
+140: 
+141: #endif
+142: 
+143: 
+144: 
+145: #ifdef Fragment
+146: 
+147: layout(location = 0) in vec2 fs_DiffuseColorCoordinates;
+148: layout(location = 1) in vec3 fs_DiffuseColorUTangents;
+149: layout(location = 2) in vec3 fs_DiffuseColorVTangents;
+150: layout(location = 3) in vec3 fs_Normals;
+151: layout(location = 4) in vec4 fs_WorldPosition;
+152: layout(location = 0) out vec4 ColorsOut;
+153: layout(location = 1) out vec3 EmissionOut;
+154: layout(location = 2) out vec2 MaterialPropertiesOut;
+155: layout(location = 3) out vec3 NormalsOut;
+156: layout(location = 4) out vec4 WorldPositionOut;
+157: void main()
+158: {
+159:     vec3 texNormal = normalize(((2.0 * texture(normalSampler, fs_DiffuseColorCoordinates).xyz) - vec3(1.0, 1.0, 1.0)));
+160:     vec4 ColorsC = (texture(albedoSampler, fs_DiffuseColorCoordinates) * AlbedoColor);
+161:     if(Discard)
+162:     {
+163:         discard;
+164:     }
+165:     ColorsOut = vec4(pow((ColorsC.xyz * AlbedoFactor), vec3(2.2, 2.2, 2.2)), ColorsC.w);
+166:     EmissionOut = ((EmissionColor * EmissionFactor) * texture(emissionSampler, fs_DiffuseColorCoordinates).xyz);
+167:     MaterialPropertiesOut = vec2((Metallic * texture(metallicSampler, fs_DiffuseColorCoordinates).x), (Roughness * texture(roughnessSampler, fs_DiffuseColorCoordinates).x));
+168:     NormalsOut = mix(fs_Normals, normalize((((normalize(fs_Normals) * texNormal.z) + (normalize(fs_DiffuseColorUTangents) * texNormal.x)) + (normalize(fs_DiffuseColorVTangents) * texNormal.y))), NormalMapStrength);
+169:     WorldPositionOut = fs_WorldPosition;
+170: }
+171: 
+172: #endif
+
+ 2: [GL] RenderObjects: +61/-0 (2363ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: texture created
+ 2: [GL] RenderObjects: +60/-0 (18ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: texture created
+ 2: result created
+ 2: texture created
+ 2: result created
+ 2: texture created
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (22ms)
+ 2: using optimized native program
+ 2: result created
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-0 (3ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (21ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: [GL] RenderObjects: +1/-0 (15ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +61/-0 (1289ms)
- 2: using optimized native program
- 2: texture created
- 2: [GL] RenderObjects: +1/-0 (1367ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1424ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: texture created
  2: result created
  2: WARNING: AdaptiveRenderingResultCube.compute
- 2: [GL] RenderObjects: +1/-0 (10ms)
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
@@ -575,19 +849,19 @@
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (3ms)
  2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: texture created
- 2: texture created
- 2: result created
- 2: WARNING: AdaptiveRenderingResultCube.compute
- 2: [GL] RenderObjects: +1/-0 (11ms)
+ 2: [GL] RenderObjects: +1/-0 (8ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (3ms)
  2: using optimized native program
@@ -599,57 +873,33 @@
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (9ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: [GL] RenderObjects: +1/-0 (25ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (5ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (18ms)
+ 2: [GL] RenderObjects: +1/-0 (34ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (3ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (37ms)
+ 2: [GL] RenderObjects: +1/-0 (41ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (3ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (36ms)
+ 2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: texture created
  2: result created
- 2: [GL] RenderObjects: +1/-0 (9ms)
+ 2: [GL] RenderObjects: +1/-0 (5ms)
  2: using optimized native program
- 2: texture created
- 2: WARNING: load
- 2: [GL] RenderObjects: +60/-0 (19ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +2/-0 (2215ms)
+ 2: [GL] RenderObjects: +2/-0 (3164ms)
  2: using optimized native program
  2: texture created
  2: result created
@@ -657,16 +907,15 @@
  2: result created
  2: texture created
  2: result created
- 2: [GL] RenderObjects: +1/-0 (10ms)
+ 2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (23ms)
+ 2: [GL] RenderObjects: +1/-0 (12ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (55ms)
+ 2: [GL] RenderObjects: +1/-0 (26ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2299ms)
+ 2: [GL] RenderObjects: +1/-0 (3216ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2371ms)
+ 2: [GL] RenderObjects: +1/-0 (3262ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3210ms)
+ 2: [GL] RenderObjects: +1/-0 (4063ms)
  2: using optimized native program
- 3: [Client] 1: stopped
