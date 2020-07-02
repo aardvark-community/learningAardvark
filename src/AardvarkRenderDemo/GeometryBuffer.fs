@@ -12,8 +12,8 @@ open Aardvark.Base.Rendering.Effects
     //shaders for rendering to a g-buffer
 
     module Semantic =
-        let MaterialProperties = Symbol.Create "MaterialProperties"
         let Emission = Symbol.Create "Emission"
+        let NormalR = Symbol.Create "NormalR"
 
     type UniformScope with
         member x.Roughness : float = x?Roughness
@@ -52,11 +52,11 @@ open Aardvark.Base.Rendering.Effects
         [<Position>]        pos     : V4d
         [<WorldPosition>]   wp      : V4d
         [<Normal>]          n       : V3d
+        [<Semantic("NormalR")>] nr       : V4d
         [<BiNormal>]        b       : V3d
         [<Tangent>]         t       : V3d
         [<Color>]           c       : V4d
         [<TexCoord>]        tc      : V2d
-        [<Semantic("MaterialProperties")>] m    : V2d
         [<Semantic("Emission")>] em : V3d
     }
 
@@ -102,7 +102,7 @@ open Aardvark.Base.Rendering.Effects
             let metallic = uniform.Metallic * metallicSampler.Sample(vert.tc).X
             let roughness = uniform.Roughness * roughnessSampler.Sample(vert.tc).X
             let emission = uniform.EmissionColor * uniform.EmissionFactor * emissionSampler.Sample(vert.tc).XYZ
-            return {vert with c = V4d(albedo,vert.c.W); m = V2d(metallic,roughness); em = emission}
+            return {vert with c = V4d(albedo,metallic); nr = V4d(vert.n.XYZ,  roughness); em = emission}
         }
 
     let skyGBuffer (vert : Vertex) =
@@ -114,7 +114,7 @@ open Aardvark.Base.Rendering.Effects
   
             let col = texColor * uniform.SkyMapIntensity
 
-            return {vert with c = V4d(col,vert.c.W); m = V2d(-1.0,-1.0); em = V3d.OOO}
+            return {vert with c = V4d(col,-1.0); nr = V4d(vert.n.XYZ,  -1.0); em = V3d.OOO}
         }
   
 module GeometryBuffer  =
@@ -127,8 +127,7 @@ module GeometryBuffer  =
                 DefaultSemantic.Colors, RenderbufferFormat.Rgba16f
                 Sym.ofString "WorldPosition", RenderbufferFormat.Rgba32f
                 DefaultSemantic.Depth, RenderbufferFormat.DepthComponent24
-                DefaultSemantic.Normals, RenderbufferFormat.Rgba32f
-                GBufferRendering.Semantic.MaterialProperties, RenderbufferFormat.Rg16f
+                GBufferRendering.Semantic.NormalR, RenderbufferFormat.Rgba32f
                 GBufferRendering.Semantic.Emission, RenderbufferFormat.Rgb16f
              ]
 
@@ -161,8 +160,7 @@ module GeometryBuffer  =
                         DefaultSemantic.Depth
                         DefaultSemantic.Colors
                         Sym.ofString "WorldPosition"
-                        DefaultSemantic.Normals
-                        GBufferRendering.Semantic.MaterialProperties
+                        GBufferRendering.Semantic.NormalR
                         GBufferRendering.Semantic.Emission
                         ]
                ) size 

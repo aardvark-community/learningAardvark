@@ -306,10 +306,9 @@ module LightProbe =
             |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))
             |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
             |> Sg.texture ( Sym.ofString "WPos") (Map.find (Sym.ofString "WorldPosition") gBuffer)
-            |> Sg.texture ( DefaultSemantic.Normals) (Map.find DefaultSemantic.Normals gBuffer)
+            |> Sg.texture ( DefaultSemantic.Normals) (Map.find GBufferRendering.Semantic.NormalR gBuffer)
             |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
             |> Sg.texture (GBufferRendering.Semantic.Emission) (Map.find GBufferRendering.Semantic.Emission gBuffer)
-            |> Sg.texture ( GBufferRendering.Semantic.MaterialProperties) (Map.find GBufferRendering.Semantic.MaterialProperties gBuffer)
             |> Sg.compile runtime signature   
         
         output

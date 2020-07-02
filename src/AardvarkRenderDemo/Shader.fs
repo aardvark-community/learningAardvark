@@ -320,9 +320,10 @@ module PBR =
             let albedo = color.Sample(vert.tc)
             let m = materialProperties.Sample(vert.tc).XY   
             let wPos = wPos.Sample(vert.tc)
-            let n = normal.Sample(vert.tc).XYZ |> Vec.normalize
+            let nr  = normal.Sample(vert.tc)
+            let n = nr.XYZ |> Vec.normalize
             let em = emission.Sample(vert.tc).XYZ 
-            return {wp =  wPos; n = n; c = albedo;  tc = vert.tc; metallic = m.X; roughness = m.Y; emission =  em}
+            return {wp =  wPos; n = n; c = V4d(albedo.XYZ,1.0);  tc = vert.tc; metallic = albedo.W; roughness = nr.W; emission =  em}
         }
         
 

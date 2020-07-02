@@ -224,7 +224,7 @@ open Aardvark.Base.Rendering.Effects
             |> Sg.shader {
                 do! ambientOcclusion
             }
-            |> Sg.texture ( DefaultSemantic.Normals) (Map.find DefaultSemantic.Normals gBuffer)
+            |> Sg.texture ( DefaultSemantic.Normals) (Map.find GBufferRendering.Semantic.NormalR gBuffer)
             |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
             |> Sg.viewTrafo view
             |> Sg.projTrafo proj
