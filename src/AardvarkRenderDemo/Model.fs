@@ -39,6 +39,13 @@ type SpotLightData = {
     castsShadow : bool
 }
 
+type SphereLightData = {
+    lightPosition : V4d
+    radius : float
+    color : C3d
+    intensity : float
+}
+
 [<ModelType>]
 type TextureMappedValue = {
     fileName : string Option
@@ -81,6 +88,7 @@ type Light =
     | DirectionalLight of DirectionalLightData
     | PointLight of PointLightData
     | SpotLight of SpotLightData
+    | SphereLight of  SphereLightData
 
 [<ModelType>]
 type AmbientOcclusionSettings =

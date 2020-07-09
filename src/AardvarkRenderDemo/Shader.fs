@@ -215,6 +215,7 @@ module PBR =
             let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
             let attenuation = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
             true, lDir , light.color * intensity * attenuation              
+        | SLEUniform.LightType.SphereLight -> false, V3d(0.0), V3d(0.0)
         | SLEUniform.LightType.NoLight -> false, V3d(0.0), V3d(0.0)
         |_ ->  false, V3d(0.0), V3d(0.0)  //allways match any cases, otherwise fshade will give a cryptic error 
 
