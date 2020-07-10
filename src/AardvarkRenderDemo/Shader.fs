@@ -18,6 +18,9 @@ module fshadeExt =
     [<GLSLIntrinsic("exp({0})")>] // Define function as intrinsic, no implementation needed
     let exp (a : V3d) : V3d = failwith ""
 
+    [<GLSLIntrinsic("length({0})")>] // Define function as intrinsic, no implementation needed
+    let length (a : V3d) : V3d = failwith ""
+
 //physical base rendering, mostly a port of the shaders found here https://learnopengl.com/PBR/Lighting,
 //here https://learnopengl.com/PBR/IBL/Diffuse-irradiance and here https://learnopengl.com/PBR/IBL/Specular-IBL.
 module PBR =
@@ -196,9 +199,32 @@ module PBR =
             let index = int (16.0*random (pos.XYZ) i )%16
             vis <- vis + shadowMap.Sample(samplePos.XY + poissonDisk.[index]/spread, comp)/(float numSamples)
         vis
-    
+
     [<ReflectedDefinition>]
-    let getLightParams (light : SLEUniform.Light) (wPos : V3d) = 
+    let getSpecularDominantDirArea n v roughness =
+        // Simple linear approximation 
+        let r = - Vec.reflect v n
+        let  lerpFactor = (1.0 - roughness);
+        Lerp n r lerpFactor |> Vec.normalize
+
+
+    [<ReflectedDefinition>]
+    let illuminannceSphereDisc cosTheta sinSigmaSqr =
+        let sinTheta = sqrt (1.0 - cosTheta * cosTheta)
+        let illuminance  =
+            if cosTheta * cosTheta > sinSigmaSqr
+            then  
+                Math.PI * sinSigmaSqr * clamp 0.0 1.0 cosTheta
+            else
+                let x = sqrt(1.0 / sinSigmaSqr - 1.0) 
+                let y = -x * (cosTheta / sinTheta)
+                let sinThetaSqrtY = sinTheta * sqrt(1.0 - y * y)
+                (cosTheta * acos(y) - x * sinThetaSqrtY) * sinSigmaSqr + atan(sinThetaSqrtY / x)
+        illuminance
+        |> max 0.0
+
+    [<ReflectedDefinition>]
+    let getLightParams (light : SLEUniform.Light) (wPos : V3d) (n : V3d) v roughness= 
         match  light.lightType  with
         | SLEUniform.LightType.DirectionalLight -> true, -light.lightDirection.XYZ |> Vec.normalize, light.color  
         | SLEUniform.LightType.PointLight -> 
@@ -215,7 +241,20 @@ module PBR =
             let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
             let attenuation = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
             true, lDir , light.color * intensity * attenuation              
-        | SLEUniform.LightType.SphereLight -> false, V3d(0.0), V3d(0.0)
+        | SLEUniform.LightType.SphereLight ->
+            let lUnnorm = light.lightPosition.XYZ - wPos
+            let lDir = lUnnorm |> Vec.normalize
+            let dist2  = Vec.dot lUnnorm lUnnorm
+            let radius2 = light.radius * light.radius  
+            let cosTheta = Vec.dot n lDir |> clamp -0.999 0.999
+            let sinSigmaSqr = radius2/dist2 |> min 0.9999
+            let attenuation = illuminannceSphereDisc cosTheta sinSigmaSqr
+            let r = getSpecularDominantDirArea n v roughness
+            let centerToRay = (Vec.dot lUnnorm r) * r - lUnnorm
+            let l = 
+                lUnnorm + centerToRay * clamp 0.0 1.0 (light.radius / length centerToRay) 
+                |> Vec.normalize
+            true, l , light.color * attenuation
         | SLEUniform.LightType.NoLight -> false, V3d(0.0), V3d(0.0)
         |_ ->  false, V3d(0.0), V3d(0.0)  //allways match any cases, otherwise fshade will give a cryptic error 
 
@@ -233,7 +272,7 @@ module PBR =
     [<ReflectedDefinition>]
     let pbrDirect f0 roughness metallic (albedo : V3d) (wPos : V4d) v n nDotV light  = 
            
-        let (exists, lDir, radiance)  = getLightParams light wPos.XYZ
+        let (exists, lDir, illuminannce)  = getLightParams light wPos.XYZ n v roughness
       
         let oi = 
             if exists then
@@ -254,7 +293,7 @@ module PBR =
                 let specular = numerator / denominator  
 
                 // add to outgoing radiance from single light
-                (diffuse + specular) * radiance * nDotL; 
+                (diffuse + specular) * illuminannce * nDotL; 
 
             else V3d.Zero
         oi

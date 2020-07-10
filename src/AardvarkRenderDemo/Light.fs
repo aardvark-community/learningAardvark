@@ -603,7 +603,7 @@ module SLEUniform =
             | AdaptiveSphereLight  x' ->
                let! x  = x'
                let r : Light = {
-                   lightType = LightType.PointLight
+                   lightType = LightType.SphereLight
                    lightPosition = x.lightPosition
                    lightDirection = V4d.Zero 
                    color = x.color.ToV3d() * x.intensity
