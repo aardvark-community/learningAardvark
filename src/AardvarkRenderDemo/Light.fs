@@ -62,6 +62,7 @@ module light =
                     match l' with
                     | AdaptiveDirectionalLight ld -> Sg.empty
                     | AdaptiveSpotLight ls -> Sg.empty
+                    | AdaptiveSphereLight ls -> Sg.empty
                     | AdaptivePointLight lp -> 
                         Sg.sphere 6 (AVal.map ( fun (v : PointLightData) -> v.color.ToC4b()) lp ) (AVal.constant 0.03) 
                         |> Sg.translate' (AVal.map ( fun (v : PointLightData) -> v.lightPosition.XYZ) lp)
@@ -440,70 +441,6 @@ module lightControl =
                 radiusView r
                 intensityView i c
             ]
-module Shadow =
-    open Aardvark.SceneGraph
-    open Aardvark.UI //nessary to avoid confusion between SceneGraph.SG and UI.SG 
-
-    
-    let signatureShadowMap (runtime : IRuntime) =
-        runtime.CreateFramebufferSignature [
-            DefaultSemantic.Depth, { format = RenderbufferFormat.DepthComponent32; samples = 1 }
-        ]
-
-    let shadowMapSize = V2i(1024) |> AVal.constant
-
-    //calculate light view and prjection
-    let lightViewPoject (bb : aval<Box3d>) (light : AdaptiveLightCase) =
-        match light with
-        | AdaptivePointLight l -> failwith "not implemented"
-        | AdaptiveSpotLight l -> 
-            adaptive {
-                let! light = l
-                let! BB = bb
-                let size = (BB.Max - BB.Min).Length
-                let target = light.lightPosition + light.lightDirection
-                let up = if abs(light.lightDirection.Z) < 0.0000001 && abs(light.lightDirection.X) < 0.0000001 then V3d.OOI else V3d.OIO
-                let lightView = 
-                    CameraView.lookAt (light.lightPosition.XYZ) target.XYZ up
-                    |> CameraView.viewTrafo 
-                let proj = 
-                    Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) 1.0 size 1.0
-                    |> Frustum.projTrafo
-                return lightView , proj
-            }
-        | AdaptiveDirectionalLight l -> 
-            adaptive {
-                let! light = l
-                let! BB = bb
-                let distance = max BB.Min.Length BB.Max.Length
-                let size = (BB.Max - BB.Min).Length
-                let lightPos = -light.lightDirection.XYZ |> Vec.normalize |> (*) distance //make sure the light position is outside the sceneBB
-                let up = if abs(lightPos.Z) < 0.0000001 then V3d.OOI else V3d.OIO
-                let lightView = 
-                    CameraView.lookAt lightPos V3d.OOO up
-                    |> CameraView.viewTrafo 
-                let b = BB.Transformed(lightView)
-                let bb = Box3d(V3d(b.Min.XY,0.0001),V3d(b.Max.XY,size*2.0))//set Z Size so that all the scene fits in all cases (size*2.0 ist the upper bound, could be optimized)
-                let proj = 
-                    Frustum.ortho bb
-                    |> Frustum.projTrafo
-                return lightView , proj
-            }
-
-    let shadowMap (runtime : IRuntime) (scene :ISg<'msg>) (bb : aval<Box3d>) (light : AdaptiveLightCase) =
-            let pv = lightViewPoject bb light
-            let v = pv |> AVal.map fst
-            let p = pv |> AVal.map snd
-            scene
-            |> Sg.shader {
-                do! DefaultSurfaces.trafo
-                do! DefaultSurfaces.vertexColor
-                }
-            |> Sg.viewTrafo (v)
-            |> Sg.projTrafo (p)
-            |> Sg.compile runtime (signatureShadowMap runtime)
-            |> RenderTask.renderToDepth shadowMapSize
-            :> aval<_>
 
 module SLEUniform =
     //light information as shader uniforms

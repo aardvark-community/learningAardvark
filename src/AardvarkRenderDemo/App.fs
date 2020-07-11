@@ -185,16 +185,16 @@ module App =
                                     |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
                                     |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> AVal.map(fun (v,p)  -> v * p))
                                     |> Sg.shader {
-                                        do! PBR.getGBufferData
+                                        do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
-                                        do! PBR.shadowDeferred
+                                        do! GBuffer.shadowDeferred
                                         }
                                 else
                                      Sg.fullScreenQuad
                                     |> Sg.adapter
                                     |> Sg.uniform "Light" (SLEUniform.uniformLight l)
                                     |> Sg.shader {
-                                        do! PBR.getGBufferData
+                                        do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
                                         } ) dl
                             |> Sg.dynamic                                
@@ -207,16 +207,16 @@ module App =
                                     |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
                                     |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> AVal.map(fun (v,p)  -> v * p))
                                     |> Sg.shader {
-                                        do! PBR.getGBufferData
+                                        do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
-                                        do! PBR.shadowDeferred
+                                        do! GBuffer.shadowDeferred
                                         }
                                 else
                                      Sg.fullScreenQuad
                                     |> Sg.adapter
                                     |> Sg.uniform "Light" (SLEUniform.uniformLight l)
                                     |> Sg.shader {
-                                        do! PBR.getGBufferData
+                                        do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
                                         } ) sl
                             |> Sg.dynamic                          
@@ -225,7 +225,7 @@ module App =
                             |> Sg.adapter
                             |> Sg.uniform "Light" (SLEUniform.uniformLight l)
                             |> Sg.shader {
-                                do! PBR.getGBufferData
+                                do! GBuffer.getGBufferData
                                 do! PBR.lightingDeferred
                                 }
                         |AdaptiveSphereLight _ ->
@@ -233,7 +233,7 @@ module App =
                             |> Sg.adapter
                             |> Sg.uniform "Light" (SLEUniform.uniformLight l)
                             |> Sg.shader {
-                                do! PBR.getGBufferData
+                                do! GBuffer.getGBufferData
                                 do! PBR.lightingDeferred
                                 } 
                     yield  pass
@@ -275,9 +275,8 @@ module App =
                     |> Sg.texture (Sym.ofString "BRDFLtu") bRDFLtu
                     |> Sg.texture (Sym.ofString "AmbientOcclusion") ambientOcclusion
                     |> Sg.shader {
-                        do! PBR.getGBufferData
+                        do! GBuffer.getGBufferData
                         do! PBR.abientDeferred
-                        do! PBR.nonLightedDeferred
                         }
                 yield pass0
            } 

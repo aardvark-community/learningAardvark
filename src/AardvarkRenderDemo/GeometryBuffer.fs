@@ -164,3 +164,84 @@ module GeometryBuffer  =
                         GBufferRendering.Semantic.Emission
                         ]
                ) size 
+
+module GBuffer = 
+    open FShade
+    
+    let wPos =
+        sampler2d {
+            texture uniform?WPos
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
+
+    let normal =
+        sampler2d {
+            texture uniform?Normals
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
+        
+    let color =
+        sampler2d {
+            texture uniform?Colors
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
+
+    let depth =
+        sampler2d {
+            texture uniform?Depth
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
+
+    let emission =
+        sampler2d {
+            texture uniform?Emission
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
+
+    let materialProperties =
+        sampler2d {
+            texture uniform?MaterialProperties
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
+
+
+    type Fragment = {
+        [<WorldPosition>]   wp      : V4d
+        [<Normal>]          n       : V3d
+        [<Color>]           c       : V4d
+        [<TexCoord>]        tc      : V2d
+        [<Semantic("Metallic")>] metallic    : float
+        [<Semantic("Roughness")>] roughness    : float
+        [<Semantic("Emission")>] emission    : V3d
+    }
+
+    let getGBufferData (vert : Vertex) =
+        fragment {
+            let albedo = color.Sample(vert.tc)
+            let m = materialProperties.Sample(vert.tc).XY   
+            let wPos = wPos.Sample(vert.tc)
+            let nr  = normal.Sample(vert.tc)
+            let n = nr.XYZ |> Vec.normalize
+            let em = emission.Sample(vert.tc).XYZ 
+            return {wp =  wPos; n = n; c = V4d(albedo.XYZ,1.0);  tc = vert.tc; metallic = albedo.W; roughness = nr.W; emission =  em}
+        }
+
+
+    let shadowDeferred  (vert : Vertex) =
+        fragment {
+            let wPos = wPos.Sample(vert.tc)
+            let shadow = Shadow.getShadow wPos
+            return vert.c * shadow
+        }
