@@ -59,6 +59,14 @@ module PBR =
         }
 
     [<ReflectedDefinition>]
+    let luminousPowerToLuminancePoint =
+        1.0 / (4.0 * Math.PI)
+
+    [<ReflectedDefinition>]
+    let luminousPowerToLuminanceSpot =
+        1.0 / Math.PI
+        
+    [<ReflectedDefinition>]
     let getSpecularDominantDirArea n v roughness =
         // Simple linear approximation 
         let r = - Vec.reflect v n
@@ -96,7 +104,7 @@ module PBR =
         |> saturate    
 
     [<ReflectedDefinition>]
-    let attenuationPointLight attenuationLinear attenuationQad dist =
+    let attenuationPunctualLight attenuationLinear attenuationQad dist =
         1.0 / (1.0 + attenuationLinear * dist + attenuationQad * dist * dist)
 
     [<ReflectedDefinition>]
@@ -107,6 +115,10 @@ module PBR =
         let sinSigmaSqr = radius2/dist2 |> min 0.9999
         illuminannceSphereDisc cosTheta sinSigmaSqr
 
+    [<ReflectedDefinition>]
+    let luminousPowerToLuminanceSphere radius =
+        1.0 / (radius * radius * 4.0 * Math.PI * Math.PI)
+    
     [<ReflectedDefinition>]
     let representativePointSpehre n v roughness lUnnorm radius = 
         let r = getSpecularDominantDirArea n v roughness
@@ -132,31 +144,39 @@ module PBR =
         |> Vec.normalize
 
     [<ReflectedDefinition>]
+    let luminousPowerToLuminanceDisk radius =
+        1.0 / (radius * radius  * Math.PI * Math.PI)
+
+    [<ReflectedDefinition>]
     let getLightParams (light : SLEUniform.Light) (wPos : V3d) (n : V3d) v roughness= 
         match  light.lightType  with
         | SLEUniform.LightType.DirectionalLight -> true, -light.lightDirection.XYZ |> Vec.normalize, light.color, 1.0
         | SLEUniform.LightType.PointLight -> 
             let lDir = light.lightPosition.XYZ - wPos |> Vec.normalize
             let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
-            let attenuation = attenuationPointLight light.attenuationLinear light.attenuationQad dist
-            true, lDir, light.color * attenuation, 1.0  
+            let luminance = luminousPowerToLuminancePoint
+            let attenuation = attenuationPunctualLight light.attenuationLinear light.attenuationQad dist
+            true, lDir, light.color * attenuation * luminance, 1.0  
         | SLEUniform.LightType.SpotLight -> 
             let lDir = light.lightPosition.XYZ - wPos |> Vec.normalize
             let ln = light.lightDirection.XYZ |> Vec.normalize
+            let luminance = luminousPowerToLuminanceSpot
             let intensity = attenuationAgular lDir ln light.cutOffInner light.cutOffOuter
             let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
-            let attenuation = attenuationPointLight light.attenuationLinear light.attenuationQad dist
-            true, lDir, light.color * intensity * attenuation, 1.0             
+            let attenuation = attenuationPunctualLight light.attenuationLinear light.attenuationQad dist
+            true, lDir, light.color * intensity * attenuation * luminance, 1.0             
         | SLEUniform.LightType.SphereLight ->
             let lUnnorm = light.lightPosition.XYZ - wPos
             let lDir = lUnnorm |> Vec.normalize
+            let luminance = luminousPowerToLuminanceSphere light.radius
             let attenuation = attenuationSphere lUnnorm light.radius n lDir
             let l = representativePointSpehre n v roughness lUnnorm light.radius
-            true, l , light.color * attenuation, 1.0
+            true, l , light.color * attenuation * luminance, 1.0
         | SLEUniform.LightType.DiskLight -> 
             let lUnnorm = light.lightPosition.XYZ - wPos
             let lDir = lUnnorm |> Vec.normalize
             let ln = light.lightDirection.XYZ |> Vec.normalize
+            let luminance = luminousPowerToLuminanceDisk light.radius
             let attenuation = attenuationDisk lUnnorm light.radius n lDir ln
             let intensity = attenuationAgular lDir ln light.cutOffInner light.cutOffOuter
 
@@ -168,7 +188,7 @@ module PBR =
                 |> abs
                 |> saturate 
 
-            true, l, light.color * intensity * attenuation, specularAttenuation    
+            true, l, light.color * intensity * attenuation * luminance, specularAttenuation    
         | SLEUniform.LightType.NoLight -> false, V3d(0.0), V3d(0.0), 1.0
         |_ ->  false, V3d(0.0), V3d(0.0), 1.0  //allways match any cases, otherwise fshade will give a cryptic error 
 
