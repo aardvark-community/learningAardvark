@@ -89,63 +89,82 @@ module PBR =
         |> max 0.0
 
     [<ReflectedDefinition>]
+    let attenuationAgular (lDir : V3d) (ln : V3d) cutOffInner cutOffOuter =
+        let cosTheta = Vec.dot lDir -ln
+        let epsilon = cutOffInner - cutOffOuter
+        (cosTheta - cutOffOuter) / epsilon 
+        |> saturate    
+
+    [<ReflectedDefinition>]
+    let attenuationPointLight attenuationLinear attenuationQad dist =
+        1.0 / (1.0 + attenuationLinear * dist + attenuationQad * dist * dist)
+
+    [<ReflectedDefinition>]
+    let attenuationSphere (lUnnorm : V3d) (radius : float) (n : V3d) (lDir : V3d) =
+        let dist2  = Vec.dot lUnnorm lUnnorm
+        let radius2 = radius * radius  
+        let cosTheta = Vec.dot n lDir |> clamp -0.999 0.999
+        let sinSigmaSqr = radius2/dist2 |> min 0.9999
+        illuminannceSphereDisc cosTheta sinSigmaSqr
+
+    [<ReflectedDefinition>]
+    let representativePointSpehre n v roughness lUnnorm radius = 
+        let r = getSpecularDominantDirArea n v roughness
+        let centerToRay = (Vec.dot lUnnorm r) * r - lUnnorm
+        lUnnorm + centerToRay * clamp 0.0 1.0 (radius / length centerToRay) 
+        |> Vec.normalize
+
+    [<ReflectedDefinition>]
+    let attenuationDisk (lUnnorm : V3d) (radius : float) (n : V3d) (lDir : V3d) (ln : V3d) =
+        let cosTheta = Vec.dot n lDir |> clamp -0.999 0.999
+        let dist2  = Vec.dot lUnnorm lUnnorm
+        let radius2 = radius * radius  
+        let sinSigmaSqr = radius2 / (radius2 + max radius2 dist2)
+        let diskDirDotL = Vec.dot ln -lDir  |> saturate
+        illuminannceSphereDisc cosTheta sinSigmaSqr * diskDirDotL
+
+    [<ReflectedDefinition>]
+    let representativePointDisk r wPos radius ln lightPosition lUnnorm= 
+        let t = tracePlane wPos r lightPosition ln
+        let p = wPos + r * t
+        let centerToRay = p - lightPosition
+        lUnnorm + centerToRay * saturate (radius / length centerToRay) 
+        |> Vec.normalize
+
+    [<ReflectedDefinition>]
     let getLightParams (light : SLEUniform.Light) (wPos : V3d) (n : V3d) v roughness= 
         match  light.lightType  with
         | SLEUniform.LightType.DirectionalLight -> true, -light.lightDirection.XYZ |> Vec.normalize, light.color, 1.0
         | SLEUniform.LightType.PointLight -> 
             let lDir = light.lightPosition.XYZ - wPos |> Vec.normalize
             let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
-            let attenuation = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
+            let attenuation = attenuationPointLight light.attenuationLinear light.attenuationQad dist
             true, lDir, light.color * attenuation, 1.0  
         | SLEUniform.LightType.SpotLight -> 
             let lDir = light.lightPosition.XYZ - wPos |> Vec.normalize
-            let spotDir = -light.lightDirection.XYZ |> Vec.normalize
-            let cosTheta = Vec.dot lDir spotDir
-            let epsilon = light.cutOffInner - light.cutOffOuter
-            let intensity = (cosTheta - light.cutOffOuter) / epsilon |> clamp 0.0 1.0
+            let ln = light.lightDirection.XYZ |> Vec.normalize
+            let intensity = attenuationAgular lDir ln light.cutOffInner light.cutOffOuter
             let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
-            let attenuation = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
+            let attenuation = attenuationPointLight light.attenuationLinear light.attenuationQad dist
             true, lDir, light.color * intensity * attenuation, 1.0             
         | SLEUniform.LightType.SphereLight ->
             let lUnnorm = light.lightPosition.XYZ - wPos
             let lDir = lUnnorm |> Vec.normalize
-            let dist2  = Vec.dot lUnnorm lUnnorm
-            let radius2 = light.radius * light.radius  
-            let cosTheta = Vec.dot n lDir |> clamp -0.999 0.999
-            let sinSigmaSqr = radius2/dist2 |> min 0.9999
-            let attenuation = illuminannceSphereDisc cosTheta sinSigmaSqr
-
-            let r = getSpecularDominantDirArea n v roughness
-            let centerToRay = (Vec.dot lUnnorm r) * r - lUnnorm
-            let l = 
-                lUnnorm + centerToRay * clamp 0.0 1.0 (light.radius / length centerToRay) 
-                |> Vec.normalize
+            let attenuation = attenuationSphere lUnnorm light.radius n lDir
+            let l = representativePointSpehre n v roughness lUnnorm light.radius
             true, l , light.color * attenuation, 1.0
         | SLEUniform.LightType.DiskLight -> 
             let lUnnorm = light.lightPosition.XYZ - wPos
             let lDir = lUnnorm |> Vec.normalize
-            let diskDir = light.lightDirection.XYZ |> Vec.normalize
-            let cosTheta = Vec.dot n lDir |> clamp -0.999 0.999
-            let dist2  = Vec.dot lUnnorm lUnnorm
-            let radius2 = light.radius * light.radius  
-            let sinSigmaSqr = radius2 / (radius2 + max radius2 dist2)
-            let diskDirDotL = Vec.dot diskDir -lDir  |> saturate
-            let attenuation = illuminannceSphereDisc cosTheta sinSigmaSqr * diskDirDotL
-
-            let epsilon = light.cutOffInner - light.cutOffOuter
-            let ct =  Vec.dot lDir -diskDir
-            let intensity = (ct - light.cutOffOuter) / epsilon |> saturate
+            let ln = light.lightDirection.XYZ |> Vec.normalize
+            let attenuation = attenuationDisk lUnnorm light.radius n lDir ln
+            let intensity = attenuationAgular lDir ln light.cutOffInner light.cutOffOuter
 
             let r = getSpecularDominantDirArea n v roughness
-            let t = tracePlane wPos r light.lightPosition.XYZ diskDir
-            let p = wPos + r * t
-            let centerToRay = p - light.lightPosition.XYZ
-            let l = 
-                lUnnorm + centerToRay * saturate (light.radius / length centerToRay) 
-                |> Vec.normalize
+            let l = representativePointDisk r wPos light.radius ln light.lightPosition.XYZ lUnnorm
 
             let specularAttenuation = 
-                Vec.dot diskDir r
+                Vec.dot ln r
                 |> abs
                 |> saturate 
 
