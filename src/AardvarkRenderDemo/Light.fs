@@ -48,6 +48,17 @@ module light =
         castsShadow = true
     }
 
+    let defaultDiskLight = DiskLight  {
+        lightPosition = V4d(0.0,1.5,-0.5,1.0); 
+        lightDirection = V4d(0.0,-1.0,1.0,1.0); 
+        color = C3d.White; 
+        intensity = 1.0; 
+        cutOffInner = 30.0; 
+        fallOff = 10.0; 
+        castsShadow = true
+        radius = 0.2
+    }
+
     let defaultLight = defaultPointLight
 
     let defaultAbientOcclusion = {occlusionStrength = 1.0; scale = 1.0; radius = 0.2; samples = 32; threshold = 0.2; sigma = 2.0; sharpness = 1.0}
@@ -63,6 +74,7 @@ module light =
                     | AdaptiveDirectionalLight ld -> Sg.empty
                     | AdaptiveSpotLight ls -> Sg.empty
                     | AdaptiveSphereLight ls -> Sg.empty
+                    | AdaptiveDiskLight ls -> Sg.empty
                     | AdaptivePointLight lp -> 
                         Sg.sphere 6 (AVal.map ( fun (v : PointLightData) -> v.color.ToC4b()) lp ) (AVal.constant 0.03) 
                         |> Sg.translate' (AVal.map ( fun (v : PointLightData) -> v.lightPosition.XYZ) lp)
@@ -83,10 +95,12 @@ module lightControl =
         | DefaultPointLight
         | DefaultSpotLight
         | DefaultSphereLight
+        | DefaultDiskLight
         | ToDirectionalLight
         | ToPointLight
         | ToSpotLight
         | ToSphereLight
+        | ToDiskLight
         | SetLightDirection of V3dInput.Message
         | SetLightPosition of V3dInput.Message
         | SetAttenuationQad of float
@@ -123,6 +137,13 @@ module lightControl =
                     intensity = r.intensity
                     castsShadow = true
                 }
+            | DiskLight r -> 
+                DirectionalLight  {
+                    lightDirection = r.lightDirection
+                    color = r.color
+                    intensity = r.intensity
+                    castsShadow = true
+                }
             | x -> x
         | ToPointLight ->
             match m with
@@ -143,6 +164,14 @@ module lightControl =
                     intensity = r.intensity
                 }
             | SphereLight r -> 
+                PointLight  {
+                    lightPosition = r.lightPosition
+                    color = r.color
+                    attenuationQad = 1.0
+                    attenuationLinear = 0.0
+                    intensity = r.intensity
+                }
+            | DiskLight r -> 
                 PointLight  {
                     lightPosition = r.lightPosition
                     color = r.color
@@ -174,6 +203,13 @@ module lightControl =
                     intensity = r.intensity
                     radius = 0.2
                 }
+            | DiskLight r -> 
+                SphereLight  {
+                    lightPosition = r.lightPosition
+                    color = r.color
+                    intensity = r.intensity
+                    radius = r.radius
+                }            
             | x -> x
         | ToSpotLight ->
             match m with
@@ -213,11 +249,71 @@ module lightControl =
                     fallOff = 10.0 
                     castsShadow = true
                 }
+            | DiskLight r -> 
+                SpotLight  {
+                    lightPosition = r.lightPosition
+                    lightDirection = r.lightDirection
+                    color = r.color
+                    attenuationQad = 1.0
+                    attenuationLinear = 0.0
+                    intensity = r.intensity 
+                    cutOffInner = r.cutOffInner
+                    fallOff = r.fallOff
+                    castsShadow = r.castsShadow
+                }
+            | x -> x
+        | ToDiskLight ->
+            match m with
+            | DirectionalLight r -> 
+                DiskLight  {
+                    lightPosition = -r.lightDirection
+                    lightDirection = r.lightDirection
+                    color = r.color
+                    intensity = r.intensity 
+                    cutOffInner = 30.0
+                    fallOff = 10.0 
+                    castsShadow = r.castsShadow
+                    radius = 0.2
+                }
+            | PointLight r -> 
+                DiskLight  {
+                    lightPosition = r.lightPosition
+                    lightDirection = -r.lightPosition
+                    color = r.color
+                    intensity = r.intensity 
+                    cutOffInner = 30.0
+                    fallOff = 10.0 
+                    castsShadow = true
+                    radius = 0.2
+                }
+            | SpotLight r -> 
+                DiskLight  {
+                    lightPosition = r.lightPosition
+                    lightDirection = r.lightDirection
+                    color = r.color
+                    intensity = r.intensity 
+                    cutOffInner = r.cutOffInner
+                    fallOff = r.fallOff
+                    castsShadow = true
+                    radius = 0.2
+                }
+            | SphereLight r -> 
+                DiskLight  {
+                    lightPosition = r.lightPosition
+                    lightDirection = -r.lightPosition
+                    color = r.color
+                    intensity = r.intensity 
+                    cutOffInner = 30.0
+                    fallOff = 10.0 
+                    castsShadow = true
+                    radius =r.radius
+                }
             | x -> x
         | DefaultDirectionalLight -> light.defaultDirectionalLight
         | DefaultPointLight -> light.defaultPointLight
         | DefaultSpotLight -> light.defaultSpotLight
         | DefaultSphereLight -> light.defaultSphereLight
+        | DefaultDiskLight -> light.defaultDiskLight
         | SetLightDirection vMsg  ->  
             match m with
             | DirectionalLight r -> 
@@ -226,7 +322,10 @@ module lightControl =
             | SpotLight r -> 
                 let n = V3dInput.update (r.lightDirection.XYZ) vMsg
                 SpotLight {r with lightDirection = V4d(n, 0.0)} 
-            | x -> x
+            | DiskLight r -> 
+                let n = V3dInput.update (r.lightDirection.XYZ) vMsg
+                DiskLight {r with lightDirection = V4d(n, 0.0)} 
+             | x -> x
         | SetLightPosition vMsg ->  
             match m with
             | PointLight r -> 
@@ -238,6 +337,9 @@ module lightControl =
             | SpotLight r -> 
                 let n = V3dInput.update (r.lightPosition.XYZ) vMsg
                 SpotLight {r with lightPosition = V4d(n, 1.0)} 
+            | DiskLight r -> 
+                let n = V3dInput.update (r.lightPosition.XYZ) vMsg
+                DiskLight {r with lightPosition = V4d(n, 1.0)} 
             | x -> x
         | SetAttenuationQad v ->  
             match m with
@@ -263,6 +365,8 @@ module lightControl =
                 SpotLight {r with intensity = i} 
             | SphereLight r -> 
                 SphereLight {r with intensity = i} 
+            | DiskLight r -> 
+                DiskLight {r with intensity = i} 
         | SetColor c ->  
             match m with
             | PointLight r -> 
@@ -273,20 +377,28 @@ module lightControl =
                 SpotLight {r with color = c} 
             | SphereLight r -> 
                 SphereLight {r with color = c} 
+            | DiskLight r -> 
+                DiskLight {r with color = c} 
          | SetCutOffInner w ->  
             match m with
             | SpotLight r -> 
                 SpotLight {r with cutOffInner = w} 
+            | DiskLight r -> 
+                DiskLight {r with cutOffInner = w} 
             | x -> x
          | SetFallOff w ->  
             match m with
             | SpotLight r -> 
                 SpotLight {r with fallOff = w} 
+            | DiskLight r -> 
+                DiskLight {r with fallOff = w} 
             | x -> x
          | SetRadius w ->  
             match m with
             | SphereLight r -> 
                 SphereLight {r with radius = w} 
+            | DiskLight r -> 
+                DiskLight {r with radius = w} 
             | x -> x
          | ToggleCastShadow   ->  
             match m with
@@ -294,6 +406,8 @@ module lightControl =
                 DirectionalLight {r with castsShadow = not r.castsShadow} 
             | SpotLight r -> 
                 SpotLight {r with castsShadow = not r.castsShadow} 
+            | DiskLight r -> 
+                DiskLight {r with castsShadow = not r.castsShadow} 
             | x -> x
 
     let attenuationView (l : aval<float>) (q : aval<float>)=
@@ -341,10 +455,11 @@ module lightControl =
                         button [clazz "ui button"; onClick (fun _ -> ToPointLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Point Light"] 
                         button [clazz "ui button"; onClick (fun _ -> ToSpotLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Spot Light"]
                         button [clazz "ui button"; onClick (fun _ -> ToSphereLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Sphere Light"]
+                        button [clazz "ui button"; onClick (fun _ -> ToDiskLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Disk Light"]
                     ] 
                     |> IndexList.ofList) l'
                 |> AList.ofAVal
-                |> Incremental.div AttributeMap.empty 
+                |> Incremental.div AttributeMap.empty
                 
                 AVal.map (fun (l : DirectionalLightData) -> l.lightDirection.XYZ) l'
                 |> V3dInput.view "Direction"
@@ -368,6 +483,7 @@ module lightControl =
                         button [clazz "ui button"; onClick (fun _ -> ToSpotLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Spot Light"]
                         button [clazz "ui button"; onClick (fun _ -> ToDirectionalLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Directional Light"]
                         button [clazz "ui button"; onClick (fun _ -> ToSphereLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Sphere Light"]
+                        button [clazz "ui button"; onClick (fun _ -> ToDiskLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Disk Light"]
                     ] 
                     |> IndexList.ofList) l'
                 |> AList.ofAVal
@@ -395,6 +511,7 @@ module lightControl =
                         button [clazz "ui button"; onClick (fun _ -> ToPointLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Point Light"]
                         button [clazz "ui button"; onClick (fun _ -> ToDirectionalLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Directional Light"]
                         button [clazz "ui button"; onClick (fun _ -> ToSphereLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Sphere Light"]
+                        button [clazz "ui button"; onClick (fun _ -> ToDiskLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Disk Light"]
                     ] 
                     |> IndexList.ofList) l'
                 |> AList.ofAVal
@@ -429,6 +546,7 @@ module lightControl =
                         button [clazz "ui button"; onClick (fun _ -> ToSpotLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Spot Light"]
                         button [clazz "ui button"; onClick (fun _ -> ToDirectionalLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Directional Light"]
                         button [clazz "ui button"; onClick (fun _ -> ToPointLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Point Light"]
+                        button [clazz "ui button"; onClick (fun _ -> ToDiskLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Disk Light"]
                     ] 
                     |> IndexList.ofList) l'
                 |> AList.ofAVal
@@ -441,6 +559,41 @@ module lightControl =
                 radiusView r
                 intensityView i c
             ]
+        |AdaptiveDiskLight l' -> 
+            let i = AVal.map (fun (l : DiskLightData) -> l.intensity) l'
+            let c = AVal.map (fun (l : DiskLightData) -> l.color.ToC4b()) l'
+            let ci = AVal.map (fun (l : DiskLightData) -> l.cutOffInner) l'
+            let fo = AVal.map (fun (l : DiskLightData) -> l.fallOff) l'
+            let r = AVal.map (fun (l : DiskLightData) -> l.radius) l'
+            div [] [
+
+                AVal.map (fun l -> 
+                    [
+                        button [clazz "ui button"; onClick (fun _ -> DefaultDiskLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Reset"]
+                        button [clazz "ui button"; onClick (fun _ -> ToPointLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Point Light"]
+                        button [clazz "ui button"; onClick (fun _ -> ToDirectionalLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Directional Light"]
+                        button [clazz "ui button"; onClick (fun _ -> ToSphereLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Sphere Light"]
+                        button [clazz "ui button"; onClick (fun _ -> ToSpotLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Change to Spot Light"]
+                    ] 
+                    |> IndexList.ofList) l'
+                |> AList.ofAVal
+                |> Incremental.div AttributeMap.empty 
+                
+                AVal.map (fun (l : DiskLightData) -> l.lightPosition.XYZ) l'
+                |> V3dInput.view "Position"
+                |> UI.map SetLightPosition
+
+                AVal.map (fun (l : DiskLightData) -> l.lightDirection.XYZ) l'
+                |> V3dInput.view "Direction"
+                |> UI.map SetLightDirection
+
+                radiusView r
+                intensityView i c
+                cutOffView ci fo
+                Html.table [
+                    tr [] [ td [] [text "Cast Shadow"]; td [style "width: 70%;"] [Html.SemUi.toggleBox  (AVal.map (fun (l : DiskLightData) -> l.castsShadow) l') ToggleCastShadow ]]
+                ]
+            ]
 
 module SLEUniform =
     //light information as shader uniforms
@@ -451,6 +604,7 @@ module SLEUniform =
         | PointLight = 2
         | SpotLight = 3
         | SphereLight = 4
+        | DiskLight = 5
 
     type Light = {
         lightType : LightType
@@ -551,5 +705,20 @@ module SLEUniform =
                    cutOffOuter = 0.0
                    radius = x.radius
                 }
+               return r
+            | AdaptiveDiskLight  x' ->
+               let! x  = x'
+               let r : Light = {
+                   lightType = LightType.DiskLight
+                   lightPosition = x.lightPosition
+                   lightDirection = x.lightDirection
+                   color = x.color.ToV3d() * x.intensity
+                   attenuationQad = 1.0
+                   attenuationLinear = 0.0
+                   castsShadow = x.castsShadow
+                   cutOffInner = x.cutOffInner |> radians |> cos 
+                   cutOffOuter = x.fallOff+x.cutOffInner |> radians |> cos
+                   radius = x.radius
+                 }
                return r
         } 

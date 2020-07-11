@@ -65,6 +65,13 @@ module PBR =
         let  lerpFactor = (1.0 - roughness);
         Lerp n r lerpFactor |> Vec.normalize
 
+    // o		: ray origin
+    // d		: ray direction
+    // returns distance on the ray to the object if hit, 0 otherwise
+    [<ReflectedDefinition>]
+    let tracePlane (o : V3d) (d : V3d) (planeOrigin : V3d) (planeNormal : V3d) =
+        (Vec.dot planeNormal (planeOrigin - o)) / (Vec.dot planeNormal d)
+
 
     [<ReflectedDefinition>]
     let illuminannceSphereDisc cosTheta sinSigmaSqr =
@@ -84,21 +91,21 @@ module PBR =
     [<ReflectedDefinition>]
     let getLightParams (light : SLEUniform.Light) (wPos : V3d) (n : V3d) v roughness= 
         match  light.lightType  with
-        | SLEUniform.LightType.DirectionalLight -> true, -light.lightDirection.XYZ |> Vec.normalize, light.color  
+        | SLEUniform.LightType.DirectionalLight -> true, -light.lightDirection.XYZ |> Vec.normalize, light.color, 1.0
         | SLEUniform.LightType.PointLight -> 
             let lDir = light.lightPosition.XYZ - wPos |> Vec.normalize
             let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
             let attenuation = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
-            true, lDir , light.color * attenuation  
+            true, lDir, light.color * attenuation, 1.0  
         | SLEUniform.LightType.SpotLight -> 
             let lDir = light.lightPosition.XYZ - wPos |> Vec.normalize
             let spotDir = -light.lightDirection.XYZ |> Vec.normalize
-            let tehta = Vec.dot lDir spotDir
+            let cosTheta = Vec.dot lDir spotDir
             let epsilon = light.cutOffInner - light.cutOffOuter
-            let intensity = (tehta - light.cutOffOuter) / epsilon |> clamp 0.0 1.0
+            let intensity = (cosTheta - light.cutOffOuter) / epsilon |> clamp 0.0 1.0
             let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
             let attenuation = 1.0 / (1.0 + light.attenuationLinear * dist + light.attenuationQad * dist * dist)
-            true, lDir , light.color * intensity * attenuation              
+            true, lDir, light.color * intensity * attenuation, 1.0             
         | SLEUniform.LightType.SphereLight ->
             let lUnnorm = light.lightPosition.XYZ - wPos
             let lDir = lUnnorm |> Vec.normalize
@@ -107,19 +114,49 @@ module PBR =
             let cosTheta = Vec.dot n lDir |> clamp -0.999 0.999
             let sinSigmaSqr = radius2/dist2 |> min 0.9999
             let attenuation = illuminannceSphereDisc cosTheta sinSigmaSqr
+
             let r = getSpecularDominantDirArea n v roughness
             let centerToRay = (Vec.dot lUnnorm r) * r - lUnnorm
             let l = 
                 lUnnorm + centerToRay * clamp 0.0 1.0 (light.radius / length centerToRay) 
                 |> Vec.normalize
-            true, l , light.color * attenuation
-        | SLEUniform.LightType.NoLight -> false, V3d(0.0), V3d(0.0)
-        |_ ->  false, V3d(0.0), V3d(0.0)  //allways match any cases, otherwise fshade will give a cryptic error 
+            true, l , light.color * attenuation, 1.0
+        | SLEUniform.LightType.DiskLight -> 
+            let lUnnorm = light.lightPosition.XYZ - wPos
+            let lDir = lUnnorm |> Vec.normalize
+            let diskDir = light.lightDirection.XYZ |> Vec.normalize
+            let cosTheta = Vec.dot n lDir |> clamp -0.999 0.999
+            let dist2  = Vec.dot lUnnorm lUnnorm
+            let radius2 = light.radius * light.radius  
+            let sinSigmaSqr = radius2 / (radius2 + max radius2 dist2)
+            let diskDirDotL = Vec.dot diskDir -lDir  |> saturate
+            let attenuation = illuminannceSphereDisc cosTheta sinSigmaSqr * diskDirDotL
+
+            let epsilon = light.cutOffInner - light.cutOffOuter
+            let ct =  Vec.dot lDir -diskDir
+            let intensity = (ct - light.cutOffOuter) / epsilon |> saturate
+
+            let r = getSpecularDominantDirArea n v roughness
+            let t = tracePlane wPos r light.lightPosition.XYZ diskDir
+            let p = wPos + r * t
+            let centerToRay = p - light.lightPosition.XYZ
+            let l = 
+                lUnnorm + centerToRay * saturate (light.radius / length centerToRay) 
+                |> Vec.normalize
+
+            let specularAttenuation = 
+                Vec.dot diskDir r
+                |> abs
+                |> saturate 
+
+            true, l, light.color * intensity * attenuation, specularAttenuation    
+        | SLEUniform.LightType.NoLight -> false, V3d(0.0), V3d(0.0), 1.0
+        |_ ->  false, V3d(0.0), V3d(0.0), 1.0  //allways match any cases, otherwise fshade will give a cryptic error 
 
     [<ReflectedDefinition>]
     let pbrDirect f0 roughness metallic (albedo : V3d) (wPos : V4d) v n nDotV light  = 
            
-        let (exists, lDir, illuminannce)  = getLightParams light wPos.XYZ n v roughness
+        let (exists, lDir, illuminannce, specularAttenuation)  = getLightParams light wPos.XYZ n v roughness
       
         let oi = 
             if exists then
@@ -140,7 +177,7 @@ module PBR =
                 let specular = numerator / denominator  
 
                 // add to outgoing radiance from single light
-                (diffuse + specular) * illuminannce * nDotL; 
+                (diffuse + specular * specularAttenuation) * illuminannce * nDotL; 
 
             else V3d.Zero
         oi

@@ -236,6 +236,28 @@ module App =
                                 do! GBuffer.getGBufferData
                                 do! PBR.lightingDeferred
                                 } 
+                        |AdaptiveDiskLight sl ->
+                            AVal.map (fun (d : DiskLightData)->
+                                if d.castsShadow then
+                                    Sg.fullScreenQuad
+                                    |> Sg.adapter
+                                    |> Sg.uniform "Light" (SLEUniform.uniformLight l)
+                                    |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
+                                    |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> AVal.map(fun (v,p)  -> v * p))
+                                    |> Sg.shader {
+                                        do! GBuffer.getGBufferData
+                                        do! PBR.lightingDeferred
+                                        do! GBuffer.shadowDeferred
+                                        }
+                                else
+                                     Sg.fullScreenQuad
+                                    |> Sg.adapter
+                                    |> Sg.uniform "Light" (SLEUniform.uniformLight l)
+                                    |> Sg.shader {
+                                        do! GBuffer.getGBufferData
+                                        do! PBR.lightingDeferred
+                                        } ) sl
+                            |> Sg.dynamic    
                     yield  pass
             }
 
@@ -406,6 +428,7 @@ module App =
                         button [clazz "ui button"; onClick (fun _ -> AddLight light.defaultPointLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Point Light"]
                         button [clazz "ui button"; onClick (fun _ -> AddLight light.defaultSpotLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Spot Light"]
                         button [clazz "ui button"; onClick (fun _ -> AddLight light.defaultSphereLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Sphere Light"]
+                        button [clazz "ui button"; onClick (fun _ -> AddLight light.defaultDiskLight); style "margin-bottom: 5px; width: 100%;" ]  [text "Disk Light"]
                     ]    
                 "Change Light",
                     [   //build a list of light views from the set of lights
@@ -418,6 +441,7 @@ module App =
                                     |AdaptivePointLight _ -> sprintf "Point Light %i" i
                                     |AdaptiveSpotLight _ -> sprintf "Spot Light %i" i
                                     |AdaptiveSphereLight _ -> sprintf "Sphere Light %i" i
+                                    |AdaptiveDiskLight _ -> sprintf "Disk Light %i" i
                                 let d = 
                                         lightControl.view  l |> UI.map (fun msg -> LightMessage (i, msg)) 
                                         |> AList.single
