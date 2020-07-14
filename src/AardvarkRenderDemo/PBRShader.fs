@@ -104,8 +104,9 @@ module PBR =
         |> saturate    
 
     [<ReflectedDefinition>]
-    let attenuationPunctualLight attenuationLinear attenuationQad dist =
-        1.0 / (1.0 + attenuationLinear * dist + attenuationQad * dist * dist)
+    let attenuationPunctualLight  dist =
+        let d = max dist 0.01
+        1.0 / (d * d)
 
     [<ReflectedDefinition>]
     let attenuationSphere (lUnnorm : V3d) (radius : float) (n : V3d) (lDir : V3d) =
@@ -155,7 +156,7 @@ module PBR =
             let lDir = light.lightPosition.XYZ - wPos |> Vec.normalize
             let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
             let luminance = luminousPowerToLuminancePoint
-            let attenuation = attenuationPunctualLight light.attenuationLinear light.attenuationQad dist
+            let attenuation = attenuationPunctualLight  dist
             true, lDir, light.color * attenuation * luminance, 1.0  
         | SLEUniform.LightType.SpotLight -> 
             let lDir = light.lightPosition.XYZ - wPos |> Vec.normalize
@@ -163,7 +164,7 @@ module PBR =
             let luminance = luminousPowerToLuminanceSpot
             let intensity = attenuationAgular lDir ln light.cutOffInner light.cutOffOuter
             let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
-            let attenuation = attenuationPunctualLight light.attenuationLinear light.attenuationQad dist
+            let attenuation = attenuationPunctualLight  dist
             true, lDir, light.color * intensity * attenuation * luminance, 1.0             
         | SLEUniform.LightType.SphereLight ->
             let lUnnorm = light.lightPosition.XYZ - wPos

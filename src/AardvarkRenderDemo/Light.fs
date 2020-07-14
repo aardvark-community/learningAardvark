@@ -103,8 +103,6 @@ module lightControl =
         | ToDiskLight
         | SetLightDirection of V3dInput.Message
         | SetLightPosition of V3dInput.Message
-        | SetAttenuationQad of float
-        | SetAttenuationLinear of float
         | SetIntensity of float
         | SetColor of C3d
         | SetCutOffInner of float
@@ -273,7 +271,7 @@ module lightControl =
                     cutOffInner = 30.0
                     fallOff = 10.0 
                     castsShadow = r.castsShadow
-                    radius = 0.2
+                    radius = 0.01
                 }
             | PointLight r -> 
                 DiskLight  {
@@ -284,7 +282,7 @@ module lightControl =
                     cutOffInner = 30.0
                     fallOff = 10.0 
                     castsShadow = true
-                    radius = 0.2
+                    radius = 0.01
                 }
             | SpotLight r -> 
                 DiskLight  {
@@ -295,7 +293,7 @@ module lightControl =
                     cutOffInner = r.cutOffInner
                     fallOff = r.fallOff
                     castsShadow = true
-                    radius = 0.2
+                    radius = 0.01
                 }
             | SphereLight r -> 
                 DiskLight  {
@@ -340,20 +338,6 @@ module lightControl =
             | DiskLight r -> 
                 let n = V3dInput.update (r.lightPosition.XYZ) vMsg
                 DiskLight {r with lightPosition = V4d(n, 1.0)} 
-            | x -> x
-        | SetAttenuationQad v ->  
-            match m with
-            | PointLight r -> 
-                PointLight {r with attenuationQad = v} 
-            | SpotLight r -> 
-                SpotLight {r with attenuationQad = v} 
-            | x -> x
-        | SetAttenuationLinear v ->  
-            match m with
-            | PointLight r -> 
-                PointLight {r with attenuationLinear = v} 
-            | SpotLight r -> 
-                SpotLight {r with attenuationLinear = v} 
             | x -> x
         | SetIntensity i ->  
             match m with
@@ -410,13 +394,6 @@ module lightControl =
                 DiskLight {r with castsShadow = not r.castsShadow} 
             | x -> x
 
-    let attenuationView (l : aval<float>) (q : aval<float>)=
-        let numInput name changed state  = labeledFloatInput name 0.0 1.0 0.01 changed state
-        Html.table [ 
-            tr [] [ td [attribute "colspan" "2"] [text "Attenuation"] ]                          
-            tr [] [ td [] [numInput "Linear" SetAttenuationLinear l]
-                    td [] [numInput "Quatratic" SetAttenuationQad q]]
-        ] 
 
     let cutOffView (c : aval<float>) (f : aval<float>) =
         let numInput name changed state  = labeledFloatInput name 0.0 360.0 1.0 changed state
@@ -494,7 +471,6 @@ module lightControl =
                 |> UI.map SetLightPosition
 
                 intensityView i c
-                attenuationView al aq
             ]
         |AdaptiveSpotLight l' -> 
             let al = AVal.map (fun (l : SpotLightData) -> l.attenuationLinear) l'
@@ -526,8 +502,6 @@ module lightControl =
                 |> UI.map SetLightDirection
 
                 intensityView i c
-
-                attenuationView al aq
 
                 cutOffView ci fo
                 Html.table [
@@ -611,8 +585,6 @@ module SLEUniform =
         lightPosition : V4d
         lightDirection : V4d
         color : V3d
-        attenuationQad :float
-        attenuationLinear :float
         castsShadow: bool
         cutOffInner  : float
         cutOffOuter : float
@@ -624,8 +596,6 @@ module SLEUniform =
         lightPosition = V4d.Zero
         lightDirection = V4d.Zero
         color = V3d.Zero
-        attenuationQad = 0.0
-        attenuationLinear = 0.0
         castsShadow = false
         cutOffInner = 0.0
         cutOffOuter = 0.0
@@ -653,8 +623,6 @@ module SLEUniform =
                    lightPosition = V4d.Zero
                    lightDirection = x.lightDirection
                    color = x.color.ToV3d() * x.intensity
-                   attenuationQad = 0.0
-                   attenuationLinear = 0.0
                    castsShadow = x.castsShadow
                    cutOffInner = 0.0
                    cutOffOuter = 0.0
@@ -668,8 +636,6 @@ module SLEUniform =
                    lightPosition = x.lightPosition
                    lightDirection = V4d.Zero 
                    color = x.color.ToV3d() * x.intensity
-                   attenuationQad = x.attenuationQad
-                   attenuationLinear = x.attenuationLinear
                    castsShadow = false
                    cutOffInner = 0.0
                    cutOffOuter = 0.0
@@ -683,8 +649,6 @@ module SLEUniform =
                    lightPosition = x.lightPosition
                    lightDirection = x.lightDirection
                    color = x.color.ToV3d() * x.intensity
-                   attenuationQad = x.attenuationQad
-                   attenuationLinear = x.attenuationLinear
                    castsShadow = x.castsShadow
                    cutOffInner = x.cutOffInner |> radians |> cos 
                    cutOffOuter = x.fallOff+x.cutOffInner |> radians |> cos
@@ -698,8 +662,6 @@ module SLEUniform =
                    lightPosition = x.lightPosition
                    lightDirection = V4d.Zero 
                    color = x.color.ToV3d() * x.intensity
-                   attenuationQad = 1.0
-                   attenuationLinear = 0.0
                    castsShadow = false
                    cutOffInner = 0.0
                    cutOffOuter = 0.0
@@ -713,8 +675,6 @@ module SLEUniform =
                    lightPosition = x.lightPosition
                    lightDirection = x.lightDirection
                    color = x.color.ToV3d() * x.intensity
-                   attenuationQad = 1.0
-                   attenuationLinear = 0.0
                    castsShadow = x.castsShadow
                    cutOffInner = x.cutOffInner |> radians |> cos 
                    cutOffOuter = x.fallOff+x.cutOffInner |> radians |> cos
