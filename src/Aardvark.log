@@ -10,7 +10,7 @@
  0:     found: windows/AMD64/glfw3.dll
  0:     copy glfw3.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-32f42d4c-4cb0-88cf-a5d3-8c852c69d925-64\glfw3.dll
  0:     found: windows/x86/glfw3.dll
- 0:   Loading native dependencies for Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.008 s
+ 0:   Loading native dependencies for Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.006 s
  0:   Loading native dependencies for Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: linux/AMD64/glvm.so
  0:     found: mac/AMD64/glvm.dylib
@@ -32,7 +32,7 @@
  0:     found: windows/x86/glvm.ipdb
  0:     found: windows/x86/glvm.lib
  0:     found: windows/x86/glvm.pdb
- 0:   Loading native dependencies for Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.003 s
+ 0:   Loading native dependencies for Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
  0:   Loading native dependencies for Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: remap.xml
  0:     found: linux/AMD64/libturbojpeg.so
@@ -92,7 +92,7 @@
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\System.Text.Json.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.Loader.dll
- 0:   Loading plugins .................................................................... 0.121 s
+ 0:   Loading plugins .................................................................... 0.049 s
  0:   using cache dir: C:\Users\Stefan\AppData\Roaming\Aardvark\cache
  0:   Loading native dependencies for DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: remap.xml
@@ -108,7 +108,7 @@
  0:     found: windows/x86/DevIL.dll
  0:     found: windows/x86/ILU.dll
  0:     found: windows/x86/ILUT.dll
- 0:   Loading native dependencies for DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null 0.001 s
+ 0:   Loading native dependencies for DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
  0:   Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: remap.xml
  0:     found: linux/AMD64/libvkvm.so
@@ -124,7 +124,7 @@
  0:     found: windows/x86/vkvm.exp
  0:     found: windows/x86/vkvm.lib
  0:     found: windows/x86/vkvm.pdb
- 0:   Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.002 s
+ 0:   Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
  0:   Loading native dependencies for GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: linux/AMD64/libGLSLangNative.so
  0:     found: windows/AMD64/GLSLangNative.dll
@@ -139,7 +139,7 @@
  0:     copy GLSLangNative.lib to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64\GLSLangNative.lib
  0:     found: windows/AMD64/GLSLangNative.pdb
  0:     copy GLSLangNative.pdb to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64\GLSLangNative.pdb
- 0:   Loading native dependencies for GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null 0.003 s
+ 0:   Loading native dependencies for GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
  0:   Loading native dependencies for AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: linux/AMD64/libassimp.so
  0:     found: mac/AMD64/libassimp.dylib
@@ -158,7 +158,7 @@
  0:       D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
  0:       C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64
  0:     [Introspection] loaded native library DevIL from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64\DevIL.dll
- 0:   initializing PixImageDevil ......................................................... 0.074 s
+ 0:   initializing PixImageDevil ......................................................... 0.028 s
  0:   [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -204,7 +204,7 @@
  0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     installing pickler: Aardvark.Base.Picklers.AdaptivePicklers
- 0:   initializing CustomPicklerProvider ................................................. 0.184 s
+ 0:   initializing CustomPicklerProvider ................................................. 0.041 s
  0:   [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -398,7 +398,7 @@
  0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   initializing SceneGraphCompletenessCheck ........................................... 0.242 s
+ 0:   initializing SceneGraphCompletenessCheck ........................................... 0.140 s
  0:   [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
  0:   [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -419,7 +419,7 @@
  0:   [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.SceneGraph.IO, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing Loader ................................................................ 0.000 s
- 0: initializing aardvark ................................................................ 1.931 s
+ 0: initializing aardvark ................................................................ 0.505 s
  0: probing paths for nvapi64
  0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
  0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-32f42d4c-4cb0-88cf-a5d3-8c852c69d925-64
@@ -484,7 +484,7 @@
  0:   vendor:   "ATI Technologies Inc."
  0:   renderer: "AMD Radeon (TM) R9 380 Series"
  0:   version:  OpenGL 4.5.13559 / GLSL 4.6
- 0: initializing OpenGL runtime .......................................................... 0.165 s
+ 0: initializing OpenGL runtime .......................................................... 0.147 s
  0: WARNING: load
  0: probing paths for kernel32
  0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
@@ -527,114 +527,118 @@
  0: Aardvark.UI serves favicon.ico
  0: Aardvark.UI.Primitives serves spectrum.css
  0: Aardvark.UI.Primitives serves spectrum.js
- 1: [Server] created client for (8efa1427-f06b-ba2f-be48-a10c09c92363/n7), mapping enabled
+ 1: [Server] created client for (49fe442c-2df4-c6c4-760c-afcd0c566d85/n7), mapping enabled
  1: [Client] 1: running n7
  2: [Scene] n7: created
  2: texture created
  2: result created
  2: texture created
  2: result created
- 2: texture created
- 2: result created
- 2: texture created
- 2: result created
+ 2: WARNING: load
  2: texture created
  2: result created
  2: WARNING: load
  2: result created
  2: WARNING: AdaptiveRenderingResultCube.compute
- 2: [GL] RenderObjects: +1/-0 (570ms)
+ 2: [GL] RenderObjects: +1/-0 (933ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (4ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +61/-0 (1618ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: [GL] RenderObjects: +60/-0 (23ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: texture created
+ 2: result created
+ 2: texture created
+ 2: result created
+ 2: texture created
+ 2: [GL] RenderObjects: +1/-0 (9ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (16ms)
+ 2: using optimized native program
+ 2: result created
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: result created
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-0 (9ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (4ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (10ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (3ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (29ms)
+ 2: [GL] RenderObjects: +1/-0 (18ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (4ms)
+ 2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (24ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +61/-0 (1767ms)
- 2: using optimized native program
- 2: texture created
- 2: [GL] RenderObjects: +1/-0 (1833ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1857ms)
- 2: using optimized native program
- 2: texture created
- 2: result created
- 2: WARNING: AdaptiveRenderingResultCube.compute
- 2: [GL] RenderObjects: +1/-0 (13ms)
+ 2: [GL] RenderObjects: +1/-0 (40ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (7ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: texture created
- 2: result created
- 2: WARNING: AdaptiveRenderingResultCube.compute
- 2: [GL] RenderObjects: +1/-0 (16ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (5ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (5ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (7ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (6ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (26ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (30ms)
+ 2: [GL] RenderObjects: +1/-0 (51ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (4ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (3ms)
  2: using optimized native program
@@ -644,356 +648,247 @@
  2: result created
  2: [GL] RenderObjects: +1/-0 (9ms)
  2: using optimized native program
+ 2: [GL] RenderObjects: +2/-0 (2452ms)
+ 2: using optimized native program
  2: texture created
- 2: Compiling shader:
-  1: #version 460
-  2: #define __SHADER_STAGE__
-  3: 
-  4: 
-  5: 
-  6: 
-  7: struct SLEAardvarkRenderDemo_SLEUniform_Light
-  8: {
-  9:     int lightType;
- 10:     vec4 lightPosition;
- 11:     vec4 lightDirection;
- 12:     vec3 color;
- 13:     bool castsShadow;
- 14:     float cutOffInner;
- 15:     float cutOffOuter;
- 16:     float radius;
- 17: };
- 18: 
- 19: struct tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double
- 20: {
- 21:     bool Item0;
- 22:     vec3 Item1;
- 23:     vec3 Item2;
- 24:     float Item3;
- 25: };
- 26: 
- 27: layout(std140, binding = 0)
- 28: uniform PerView
- 29: {
- 30:     vec3 CameraLocation;
- 31: };
- 32: 
- 33: 
- 34: layout(std140, binding = 1)
- 35: uniform Global
- 36: {
- 37:     SLEAardvarkRenderDemo_SLEUniform_Light Light;
- 38:     mat4x4 LightViewMatrix;
- 39: };
- 40: 
- 41: 
- 42: layout(binding = 0)
- 43: uniform sampler2D color;
- 44: 
- 45: layout(binding = 1)
- 46: uniform sampler2D normal;
- 47: 
- 48: layout(binding = 2)
- 49: uniform sampler2DShadow samplerShadowMap;
- 50: 
- 51: layout(binding = 3)
- 52: uniform sampler2D wPos;
- 53: 
- 54: float helper(float roughness)
- 55: {
- 56:     float r = (roughness + 1.0);
- 57:     return ((r * r) / 8.0);
- 58: }
- 59: 
- 60: 
- 61: float SLEAardvarkRenderDemo_BRDF_DistributionGGX_9rKdY223uBS_NUz8TxOtw(vec3 n, vec3 h, float roughness)
- 62: {
- 63:     float a = (roughness * roughness);
- 64:     float a2 = (a * a);
- 65:     float nDotH = max(0.0, dot(n, h));
- 66:     float deno = (((nDotH * nDotH) * (a2 - 1.0)) + 1.0);
- 67:     return (a2 / ((3.141592653589793 * deno) * deno));
- 68: }
- 69: 
- 70: 
- 71: float SLEAardvarkRenderDemo_PBR_luminousPowerToLuminanceSphere_UrX1ctp5f0mkaCN8lcAp4g(float radius)
- 72: {
- 73:     return (1.0 / ((((radius * radius) * 4.0) * 3.141592653589793) * 3.141592653589793));
- 74: }
- 75: 
- 76: 
- 77: vec3 SLEAardvarkRenderDemo_PBR_getSpecularDominantDirArea_1ZZJHwQrvhcdzZa00of3JvA(vec3 n, vec3 v, float roughness)
- 78: {
- 79:     return normalize(mix(n, (-reflect(n, v)), (1.0 - roughness)));
- 80: }
- 81: 
- 82: 
- 83: float SLEAardvarkRenderDemo_PBR_luminousPowerToLuminanceDisk_3Fm00pFf99CfR9hPbaGPImw(float radius)
- 84: {
- 85:     return (1.0 / (((radius * radius) * 3.141592653589793) * 3.141592653589793));
- 86: }
- 87: 
- 88: 
- 89: tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double new_tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double(bool item0, vec3 item1, vec3 item2, float item3)
- 90: {
- 91:     tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double res;
- 92:     res.Item0 = item0;
- 93:     res.Item1 = item1;
- 94:     res.Item2 = item2;
- 95:     res.Item3 = item3;
- 96:     return res;
- 97: }
- 98: 
- 99: 
-100: float helper1(float cosTheta, float sinSigmaSqr, float sinTheta)
-101: {
-102:     float x = sqrt(((1.0 / sinSigmaSqr) - 1.0));
-103:     float y = ((-x) * (cosTheta / sinTheta));
-104:     float sinThetaSqrtY = (sinTheta * sqrt((1.0 - (y * y))));
-105:     return ((((cosTheta * acos(y)) - (x * sinThetaSqrtY)) * sinSigmaSqr) + atan((sinThetaSqrtY / x)));
-106: }
-107: 
-108: 
-109: float SLEAardvarkRenderDemo_PBR_attenuationPunctualLight_1NCNKoz6VseVzAXQwxmhag(float dist)
-110: {
-111:     float d = max(dist, 0.01);
-112:     return (1.0 / (d * d));
-113: }
-114: 
-115: 
-116: float SLEAardvarkRenderDemo_PBR_tracePlane_sI5HLjWHcO7mtd2ZbInNOA(vec3 o, vec3 d, vec3 planeOrigin, vec3 planeNormal)
-117: {
-118:     return (dot(planeNormal, (planeOrigin - o)) / dot(planeNormal, d));
-119: }
-120: 
-121: 
-122: float SLEAardvarkRenderDemo_PBR_attenuationAgular_6LX81EpbrYsQsMWxFpR6tg(vec3 lDir, vec3 ln, float cutOffInner, float cutOffOuter)
-123: {
-124:     return clamp(((dot(lDir, (-ln)) - cutOffOuter) / (cutOffInner - cutOffOuter)), 0, 1);
-125: }
-126: 
-127: 
-128: vec3 SLEAardvarkRenderDemo_BRDF_fresnelSchlick_p2rPA4e4MFUMqGJ0C14Tng(vec3 f0, float cosTheta)
-129: {
-130:     return (f0 + ((1.0 - f0) * pow((1.0 - cosTheta), 5.0)));
-131: }
-132: 
-133: 
-134: float SLEAardvarkRenderDemo_Shadow_random_JRWM00pdSXu6ly00qNw9NdQg(vec3 seed, int i)
-135: {
-136:     return fract((sin(dot(vec4(seed, float(i)), vec4(12.9898, 78.233, 45.164, 94.673))) * 43758.5453));
-137: }
-138: 
-139: 
-140: float SLEAardvarkRenderDemo_Shadow_poissonSamplingStrat_YzuApogcjaRuBz9rMOE5hA(sampler2DShadow shadowMap, vec4 samplePos, vec4 pos, float comp)
-141: {
-142:     vec2 arr[16];
-143:     arr[0] = vec2(-0.94201624, -0.39906216);
-144:     arr[1] = vec2(0.94558609, -0.76890725);
-145:     arr[2] = vec2(-0.094184101, -0.9293887);
-146:     arr[3] = vec2(0.34495938, 0.2938776);
-147:     arr[4] = vec2(-0.91588581, 0.45771432);
-148:     arr[5] = vec2(-0.81544232, -0.87912464);
-149:     arr[6] = vec2(-0.38277543, 0.27676845);
-150:     arr[7] = vec2(0.97484398, 0.75648379);
-151:     arr[8] = vec2(0.44323325, -0.97511554);
-152:     arr[9] = vec2(0.53742981, -0.4737342);
-153:     arr[10] = vec2(-0.26496911, -0.41893023);
-154:     arr[11] = vec2(0.79197514, 0.19090188);
-155:     arr[12] = vec2(-0.2418884, 0.99706507);
-156:     arr[13] = vec2(-0.81409955, 0.9143759);
-157:     arr[14] = vec2(0.19984126, 0.78641367);
-158:     arr[15] = vec2(0.14383161, -0.1410079);
-159:     float vis = 0.0;
-160:     for(int i = 0; (i < 8); i++)
-161:     {
-162:         vis = (vis + (texture(shadowMap, vec3((samplePos.xy + (arr[(int((16.0 * SLEAardvarkRenderDemo_Shadow_random_JRWM00pdSXu6ly00qNw9NdQg(pos.xyz, i))) % 16)] / 600.0)), comp)) / 8.0));
-163:     }
-164:     return vis;
-165: }
-166: 
-167: 
-168: vec3 SLEAardvarkRenderDemo_PBR_representativePointDisk_2JPHvvLUgcbUkMatH00ra00Q(vec3 r, vec3 wPos, float radius, vec3 ln, vec3 lightPosition, vec3 lUnnorm)
-169: {
-170:     vec3 centerToRay = ((wPos + (r * SLEAardvarkRenderDemo_PBR_tracePlane_sI5HLjWHcO7mtd2ZbInNOA(wPos, r, lightPosition, ln))) - lightPosition);
-171:     return normalize((lUnnorm + (centerToRay * clamp((radius / length(centerToRay)), 0, 1))));
-172: }
-173: 
-174: 
-175: float SLEAardvarkRenderDemo_PBR_illuminannceSphereDisc_0CS4M8XTusgxGaKgGTrK_A(float cosTheta, float sinSigmaSqr)
-176: {
-177:     float sinTheta = sqrt((1.0 - (cosTheta * cosTheta)));
-178:     return max(0.0, (((cosTheta * cosTheta) > sinSigmaSqr) ? ((3.141592653589793 * sinSigmaSqr) * clamp(cosTheta, 0.0, 1.0)) : helper1(cosTheta, sinSigmaSqr, sinTheta)));
-179: }
-180: 
-181: 
-182: float SLEAardvarkRenderDemo_PBR_attenuationSphere_mDFz00uvkgBkGJzMQ0ycpLA(vec3 lUnnorm, float radius, vec3 n, vec3 lDir)
-183: {
-184:     return SLEAardvarkRenderDemo_PBR_illuminannceSphereDisc_0CS4M8XTusgxGaKgGTrK_A(clamp(dot(n, lDir), -0.999, 0.999), min(0.9999, ((radius * radius) / dot(lUnnorm, lUnnorm))));
-185: }
-186: 
-187: 
-188: float SLEAardvarkRenderDemo_PBR_attenuationDisk_ljJFcqtPt4tfYChdMEePCw(vec3 lUnnorm, float radius, vec3 n, vec3 lDir, vec3 ln)
-189: {
-190:     float radius2 = (radius * radius);
-191:     return (SLEAardvarkRenderDemo_PBR_illuminannceSphereDisc_0CS4M8XTusgxGaKgGTrK_A(clamp(dot(n, lDir), -0.999, 0.999), (radius2 / (radius2 + max(radius2, dot(lUnnorm, lUnnorm))))) * clamp(dot(ln, (-lDir)), 0, 1));
-192: }
-193: 
-194: 
-195: vec3 SLEAardvarkRenderDemo_PBR_representativePointSpehre_OBJfz00NlqX4woYAFs00nVKQ(vec3 n, vec3 v, float roughness, vec3 lUnnorm, float radius)
-196: {
-197:     vec3 r = SLEAardvarkRenderDemo_PBR_getSpecularDominantDirArea_1ZZJHwQrvhcdzZa00of3JvA(n, v, roughness);
-198:     vec3 centerToRay = ((dot(lUnnorm, r) * r) - lUnnorm);
-199:     return normalize((lUnnorm + (centerToRay * clamp((radius / length(centerToRay)), 0.0, 1.0))));
-200: }
-201: 
-202: 
-203: tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double SLEAardvarkRenderDemo_PBR_getLightParams_iKfRV49YNl3XShcUiRRmyw(SLEAardvarkRenderDemo_SLEUniform_Light light, vec3 wPos, vec3 n, vec3 v, float roughness)
-204: {
-205:     if((light.lightType == 0))
-206:     {
-207:         return new_tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double(false, vec3(0.0, 0.0, 0.0), vec3(0.0, 0.0, 0.0), 1.0);
-208:     }
-209:     else
-210:     {
-211:         if((light.lightType == 1))
-212:         {
-213:             return new_tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double(true, normalize((-light.lightDirection.xyz)), light.color, 1.0);
-214:         }
-215:         else
-216:         {
-217:             if((light.lightType == 2))
-218:             {
-219:                 return new_tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double(true, normalize((light.lightPosition.xyz - wPos)), ((light.color * SLEAardvarkRenderDemo_PBR_attenuationPunctualLight_1NCNKoz6VseVzAXQwxmhag(distance(light.lightPosition.xyz, wPos))) * 0.07957747154594767), 1.0);
-220:             }
-221:             else
-222:             {
-223:                 if((light.lightType == 3))
-224:                 {
-225:                     vec3 lDir = normalize((light.lightPosition.xyz - wPos));
-226:                     return new_tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double(true, lDir, (((light.color * SLEAardvarkRenderDemo_PBR_attenuationAgular_6LX81EpbrYsQsMWxFpR6tg(lDir, normalize(light.lightDirection.xyz), light.cutOffInner, light.cutOffOuter)) * SLEAardvarkRenderDemo_PBR_attenuationPunctualLight_1NCNKoz6VseVzAXQwxmhag(distance(light.lightPosition.xyz, wPos))) * 0.3183098861837907), 1.0);
-227:                 }
-228:                 else
-229:                 {
-230:                     if((light.lightType == 4))
-231:                     {
-232:                         vec3 lUnnorm = (light.lightPosition.xyz - wPos);
-233:                         return new_tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double(true, SLEAardvarkRenderDemo_PBR_representativePointSpehre_OBJfz00NlqX4woYAFs00nVKQ(n, v, roughness, lUnnorm, light.radius), ((light.color * SLEAardvarkRenderDemo_PBR_attenuationSphere_mDFz00uvkgBkGJzMQ0ycpLA(lUnnorm, light.radius, n, normalize(lUnnorm))) * SLEAardvarkRenderDemo_PBR_luminousPowerToLuminanceSphere_UrX1ctp5f0mkaCN8lcAp4g(light.radius)), 1.0);
-234:                     }
-235:                     else
-236:                     {
-237:                         if((light.lightType == 5))
-238:                         {
-239:                             vec3 lUnnorm1 = (light.lightPosition.xyz - wPos);
-240:                             vec3 lDir1 = normalize(lUnnorm1);
-241:                             vec3 ln = normalize(light.lightDirection.xyz);
-242:                             vec3 r = SLEAardvarkRenderDemo_PBR_getSpecularDominantDirArea_1ZZJHwQrvhcdzZa00of3JvA(n, v, roughness);
-243:                             return new_tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double(true, SLEAardvarkRenderDemo_PBR_representativePointDisk_2JPHvvLUgcbUkMatH00ra00Q(r, wPos, light.radius, ln, light.lightPosition.xyz, lUnnorm1), (((light.color * SLEAardvarkRenderDemo_PBR_attenuationAgular_6LX81EpbrYsQsMWxFpR6tg(lDir1, ln, light.cutOffInner, light.cutOffOuter)) * SLEAardvarkRenderDemo_PBR_attenuationDisk_ljJFcqtPt4tfYChdMEePCw(lUnnorm1, light.radius, n, lDir1, ln)) * SLEAardvarkRenderDemo_PBR_luminousPowerToLuminanceDisk_3Fm00pFf99CfR9hPbaGPImw(light.radius)), clamp(abs(dot(ln, r)), 0, 1));
-244:                         }
-245:                         else
-246:                         {
-247:                             return new_tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double(false, vec3(0.0, 0.0, 0.0), vec3(0.0, 0.0, 0.0), 1.0);
-248:                         }
-249:                     }
-250:                 }
-251:             }
-252:         }
-253:     }
-254: }
-255: 
-256: 
-257: float SLEAardvarkRenderDemo_BRDF_GeometrySchlickGGX_26R00oEc3DtK0V8hk2HayMQ(bool ilb, float nDotV, float roughness)
-258: {
-259:     float k = (ilb ? ((roughness * roughness) / 2.0) : helper(roughness));
-260:     return (nDotV / ((nDotV * (1.0 - k)) + k));
-261: }
-262: 
-263: 
-264: float SLEAardvarkRenderDemo_BRDF_GeometrySmith_VXZTTP5v1N8YmBKR5NO9ZQ(bool ilb, vec3 n, vec3 v, vec3 l, float roughness)
-265: {
-266:     return (SLEAardvarkRenderDemo_BRDF_GeometrySchlickGGX_26R00oEc3DtK0V8hk2HayMQ(ilb, max(0.0, dot(n, l)), roughness) * SLEAardvarkRenderDemo_BRDF_GeometrySchlickGGX_26R00oEc3DtK0V8hk2HayMQ(ilb, max(0.0, dot(n, v)), roughness));
-267: }
-268: 
-269: 
-270: vec3 SLEAardvarkRenderDemo_PBR_pbrDirect_OThb2bJoLtR00aT3LnlobKA(vec3 f0, float roughness, float metallic, vec3 albedo, vec4 wPos, vec3 v, vec3 n, float nDotV, SLEAardvarkRenderDemo_SLEUniform_Light light)
-271: {
-272:     tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double patternInput = SLEAardvarkRenderDemo_PBR_getLightParams_iKfRV49YNl3XShcUiRRmyw(light, wPos.xyz, n, v, roughness);
-273:     if(patternInput.Item0)
-274:     {
-275:         vec3 h = normalize((v + patternInput.Item1));
-276:         vec3 kS = SLEAardvarkRenderDemo_BRDF_fresnelSchlick_p2rPA4e4MFUMqGJ0C14Tng(f0, max(0.0, dot(h, v)));
-277:         float nDotL = max(0.0, dot(n, patternInput.Item1));
-278:         return (((((((1.0 - metallic) * (vec3(1.0, 1.0, 1.0) - kS)) * albedo) / 3.141592653589793) + ((((SLEAardvarkRenderDemo_BRDF_DistributionGGX_9rKdY223uBS_NUz8TxOtw(n, h, roughness) * SLEAardvarkRenderDemo_BRDF_GeometrySmith_VXZTTP5v1N8YmBKR5NO9ZQ(false, n, v, patternInput.Item1, roughness)) * kS) / max(0.001, ((4.0 * nDotV) * nDotL))) * patternInput.Item3)) * patternInput.Item2) * nDotL);
-279:     }
-280:     else
-281:     {
-282:         return vec3(0.0, 0.0, 0.0);
-283:     }
-284: }
-285: 
-286: 
-287: 
-288: #ifdef Vertex
-289: layout(location = 0) in vec2 DiffuseColorCoordinates;
-290: layout(location = 1) in vec4 Positions;
-291: layout(location = 0) out vec2 fs_DiffuseColorCoordinates;
-292: void main()
-293: {
-294:     fs_DiffuseColorCoordinates = DiffuseColorCoordinates;
-295:     gl_Position = Positions;
-296: }
-297: 
-298: #endif
-299: 
-300: 
-301: 
-302: #ifdef Fragment
-303: 
-304: float SLEAardvarkRenderDemo_Shadow_getShadow_K9FSz2m66kmR5AwmvbKjgg(vec4 wPos)
-305: {
-306:     vec4 lightSpacePos = (wPos * LightViewMatrix);
-307:     vec4 samplePos = (0.5 + (0.5 * (lightSpacePos / lightSpacePos.w)));
-308:     return SLEAardvarkRenderDemo_Shadow_poissonSamplingStrat_YzuApogcjaRuBz9rMOE5hA(samplerShadowMap, samplePos, wPos, (samplePos.z - 0.005));
-309: }
-310: 
-311: vec3 SLEAardvarkRenderDemo_PBR_pBRLightning_WUftqj23RWoz8L0Y0XgUSg(float metallic, float roughness, vec3 albedo, vec3 n, vec4 wPos)
-312: {
-313:     vec3 v = normalize((CameraLocation - wPos.xyz));
-314:     return SLEAardvarkRenderDemo_PBR_pbrDirect_OThb2bJoLtR00aT3LnlobKA(mix(vec3(0.04, 0.04, 0.04), albedo, metallic), roughness, metallic, albedo, wPos, v, n, max(0.0, dot(n, v)), Light);
-315: }
-316: 
-317: layout(location = 0) in vec2 fs_DiffuseColorCoordinates;
-318: layout(location = 0) out vec4 ColorsOut;
-319: void main()
-320: {
-321:     vec4 albedo = texture(color, fs_DiffuseColorCoordinates);
-322:     vec4 nr = texture(normal, fs_DiffuseColorCoordinates);
-323:     ColorsOut = (vec4(((albedo.w < 0.0) ? vec3(0.0, 0.0, 0.0) : SLEAardvarkRenderDemo_PBR_pBRLightning_WUftqj23RWoz8L0Y0XgUSg(albedo.w, nr.w, vec4(albedo.xyz, 1.0).xyz, normalize(nr.xyz), texture(wPos, fs_DiffuseColorCoordinates))), 1.0) * SLEAardvarkRenderDemo_Shadow_getShadow_K9FSz2m66kmR5AwmvbKjgg(texture(wPos, fs_DiffuseColorCoordinates)));
-324: }
-325: 
-326: #endif
-
+ 2: result created
+ 2: texture created
+ 2: result created
+ 2: texture created
+ 2: result created
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (14ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (21ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2501ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2564ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (3428ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-1 (55ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: texture created
+ 2: result created
  2: WARNING: load
- 2: [GL] RenderObjects: +60/-0 (23ms)
+ 2: WARNING: load
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +300/-0 (4749ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +2/-0 (6836ms)
+ 2: texture created
+ 2: texture created
+ 2: texture created
+ 2: [GL] RenderObjects: +2/-0 (4852ms)
  2: using optimized native program
  2: texture created
  2: result created
+ 2: [GL] RenderObjects: +300/-0 (821ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: texture created
+ 2: texture created
+ 2: [GL] RenderObjects: +2/-0 (881ms)
+ 2: using optimized native program
  2: texture created
  2: result created
+ 2: [GL] RenderObjects: +300/-0 (518ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: texture created
+ 2: texture created
+ 2: [GL] RenderObjects: +2/-0 (596ms)
+ 2: using optimized native program
  2: texture created
  2: result created
- 2: [GL] RenderObjects: +1/-0 (10ms)
+ 2: [GL] RenderObjects: +300/-0 (502ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (23ms)
+ 2: texture created
+ 2: texture created
+ 2: texture created
+ 2: [GL] RenderObjects: +2/-0 (551ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (56ms)
+ 2: texture created
+ 2: result created
+ 2: [GL] RenderObjects: +300/-0 (661ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (6941ms)
+ 2: texture created
+ 2: texture created
+ 2: texture created
+ 2: [GL] RenderObjects: +2/-0 (733ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (7006ms)
+ 2: texture created
+ 2: result created
+ 2: [GL] RenderObjects: +300/-0 (472ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (7951ms)
+ 2: texture created
+ 2: texture created
+ 2: texture created
+ 2: [GL] RenderObjects: +2/-0 (524ms)
  2: using optimized native program
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +299/-60 (605ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: load
+ 2: WARNING: load
+ 2: [GL] RenderObjects: +299/-0 (53ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-1 (628ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-1 (15ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +299/-0 (60ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-1 (129ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (1ms)
+ 2: [GL] RenderObjects: +1/-1 (1ms)
+ 2: [GL] RenderObjects: +1/-1 (1ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +299/-0 (65ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-1 (119ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +299/-0 (67ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-1 (110ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +299/-0 (55ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-1 (111ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +299/-0 (70ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-1 (123ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +299/-0 (53ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-1 (101ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +299/-0 (55ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-1 (110ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (1ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +299/-0 (50ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-1 (96ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +299/-0 (372ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-1 (420ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (8ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +299/-0 (63ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-1 (117ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +299/-0 (57ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-1 (100ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +299/-0 (58ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-1 (106ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (0ms)
+ 2: [GL] RenderObjects: +1/-1 (7ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
  3: [Client] 1: stopped

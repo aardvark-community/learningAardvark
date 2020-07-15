@@ -164,7 +164,7 @@ module PBR =
             let luminance = luminousPowerToLuminanceSpot
             let intensity = attenuationAgular lDir ln light.cutOffInner light.cutOffOuter
             let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
-            let attenuation = attenuationPunctualLight  dist
+            let attenuation = attenuationPunctualLight  dist 
             true, lDir, light.color * intensity * attenuation * luminance, 1.0             
         | SLEUniform.LightType.SphereLight ->
             let lUnnorm = light.lightPosition.XYZ - wPos
@@ -179,7 +179,8 @@ module PBR =
             let ln = light.lightDirection.XYZ |> Vec.normalize
             let luminance = luminousPowerToLuminanceDisk light.radius
             let attenuation = attenuationDisk lUnnorm light.radius n lDir ln
-            let intensity = attenuationAgular lDir ln light.cutOffInner light.cutOffOuter
+            let lDir2 = light.virtualPos.XYZ - wPos |> Vec.normalize
+            let intensity = attenuationAgular lDir2 ln light.cutOffInner light.cutOffOuter
 
             let r = getSpecularDominantDirArea n v roughness
             let l = representativePointDisk r wPos light.radius ln light.lightPosition.XYZ lUnnorm

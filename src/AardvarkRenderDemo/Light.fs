@@ -63,6 +63,14 @@ module light =
 
     let defaultAbientOcclusion = {occlusionStrength = 1.0; scale = 1.0; radius = 0.2; samples = 32; threshold = 0.2; sigma = 2.0; sharpness = 1.0}
    
+    let calcVirtualPositionOffset  (l : AdaptiveLightCase) =
+        match l with 
+        | AdaptiveDirectionalLight ld -> AVal.constant 0.0
+        | AdaptiveSpotLight ls -> AVal.constant 0.0
+        | AdaptiveSphereLight ls -> AVal.map (fun (ls : SphereLightData) ->  ls.radius * sqrt 2.0) ls
+        | AdaptiveDiskLight ls -> AVal.map  ( fun (ls : DiskLightData) -> ls.radius/tan(radians(ls.cutOffInner + ls.fallOff))) ls
+        | AdaptivePointLight lp -> AVal.constant 0.0
+
     //simple geometry to indicate point light positions
     let lightSourceModels (lights : amap<int,aval<AdaptiveLightCase>> ) =
         let lights' = AMap.toASet lights
@@ -589,6 +597,7 @@ module SLEUniform =
         cutOffInner  : float
         cutOffOuter : float
         radius : float
+        virtualPos  : V4d
     }
      
     let noLight = {
@@ -600,6 +609,7 @@ module SLEUniform =
         cutOffInner = 0.0
         cutOffOuter = 0.0
         radius = 0.0
+        virtualPos = V4d.Zero
         }
 
     let spotLightAxis (lightDirection : V4d) rotation =
@@ -614,6 +624,7 @@ module SLEUniform =
         //we go from aval<MLight> to aval<ISg<Message>>
         adaptive {
             let d = l
+            let! offset = light.calcVirtualPositionOffset d
             match d with
             | AdaptiveDirectionalLight  x' ->
                let! x  = x'
@@ -627,6 +638,7 @@ module SLEUniform =
                    cutOffInner = 0.0
                    cutOffOuter = 0.0
                    radius = 0.0
+                   virtualPos =  V4d.Zero
                 }
                return  r
             | AdaptivePointLight  x' ->
@@ -640,6 +652,7 @@ module SLEUniform =
                    cutOffInner = 0.0
                    cutOffOuter = 0.0
                    radius = 0.0
+                   virtualPos = x.lightPosition
                 }
                return r
             | AdaptiveSpotLight  x' ->
@@ -652,7 +665,8 @@ module SLEUniform =
                    castsShadow = x.castsShadow
                    cutOffInner = x.cutOffInner |> radians |> cos 
                    cutOffOuter = x.fallOff+x.cutOffInner |> radians |> cos
-                   radius = 0.0 
+                   radius = 0.0
+                   virtualPos = x.lightPosition
                  }
                return r
             | AdaptiveSphereLight  x' ->
@@ -666,6 +680,7 @@ module SLEUniform =
                    cutOffInner = 0.0
                    cutOffOuter = 0.0
                    radius = x.radius
+                   virtualPos = x.lightPosition
                 }
                return r
             | AdaptiveDiskLight  x' ->
@@ -679,6 +694,7 @@ module SLEUniform =
                    cutOffInner = x.cutOffInner |> radians |> cos 
                    cutOffOuter = x.fallOff+x.cutOffInner |> radians |> cos
                    radius = x.radius
+                   virtualPos = x.lightPosition - (Vec.normalize x.lightDirection)  * offset
                  }
                return r
         } 
