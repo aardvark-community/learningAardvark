@@ -72,7 +72,22 @@ module Shadow =
                     |> Frustum.projTrafo
                 return lightView , proj
             }
-
+        | AdaptiveRectangleLight l -> 
+            adaptive {
+                let! light = l
+                let! BB = bb
+                let size = (BB.Max - BB.Min).Length
+                let target = light.lightPosition + light.lightDirection
+                let up = if abs(light.lightDirection.Z) < 0.0000001 && abs(light.lightDirection.X) < 0.0000001 then V3d.OOI else V3d.OIO
+                let lightView = 
+                    CameraView.lookAt (light.lightPosition.XYZ) target.XYZ up
+                    |> CameraView.viewTrafo 
+                let proj = 
+                    Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) 1.0 size 1.0
+                    |> Frustum.projTrafo
+                return lightView , proj
+            }
+            
     let shadowMap (runtime : IRuntime) (scene :ISg<'msg>) (bb : aval<Box3d>) (light : AdaptiveLightCase) =
             let pv = lightViewPoject bb light
             let v = pv |> AVal.map fst

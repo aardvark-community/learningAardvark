@@ -57,6 +57,19 @@ type DiskLightData = {
     radius : float
 }
 
+type RectangleLightData = {
+    lightPosition : V4d
+    lightDirection : V4d
+    color : C3d
+    intensity : float
+    cutOffInner : float
+    fallOff : float
+    castsShadow : bool
+    rotation : float
+    height : float
+    width : float  
+}
+
 [<ModelType>]
 type TextureMappedValue = {
     fileName : string Option
@@ -101,6 +114,7 @@ type Light =
     | SpotLight of SpotLightData
     | SphereLight of  SphereLightData
     | DiskLight of  DiskLightData
+    | RectangleLight of RectangleLightData
 
 [<ModelType>]
 type AmbientOcclusionSettings =
