@@ -256,7 +256,7 @@ module lightControl =
                     lightPosition = r.lightPosition
                     color = r.color
                     intensity = r.intensity
-                    radius = r.height
+                    radius = r.height * 0.5
                 }            
             | x -> x
         | ToSpotLight ->
@@ -376,7 +376,7 @@ module lightControl =
                     cutOffInner = r.cutOffInner
                     fallOff = r.fallOff 
                     castsShadow = r.castsShadow
-                    radius =r.height
+                    radius =r.height * 0.5
                 }
             | x -> x
         | ToRectangleLight ->
@@ -430,8 +430,8 @@ module lightControl =
                     fallOff = 10.0 
                     castsShadow = true
                     rotation = 0.0
-                    height = r.radius
-                    width = r.radius
+                    height = r.radius * 2.0
+                    width = r.radius * 2.0
                 }
             | DiskLight r -> 
                 RectangleLight  {
@@ -443,8 +443,8 @@ module lightControl =
                     fallOff = r.fallOff 
                     castsShadow = r.castsShadow
                     rotation = 0.0
-                    height = r.radius
-                    width = r.radius
+                    height = r.radius * 2.0
+                    width = r.radius * 2.0
                 }
             | x -> x
         | DefaultDirectionalLight -> light.defaultDirectionalLight

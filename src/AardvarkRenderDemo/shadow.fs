@@ -105,6 +105,8 @@ module Shadow =
 
     type UniformScope with
         member x.LightViewMatrix : M44d = x?LightViewMatrix
+        member x.Light : SLEUniform.Light = x?Light
+
 
     let private samplerShadowMap =
         sampler2dShadow {
@@ -115,6 +117,28 @@ module Shadow =
             borderColor C4f.White
             comparison ComparisonFunction.LessOrEqual
         }
+
+    let private samplerShadowMapTex =
+        sampler2d {
+            texture uniform?ShadowMap
+            filter Filter.MinMagLinear
+            addressU WrapMode.Border
+            addressV WrapMode.Border
+            borderColor C4f.White
+        }
+
+    [<ReflectedDefinition>]
+    let lightWidth () =
+        let l = uniform.Light
+        match l.lightType with
+        | SLEUniform.LightType.DirectionalLight -> V2d(0.01)
+        | SLEUniform.LightType.PointLight -> V2d(0.01) 
+        | SLEUniform.LightType.SpotLight -> V2d(0.01)   
+        | SLEUniform.LightType.SphereLight -> V2d(l.radius * 2.0 |> max 0.01)
+        | SLEUniform.LightType.DiskLight -> V2d(l.radius * 2.0 |> max 0.01)  
+        | SLEUniform.LightType.RectangleLight -> V2d(Vec.length(l.p1 - l.p2) |> max 0.01, Vec.length(l.p1 - l.p4) |> max 0.01)    
+        | SLEUniform.LightType.NoLight -> V2d(0.01)
+        | _ -> V2d(0.01)
 
     [<ReflectedDefinition>]
     let poissonSampling (shadowMap :Sampler2dShadow) (samplePos : V4d) comp  =
@@ -128,14 +152,31 @@ module Shadow =
         vis
 
     [<ReflectedDefinition>]
-    let  random (seed  : V3d) (i : int) =
-        let seed4 = V4d(seed,float i)
-        let dotProduct = Vec.dot seed4 (V4d(12.9898,78.233,45.164,94.673))
+    let  random (seed  : V4d)  =
+        let dotProduct = Vec.dot seed (V4d(12.9898,78.233,45.164,94.673))
         Fun.Frac(sin(dotProduct) * 43758.5453)
 
+
+    [<ReflectedDefinition>]
+    let poissonSamplingStrat (shadowMap :Sampler2dShadow) (samplePos : V4d) (pos  : V4d) comp  =
+        let poissonDisk =   
+            Arr<N<16>, V2d>([|
+                V2d( -0.94201624, -0.39906216 );V2d( 0.94558609, -0.76890725 );V2d( -0.094184101, -0.92938870 );V2d( 0.34495938, 0.29387760 )
+                V2d( -0.91588581, 0.45771432 );V2d( -0.81544232, -0.87912464 );V2d( -0.38277543, 0.27676845 );V2d( 0.97484398, 0.75648379  )
+                V2d(  0.44323325, -0.97511554 );V2d( 0.53742981, -0.47373420 );V2d( -0.26496911, -0.41893023 );V2d(  0.79197514, 0.19090188  )
+                V2d( -0.24188840, 0.99706507 );V2d(  -0.81409955, 0.91437590);V2d(  0.19984126, 0.78641367 );V2d(  0.14383161, -0.14100790 )
+            |])
+        let numSamples = 16
+        let mutable vis = 0.0
+        let spread = 600.0 
+        for i in 0..numSamples-1 do
+            let index = int (16.0*random (V4d(pos.XYZ, float i)) )%16
+            vis <- vis + shadowMap.Sample(samplePos.XY + poissonDisk.[index]/spread, comp)/(float numSamples)
+        vis
+        
     [<ReflectedDefinition>]
     let vogelDiskOffset (sampleIndex : int) (sampleCount : int)  (phi : float) =
-        let goldenAngle = 2.4
+        let goldenAngle = 2.39996
         let r = sqrt (float sampleIndex + 0.5) / sqrt(float sampleCount)
         let theta = float sampleIndex *  goldenAngle + phi
         let sine = sin theta
@@ -149,39 +190,35 @@ module Shadow =
         |> Fun.Frac
 
     [<ReflectedDefinition>]
-    let vogelDiskSampling (shadowMap :Sampler2dShadow) (samplePos : V2d)  comp  =
+    let vogelDiskSampling (noise : float) (samplePos : V4d)  comp spread =
         let numSamples = 16
         let mutable vis = 0.0
-        let spread = 50.0
-        let noise =interleavedGradientNoise samplePos
         for i in 0..numSamples-1 do
-            let p = samplePos +  (vogelDiskOffset i numSamples noise)/spread
-            vis <- vis + shadowMap.Sample(p, comp)/(float numSamples)
+            let p = samplePos.XY +  (vogelDiskOffset i numSamples noise)*spread
+            vis <- vis + samplerShadowMap.Sample(p, comp)/(float numSamples)
         vis
 
     [<ReflectedDefinition>]
-    let poissonSamplingStrat (shadowMap :Sampler2dShadow) (samplePos : V4d) (pos  : V4d) comp  =
-        let poissonDisk =   
-            Arr<N<16>, V2d>([|
-                V2d( -0.94201624, -0.39906216 );V2d( 0.94558609, -0.76890725 );V2d( -0.094184101, -0.92938870 );V2d( 0.34495938, 0.29387760 )
-                V2d( -0.91588581, 0.45771432 );V2d( -0.81544232, -0.87912464 );V2d( -0.38277543, 0.27676845 );V2d( 0.97484398, 0.75648379  )
-                V2d(  0.44323325, -0.97511554 );V2d( 0.53742981, -0.47373420 );V2d( -0.26496911, -0.41893023 );V2d(  0.79197514, 0.19090188  )
-                V2d( -0.24188840, 0.99706507 );V2d(  -0.81409955, 0.91437590);V2d(  0.19984126, 0.78641367 );V2d(  0.14383161, -0.14100790 )
-            |])
-        let numSamples = 32
-        let mutable vis = 0.0
-        let spread = 50.0
-        for i in 0..numSamples-1 do
-            let index = int (16.0*random (pos.XYZ) i )%16
-            vis <- vis + shadowMap.Sample(samplePos.XY + poissonDisk.[index]/spread, comp)/(float numSamples)
-        vis
+    let avgBlockersDepthToPenumbra (lightSize : V2d) z avgBlockersDepth =
+        lightSize * (z - avgBlockersDepth) / avgBlockersDepth
 
     [<ReflectedDefinition>]
-    let getSpecularDominantDirArea n v roughness =
-        // Simple linear approximation 
-        let r = - Vec.reflect v n
-        let  lerpFactor = (1.0 - roughness);
-        Lerp n r lerpFactor |> Vec.normalize
+    let penumbra noise (shadowMapUV : V2d) (z : float)  lightSize=
+        let numSamples = 16
+        let mutable avgBlockersDepth = 0.0
+        let mutable blockersCount = 0.0
+        for i in 0..numSamples-1 do
+            let sampleUV = shadowMapUV + (vogelDiskOffset i numSamples noise)/100.0
+            let sampleDepth = samplerShadowMapTex.Sample(sampleUV).X
+            if sampleDepth < z then
+                avgBlockersDepth <- avgBlockersDepth + sampleDepth
+                blockersCount <- blockersCount + 1.0
+
+        if blockersCount > 0.0 then  
+            avgBlockersDepth <- avgBlockersDepth / blockersCount
+            avgBlockersDepthToPenumbra lightSize z avgBlockersDepth
+        else
+            V2d(0.0)
 
     [<ReflectedDefinition>]
     let getShadow (wPos : V4d) = 
@@ -192,5 +229,6 @@ module Shadow =
             |> (*) 0.5
             |> (+) 0.5
         let shadowBias = 0.005
-        //poissonSamplingStrat samplerShadowMap samplePos wPos (samplePos.Z-shadowBias)
-        vogelDiskSampling samplerShadowMap samplePos.XY (samplePos.Z-shadowBias)
+        let noise = Constant.PiTimesTwo * random samplePos
+        let spread = lightWidth () |> penumbra noise samplePos.XY samplePos.Z  
+        vogelDiskSampling noise samplePos (samplePos.Z-shadowBias) spread

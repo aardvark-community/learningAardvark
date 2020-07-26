@@ -238,7 +238,6 @@ module GBuffer =
             return {wp =  wPos; n = n; c = V4d(albedo.XYZ,1.0);  tc = vert.tc; metallic = albedo.W; roughness = nr.W; emission =  em}
         }
 
-
     let shadowDeferred  (vert : Vertex) =
         fragment {
             let wPos = wPos.Sample(vert.tc)

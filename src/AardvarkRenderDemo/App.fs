@@ -34,6 +34,7 @@ type Message =
     | LoadProject of string
     | FxAAMessage  of fxAA.Message
     | ToneMappingMessage of filmicToneMappingControl.Message
+    | SetShadowBlur of float
 
 module App =   
 
