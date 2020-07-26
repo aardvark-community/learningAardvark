@@ -134,6 +134,32 @@ module Shadow =
         Fun.Frac(sin(dotProduct) * 43758.5453)
 
     [<ReflectedDefinition>]
+    let vogelDiskOffset (sampleIndex : int) (sampleCount : int)  (phi : float) =
+        let goldenAngle = 2.4
+        let r = sqrt (float sampleIndex + 0.5) / sqrt(float sampleCount)
+        let theta = float sampleIndex *  goldenAngle + phi
+        let sine = sin theta
+        let cosine = cos theta
+        V2d(r * cosine, r * sine)
+    
+    [<ReflectedDefinition>]
+    let interleavedGradientNoise (pos : V2d) =
+        let magic = V3d(0.06711056, 0.00583715, 52.9829189)
+        magic.Z * Fun.Frac (Vec.dot pos magic.XY) 
+        |> Fun.Frac
+
+    [<ReflectedDefinition>]
+    let vogelDiskSampling (shadowMap :Sampler2dShadow) (samplePos : V2d)  comp  =
+        let numSamples = 16
+        let mutable vis = 0.0
+        let spread = 50.0
+        let noise =interleavedGradientNoise samplePos
+        for i in 0..numSamples-1 do
+            let p = samplePos +  (vogelDiskOffset i numSamples noise)/spread
+            vis <- vis + shadowMap.Sample(p, comp)/(float numSamples)
+        vis
+
+    [<ReflectedDefinition>]
     let poissonSamplingStrat (shadowMap :Sampler2dShadow) (samplePos : V4d) (pos  : V4d) comp  =
         let poissonDisk =   
             Arr<N<16>, V2d>([|
@@ -142,9 +168,9 @@ module Shadow =
                 V2d(  0.44323325, -0.97511554 );V2d( 0.53742981, -0.47373420 );V2d( -0.26496911, -0.41893023 );V2d(  0.79197514, 0.19090188  )
                 V2d( -0.24188840, 0.99706507 );V2d(  -0.81409955, 0.91437590);V2d(  0.19984126, 0.78641367 );V2d(  0.14383161, -0.14100790 )
             |])
-        let numSamples = 8
+        let numSamples = 32
         let mutable vis = 0.0
-        let spread = 600.0
+        let spread = 50.0
         for i in 0..numSamples-1 do
             let index = int (16.0*random (pos.XYZ) i )%16
             vis <- vis + shadowMap.Sample(samplePos.XY + poissonDisk.[index]/spread, comp)/(float numSamples)
@@ -166,4 +192,5 @@ module Shadow =
             |> (*) 0.5
             |> (+) 0.5
         let shadowBias = 0.005
-        poissonSamplingStrat samplerShadowMap samplePos wPos (samplePos.Z-shadowBias)
+        //poissonSamplingStrat samplerShadowMap samplePos wPos (samplePos.Z-shadowBias)
+        vogelDiskSampling samplerShadowMap samplePos.XY (samplePos.Z-shadowBias)
