@@ -11,6 +11,7 @@ module Shadow =
     open Aardvark.UI //nessary to avoid confusion between SceneGraph.SG and UI.SG 
     open FShade
     open fshadeExt
+    open light
     
     let signatureShadowMap (runtime : IRuntime) =
         runtime.CreateFramebufferSignature [
@@ -20,8 +21,8 @@ module Shadow =
     let shadowMapSize = V2i(1024) |> AVal.constant
 
     //calculate light view and prjection
-    let lightViewPoject (bb : aval<Box3d>) (light : AdaptiveLightCase) =
-        match light with
+    let lightViewPoject (bb : aval<Box3d>) (alight : AdaptiveLightCase) =
+        match alight with
         | AdaptivePointLight l -> failwith "not implemented"
         | AdaptiveSphereLight l -> failwith "not implemented"
         | AdaptiveSpotLight l -> 
@@ -32,10 +33,10 @@ module Shadow =
                 let target = light.lightPosition + light.lightDirection
                 let up = if abs(light.lightDirection.Z) < 0.0000001 && abs(light.lightDirection.X) < 0.0000001 then V3d.OOI else V3d.OIO
                 let lightView = 
-                    CameraView.lookAt (light.lightPosition.XYZ) target.XYZ up
+                    CameraView.lookAt (light.lightPosition.XYZ ) target.XYZ up
                     |> CameraView.viewTrafo 
                 let proj = 
-                    Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) 1.0 size 1.0
+                    Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) 0.1 size 1.0
                     |> Frustum.projTrafo
                 return lightView , proj
             }
@@ -64,11 +65,13 @@ module Shadow =
                 let size = (BB.Max - BB.Min).Length
                 let target = light.lightPosition + light.lightDirection
                 let up = if abs(light.lightDirection.Z) < 0.0000001 && abs(light.lightDirection.X) < 0.0000001 then V3d.OOI else V3d.OIO
+                let! offset = (calcVirtualPositionOffset alight)
+                let n = light.lightDirection.XYZ |> Vec.normalize
                 let lightView = 
-                    CameraView.lookAt (light.lightPosition.XYZ) target.XYZ up
+                    CameraView.lookAt (light.lightPosition.XYZ - (offset.X * n)) target.XYZ up
                     |> CameraView.viewTrafo 
                 let proj = 
-                    Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) 1.0 size 1.0
+                    Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) (light.radius+offset.X) size 1.0
                     |> Frustum.projTrafo
                 return lightView , proj
             }
@@ -77,13 +80,17 @@ module Shadow =
                 let! light = l
                 let! BB = bb
                 let size = (BB.Max - BB.Min).Length
+                let n = light.lightDirection.XYZ |> Vec.normalize
                 let target = light.lightPosition + light.lightDirection
-                let up = if abs(light.lightDirection.Z) < 0.0000001 && abs(light.lightDirection.X) < 0.0000001 then V3d.OOI else V3d.OIO
+                let rotate = M44d.RotationInDegrees(n,light.rotation) * M44d.RotateInto(V3d.OIO, n) 
+                let up = (rotate * V4d.OOIO).XYZ//if abs(light.lightDirection.Z) < 0.0000001 && abs(light.lightDirection.X) < 0.0000001 then V3d.OOI else V3d.OIO
+                let! o = (calcVirtualPositionOffset alight)
+                let offset = max o.X o.Y
                 let lightView = 
-                    CameraView.lookAt (light.lightPosition.XYZ) target.XYZ up
+                    CameraView.lookAt (light.lightPosition.XYZ - (offset * n)) target.XYZ up
                     |> CameraView.viewTrafo 
                 let proj = 
-                    Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) 1.0 size 1.0
+                    Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) (max offset 0.1) size 1.0
                     |> Frustum.projTrafo
                 return lightView , proj
             }
@@ -136,7 +143,7 @@ module Shadow =
         | SLEUniform.LightType.SpotLight -> V2d(0.01)   
         | SLEUniform.LightType.SphereLight -> V2d(l.radius * 2.0 |> max 0.01)
         | SLEUniform.LightType.DiskLight -> V2d(l.radius * 2.0 |> max 0.01)  
-        | SLEUniform.LightType.RectangleLight -> V2d(Vec.length(l.p1 - l.p2) |> max 0.01, Vec.length(l.p1 - l.p4) |> max 0.01)    
+        | SLEUniform.LightType.RectangleLight -> V2d(Vec.length(l.p1 - l.p4) |> max 0.01, Vec.length(l.p1 - l.p2) |> max 0.01)    
         | SLEUniform.LightType.NoLight -> V2d(0.01)
         | _ -> V2d(0.01)
 
@@ -190,12 +197,17 @@ module Shadow =
         |> Fun.Frac
 
     [<ReflectedDefinition>]
-    let vogelDiskSampling (noise : float) (samplePos : V4d)  comp spread =
+    let vogelDiskSampling (noise : float) (pos : V4d)  spread =
         let numSamples = 16
         let mutable vis = 0.0
+        let shadowBias = 0.005
         for i in 0..numSamples-1 do
-            let p = samplePos.XY +  (vogelDiskOffset i numSamples noise)*spread
-            vis <- vis + samplerShadowMap.Sample(p, comp)/(float numSamples)
+            let p = pos +  V4d((vogelDiskOffset i numSamples noise)*spread,0.0,0.0)
+            let samplePos = 
+                p/p.W
+                |> (*) 0.5
+                |> (+) 0.5 
+            vis <- vis + samplerShadowMap.Sample(samplePos.XY, samplePos.Z-shadowBias)/(float numSamples)
         vis
 
     [<ReflectedDefinition>]
@@ -228,7 +240,6 @@ module Shadow =
             lightSpacePos/lightSpacePos.W
             |> (*) 0.5
             |> (+) 0.5
-        let shadowBias = 0.005
         let noise = Constant.PiTimesTwo * random samplePos
         let spread = lightWidth () |> penumbra noise samplePos.XY samplePos.Z  
-        vogelDiskSampling noise samplePos (samplePos.Z-shadowBias) spread
+        vogelDiskSampling noise lightSpacePos spread
