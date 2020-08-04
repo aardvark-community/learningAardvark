@@ -6,6 +6,14 @@ open Aardvark.UI
 open Aardvark.Base.Rendering
 open SLEAardvarkRenderDemo.Model
 
+(*
+    Shadow map creation and evaluation
+
+    Contact hardening soft shadows based on 
+    Randima Fernando. Percentage-Closer Soft Shadows. http://developer.download.nvidia.com/shaderlibrary/docs/shadow_PCSS.pdf.
+    and
+    https://www.gamedev.net/articles/programming/graphics/contact-hardening-soft-shadows-made-fast-r4906/ 
+*)
 module Shadow =
     open Aardvark.SceneGraph
     open Aardvark.UI //nessary to avoid confusion between SceneGraph.SG and UI.SG 
@@ -65,11 +73,12 @@ module Shadow =
                 let size = (BB.Max - BB.Min).Length
                 let target = light.lightPosition + light.lightDirection
                 let up = if abs(light.lightDirection.Z) < 0.0000001 && abs(light.lightDirection.X) < 0.0000001 then V3d.OOI else V3d.OIO
-                let! offset = (calcVirtualPositionOffset alight)
+                let! offset = (calcVirtualPositionOffset alight) //offset position so that the disk fits into the Camera Frustum
                 let n = light.lightDirection.XYZ |> Vec.normalize
                 let lightView = 
                     CameraView.lookAt (light.lightPosition.XYZ - (offset.X * n)) target.XYZ up
                     |> CameraView.viewTrafo 
+                //set the near plane so that the offset is compensated
                 let proj = 
                     Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) (light.radius+offset.X) size 1.0
                     |> Frustum.projTrafo
@@ -82,13 +91,16 @@ module Shadow =
                 let size = (BB.Max - BB.Min).Length
                 let n = light.lightDirection.XYZ |> Vec.normalize
                 let target = light.lightPosition + light.lightDirection
+                //claculat sky direction according to the rotation of the rectangle
                 let rotate = M44d.RotationInDegrees(n,light.rotation) * M44d.RotateInto(V3d.OIO, n) 
-                let up = (rotate * V4d.OOIO).XYZ//if abs(light.lightDirection.Z) < 0.0000001 && abs(light.lightDirection.X) < 0.0000001 then V3d.OOI else V3d.OIO
+                let up = (rotate * V4d.OOIO).XYZ
+                //offset the position sot thet the  camera fits into the camera fustrum, use the bigger offset of the twoc directions 
                 let! o = (calcVirtualPositionOffset alight)
                 let offset = max o.X o.Y
                 let lightView = 
                     CameraView.lookAt (light.lightPosition.XYZ - (offset * n)) target.XYZ up
                     |> CameraView.viewTrafo 
+                //set the near plane so that the offset is compensated, minimum near plane 0.1 to avoid artefacts
                 let proj = 
                     Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) (max offset 0.1) size 1.0
                     |> Frustum.projTrafo
@@ -109,6 +121,8 @@ module Shadow =
             |> Sg.compile runtime (signatureShadowMap runtime)
             |> RenderTask.renderToDepth shadowMapSize
             :> aval<_>
+
+    //shaders for shadow evaluation
 
     type UniformScope with
         member x.LightViewMatrix : M44d = x?LightViewMatrix
@@ -134,6 +148,7 @@ module Shadow =
             borderColor C4f.White
         }
 
+    //assume size of 1 cm for punctual lights
     [<ReflectedDefinition>]
     let lightWidth () =
         let l = uniform.Light
@@ -147,6 +162,7 @@ module Shadow =
         | SLEUniform.LightType.NoLight -> V2d(0.01)
         | _ -> V2d(0.01)
 
+    //not used 
     [<ReflectedDefinition>]
     let poissonSampling (shadowMap :Sampler2dShadow) (samplePos : V4d) comp  =
         let poissonDisk =   
@@ -158,12 +174,13 @@ module Shadow =
             vis <- vis + shadowMap.Sample(samplePos.XY + poissonDisk.[i]/spread, comp)/(float numSamples)
         vis
 
+    //Pseudo Random Value from a V4d Seed
     [<ReflectedDefinition>]
     let  random (seed  : V4d)  =
         let dotProduct = Vec.dot seed (V4d(12.9898,78.233,45.164,94.673))
         Fun.Frac(sin(dotProduct) * 43758.5453)
 
-
+    //not used because VogelDisk Sampling looks better 
     [<ReflectedDefinition>]
     let poissonSamplingStrat (shadowMap :Sampler2dShadow) (samplePos : V4d) (pos  : V4d) comp  =
         let poissonDisk =   
@@ -181,6 +198,7 @@ module Shadow =
             vis <- vis + shadowMap.Sample(samplePos.XY + poissonDisk.[index]/spread, comp)/(float numSamples)
         vis
         
+    //Vogel Dsik coordinates
     [<ReflectedDefinition>]
     let vogelDiskOffset (sampleIndex : int) (sampleCount : int)  (phi : float) =
         let goldenAngle = 2.39996
@@ -196,6 +214,7 @@ module Shadow =
         magic.Z * Fun.Frac (Vec.dot pos magic.XY) 
         |> Fun.Frac
 
+    //sample form Shadow map around pos in a VogelDisk pattern rotated by noise 
     [<ReflectedDefinition>]
     let vogelDiskSampling (noise : float) (pos : V4d)  spread =
         let numSamples = 16
@@ -203,6 +222,7 @@ module Shadow =
         let shadowBias = 0.005
         for i in 0..numSamples-1 do
             let p = pos +  V4d((vogelDiskOffset i numSamples noise)*spread,0.0,0.0)
+            //to normalized device coordinates 
             let samplePos = 
                 p/p.W
                 |> (*) 0.5
@@ -210,25 +230,27 @@ module Shadow =
             vis <- vis + samplerShadowMap.Sample(samplePos.XY, samplePos.Z-shadowBias)/(float numSamples)
         vis
 
+    //Calculate preumbra from average Blocker Depth
     [<ReflectedDefinition>]
-    let avgBlockersDepthToPenumbra (lightSize : V2d) z avgBlockersDepth =
-        lightSize * (z - avgBlockersDepth) / avgBlockersDepth
+    let avgBlockersDepthToPenumbra (lightSize : V2d) surfaceDepth avgBlockersDepth =
+        lightSize * (surfaceDepth - avgBlockersDepth) / avgBlockersDepth
 
+    //approximate average Blocker Depth
     [<ReflectedDefinition>]
-    let penumbra noise (shadowMapUV : V2d) (z : float)  lightSize=
+    let penumbra noise (shadowMapUV : V2d) (surfaceDepth : float)  lightSize=
         let numSamples = 16
         let mutable avgBlockersDepth = 0.0
         let mutable blockersCount = 0.0
         for i in 0..numSamples-1 do
             let sampleUV = shadowMapUV + (vogelDiskOffset i numSamples noise)/100.0
             let sampleDepth = samplerShadowMapTex.Sample(sampleUV).X
-            if sampleDepth < z then
+            if sampleDepth < surfaceDepth then
                 avgBlockersDepth <- avgBlockersDepth + sampleDepth
                 blockersCount <- blockersCount + 1.0
 
         if blockersCount > 0.0 then  
             avgBlockersDepth <- avgBlockersDepth / blockersCount
-            avgBlockersDepthToPenumbra lightSize z avgBlockersDepth
+            avgBlockersDepthToPenumbra lightSize surfaceDepth avgBlockersDepth
         else
             V2d(0.0)
 
@@ -236,10 +258,12 @@ module Shadow =
     let getShadow (wPos : V4d) = 
         let lm = uniform.LightViewMatrix
         let lightSpacePos = lm * wPos
+        //to normalized device coordinates 
         let samplePos = 
             lightSpacePos/lightSpacePos.W
             |> (*) 0.5
             |> (+) 0.5
+        //this noise function looks better than interleavedGradientNoise
         let noise = Constant.PiTimesTwo * random samplePos
         let spread = lightWidth () |> penumbra noise samplePos.XY samplePos.Z  
         vogelDiskSampling noise lightSpacePos spread

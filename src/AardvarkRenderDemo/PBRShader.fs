@@ -6,14 +6,21 @@ open FShade
 open Aardvark.Base.Rendering.Effects
 open System
 (*
-    Shaders for deffered Rendering, pysical based rendering (PBR) and screen space abient occlusion (SSAO)
+    Shaders for pysical based rendering (PBR) 
 
     They are mostly ports of the tutorials found at https://learnopengl.com/https://learnopengl.com/ 
+    For the BRDF functions see brdf.fs
+
+    Area light approximations for diffuse lightning are based on the Frostbite SigGraph 2014 Curse Notes
+    Moving Frostbite to Physically Based Rendering by Sebastien Lagarde, Charles de Rousiers, Siggraph 2014
+    http://www.frostbite.com/wp-content/uploads/2014/11/course_notes_moving_frostbite_to_pbr.pdf
+
+    and for specular light on the Representative Point Method from Brian Karis
+    http://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_notes_v2.pdf 
+
+    The implemntation in the Wicked Engine was used as a code reference:
+    https://github.com/turanszkij/WickedEngine/blob/master/WickedEngine/lightingHF.hlsli
 *)
-
-
-//physical base rendering, mostly a port of the shaders found here https://learnopengl.com/PBR/Lighting,
-//here https://learnopengl.com/PBR/IBL/Diffuse-irradiance and here https://learnopengl.com/PBR/IBL/Specular-IBL.
 
 module PBR =
     open fshadeExt
@@ -24,7 +31,7 @@ module PBR =
         member x.Light : SLEUniform.Light = x?Light
         member x.AmbientIntensity : float = x?AmbientIntensity
 
-    //Note: Do not use ' in variabel names for shader code, it will lead to an error
+    //Note: Do not use ' in variabel names for shader code, it will lead to an error because it is not valid for GLSL
 
     let private diffuseIrradianceSampler =
         samplerCube {
@@ -58,6 +65,8 @@ module PBR =
             filter Filter.MinMagLinear
         }
 
+    //punctual and area light intensity is given as luminous Power, 
+    //we need to convert that to luminance
     [<ReflectedDefinition>]
     let luminousPowerToLuminancePoint =
         1.0 / (4.0 * Math.PI)
@@ -67,11 +76,28 @@ module PBR =
         1.0 / Math.PI
         
     [<ReflectedDefinition>]
+    let luminousPowerToLuminanceSphere radius =
+        1.0 / (radius * radius * 4.0 * Math.PI * Math.PI)
+ 
+    [<ReflectedDefinition>]
+    let luminousPowerToLuminanceDisk radius =
+        1.0 / (radius * radius  * Math.PI * Math.PI)
+
+    [<ReflectedDefinition>]
+    let luminousPowerToLuminanceRectangle (p1 : V3d)  (p2 : V3d)  (p3 : V3d)  (p4 : V3d) =
+        let w = p1 - p4 |> Vec.length  |> abs
+        let h = p1 - p2 |> Vec.length  |> abs
+        1.0 / (h * w * Math.PI)
+
+    //aproximation of main direction of the specular lobe
+    [<ReflectedDefinition>]
     let getSpecularDominantDirArea n v roughness =
         // Simple linear approximation 
         let r = - Vec.reflect v n
         let  lerpFactor = 1.0 - roughness;
         Lerp n r lerpFactor |> Vec.normalize
+
+    // some intersection functions
 
     // o		: ray origin
     // d		: ray direction
@@ -115,8 +141,23 @@ module PBR =
         let t = (Vec.dot (c - a) ab) / Vec.dot ab ab
         a + (saturate t) * ab;
 
+    //agualar attenuation for spot, disc and rectagle lights
     [<ReflectedDefinition>]
-    let illuminannceSphereDisc cosTheta sinSigmaSqr =
+    let attenuationAgular (lDir : V3d) (ln : V3d) cutOffInner cutOffOuter =
+        let cosTheta = Vec.dot lDir -ln
+        let epsilon = cutOffInner - cutOffOuter
+        (cosTheta - cutOffOuter) / epsilon 
+        |> saturate    
+
+    //distance attenuation for punctual lights (inverse square law)
+    [<ReflectedDefinition>]
+    let attenuationPunctualLight  dist =
+        let d = max dist 0.01
+        1.0 / (d * d)
+
+    //unified illuminace calcualtion for disc and sphere lights
+    [<ReflectedDefinition>]
+    let illuminanceSphereDisc cosTheta sinSigmaSqr =
         let sinTheta = sqrt (1.0 - cosTheta * cosTheta)
         let illuminance  =
             if cosTheta * cosTheta > sinSigmaSqr
@@ -130,30 +171,16 @@ module PBR =
         illuminance
         |> max 0.0
 
-    [<ReflectedDefinition>]
-    let attenuationAgular (lDir : V3d) (ln : V3d) cutOffInner cutOffOuter =
-        let cosTheta = Vec.dot lDir -ln
-        let epsilon = cutOffInner - cutOffOuter
-        (cosTheta - cutOffOuter) / epsilon 
-        |> saturate    
-
-    [<ReflectedDefinition>]
-    let attenuationPunctualLight  dist =
-        let d = max dist 0.01
-        1.0 / (d * d)
-
+    // attenuation for sphere lights
     [<ReflectedDefinition>]
     let attenuationSphere (lUnnorm : V3d) (radius : float) (n : V3d) (lDir : V3d) =
         let dist2  = Vec.dot lUnnorm lUnnorm
         let radius2 = radius * radius  
         let cosTheta = Vec.dot n lDir |> clamp -0.999 0.999
         let sinSigmaSqr = radius2/dist2 |> min 0.9999
-        illuminannceSphereDisc cosTheta sinSigmaSqr
-
-    [<ReflectedDefinition>]
-    let luminousPowerToLuminanceSphere radius =
-        1.0 / (radius * radius * 4.0 * Math.PI * Math.PI)
+        illuminanceSphereDisc cosTheta sinSigmaSqr
     
+    // representative point calcualtion for sphere: Nearest Point on sphere to a ray reflected in dominant specualr direction
     [<ReflectedDefinition>]
     let representativePointSpehre n v roughness lUnnorm radius = 
         let r = getSpecularDominantDirArea n v roughness
@@ -161,6 +188,7 @@ module PBR =
         lUnnorm + centerToRay * clamp 0.0 1.0 (radius / length centerToRay) 
         |> Vec.normalize
 
+    //attenuation for disc lights
     [<ReflectedDefinition>]
     let attenuationDisk (lUnnorm : V3d) (radius : float) (n : V3d) (lDir : V3d) (ln : V3d) =
         let cosTheta = Vec.dot n lDir |> clamp -0.999 0.999
@@ -168,8 +196,9 @@ module PBR =
         let radius2 = radius * radius  
         let sinSigmaSqr = radius2 / (radius2 + max radius2 dist2)
         let diskDirDotL = Vec.dot ln -lDir  |> saturate
-        illuminannceSphereDisc cosTheta sinSigmaSqr * diskDirDotL
+        illuminanceSphereDisc cosTheta sinSigmaSqr * diskDirDotL
 
+    // representative point calcualtion for disk: Nearest point on disk to a ray reflected in dominant specualr direction
     [<ReflectedDefinition>]
     let representativePointDisk r wPos radius ln lightPosition lUnnorm= 
         let t = tracePlane wPos r lightPosition ln
@@ -177,16 +206,6 @@ module PBR =
         let centerToRay = p - lightPosition
         lUnnorm + centerToRay * saturate (radius / length centerToRay) 
         |> Vec.normalize
-
-    [<ReflectedDefinition>]
-    let luminousPowerToLuminanceDisk radius =
-        1.0 / (radius * radius  * Math.PI * Math.PI)
-
-    [<ReflectedDefinition>]
-    let luminousPowerToLuminanceRectangle (p1 : V3d)  (p2 : V3d)  (p3 : V3d)  (p4 : V3d) =
-        let w = p1 - p4 |> Vec.length  |> abs
-        let h = p1 - p2 |> Vec.length  |> abs
-        1.0 / (h * w * Math.PI)
 
     [<ReflectedDefinition>]
     let rectangleSolidAngle (wPos :V3d) p1 p2 p3 p4 =
@@ -220,6 +239,7 @@ module PBR =
         else
             0.0
 
+    //point on the rectangle nearest to the a ray reflected in dominant specualr direction 
     [<ReflectedDefinition>]
     let representativePointRectangle r wPos p1 p2 p3 p4 ln lightPosition = 
         let t = traceRectangle wPos r p1 p2 p3 p4
@@ -255,7 +275,7 @@ module PBR =
 
             p - wPos |> Vec.normalize
 
-
+    //returns: Flag for aktive light, light direction, illuminannce, specular Attenuation
     [<ReflectedDefinition>]
     let getLightParams (light : SLEUniform.Light) (wPos : V3d) (n : V3d) v roughness= 
         match  light.lightType  with
@@ -293,7 +313,7 @@ module PBR =
             let r = getSpecularDominantDirArea n v roughness
             let l = representativePointDisk r wPos light.radius ln light.lightPosition.XYZ lUnnorm
 
-            let specularAttenuation = 
+            let specularAttenuation = // if ray is perpendicular to light plane, it would break specular, so fade in that case
                 Vec.dot ln r
                 |> abs
                 |> saturate 
@@ -316,7 +336,7 @@ module PBR =
             let r = getSpecularDominantDirArea n v roughness
             let l = representativePointRectangle r wPos light.p1 light.p2 light.p3 light.p4 ln light.lightPosition.XYZ
 
-            let specularAttenuation = 
+            let specularAttenuation = // if ray is perpendicular to light plane, it would break specular, so fade in that case
                 Vec.dot ln r
                 |> abs
                 |> saturate 

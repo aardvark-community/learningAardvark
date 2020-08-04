@@ -10,7 +10,6 @@ open FShade
 open Aardvark.Base.Rendering.Effects
 
  module SSAO =
-    //open fshadeExt
     //Screen Space Ambinet Occlusion
 
     [<GLSLIntrinsic("smoothstep({0}, {1}, {2})")>]

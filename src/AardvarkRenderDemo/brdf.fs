@@ -5,6 +5,15 @@ open Aardvark.Base.Rendering
 open FShade
 open Aardvark.Base.Rendering.Effects
 open System
+(*
+    Shaders for pysical based rendering (PBR)
+
+    They are mostly ports of the tutorials found at https://learnopengl.com/https://learnopengl.com/ 
+*)
+
+
+//physical base rendering, mostly a port of the shaders found here https://learnopengl.com/PBR/Lighting,
+//here https://learnopengl.com/PBR/IBL/Diffuse-irradiance and here https://learnopengl.com/PBR/IBL/Specular-IBL.
 
 module BRDF =
 
