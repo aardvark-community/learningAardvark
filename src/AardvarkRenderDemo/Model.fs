@@ -87,6 +87,8 @@ type TextureMappedColor = {
 type PBRMaterial = {
     metallic  : TextureMappedValue
     roughness : TextureMappedValue
+    clearCoat : TextureMappedValue
+    clearCoatRoughness : TextureMappedValue
     albedo : TextureMappedColor
     emission : TextureMappedColor
     normal : TextureMappedValue

@@ -97,6 +97,14 @@
                         "fileName": null,
                         "factor": 0.54
                       },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
                       "albedo": {
                         "fileName": {
                           "Some": "SLE_Gnom2.jpg"
@@ -141,6 +149,14 @@
                         "fileName": null,
                         "factor": 0.33
                       },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
                       "albedo": {
                         "fileName": null,
                         "color": {
@@ -180,6 +196,14 @@
                       "roughness": {
                         "fileName": null,
                         "factor": 0.55
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
                       },
                       "albedo": {
                         "fileName": {
@@ -225,6 +249,14 @@
                         "fileName": null,
                         "factor": 0.46
                       },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
                       "albedo": {
                         "fileName": {
                           "Some": "SLE_EYE.jpg"
@@ -267,6 +299,14 @@
                         "fileName": null,
                         "factor": 0.8
                       },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
                       "albedo": {
                         "fileName": null,
                         "color": {
@@ -306,6 +346,14 @@
                       "roughness": {
                         "fileName": null,
                         "factor": 0.78
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
                       },
                       "albedo": {
                         "fileName": {
@@ -351,6 +399,14 @@
                         "fileName": null,
                         "factor": 0.52
                       },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
                       "albedo": {
                         "fileName": {
                           "Some": "SLE_Gnom2.jpg"
@@ -394,6 +450,14 @@
                       "roughness": {
                         "fileName": null,
                         "factor": 0.76
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
                       },
                       "albedo": {
                         "fileName": {
@@ -439,6 +503,14 @@
                         "fileName": null,
                         "factor": 0.58
                       },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
                       "albedo": {
                         "fileName": {
                           "Some": "SLE_Gnom2.jpg"
@@ -483,6 +555,14 @@
                         "fileName": null,
                         "factor": 0.16
                       },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
                       "albedo": {
                         "fileName": {
                           "Some": "SLE_EYE.jpg"
@@ -524,6 +604,14 @@
                       "roughness": {
                         "fileName": null,
                         "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
                       },
                       "albedo": {
                         "fileName": {

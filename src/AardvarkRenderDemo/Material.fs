@@ -43,6 +43,14 @@ module material =
             fileName = None
             factor = 0.0
         }
+        clearCoat = {
+            fileName = None
+            factor = 0.0
+        }
+        clearCoatRoughness = {
+            fileName = None
+            factor = 0.2
+        }
     }
 
     let onePxPix (color :C3f)= 
@@ -108,9 +116,19 @@ module material =
                         | None ->  onPixTex C3f.White
             }
 
-        member x.ClearCoatMap =  onPixTex C3f.White |> AVal.constant :> IAdaptiveValue
+        member x.ClearCoatMap =              
+            let loadTex f =
+                f
+                |> Option.map (fun f -> FileTexture(f, TextureParams.empty) :> ITexture)
+                |> Option.defaultValue (onPixTex C3f.White)
+            AVal.bind (fun (m : AdaptivePBRMaterial)-> m.clearCoat.fileName |> AVal.map loadTex)  x.Material :> IAdaptiveValue
 
-        member x.ClearCoatRoughnessMap = onPixTex C3f.White |> AVal.constant :> IAdaptiveValue
+        member x.ClearCoatRoughnessMap =               
+            let loadTex f =
+                f
+                |> Option.map (fun f -> FileTexture(f, TextureParams.empty) :> ITexture)
+                |> Option.defaultValue (onPixTex C3f.White)
+            AVal.bind (fun (m : AdaptivePBRMaterial)-> m.clearCoatRoughness.fileName |> AVal.map loadTex)  x.Material :> IAdaptiveValue
 
         interface IO.Loader.IMaterial with
 
@@ -133,9 +151,9 @@ module material =
                 | "EmissionTexture" -> Some (x.EmissionMap :> IAdaptiveValue)
                 | "EmissionColor" -> Some  (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.emission.color) x.Material :> IAdaptiveValue)
                 | "EmissionFactor" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.emission.factor) x.Material :> IAdaptiveValue)
-                | "ClearCoat" -> Some (AVal.constant 1.0 :> IAdaptiveValue)
+                | "ClearCoat" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.clearCoat.factor) x.Material :> IAdaptiveValue)
                 | "ClearCoatMap" -> Some x.ClearCoatMap 
-                | "ClearCoatRoughness" -> Some (AVal.constant 0.2 :> IAdaptiveValue)
+                | "ClearCoatRoughness" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.clearCoatRoughness.factor) x.Material :> IAdaptiveValue)
                 | "ClearCoatRoughnessMap" -> Some x.ClearCoatRoughnessMap 
                 | _ -> None
             
@@ -275,6 +293,8 @@ module materialControl =
         | SetDiscard 
         | SetDisplacment of textureMappedValueControl.Message
         | SetEmission of textureMappedColorControl.Message
+        | SetClearCoat of textureMappedValueControl.Message
+        | SetClearCoatRoughness of textureMappedValueControl.Message
 
     let update  (m : PBRMaterial) (msg : Message)  =
         match msg with
@@ -285,6 +305,8 @@ module materialControl =
         | SetDiscard -> { m with  discard = not m.discard}
         | SetDisplacment msg' -> { m with  displacment = textureMappedValueControl.update m.displacment msg'}
         | SetEmission msg' -> { m with  emission = textureMappedColorControl.update m.emission msg'}
+        | SetClearCoat msg' -> { m with  clearCoat = textureMappedValueControl.update m.clearCoat msg'}
+        | SetClearCoatRoughness msg' -> { m with  clearCoatRoughness = textureMappedValueControl.update m.clearCoatRoughness msg'}
 
     let view (m : AdaptivePBRMaterial) =
         div [] [
@@ -292,6 +314,8 @@ module materialControl =
             textureMappedValueControl.view textureMappedValueControl.Linear "Roughness" 0.0 1.0 0.01 m.roughness  |> UI.map SetRoughness
             textureMappedColorControl.view textureMappedColorControl.Linear "Albedo" 0.0 1.0 0.01 m.albedo  |> UI.map SetAlbedo
             textureMappedValueControl.view textureMappedValueControl.Linear "Normal Map" 0.0 1.0 0.01 m.normal  |> UI.map SetNormal
+            textureMappedValueControl.view textureMappedValueControl.Linear "Clear Coat" 0.0 1.0 0.01 m.clearCoat  |> UI.map SetClearCoat
+            textureMappedValueControl.view textureMappedValueControl.Linear "Clear Coat Roughness" 0.0 1.0 0.01 m.clearCoatRoughness  |> UI.map SetClearCoatRoughness
             textureMappedColorControl.view textureMappedColorControl.Linear "Emission" 0.0 10.0 0.01 m.emission  |> UI.map SetEmission
             textureMappedValueControl.view textureMappedValueControl.Linear "Displacement" 0.0 1.0 0.01 m.displacment  |> UI.map SetDisplacment
             Html.table [                        
