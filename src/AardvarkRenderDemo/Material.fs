@@ -108,6 +108,10 @@ module material =
                         | None ->  onPixTex C3f.White
             }
 
+        member x.ClearCoatMap =  onPixTex C3f.White |> AVal.constant :> IAdaptiveValue
+
+        member x.ClearCoatRoughnessMap = onPixTex C3f.White |> AVal.constant :> IAdaptiveValue
+
         interface IO.Loader.IMaterial with
 
             member x.name = x.Name
@@ -129,6 +133,10 @@ module material =
                 | "EmissionTexture" -> Some (x.EmissionMap :> IAdaptiveValue)
                 | "EmissionColor" -> Some  (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.emission.color) x.Material :> IAdaptiveValue)
                 | "EmissionFactor" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.emission.factor) x.Material :> IAdaptiveValue)
+                | "ClearCoat" -> Some (AVal.constant 1.0 :> IAdaptiveValue)
+                | "ClearCoatMap" -> Some x.ClearCoatMap 
+                | "ClearCoatRoughness" -> Some (AVal.constant 0.2 :> IAdaptiveValue)
+                | "ClearCoatRoughnessMap" -> Some x.ClearCoatRoughnessMap 
                 | _ -> None
             
             member x.Dispose() = ()

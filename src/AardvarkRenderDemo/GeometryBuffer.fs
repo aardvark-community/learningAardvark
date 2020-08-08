@@ -31,6 +31,10 @@ open Aardvark.Base.Rendering.Effects
 
         member x.SkyMapIntensity : float =  x?SkyMapIntensity
 
+        member  x.ClearCoat :  float =  x?ClearCoat
+
+        member  x.ClearCoatRoughness :  float =  x?ClearCoatRoughness
+
     let internal skyBoxTrafo (v : Vertex) =
         vertex {
             let wp = uniform.ModelTrafo * v.pos
@@ -94,6 +98,22 @@ open Aardvark.Base.Rendering.Effects
             addressV WrapMode.Wrap
         }
 
+    let private clearCoatRoughnessSampler =
+        sampler2d {
+            texture uniform?ClearCoatRoughnessMap
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
+    let private clearCoatSampler =
+        sampler2d {
+            texture uniform?ClearCoatMap
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
     let gBufferShader (vert : Vertex) =
         fragment {
             let gamma  = 2.2
@@ -104,9 +124,9 @@ open Aardvark.Base.Rendering.Effects
             let metallic = uniform.Metallic * metallicSampler.Sample(vert.tc).X
             let roughness = uniform.Roughness * roughnessSampler.Sample(vert.tc).X
             let emission = uniform.EmissionColor * uniform.EmissionFactor * emissionSampler.Sample(vert.tc).XYZ
-            let clearCoat = 1.0
-            let clearCoatRougness = 0.2
-            return {vert with c = V4d(albedo,metallic); nr = V4d(vert.n.XYZ,  roughness); em = emission; cc = V2d(clearCoat,clearCoatRougness)}
+            let clearCoat = uniform.ClearCoat * clearCoatSampler.Sample(vert.tc).X
+            let clearCoatRoughness = uniform.ClearCoatRoughness * clearCoatRoughnessSampler.Sample(vert.tc).X
+            return {vert with c = V4d(albedo,metallic); nr = V4d(vert.n.XYZ,  roughness); em = emission; cc = V2d(clearCoat,clearCoatRoughness)}
         }
 
     let skyGBuffer (vert : Vertex) =

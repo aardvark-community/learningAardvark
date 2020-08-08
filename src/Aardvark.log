@@ -40,7 +40,7 @@
  0:     found: windows/AMD64/turbojpeg.dll
  0:     copy turbojpeg.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Service-6c07790d-9ae8-a533-bcc3-f89762a0781f-64\turbojpeg.dll
  0:     found: windows/x86/turbojpeg.dll
- 0:   Loading native dependencies for Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.012 s
+ 0:   Loading native dependencies for Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.014 s
  0:   Loading plugins ............................................................................
  0:     [LoadPlugins] Using plugin cache file name: C:\Users\Stefan\AppData\Roaming\Aardvark\cache\AardvarkRenderDemo_plugins.bin
  0:     [ReadCacheFile] loaded cache file: C:\Users\Stefan\AppData\Roaming\Aardvark\cache\AardvarkRenderDemo_plugins.bin
@@ -92,7 +92,7 @@
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\System.Text.Json.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.Loader.dll
- 0:   Loading plugins .................................................................... 0.046 s
+ 0:   Loading plugins .................................................................... 0.050 s
  0:   using cache dir: C:\Users\Stefan\AppData\Roaming\Aardvark\cache
  0:   Loading native dependencies for DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: remap.xml
@@ -158,7 +158,7 @@
  0:       D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
  0:       C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64
  0:     [Introspection] loaded native library DevIL from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64\DevIL.dll
- 0:   initializing PixImageDevil ......................................................... 0.026 s
+ 0:   initializing PixImageDevil ......................................................... 0.027 s
  0:   [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -398,7 +398,7 @@
  0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   initializing SceneGraphCompletenessCheck ........................................... 0.136 s
+ 0:   initializing SceneGraphCompletenessCheck ........................................... 0.141 s
  0:   [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
  0:   [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -419,7 +419,7 @@
  0:   [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.SceneGraph.IO, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing Loader ................................................................ 0.000 s
- 0: initializing aardvark ................................................................ 0.495 s
+ 0: initializing aardvark ................................................................ 0.510 s
  0: probing paths for nvapi64
  0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
  0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-32f42d4c-4cb0-88cf-a5d3-8c852c69d925-64
@@ -484,7 +484,7 @@
  0:   vendor:   "ATI Technologies Inc."
  0:   renderer: "AMD Radeon (TM) R9 380 Series"
  0:   version:  OpenGL 4.5.13559 / GLSL 4.6
- 0: initializing OpenGL runtime .......................................................... 0.128 s
+ 0: initializing OpenGL runtime .......................................................... 0.136 s
  0: WARNING: load
  0: probing paths for kernel32
  0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
@@ -527,13 +527,34 @@
  0: Aardvark.UI serves favicon.ico
  0: Aardvark.UI.Primitives serves spectrum.css
  0: Aardvark.UI.Primitives serves spectrum.js
- 1: [Server] created client for (92993ec8-31f5-0838-fe9b-a66c4fffddda/n7), mapping enabled
+ 1: [Server] created client for (1df50a14-e35c-ca3e-fd1a-8ac4a8c70f36/n7), mapping enabled
  1: [Client] 1: running n7
  2: [Scene] n7: created
  2: texture created
  2: result created
  2: texture created
  2: result created
+ 2: texture created
+ 2: result created
+ 2: texture created
+ 2: result created
+ 2: texture created
+ 2: result created
+ 2: WARNING: load
+ 2: result created
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-0 (423ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
  2: Compiling shader:
   1: #version 460
   2: #define __SHADER_STAGE__
@@ -544,168 +565,209 @@
   7: layout(std140, binding = 0)
   8: uniform Global
   9: {
- 10:     float AmbientIntensity;
- 11: };
- 12: 
- 13: 
- 14: layout(std140, binding = 1)
- 15: uniform PerView
- 16: {
- 17:     vec3 CameraLocation;
- 18: };
- 19: 
- 20: 
- 21: layout(binding = 0)
- 22: uniform sampler2D ambientOcc;
+ 10:     vec4 AlbedoColor;
+ 11:     float AlbedoFactor;
+ 12:     float ClearCoat;
+ 13:     float ClearCoatRoughness;
+ 14:     bool Discard;
+ 15:     float DisplacmentStrength;
+ 16:     vec3 EmissionColor;
+ 17:     float EmissionFactor;
+ 18:     float Metallic;
+ 19:     float NormalMapStrength;
+ 20:     float Roughness;
+ 21: };
+ 22: 
  23: 
- 24: layout(binding = 1)
- 25: uniform sampler2D clearCoat;
- 26: 
- 27: layout(binding = 2)
- 28: uniform sampler2D color;
- 29: 
- 30: layout(binding = 3)
- 31: uniform samplerCube diffuseIrradianceSampler;
- 32: 
- 33: layout(binding = 4)
- 34: uniform sampler2D emission;
- 35: 
- 36: layout(binding = 5)
- 37: uniform sampler2D normal;
+ 24: layout(std140, binding = 1)
+ 25: uniform PerModel
+ 26: {
+ 27:     mat4x4 ModelTrafo;
+ 28:     mat4x4 ModelTrafoInv;
+ 29: };
+ 30: 
+ 31: 
+ 32: layout(std140, binding = 2)
+ 33: uniform PerView
+ 34: {
+ 35:     mat4x4 ViewProjTrafo;
+ 36: };
+ 37: 
  38: 
- 39: layout(binding = 6)
- 40: uniform samplerCube prefilteredSpecColorSampler;
+ 39: layout(binding = 0)
+ 40: uniform sampler2D albedoSampler;
  41: 
- 42: layout(binding = 7)
- 43: uniform sampler2D samplerBRDFLtu;
+ 42: layout(binding = 1)
+ 43: uniform sampler2D clearCoatRoughnessSampler;
  44: 
- 45: layout(binding = 8)
- 46: uniform sampler2D wPos;
+ 45: layout(binding = 2)
+ 46: uniform sampler2D clearCoatSampler;
  47: 
- 48: vec3 SLEAardvarkRenderDemo_BRDF_fresnelSchlickRoughness_g0d3vPX7Vq1a7HjB2Xh00Q(vec3 f0, float roughness, float cosTheta)
- 49: {
- 50:     return (f0 + ((max(vec3((1.0 - roughness)), f0) - f0) * pow((1.0 - cosTheta), 5.0)));
- 51: }
- 52: 
+ 48: layout(binding = 3)
+ 49: uniform sampler2D emissionSampler;
+ 50: 
+ 51: layout(binding = 4)
+ 52: uniform sampler2D metallicSampler;
  53: 
- 54: vec3 SLEAardvarkRenderDemo_PBR_f0ClearCoatToSurface_Yt_fON0CP96EVMGbQBIX3w(vec3 f0Base)
- 55: {
- 56:     vec3 sqrootBase = sqrt(f0Base);
- 57:     vec3 baseIOR = ((1.0 + sqrootBase) / (1.0 - sqrootBase));
- 58:     return (((baseIOR - 1.5) / (baseIOR + 1.5)) * ((baseIOR - 1.5) / (baseIOR + 1.5)));
- 59: }
- 60: 
- 61: 
+ 54: layout(binding = 5)
+ 55: uniform sampler2D normalSampler;
+ 56: 
+ 57: layout(binding = 6)
+ 58: uniform sampler2D roughnessSampler;
+ 59: 
+ 60: layout(binding = 7)
+ 61: uniform sampler2D samplerDisp;
  62: 
- 63: #ifdef Vertex
- 64: layout(location = 0) in vec2 DiffuseColorCoordinates;
- 65: layout(location = 1) in vec4 Positions;
- 66: layout(location = 0) out vec2 fs_DiffuseColorCoordinates;
- 67: void main()
- 68: {
- 69:     fs_DiffuseColorCoordinates = DiffuseColorCoordinates;
- 70:     gl_Position = Positions;
- 71: }
- 72: 
- 73: #endif
- 74: 
- 75: 
- 76: 
- 77: #ifdef Fragment
- 78: 
- 79: vec3 helper(float clearCoat, float clearCoatRoughness, vec3 diffuse, float nDotV, vec3 r, vec3 specular)
- 80: {
- 81:     vec3 cckSA = (clearCoat * SLEAardvarkRenderDemo_BRDF_fresnelSchlickRoughness_g0d3vPX7Vq1a7HjB2Xh00Q(vec3(0.04, 0.04, 0.04), clearCoatRoughness, nDotV));
- 82:     vec2 ccbrdf = texture(samplerBRDFLtu, vec2(nDotV, clearCoatRoughness)).xy;
- 83:     return (((diffuse + specular) * (1.0 - cckSA)) + (textureLod(prefilteredSpecColorSampler, r, (clearCoatRoughness * 4.0)).xyz * ((cckSA * ccbrdf.x) + ccbrdf.y)));
- 84: }
- 85: 
- 86: vec3 SLEAardvarkRenderDemo_PBR_pBRAbientLight_s6VMmUft7EWB1LjAS00b0mg(vec3 f0, float roughness, float metallic, vec3 albedo, vec3 n, vec3 r, float nDotV, float clearCoat, float clearCoatRoughness)
- 87: {
- 88:     vec3 kSA = SLEAardvarkRenderDemo_BRDF_fresnelSchlickRoughness_g0d3vPX7Vq1a7HjB2Xh00Q(f0, roughness, nDotV);
- 89:     vec3 diffuse = ((((1.0 - kSA) * (1.0 - metallic)) * texture(diffuseIrradianceSampler, n).xyz) * albedo);
- 90:     vec2 brdf = texture(samplerBRDFLtu, vec2(nDotV, roughness)).xy;
- 91:     vec3 specular = (textureLod(prefilteredSpecColorSampler, r, (roughness * 4.0)).xyz * ((kSA * brdf.x) + brdf.y));
- 92:     return (((clearCoat == 0.0) ? (diffuse + specular) : helper(clearCoat, clearCoatRoughness, diffuse, nDotV, r, specular)) * AmbientIntensity);
- 93: }
- 94: 
- 95: vec3 SLEAardvarkRenderDemo_PBR_pBRAbient_vpRU00j6cKZ7_Dt3PgWA3EA(float metallic, float roughness, vec3 albedo, vec3 n, vec4 wPos, float clearCoat, float clearCoatRoughness)
- 96: {
- 97:     vec3 v = normalize((CameraLocation - wPos.xyz));
- 98:     vec3 f0Base = mix(vec3(0.04, 0.04, 0.04), albedo, metallic);
- 99:     return SLEAardvarkRenderDemo_PBR_pBRAbientLight_s6VMmUft7EWB1LjAS00b0mg(mix(f0Base, SLEAardvarkRenderDemo_PBR_f0ClearCoatToSurface_Yt_fON0CP96EVMGbQBIX3w(f0Base), clearCoat), roughness, metallic, albedo, n, reflect(n, (-v)), max(0.0, dot(n, v)), clearCoat, clearCoatRoughness);
-100: }
-101: 
-102: layout(location = 0) in vec2 fs_DiffuseColorCoordinates;
-103: layout(location = 0) out vec4 ColorsOut;
-104: void main()
-105: {
-106:     vec4 albedo = texture(color, fs_DiffuseColorCoordinates);
-107:     vec4 nr = texture(normal, fs_DiffuseColorCoordinates);
-108:     vec2 cc = texture(clearCoat, fs_DiffuseColorCoordinates).xy;
-109:     vec4 ColorsC = vec4(albedo.xyz, 1.0);
-110:     ColorsOut = vec4((texture(emission, fs_DiffuseColorCoordinates).xyz + ((albedo.w < 0.0) ? ColorsC.xyz : (SLEAardvarkRenderDemo_PBR_pBRAbient_vpRU00j6cKZ7_Dt3PgWA3EA(albedo.w, nr.w, ColorsC.xyz, normalize(nr.xyz), texture(wPos, fs_DiffuseColorCoordinates), cc.x, cc.y) * texture(ambientOcc, fs_DiffuseColorCoordinates).x))), 1.0);
-111: }
-112: 
-113: #endif
+ 63: 
+ 64: #ifdef Vertex
+ 65: 
+ 66: layout(location = 0) in vec2 DiffuseColorCoordinates;
+ 67: layout(location = 1) in vec3 DiffuseColorUTangents;
+ 68: layout(location = 2) in vec3 DiffuseColorVTangents;
+ 69: layout(location = 3) in vec3 Normals;
+ 70: layout(location = 4) in vec4 Positions;
+ 71: layout(location = 0) out vec2 tc_DiffuseColorCoordinates;
+ 72: layout(location = 1) out vec3 tc_DiffuseColorUTangents;
+ 73: layout(location = 2) out vec3 tc_DiffuseColorVTangents;
+ 74: layout(location = 3) out vec3 tc_Normals;
+ 75: layout(location = 4) out vec4 tc_WorldPosition;
+ 76: void main()
+ 77: {
+ 78:     tc_DiffuseColorCoordinates = DiffuseColorCoordinates;
+ 79:     tc_DiffuseColorUTangents = (vec4(DiffuseColorUTangents, 0.0) * ModelTrafo).xyz;
+ 80:     tc_DiffuseColorVTangents = (vec4(DiffuseColorVTangents, 0.0) * ModelTrafo).xyz;
+ 81:     tc_Normals = (ModelTrafoInv * vec4(Normals, 0.0)).xyz;
+ 82:     tc_WorldPosition = (Positions * ModelTrafo);
+ 83: }
+ 84: 
+ 85: #endif
+ 86: 
+ 87: 
+ 88: 
+ 89: #ifdef TessControl
+ 90: 
+ 91: layout(vertices = 3) out;
+ 92: layout(location = 0) in vec2 tc_DiffuseColorCoordinates[];
+ 93: layout(location = 1) in vec3 tc_DiffuseColorUTangents[];
+ 94: layout(location = 2) in vec3 tc_DiffuseColorVTangents[];
+ 95: layout(location = 3) in vec3 tc_Normals[];
+ 96: layout(location = 4) in vec4 tc_WorldPosition[];
+ 97: layout(location = 0) out vec2 te_DiffuseColorCoordinates[];
+ 98: layout(location = 1) out vec3 te_DiffuseColorUTangents[];
+ 99: layout(location = 2) out vec3 te_DiffuseColorVTangents[];
+100: layout(location = 3) out vec3 te_Normals[];
+101: layout(location = 4) out vec4 te_WorldPosition[];
+102: void main()
+103: {
+104:     if((gl_InvocationID == 0))
+105:     {
+106:         float level = ((DisplacmentStrength == 0.0) ? 1.0 : 32.0);
+107:         gl_TessLevelInner[0] = level;
+108:         gl_TessLevelOuter[0] = level;
+109:         gl_TessLevelOuter[1] = level;
+110:         gl_TessLevelOuter[2] = level;
+111:     }
+112:     te_DiffuseColorCoordinates[gl_InvocationID] = tc_DiffuseColorCoordinates[gl_InvocationID];
+113:     te_DiffuseColorUTangents[gl_InvocationID] = tc_DiffuseColorUTangents[gl_InvocationID];
+114:     te_DiffuseColorVTangents[gl_InvocationID] = tc_DiffuseColorVTangents[gl_InvocationID];
+115:     te_Normals[gl_InvocationID] = tc_Normals[gl_InvocationID];
+116:     te_WorldPosition[gl_InvocationID] = tc_WorldPosition[gl_InvocationID];
+117: }
+118: 
+119: #endif
+120: 
+121: 
+122: 
+123: #ifdef TessEval
+124: 
+125: layout(triangles, equal_spacing, ccw) in;
+126: layout(location = 0) in vec2 te_DiffuseColorCoordinates[];
+127: layout(location = 1) in vec3 te_DiffuseColorUTangents[];
+128: layout(location = 2) in vec3 te_DiffuseColorVTangents[];
+129: layout(location = 3) in vec3 te_Normals[];
+130: layout(location = 4) in vec4 te_WorldPosition[];
+131: layout(location = 0) out vec2 fs_DiffuseColorCoordinates;
+132: layout(location = 1) out vec3 fs_DiffuseColorUTangents;
+133: layout(location = 2) out vec3 fs_DiffuseColorVTangents;
+134: layout(location = 3) out vec3 fs_Normals;
+135: layout(location = 4) out vec4 fs_WorldPosition;
+136: void main()
+137: {
+138:     vec3 n = normalize((((gl_TessCoord.x * te_Normals[0]) + (gl_TessCoord.y * te_Normals[1])) + (gl_TessCoord.z * te_Normals[2])));
+139:     vec2 tc = (((gl_TessCoord.x * te_DiffuseColorCoordinates[0]) + (gl_TessCoord.y * te_DiffuseColorCoordinates[1])) + (gl_TessCoord.z * te_DiffuseColorCoordinates[2]));
+140:     vec4 wp = ((((gl_TessCoord.x * te_WorldPosition[0]) + (gl_TessCoord.y * te_WorldPosition[1])) + (gl_TessCoord.z * te_WorldPosition[2])) + vec4((n * ((-0.5 + texture(samplerDisp, tc).x) * DisplacmentStrength)), 0.0));
+141:     fs_DiffuseColorCoordinates = tc;
+142:     fs_DiffuseColorUTangents = (((gl_TessCoord.x * te_DiffuseColorUTangents[0]) + (gl_TessCoord.y * te_DiffuseColorUTangents[1])) + (gl_TessCoord.z * te_DiffuseColorUTangents[2]));
+143:     fs_DiffuseColorVTangents = (((gl_TessCoord.x * te_DiffuseColorVTangents[0]) + (gl_TessCoord.y * te_DiffuseColorVTangents[1])) + (gl_TessCoord.z * te_DiffuseColorVTangents[2]));
+144:     fs_Normals = n;
+145:     gl_Position = (wp * ViewProjTrafo);
+146:     fs_WorldPosition = wp;
+147: }
+148: 
+149: #endif
+150: 
+151: 
+152: 
+153: #ifdef Fragment
+154: 
+155: layout(location = 0) in vec2 fs_DiffuseColorCoordinates;
+156: layout(location = 1) in vec3 fs_DiffuseColorUTangents;
+157: layout(location = 2) in vec3 fs_DiffuseColorVTangents;
+158: layout(location = 3) in vec3 fs_Normals;
+159: layout(location = 4) in vec4 fs_WorldPosition;
+160: layout(location = 0) out vec4 ColorsOut;
+161: layout(location = 1) out vec2 ClearCoatOut;
+162: layout(location = 2) out vec3 EmissionOut;
+163: layout(location = 3) out vec4 NormalROut;
+164: layout(location = 4) out vec4 WorldPositionOut;
+165: void main()
+166: {
+167:     vec3 texNormal = normalize(((2.0 * texture(normalSampler, fs_DiffuseColorCoordinates).xyz) - vec3(1.0, 1.0, 1.0)));
+168:     if(Discard)
+169:     {
+170:         discard;
+171:     }
+172:     ClearCoatOut = vec2((ClearCoat * texture(clearCoatSampler, fs_DiffuseColorCoordinates).x), (ClearCoatRoughness * texture(clearCoatRoughnessSampler, fs_DiffuseColorCoordinates).x));
+173:     ColorsOut = vec4(pow(((texture(albedoSampler, fs_DiffuseColorCoordinates) * AlbedoColor).xyz * AlbedoFactor), vec3(2.2, 2.2, 2.2)), (Metallic * texture(metallicSampler, fs_DiffuseColorCoordinates).x));
+174:     EmissionOut = ((EmissionColor * EmissionFactor) * texture(emissionSampler, fs_DiffuseColorCoordinates).xyz);
+175:     NormalROut = vec4(mix(fs_Normals, normalize((((normalize(fs_Normals) * texNormal.z) + (normalize(fs_DiffuseColorUTangents) * texNormal.x)) + (normalize(fs_DiffuseColorVTangents) * texNormal.y))), NormalMapStrength).xyz, (Roughness * texture(roughnessSampler, fs_DiffuseColorCoordinates).x));
+176:     WorldPositionOut = fs_WorldPosition;
+177: }
+178: 
+179: #endif
 
+ 2: [GL] RenderObjects: +61/-0 (2484ms)
+ 2: using optimized native program
  2: texture created
- 2: result created
+ 2: [GL] RenderObjects: +1/-0 (2531ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2554ms)
+ 2: using optimized native program
  2: texture created
- 2: result created
  2: texture created
- 2: result created
- 2: WARNING: load
  2: result created
  2: WARNING: AdaptiveRenderingResultCube.compute
- 2: [GL] RenderObjects: +1/-0 (417ms)
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: result created
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-0 (8ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (10ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (4ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +61/-0 (1043ms)
- 2: using optimized native program
- 2: texture created
- 2: [GL] RenderObjects: +1/-0 (1096ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1114ms)
- 2: using optimized native program
- 2: texture created
- 2: texture created
- 2: result created
- 2: WARNING: AdaptiveRenderingResultCube.compute
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: texture created
- 2: result created
- 2: WARNING: AdaptiveRenderingResultCube.compute
- 2: [GL] RenderObjects: +1/-0 (9ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (15ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (6ms)
- 2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
@@ -718,43 +780,47 @@
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (36ms)
+ 2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (50ms)
+ 2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (5ms)
+ 2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (42ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (20ms)
+ 2: [GL] RenderObjects: +1/-0 (49ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: [GL] RenderObjects: +1/-0 (40ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (12ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (5ms)
  2: using optimized native program
  2: texture created
  2: result created
@@ -762,9 +828,9 @@
  2: using optimized native program
  2: texture created
  2: WARNING: load
- 2: [GL] RenderObjects: +60/-0 (14ms)
+ 2: [GL] RenderObjects: +60/-0 (13ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +2/-0 (3303ms)
+ 2: [GL] RenderObjects: +2/-0 (3343ms)
  2: using optimized native program
  2: texture created
  2: result created
@@ -772,26 +838,16 @@
  2: result created
  2: texture created
  2: result created
- 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: [GL] RenderObjects: +1/-0 (3ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (12ms)
+ 2: [GL] RenderObjects: +1/-0 (10ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (36ms)
+ 2: [GL] RenderObjects: +1/-0 (37ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3360ms)
+ 2: [GL] RenderObjects: +1/-0 (3411ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3408ms)
+ 2: [GL] RenderObjects: +1/-0 (3462ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (4164ms)
+ 2: [GL] RenderObjects: +1/-0 (4242ms)
  2: using optimized native program
- 3: WARNING: fff2cc
- 3: WARNING: b0a892
- 3: WARNING: ae8200
- 3: WARNING: ffff00
- 3: WARNING: f9cb9c
- 3: WARNING: fce5cd
- 3: WARNING: f4cccc
- 3: WARNING: fedc9d
- 3: WARNING: fedc9d
- 3: WARNING: fedc9d
- 4: [Client] 1: stopped
+ 3: [Client] 1: stopped
