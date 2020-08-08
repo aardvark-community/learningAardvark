@@ -346,7 +346,13 @@ module PBR =
         |_ ->  false, V3d(0.0), V3d(0.0), 1.0  //allways match any cases, otherwise fshade will give a cryptic error 
 
     [<ReflectedDefinition>]
-    let pbrDirect f0 roughness metallic (albedo : V3d) (wPos : V4d) v n nDotV light  = 
+    let f0ClearCoatToSurface (f0Base : V3d)=
+        let sqrootBase = sqrt f0Base 
+        let baseIOR =  (1.0+sqrootBase) /(1.0-sqrootBase)
+        ((baseIOR-1.5)/ (baseIOR+1.5))*((baseIOR-1.5)/ (baseIOR+1.5))
+
+    [<ReflectedDefinition>]
+    let pbrDirect f0 roughness metallic (albedo : V3d) (wPos : V4d) v n nDotV light (clearCoat : float)  clearCoatRoughness = 
            
         let (exists, lDir, illuminannce, specularAttenuation)  = getLightParams light wPos.XYZ n v roughness
       
@@ -368,26 +374,37 @@ module PBR =
                 let denominator = 4.0 * nDotV * nDotL |> max 0.001
                 let specular = numerator / denominator  
 
-                // add to outgoing radiance from single light
-                (diffuse + specular * specularAttenuation) * illuminannce * nDotL; 
+                if clearCoat = 0.0 then
+                    // add to outgoing radiance from single light
+                    (diffuse + specular * specularAttenuation) * illuminannce * nDotL
+                else
+                    let ccF0 = V3d(0.04)
+                    let ccndf = DistributionGGX n h clearCoatRoughness 
+                    let ccg = GeometrySmith false n v lDir clearCoatRoughness 
+                    let clearCoatKS = clearCoat * fresnelSchlick ccF0 hDotV  
+                    let clearCoatResponce = ccndf * ccg * clearCoatKS / denominator
+
+                    // add to outgoing radiance from single light
+                    ((diffuse + specular * specularAttenuation) * (V3d.One-clearCoatKS) + clearCoatResponce) * illuminannce * nDotL
+
 
             else V3d.Zero
         oi
 
     [<ReflectedDefinition>]
-    let pBRLightning metallic roughness albedo n (wPos : V4d) =
+    let pBRLightning metallic roughness albedo n (wPos : V4d) (clearCoat : float) clearCoatRoughness =
         
         let cameraPos = uniform.CameraLocation
 
         let v = cameraPos - wPos.XYZ |> Vec.normalize
-        let r = Vec.reflect -v n
 
         //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
-        let f0 = Lerp (V3d(0.04)) albedo metallic
+        let f0Base = Lerp (V3d(0.04)) albedo metallic
 
+        let f0 = Lerp f0Base (f0ClearCoatToSurface f0Base) clearCoat
         let nDotV = Vec.dot n v |>  max 0.0
         let light = uniform.Light
-        let directLight = pbrDirect f0 roughness metallic albedo wPos v n nDotV light
+        let directLight = pbrDirect f0 roughness metallic albedo wPos v n nDotV light clearCoat clearCoatRoughness
         directLight
 
     let lightingDeferred (frag : Fragment)  =
@@ -401,39 +418,51 @@ module PBR =
                     let albedo = frag.c.XYZ
                     let n = frag.n
                     let wPos = frag.wp
-                    pBRLightning metallic roughness albedo n wPos
+                    let clearCoat = frag.clearCoat
+                    pBRLightning metallic roughness albedo n wPos clearCoat frag.clearCoatRoughness
 
             return V4d(col, 1.0)
         }
 
     [<ReflectedDefinition>]
-    let pBRAbientLight f0 roughness metallic (albedo : V3d) n r nDotV =
+    let pBRAbientLight f0 roughness metallic (albedo : V3d) n r nDotV (clearCoat : float) clearCoatRoughness=
         let kSA = fresnelSchlickRoughness f0 roughness nDotV
         let kdA  = (1.0 - kSA) * (1.0 - metallic)
         let irradiance = diffuseIrradianceSampler.Sample(n).XYZ
-        let diffuse = irradiance * albedo
+        let diffuse = kdA * irradiance * albedo
 
         let maxReflectLod = 4.0
         let prefilteredColor = prefilteredSpecColorSampler.SampleLevel(r, roughness * maxReflectLod).XYZ
         let brdf = samplerBRDFLtu.Sample(V2d(nDotV, roughness)).XY
         let specular = prefilteredColor * (kSA * brdf.X + brdf.Y)
 
-        let ambient = kdA * diffuse + specular
+        let ambient = 
+            if clearCoat = 0.0 then
+                diffuse + specular
+            else
+                let ccf0 = V3d(0.04)
+                let cckSA = clearCoat* fresnelSchlickRoughness ccf0 clearCoatRoughness nDotV
+                let ccprefilteredColor = prefilteredSpecColorSampler.SampleLevel(r, clearCoatRoughness * maxReflectLod).XYZ
+                let ccbrdf = samplerBRDFLtu.Sample(V2d(nDotV, clearCoatRoughness)).XY
+                let ccspecular = ccprefilteredColor * (cckSA * ccbrdf.X + ccbrdf.Y)
+                (diffuse + specular) * (1.0 - cckSA) + ccspecular
+
         let ambientIntensity = uniform.AmbientIntensity
         ambient * ambientIntensity
 
     [<ReflectedDefinition>]
-    let pBRAbient metallic roughness albedo n (wPos : V4d) =
+    let pBRAbient metallic roughness albedo n (wPos : V4d) (clearCoat : float) clearCoatRoughness =
 
         let cameraPos = uniform.CameraLocation
         let v = cameraPos - wPos.XYZ |> Vec.normalize
         let r = Vec.reflect -v n
 
         //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
-        let f0 = Lerp (V3d(0.04)) albedo metallic
+        let f0Base = Lerp (V3d(0.04)) albedo metallic
+        let f0 = Lerp f0Base (f0ClearCoatToSurface f0Base) clearCoat
 
         let nDotV = Vec.dot n v |>  max 0.0
-        let ambient = pBRAbientLight f0 roughness metallic albedo n r nDotV
+        let ambient = pBRAbientLight f0 roughness metallic albedo n r nDotV clearCoat clearCoatRoughness
         ambient   
 
 
@@ -449,7 +478,7 @@ module PBR =
                     let albedo = frag.c.XYZ
                     let n = frag.n
                     let wPos = frag.wp
-                    let c = pBRAbient metallic roughness albedo n wPos
+                    let c = pBRAbient metallic roughness albedo n wPos frag.clearCoat frag.clearCoatRoughness
                     c * occlusion
 
             let em = frag.emission
