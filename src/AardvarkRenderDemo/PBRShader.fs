@@ -347,8 +347,8 @@ module PBR =
 
     [<ReflectedDefinition>]
     let f0ClearCoatToSurface (f0Base : V3d)=
-        let sqrootBase = sqrt f0Base 
-        let baseIOR =  (1.0+sqrootBase) /(1.0-sqrootBase)
+        let sqrtBase = sqrt f0Base 
+        let baseIOR =  (1.0+sqrtBase) / (1.0-sqrtBase)
         ((baseIOR-1.5)/ (baseIOR+1.5))*((baseIOR-1.5)/ (baseIOR+1.5))
 
     [<ReflectedDefinition>]

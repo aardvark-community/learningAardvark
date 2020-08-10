@@ -19,7 +19,9 @@ module BRDF =
 
     [<ReflectedDefinition>] //add this attribute to  make the function callable in the shader
     let  fresnelSchlick (f0 : V3d) (cosTheta : float)=
-        f0 + (1.0 - f0) * pow (1.0 - cosTheta) 5.0
+        //usually  set f90 to 1.0 but fade out if f0 < 0.02
+        let f90 = Vec.dot f0  (V3d(50.0  * 0.33)) |> saturate
+        f0 + (f90 - f0) * pow (1.0 - cosTheta) 5.0
 
     [<ReflectedDefinition>]
     let DistributionGGX (n : V3d)  h roughness  =
@@ -52,7 +54,9 @@ module BRDF =
 
     [<ReflectedDefinition>] 
     let  fresnelSchlickRoughness (f0 : V3d) (roughness : float) (cosTheta : float)=
-        let r = V3d.Max(V3d(1.0 - roughness), f0)
+        //usually  set f90 to 1.0 but fade out if f0 < 0.02
+        let f90 = Vec.dot f0  (V3d(50.0  * 0.33) ) |> saturate
+        let r = V3d.Max(V3d(f90 - roughness), f0)
         f0 + (r  - f0) * pow (1.0 - cosTheta) 5.0
 
 module IBL =
