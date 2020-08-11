@@ -92,6 +92,7 @@ type PBRMaterial = {
     albedo : TextureMappedColor
     emission : TextureMappedColor
     normal : TextureMappedValue
+    clearCoatNormal : TextureMappedValue
     discard : bool
     displacment : TextureMappedValue
 }

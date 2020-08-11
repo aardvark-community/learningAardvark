@@ -35,6 +35,13 @@ open Aardvark.Base.Rendering.Effects
 
         member  x.ClearCoatRoughness :  float =  x?ClearCoatRoughness
 
+        member  x.ClearCoatNormalStrength :  float =  x?ClearCoatNormalStrength
+       
+        member  x.UseNormalsForClearCoat :  bool =  x?UseNormalsForClearCoat
+
+        member x.NormalMapStrength : float =  x?NormalMapStrength
+
+
     let internal skyBoxTrafo (v : Vertex) =
         vertex {
             let wp = uniform.ModelTrafo * v.pos
@@ -62,8 +69,8 @@ open Aardvark.Base.Rendering.Effects
         [<Tangent>]         t       : V3d
         [<Color>]           c       : V4d
         [<TexCoord>]        tc      : V2d
-        [<Semantic("Emission")>] em : V3d
-        [<Semantic("ClearCoat")>] cc : V2d
+        [<Semantic("Emission")>] em : V4d
+        [<Semantic("ClearCoat")>] cc : V4d
     }
 
     let private skySampler =
@@ -126,7 +133,7 @@ open Aardvark.Base.Rendering.Effects
             let emission = uniform.EmissionColor * uniform.EmissionFactor * emissionSampler.Sample(vert.tc).XYZ
             let clearCoat = uniform.ClearCoat * clearCoatSampler.Sample(vert.tc).X
             let clearCoatRoughness = uniform.ClearCoatRoughness * clearCoatRoughnessSampler.Sample(vert.tc).X
-            return {vert with c = V4d(albedo,metallic); nr = V4d(vert.n.XYZ,  roughness); em = emission; cc = V2d(clearCoat,clearCoatRoughness)}
+            return {vert with c = V4d(albedo,metallic); nr = V4d(vert.n.XYZ,  roughness); em = V4d(emission,clearCoatRoughness); cc = V4d(vert.cc.XYZ,clearCoat)}
         }
 
     let skyGBuffer (vert : Vertex) =
@@ -138,9 +145,51 @@ open Aardvark.Base.Rendering.Effects
   
             let col = texColor * uniform.SkyMapIntensity
 
-            return {vert with c = V4d(col,-1.0); nr = V4d(vert.n.XYZ,  -1.0); em = V3d.OOO; cc = V2d.OO}
+            return {vert with c = V4d(col,-1.0); nr = V4d(vert.n.XYZ,  -1.0); em = V4d.OOOO; cc = V4d.OOOO}
         }
-  
+
+    let private normalSampler =
+        sampler2d {
+            texture uniform?NormalMapTexture
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
+    let private clearCoatNormalSampler =
+        sampler2d {
+            texture uniform?ClearCoatNormalMapTexture
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
+    let internal normalMap (v : Vertex) =
+        fragment {
+            let texColor = normalSampler.Sample(v.tc).XYZ
+            let texNormal = (2.0 * texColor - V3d.III) |> Vec.normalize
+
+            let n = v.n.Normalized * texNormal.Z + v.b.Normalized * texNormal.X + v.t.Normalized * texNormal.Y |> Vec.normalize
+
+            let strength = uniform.NormalMapStrength
+            let n2 = Lerp v.n n strength
+
+            let ccN =
+                if uniform.UseNormalsForClearCoat then
+                    n
+                else
+                    let cctexColor =  clearCoatNormalSampler.Sample(v.tc).XYZ
+                    let cctexNormal = (2.0 * cctexColor - V3d.III) |> Vec.normalize
+
+                    v.n.Normalized * cctexNormal.Z + v.b.Normalized * cctexNormal.X + v.t.Normalized * cctexNormal.Y |> Vec.normalize  
+
+            let ccstrength = uniform.ClearCoatNormalStrength
+            let ccn2 = Lerp v.n ccN ccstrength
+
+            return { v with n = n2; cc = V4d(ccn2, 0.0) }
+        }
+
+
 module GeometryBuffer  =
 
     //Render task for the Geometry-buffer pass
@@ -152,8 +201,8 @@ module GeometryBuffer  =
                 Sym.ofString "WorldPosition", RenderbufferFormat.Rgba32f
                 DefaultSemantic.Depth, RenderbufferFormat.DepthComponent24
                 GBufferRendering.Semantic.NormalR, RenderbufferFormat.Rgba32f
-                GBufferRendering.Semantic.Emission, RenderbufferFormat.Rgb16f
-                GBufferRendering.Semantic.ClearCoat, RenderbufferFormat.Rg16f
+                GBufferRendering.Semantic.Emission, RenderbufferFormat.Rgba16f
+                GBufferRendering.Semantic.ClearCoat, RenderbufferFormat.Rgba16f
              ]
 
         let skyBox =
@@ -173,7 +222,7 @@ module GeometryBuffer  =
             do! displacemntMap.displacementMap
             do! DefaultSurfaces.vertexColor
             do! AlbedoColor.albedoColor
-            do! NormalMap.normalMap 
+            do! GBufferRendering.normalMap 
             do! GBufferRendering.gBufferShader
             }
         |> (Sg.andAlso <| skyBox )
@@ -253,6 +302,7 @@ module GBuffer =
         [<Semantic("Emission")>] emission    : V3d
         [<Semantic("ClearCoat")>] clearCoat    : float
         [<Semantic("ClearCoatRoughness")>] clearCoatRoughness    : float
+        [<Semantic("ClearCoatNormal")>] clearCoatNormal    : V3d
     }
 
     let getGBufferData (vert : Vertex) =
@@ -261,9 +311,10 @@ module GBuffer =
             let wPos = wPos.Sample(vert.tc)
             let nr  = normal.Sample(vert.tc)
             let n = nr.XYZ |> Vec.normalize
-            let em = emission.Sample(vert.tc).XYZ 
-            let cc  = clearCoat.Sample(vert.tc).XY
-            return {wp =  wPos; n = n; c = V4d(albedo.XYZ,1.0);  tc = vert.tc; metallic = albedo.W; roughness = nr.W; emission =  em; clearCoat =  cc.X; clearCoatRoughness = cc.Y}
+            let em = emission.Sample(vert.tc)
+            let cc  = clearCoat.Sample(vert.tc)
+            let clearCoatNormal = cc.XYZ |> Vec.normalize
+            return {wp =  wPos; n = n; c = V4d(albedo.XYZ,1.0);  tc = vert.tc; metallic = albedo.W; roughness = nr.W; emission =  em.XYZ; clearCoat =  cc.W; clearCoatRoughness = em.W; clearCoatNormal = clearCoatNormal}
         }
 
     let shadowDeferred  (vert : Vertex) =

@@ -4,14 +4,14 @@
   "value": {
     "cameraViewParams": {
       "Item1": {
-        "X": -11.057509100204118,
-        "Y": 2.227045451170579,
-        "Z": -9.592836353645737
+        "X": 0.0,
+        "Y": 2.0,
+        "Z": -8.450518970337276
       },
       "Item2": {
-        "X": 0.9761416076328303,
-        "Y": 0.11323168283496206,
-        "Z": 0.18527317088654818
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 1.0
       },
       "Item3": {
         "X": 0.0,
@@ -23,32 +23,23 @@
       "count": 1,
       "items": [
         {
-          "Item1": 26,
+          "Item1": 0,
           "Item2": {
-            "Case": "DiskLight",
+            "Case": "DirectionalLight",
             "Item": {
-              "lightPosition": {
-                "W": 1.0,
-                "X": 1.0,
-                "Y": 1.6,
-                "Z": -8.2
-              },
               "lightDirection": {
                 "W": 0.0,
-                "X": 1.0,
-                "Y": 0.0,
-                "Z": 0.0
+                "X": 0.0,
+                "Y": -1.0,
+                "Z": 1.0
               },
               "color": {
-                "B": 0.0,
-                "G": 0.0,
+                "B": 1.0,
+                "G": 1.0,
                 "R": 1.0
               },
-              "intensity": 10.0,
-              "cutOffInner": 30.0,
-              "fallOff": 10.0,
-              "castsShadow": true,
-              "radius": 0.1
+              "intensity": 1.0,
+              "castsShadow": true
             }
           }
         }
@@ -56,97 +47,47 @@
     },
     "enviorment": {
       "skyMap": "GrandCanyon_C_YumaPoint\\GCanyon_C_YumaPoint_3k.hdr",
-      "skyMapRotation": 3.8955748904513436,
-      "skyMapIntensity": 0.01,
-      "ambientLightIntensity": 0.31622776601683794,
+      "skyMapRotation": 3.141592653589793,
+      "skyMapIntensity": 1.0,
+      "ambientLightIntensity": 1.0,
       "occlusionSettings": {
-        "occlusionStrength": 2.0,
+        "occlusionStrength": 1.0,
         "scale": 1.0,
-        "radius": 0.46,
+        "radius": 0.2,
         "samples": 32,
-        "threshold": 0.3,
+        "threshold": 0.2,
         "sigma": 2.0,
         "sharpness": 1.0
       },
-      "lightProbePosition": {
-        "Some": {
-          "X": -3.0,
-          "Y": 3.0,
-          "Z": 0.0
-        }
-      }
+      "lightProbePosition": null
     },
-    "expousure": 4.365158322401661,
+    "expousure": 1.0,
     "objects": {
-      "count": 2,
+      "count": 1,
       "items": {
-        "length": 2,
+        "length": 1,
         "array": [
           {
             "Item1": "SLE_Gnom4",
             "Item2": {
               "name": "SLE_Gnom4",
               "file": "SLE_Gnom4.obj",
-              "scale": 1.2,
+              "scale": 1.0,
               "translation": {
-                "X": 2.5,
+                "X": 0.0,
                 "Y": 0.0,
-                "Z": 1.0
+                "Z": 0.0
               },
               "rotation": {
                 "X": 0.0,
-                "Y": 45.0,
+                "Y": 0.0,
                 "Z": 0.0
               },
               "materials": {
                 "count": 11,
                 "items": [
                   {
-                    "Item1": "lips",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.41
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2.jpg"
-                        },
-                        "color": {
-                          "B": 0.4980392156862745,
-                          "G": 0.6352941176470588,
-                          "R": 0.7607843137254902
-                        },
-                        "factor": 0.85
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 0.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2_n.png"
-                        },
-                        "factor": 1.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "lashes",
+                    "Item1": "skin",
                     "Item2": {
                       "metallic": {
                         "fileName": null,
@@ -156,89 +97,13 @@
                         "fileName": null,
                         "factor": 0.8
                       },
-                      "albedo": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 0.0
-                      },
-                      "normal": {
+                      "clearCoat": {
                         "fileName": null,
                         "factor": 1.0
                       },
-                      "discard": true,
-                      "displacment": {
+                      "clearCoatRoughness": {
                         "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "skin",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.41
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2.jpg"
-                        },
-                        "color": {
-                          "B": 0.4980392156862745,
-                          "G": 0.6352941176470588,
-                          "R": 0.7607843137254902
-                        },
-                        "factor": 0.85
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 0.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2_n.png"
-                        },
-                        "factor": 1.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "nails",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.36
+                        "factor": 0.2
                       },
                       "albedo": {
                         "fileName": {
@@ -249,7 +114,7 @@
                           "G": 1.0,
                           "R": 1.0
                         },
-                        "factor": 0.45
+                        "factor": 1.0
                       },
                       "emission": {
                         "fileName": null,
@@ -258,13 +123,17 @@
                           "G": 0.0,
                           "R": 0.0
                         },
-                        "factor": 0.0
+                        "factor": 1.0
                       },
                       "normal": {
                         "fileName": {
                           "Some": "SLE_Gnom2_n.png"
                         },
                         "factor": 1.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
                       },
                       "discard": false,
                       "displacment": {
@@ -282,16 +151,22 @@
                       },
                       "roughness": {
                         "fileName": null,
-                        "factor": 0.16
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
                       },
                       "albedo": {
-                        "fileName": {
-                          "Some": "SLE_EYE.jpg"
-                        },
+                        "fileName": null,
                         "color": {
-                          "B": 0.9333333333333333,
-                          "G": 0.9647058823529412,
-                          "R": 0.9921568627450981
+                          "B": 0.9843140244483948,
+                          "G": 0.9843140244483948,
+                          "R": 0.9764710068702698
                         },
                         "factor": 1.0
                       },
@@ -302,11 +177,15 @@
                           "G": 0.0,
                           "R": 0.0
                         },
-                        "factor": 0.0
+                        "factor": 1.0
                       },
                       "normal": {
                         "fileName": null,
-                        "factor": 0.58
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
                       },
                       "discard": false,
                       "displacment": {
@@ -324,11 +203,71 @@
                       },
                       "roughness": {
                         "fileName": null,
-                        "factor": 0.46
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "thounge",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
                       },
                       "albedo": {
                         "fileName": {
-                          "Some": "SLE_EYE.jpg"
+                          "Some": "SLE_Gnom2.jpg"
                         },
                         "color": {
                           "B": 1.0,
@@ -344,13 +283,19 @@
                           "G": 0.0,
                           "R": 0.0
                         },
-                        "factor": 0.0
-                      },
-                      "normal": {
-                        "fileName": null,
                         "factor": 1.0
                       },
-                      "discard": true,
+                      "normal": {
+                        "fileName": {
+                          "Some": "SLE_Gnom2_n.png"
+                        },
+                        "factor": 1.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
                       "displacment": {
                         "fileName": null,
                         "factor": 0.0
@@ -358,7 +303,7 @@
                     }
                   },
                   {
-                    "Item1": "iris",
+                    "Item1": "innerMount",
                     "Item2": {
                       "metallic": {
                         "fileName": null,
@@ -366,27 +311,43 @@
                       },
                       "roughness": {
                         "fileName": null,
-                        "factor": 0.33
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
                       },
                       "albedo": {
-                        "fileName": null,
+                        "fileName": {
+                          "Some": "SLE_Gnom2.jpg"
+                        },
                         "color": {
-                          "B": 0.03137254901960784,
-                          "G": 0.396078431372549,
-                          "R": 0.15294117647058825
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
                         },
                         "factor": 1.0
                       },
                       "emission": {
                         "fileName": null,
                         "color": {
-                          "B": 0.03137254901960784,
-                          "G": 0.396078431372549,
-                          "R": 0.15294117647058825
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
                         },
-                        "factor": 1.63
+                        "factor": 1.0
                       },
                       "normal": {
+                        "fileName": {
+                          "Some": "SLE_Gnom2_n.png"
+                        },
+                        "factor": 1.0
+                      },
+                      "clearCoatNormal": {
                         "fileName": null,
                         "factor": 0.0
                       },
@@ -402,22 +363,30 @@
                     "Item2": {
                       "metallic": {
                         "fileName": null,
-                        "factor": 1.0
+                        "factor": 0.0
                       },
                       "roughness": {
                         "fileName": null,
-                        "factor": 0.17
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
                       },
                       "albedo": {
                         "fileName": {
                           "Some": "SLE_Gnom2.jpg"
                         },
                         "color": {
-                          "B": 0.4980392156862745,
-                          "G": 0.6352941176470588,
-                          "R": 0.7607843137254902
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
                         },
-                        "factor": 0.43
+                        "factor": 1.0
                       },
                       "emission": {
                         "fileName": null,
@@ -426,7 +395,7 @@
                           "G": 0.0,
                           "R": 0.0
                         },
-                        "factor": 0.0
+                        "factor": 1.0
                       },
                       "normal": {
                         "fileName": {
@@ -434,93 +403,9 @@
                         },
                         "factor": 1.0
                       },
-                      "discard": false,
-                      "displacment": {
+                      "clearCoatNormal": {
                         "fileName": null,
                         "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "thounge",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.41
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2.jpg"
-                        },
-                        "color": {
-                          "B": 0.4980392156862745,
-                          "G": 0.6352941176470588,
-                          "R": 0.7607843137254902
-                        },
-                        "factor": 0.85
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 0.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2_n.png"
-                        },
-                        "factor": 1.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "innerMount",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.41
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2.jpg"
-                        },
-                        "color": {
-                          "B": 0.4980392156862745,
-                          "G": 0.6352941176470588,
-                          "R": 0.7607843137254902
-                        },
-                        "factor": 0.85
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 0.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2_n.png"
-                        },
-                        "factor": 1.0
                       },
                       "discard": false,
                       "displacment": {
@@ -540,16 +425,24 @@
                         "fileName": null,
                         "factor": 0.8
                       },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
                       "albedo": {
                         "fileName": {
-                          "Some": "SLE_EYE.jpg"
+                          "Some": "SLE_Gnom2.jpg"
                         },
                         "color": {
                           "B": 1.0,
                           "G": 1.0,
                           "R": 1.0
                         },
-                        "factor": 0.77
+                        "factor": 1.0
                       },
                       "emission": {
                         "fileName": null,
@@ -558,11 +451,233 @@
                           "G": 0.0,
                           "R": 0.0
                         },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": {
+                          "Some": "SLE_Gnom2_n.png"
+                        },
+                        "factor": 1.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
                         "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "lashes",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
                       },
                       "normal": {
                         "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "nails",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_Gnom2.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
                         "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": {
+                          "Some": "SLE_Gnom2_n.png"
+                        },
+                        "factor": 1.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "lips",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_Gnom2.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": {
+                          "Some": "SLE_Gnom2_n.png"
+                        },
+                        "factor": 1.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "iris",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.2901960015296936,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
                       },
                       "discard": false,
                       "displacment": {
@@ -575,2589 +690,33 @@
               },
               "currentMaterial": "skin",
               "materialLinks": {
-                "count": 3,
-                "items": [
-                  {
-                    "Item1": "lips",
-                    "Item2": "skin"
-                  },
-                  {
-                    "Item1": "thounge",
-                    "Item2": "skin"
-                  },
-                  {
-                    "Item1": "innerMount",
-                    "Item2": "skin"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "Item1": "level19",
-            "Item2": {
-              "name": "level19",
-              "file": "..\\..\\..\\..\\Downloads\\level19\\level19.obj",
-              "scale": 1.0,
-              "translation": {
-                "X": 0.0,
-                "Y": 0.0,
-                "Z": 0.0
-              },
-              "rotation": {
-                "X": 90.0,
-                "Y": 180.0,
-                "Z": 0.0
-              },
-              "materials": {
-                "count": 55,
-                "items": [
-                  {
-                    "Item1": "Ceiling02",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.5
-                      },
-                      "albedo": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Railing",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\greasy-metal-pan1-metal.png"
-                        },
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\greasy-metal-pan1-roughness_i.png"
-                        },
-                        "factor": 0.66
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\greasy-metal-pan1-albedo_i.png"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\greasy-metal-pan1-normal.png"
-                        },
-                        "factor": 0.59
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "CentralColumns",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_CenColumns_r.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_CenColumns.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_CenColumns_n.jpg"
-                        },
-                        "factor": 0.1
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Pipe08",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\greasy-metal-pan1-metal.png"
-                        },
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\greasy-metal-pan1-roughness_i.png"
-                        },
-                        "factor": 0.66
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\greasy-metal-pan1-albedo_i.png"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\greasy-metal-pan1-normal.png"
-                        },
-                        "factor": 0.59
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Pipe07",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Metalness.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Roughness.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Color.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.6
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Normal.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Sign04",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_AD_01.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "TunnelFloor",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_r.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Concrete01.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_n.jpg"
-                        },
-                        "factor": 0.15
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "DoorsGlass",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.1
-                      },
-                      "albedo": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.054901961237192154,
-                          "G": 0.054901961237192154,
-                          "R": 0.886274516582489
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.054901960784313725,
-                          "G": 0.054901960784313725,
-                          "R": 0.8862745098039215
-                        },
-                        "factor": 0.36
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": true,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Void",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "albedo": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.05882352963089943,
-                          "G": 0.05882352963089943,
-                          "R": 0.05882352963089943
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Column01",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.4
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Columns.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Column_n.jpg"
-                        },
-                        "factor": 0.1
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Pipe09a",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Metalness.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Roughness.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Color.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.6
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Normal.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Vents",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.5
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Concrete01.jpg"
-                        },
-                        "color": {
-                          "B": 0.5490196347236633,
-                          "G": 0.6196078658103943,
-                          "R": 0.7568627595901489
-                        },
-                        "factor": 0.72
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Concrete01.jpg"
-                        },
-                        "factor": 0.1
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Metal01",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Metalness.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Roughness.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Color.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.6
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Normal.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "DialLED",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.054901960784313725,
-                          "G": 0.054901960784313725,
-                          "R": 0.8862745098039215
-                        },
-                        "factor": 0.61
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.054901960784313725,
-                          "G": 0.054901960784313725,
-                          "R": 0.8862745098039215
-                        },
-                        "factor": 0.99
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "TunnelTrim",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.5
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Concrete01.jpg"
-                        },
-                        "color": {
-                          "B": 0.5568627715110779,
-                          "G": 0.5568627715110779,
-                          "R": 0.5568627715110779
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_n.jpg"
-                        },
-                        "factor": 0.1
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Sign01",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_AD_03.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": {
-                          "Some": "D:\\Users\\Stefan\\Downloads\\level19\\Maps\\L18_AD_03.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.1
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Doors",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.4
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Doors.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Doors_n.jpg"
-                        },
-                        "factor": 0.1
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Steps",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_r.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Concrete01.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_n.jpg"
-                        },
-                        "factor": 0.15
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "GlowSticks",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.054901960784313725,
-                          "G": 0.054901960784313725,
-                          "R": 0.8862745098039215
-                        },
-                        "factor": 0.61
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.054901960784313725,
-                          "G": 0.054901960784313725,
-                          "R": 0.8862745098039215
-                        },
-                        "factor": 0.99
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "WallInset",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_r.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Concrete01.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_n.jpg"
-                        },
-                        "factor": 0.15
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Panel01",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.4
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Panel01.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Panel01_n.jpg"
-                        },
-                        "factor": 0.1
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Sign02",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_AD_02.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "StepsLights",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.803921568627451,
-                          "G": 0.8980392156862745,
-                          "R": 0.9882352941176471
-                        },
-                        "factor": 0.15
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.8274509803921568,
-                          "G": 0.9176470588235294,
-                          "R": 0.8509803921568627
-                        },
-                        "factor": 0.59
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Sign03",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_AD_01.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Glow-MainDoor",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "albedo": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.05882352963089943,
-                          "G": 0.05882352963089943,
-                          "R": 0.05882352963089943
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "ScreenFrame",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_r.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Concrete01.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_n.jpg"
-                        },
-                        "factor": 0.15
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "FlooringTrimGlow",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "albedo": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.05882352963089943,
-                          "G": 0.05882352963089943,
-                          "R": 0.05882352963089943
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "CatWalk",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.42
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Flr01.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Wall02",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_r.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL01.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_n.jpg"
-                        },
-                        "factor": 0.15
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Concrete01",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_r.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Concrete01.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_n.jpg"
-                        },
-                        "factor": 0.15
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Column02",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.4
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Columns.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Column_n.jpg"
-                        },
-                        "factor": 0.1
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Buttress",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_r.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Concrete01.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_n.jpg"
-                        },
-                        "factor": 0.15
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "StepsSides",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_r.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Concrete01.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_n.jpg"
-                        },
-                        "factor": 0.15
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Metal02",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\greasy-metal-pan1-metal.png"
-                        },
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\greasy-metal-pan1-roughness_i.png"
-                        },
-                        "factor": 0.66
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\greasy-metal-pan1-albedo_i.png"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\greasy-metal-pan1-normal.png"
-                        },
-                        "factor": 0.59
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Column03",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.4
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Columns.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Column_n.jpg"
-                        },
-                        "factor": 0.1
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Ceiling",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Flr01.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Pipe09",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\greasy-metal-pan1-metal.png"
-                        },
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\greasy-metal-pan1-roughness_i.png"
-                        },
-                        "factor": 0.66
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\greasy-metal-pan1-albedo_i.png"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\greasy-metal-pan1-normal.png"
-                        },
-                        "factor": 0.59
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Pipe02",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Metalness.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Roughness.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Color.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.6
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Normal.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "CentralPillarsBraces",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_CenColumns_r.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_CenColumns.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_CenColumns_n.jpg"
-                        },
-                        "factor": 0.1
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "ButtressSigns",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.5
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Details.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Details_n.jpg"
-                        },
-                        "factor": 0.05
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Detail01",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.4
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Details.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Details_n.jpg"
-                        },
-                        "factor": 0.15
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "LargePipes02",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Metalness.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Roughness.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Color.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.6
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Normal.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "WallButrress",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.5
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Details.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Details_n.jpg"
-                        },
-                        "factor": 0.1
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Neon",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.803921568627451,
-                          "G": 0.8980392156862745,
-                          "R": 0.9882352941176471
-                        },
-                        "factor": 0.61
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.8274509803921568,
-                          "G": 0.9176470588235294,
-                          "R": 0.8509803921568627
-                        },
-                        "factor": 3.46
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "ScreenGlass",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.1
-                      },
-                      "albedo": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": true,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "CatWalkFraming",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Metalness.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Roughness.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Color.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.6
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\Metal022_2K_Normal.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Walls03",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_r.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL01.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_n.jpg"
-                        },
-                        "factor": 0.15
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "LadderEntrance",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.4
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Details.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Details_n.jpg"
-                        },
-                        "factor": 0.1
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "MainDoorFrame",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.5
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Doors.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Doors_n.jpg"
-                        },
-                        "factor": 0.1
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Wall01",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.28
-                      },
-                      "albedo": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_n.jpg"
-                        },
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "ColumnLights",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.803921568627451,
-                          "G": 0.8980392156862745,
-                          "R": 0.9882352941176471
-                        },
-                        "factor": 0.61
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.8274509803921568,
-                          "G": 0.9176470588235294,
-                          "R": 0.8509803921568627
-                        },
-                        "factor": 0.88
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "TunnelWall",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_r.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Concrete01.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_n.jpg"
-                        },
-                        "factor": 0.15
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Cables01",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.4
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Concrete01.jpg"
-                        },
-                        "color": {
-                          "B": 0.2980392156862745,
-                          "G": 0.2980392156862745,
-                          "R": 0.2980392156862745
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_n.jpg"
-                        },
-                        "factor": 0.1
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Floor01",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Flr01_m.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Flr01_r.jpg"
-                        },
-                        "factor": 1.0
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Flr01_a.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.58
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Buttressdrk",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.5
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_Concrete01.jpg"
-                        },
-                        "color": {
-                          "B": 0.5568627715110779,
-                          "G": 0.5568627715110779,
-                          "R": 0.5568627715110779
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "..\\..\\..\\..\\Downloads\\level19\\Maps\\L18_WaLL_n.jpg"
-                        },
-                        "factor": 0.1
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  }
-                ]
-              },
-              "currentMaterial": "Wall01",
-              "materialLinks": {
-                "count": 21,
-                "items": [
-                  {
-                    "Item1": "Railing",
-                    "Item2": "Metal02"
-                  },
-                  {
-                    "Item1": "Pipe08",
-                    "Item2": "Metal02"
-                  },
-                  {
-                    "Item1": "Pipe07",
-                    "Item2": "Metal01"
-                  },
-                  {
-                    "Item1": "TunnelFloor",
-                    "Item2": "Concrete01"
-                  },
-                  {
-                    "Item1": "Pipe09a",
-                    "Item2": "Metal01"
-                  },
-                  {
-                    "Item1": "TunnelTrim",
-                    "Item2": "Buttressdrk"
-                  },
-                  {
-                    "Item1": "Steps",
-                    "Item2": "Concrete01"
-                  },
-                  {
-                    "Item1": "GlowSticks",
-                    "Item2": "DialLED"
-                  },
-                  {
-                    "Item1": "WallInset",
-                    "Item2": "Concrete01"
-                  },
-                  {
-                    "Item1": "ScreenFrame",
-                    "Item2": "Concrete01"
-                  },
-                  {
-                    "Item1": "Column02",
-                    "Item2": "Column01"
-                  },
-                  {
-                    "Item1": "Buttress",
-                    "Item2": "Concrete01"
-                  },
-                  {
-                    "Item1": "StepsSides",
-                    "Item2": "Concrete01"
-                  },
-                  {
-                    "Item1": "Column03",
-                    "Item2": "Column01"
-                  },
-                  {
-                    "Item1": "Pipe09",
-                    "Item2": "Metal02"
-                  },
-                  {
-                    "Item1": "Pipe02",
-                    "Item2": "Metal01"
-                  },
-                  {
-                    "Item1": "CentralPillarsBraces",
-                    "Item2": "CentralColumns"
-                  },
-                  {
-                    "Item1": "LargePipes02",
-                    "Item2": "Metal01"
-                  },
-                  {
-                    "Item1": "CatWalkFraming",
-                    "Item2": "Metal01"
-                  },
-                  {
-                    "Item1": "Walls03",
-                    "Item2": "Wall02"
-                  },
-                  {
-                    "Item1": "TunnelWall",
-                    "Item2": "Concrete01"
-                  }
-                ]
+                "count": 0,
+                "items": []
               }
             }
           }
         ]
       }
     },
-    "selectedObject": "level19",
+    "selectedObject": "SLE_Gnom4",
     "toneMapping": {
-      "ToeLength": 0.37,
-      "ToeStrength": 0.31,
-      "ShoulderLength": 0.28001000000000004,
-      "ShoulderStrength": 4.64,
-      "ShoulderAngle": 0.42,
+      "ToeLength": 0.5,
+      "ToeStrength": 0.5,
+      "ShoulderLength": 0.5,
+      "ShoulderStrength": 2.0,
+      "ShoulderAngle": 1.0,
       "Gamma": 1.0
     },
     "bloom": {
-      "on": false,
-      "threshold": 0.1445439770745927,
-      "blurSize": 10,
-      "sigma": 1.3131000000000002
+      "on": true,
+      "threshold": 1.0,
+      "blurSize": 3,
+      "sigma": 3.0
     },
     "fxAA": {
       "threshold": 0.166,
       "thresholdMin": 0.0833,
-      "subpix": 0.0,
+      "subpix": 0.75,
       "preset": "Quality25"
     }
   }

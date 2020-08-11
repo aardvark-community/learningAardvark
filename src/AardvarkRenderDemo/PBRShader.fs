@@ -352,9 +352,11 @@ module PBR =
         ((baseIOR-1.5)/ (baseIOR+1.5))*((baseIOR-1.5)/ (baseIOR+1.5))
 
     [<ReflectedDefinition>]
-    let pbrDirect f0 roughness metallic (albedo : V3d) (wPos : V4d) v n nDotV light (clearCoat : float)  clearCoatRoughness = 
+    let pbrDirect f0 roughness metallic (albedo : V3d) (wPos : V4d) v n nDotV light (clearCoat : float)  clearCoatRoughness clearCoatNormal= 
            
-        let (exists, lDir, illuminannce, specularAttenuation)  = getLightParams light wPos.XYZ n v roughness
+        //calculat light direction for area lights with the clear coat normal if clear coat is applied   
+        let nforl = Lerp n clearCoatNormal  clearCoat
+        let (exists, lDir, illuminannce, specularAttenuation)  = getLightParams light wPos.XYZ nforl v roughness
       
         let oi = 
             if exists then
@@ -379,20 +381,23 @@ module PBR =
                     (diffuse + specular * specularAttenuation) * illuminannce * nDotL
                 else
                     let ccF0 = V3d(0.04)
-                    let ccndf = DistributionGGX n h clearCoatRoughness 
-                    let ccg = GeometrySmith false n v lDir clearCoatRoughness 
-                    let clearCoatKS = clearCoat * fresnelSchlick ccF0 hDotV  
-                    let clearCoatResponce = ccndf * ccg * clearCoatKS / denominator
+                    let ccndf = DistributionGGX clearCoatNormal h clearCoatRoughness 
+                    let ccg = GeometrySmith false clearCoatNormal v lDir clearCoatRoughness 
+                    let clearCoatKS = clearCoat * fresnelSchlick ccF0 hDotV
+                    let ccNDotL = Vec.dot clearCoatNormal lDir |>  max 0.0
+                    let ccNDotV = Vec.dot clearCoatNormal v |>  max 0.0  
+                    let ccdenominator = 4.0 * ccNDotV * ccNDotL |> max 0.001
+                    let clearCoatResponce = ccndf * ccg * clearCoatKS / ccdenominator
 
                     // add to outgoing radiance from single light
-                    ((diffuse + specular * specularAttenuation) * (V3d.One-clearCoatKS) + clearCoatResponce) * illuminannce * nDotL
+                    ((diffuse + specular * specularAttenuation) * (V3d.One-clearCoatKS) * nDotL + clearCoatResponce * ccNDotL) * illuminannce 
 
 
             else V3d.Zero
         oi
 
     [<ReflectedDefinition>]
-    let pBRLightning metallic roughness albedo n (wPos : V4d) (clearCoat : float) clearCoatRoughness =
+    let pBRLightning metallic roughness albedo n (wPos : V4d) (clearCoat : float) clearCoatRoughness clearCoatNormal=
         
         let cameraPos = uniform.CameraLocation
 
@@ -404,7 +409,7 @@ module PBR =
         let f0 = Lerp f0Base (f0ClearCoatToSurface f0Base) clearCoat
         let nDotV = Vec.dot n v |>  max 0.0
         let light = uniform.Light
-        let directLight = pbrDirect f0 roughness metallic albedo wPos v n nDotV light clearCoat clearCoatRoughness
+        let directLight = pbrDirect f0 roughness metallic albedo wPos v n nDotV light clearCoat clearCoatRoughness clearCoatNormal
         directLight
 
     let lightingDeferred (frag : Fragment)  =
@@ -419,13 +424,14 @@ module PBR =
                     let n = frag.n
                     let wPos = frag.wp
                     let clearCoat = frag.clearCoat
-                    pBRLightning metallic roughness albedo n wPos clearCoat frag.clearCoatRoughness
+                    pBRLightning metallic roughness albedo n wPos clearCoat frag.clearCoatRoughness frag.clearCoatNormal
 
             return V4d(col, 1.0)
         }
 
     [<ReflectedDefinition>]
-    let pBRAbientLight f0 roughness metallic (albedo : V3d) n r nDotV (clearCoat : float) clearCoatRoughness=
+    let pBRAbientLight f0 roughness metallic (albedo : V3d) n r v (clearCoat : float) clearCoatRoughness clearCoatNormal=
+        let nDotV = Vec.dot n v |>  max 0.0
         let kSA = fresnelSchlickRoughness f0 roughness nDotV
         let kdA  = (1.0 - kSA) * (1.0 - metallic)
         let irradiance = diffuseIrradianceSampler.Sample(n).XYZ
@@ -440,10 +446,11 @@ module PBR =
             if clearCoat = 0.0 then
                 diffuse + specular
             else
+                let ccNDotV = Vec.dot clearCoatNormal v |>  max 0.0
                 let ccf0 = V3d(0.04)
-                let cckSA = clearCoat* fresnelSchlickRoughness ccf0 clearCoatRoughness nDotV
+                let cckSA = clearCoat* fresnelSchlickRoughness ccf0 clearCoatRoughness ccNDotV
                 let ccprefilteredColor = prefilteredSpecColorSampler.SampleLevel(r, clearCoatRoughness * maxReflectLod).XYZ
-                let ccbrdf = samplerBRDFLtu.Sample(V2d(nDotV, clearCoatRoughness)).XY
+                let ccbrdf = samplerBRDFLtu.Sample(V2d(ccNDotV, clearCoatRoughness)).XY
                 let ccspecular = ccprefilteredColor * (cckSA * ccbrdf.X + ccbrdf.Y)
                 (diffuse + specular) * (1.0 - cckSA) + ccspecular
 
@@ -451,7 +458,7 @@ module PBR =
         ambient * ambientIntensity
 
     [<ReflectedDefinition>]
-    let pBRAbient metallic roughness albedo n (wPos : V4d) (clearCoat : float) clearCoatRoughness =
+    let pBRAbient metallic roughness albedo n (wPos : V4d) (clearCoat : float) clearCoatRoughness clearCoatNormal=
 
         let cameraPos = uniform.CameraLocation
         let v = cameraPos - wPos.XYZ |> Vec.normalize
@@ -461,8 +468,7 @@ module PBR =
         let f0Base = Lerp (V3d(0.04)) albedo metallic
         let f0 = Lerp f0Base (f0ClearCoatToSurface f0Base) clearCoat
 
-        let nDotV = Vec.dot n v |>  max 0.0
-        let ambient = pBRAbientLight f0 roughness metallic albedo n r nDotV clearCoat clearCoatRoughness
+        let ambient = pBRAbientLight f0 roughness metallic albedo n r v clearCoat clearCoatRoughness clearCoatNormal
         ambient   
 
 
@@ -478,7 +484,7 @@ module PBR =
                     let albedo = frag.c.XYZ
                     let n = frag.n
                     let wPos = frag.wp
-                    let c = pBRAbient metallic roughness albedo n wPos frag.clearCoat frag.clearCoatRoughness
+                    let c = pBRAbient metallic roughness albedo n wPos frag.clearCoat frag.clearCoatRoughness frag.clearCoatNormal
                     c * occlusion
 
             let em = frag.emission

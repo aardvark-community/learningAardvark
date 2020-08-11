@@ -18,34 +18,6 @@ module fshadeExt =
     [<GLSLIntrinsic("length({0})")>] // Define function as intrinsic, no implementation needed
     let length (a : V3d) : V3d = failwith ""
 
-module NormalMap =
-    //shader to apply a normal map
-    type UniformScope with
-        member x.NormalMapStrength : float =  x?NormalMapStrength
-
-    [<GLSLIntrinsic("mix({0}, {1}, {2})")>] // Define function as intrinsic, no implementation needed
-    let Lerp (a : V3d) (b : V3d) (s : float) : V3d = failwith ""
-
-    let private normalSampler =
-        sampler2d {
-            texture uniform?NormalMapTexture
-            filter Filter.MinMagMipLinear
-            addressU WrapMode.Wrap
-            addressV WrapMode.Wrap
-        }
-
-    let internal normalMap (v : Vertex) =
-        fragment {
-            let texColor = normalSampler.Sample(v.tc).XYZ
-            let texNormal = (2.0 * texColor - V3d.III) |> Vec.normalize
-
-            let n = v.n.Normalized * texNormal.Z + v.b.Normalized * texNormal.X + v.t.Normalized * texNormal.Y |> Vec.normalize
-
-            let strength = uniform.NormalMapStrength
-            let n2 = Lerp v.n n strength
-
-            return { v with n = n2 }
-        }
 
 module  displacemntMap =
     //simple  displacement mapping, I am not realy happy with the results.

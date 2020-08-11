@@ -51,6 +51,10 @@ module material =
             fileName = None
             factor = 0.2
         }
+        clearCoatNormal = {
+            fileName = None
+            factor = 0.0
+        }
     }
 
     let onePxPix (color :C3f)= 
@@ -130,6 +134,33 @@ module material =
                 |> Option.defaultValue (onPixTex C3f.White)
             AVal.bind (fun (m : AdaptivePBRMaterial)-> m.clearCoatRoughness.fileName |> AVal.map loadTex)  x.Material :> IAdaptiveValue
 
+        member x.ClearCoatNormalMap =
+            adaptive {
+                let! m = x.Material 
+                let! f = m.clearCoatNormal.fileName
+                let! nf = m.normal.fileName
+                let! nt = x.NormalMap 
+                return match f with
+                        | Some file -> 
+                            match nf with
+                            |Some f  when f = file -> nt
+                            |_ -> FileTexture(file, TextureParams.empty) :> ITexture
+                        | None ->  onPixTex C3f.White
+            } :> IAdaptiveValue
+
+        member x.UseNormalsForClearCoat =
+            adaptive {
+                let! m = x.Material 
+                let! f = m.clearCoatNormal.fileName
+                let! nf = m.normal.fileName
+                return match f with
+                        | Some file -> 
+                            match nf with
+                            |Some f  when f = file -> true
+                            |_ -> false
+                        | None ->  false
+            } :> IAdaptiveValue
+
         interface IO.Loader.IMaterial with
 
             member x.name = x.Name
@@ -155,6 +186,9 @@ module material =
                 | "ClearCoatMap" -> Some x.ClearCoatMap 
                 | "ClearCoatRoughness" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.clearCoatRoughness.factor) x.Material :> IAdaptiveValue)
                 | "ClearCoatRoughnessMap" -> Some x.ClearCoatRoughnessMap 
+                | "ClearCoatNormalStrength" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.clearCoatNormal.factor) x.Material :> IAdaptiveValue)
+                | "ClearCoatNormalMapTexture" -> Some x.ClearCoatNormalMap
+                | "UseNormalsForClearCoat" -> Some x.UseNormalsForClearCoat
                 | _ -> None
             
             member x.Dispose() = ()
@@ -295,6 +329,7 @@ module materialControl =
         | SetEmission of textureMappedColorControl.Message
         | SetClearCoat of textureMappedValueControl.Message
         | SetClearCoatRoughness of textureMappedValueControl.Message
+        | SetClearCoatNormal of textureMappedValueControl.Message
 
     let update  (m : PBRMaterial) (msg : Message)  =
         match msg with
@@ -307,6 +342,7 @@ module materialControl =
         | SetEmission msg' -> { m with  emission = textureMappedColorControl.update m.emission msg'}
         | SetClearCoat msg' -> { m with  clearCoat = textureMappedValueControl.update m.clearCoat msg'}
         | SetClearCoatRoughness msg' -> { m with  clearCoatRoughness = textureMappedValueControl.update m.clearCoatRoughness msg'}
+        | SetClearCoatNormal msg' -> { m with  clearCoatNormal = textureMappedValueControl.update m.clearCoatNormal msg'}
 
     let view (m : AdaptivePBRMaterial) =
         div [] [
@@ -316,6 +352,7 @@ module materialControl =
             textureMappedValueControl.view textureMappedValueControl.Linear "Normal Map" 0.0 1.0 0.01 m.normal  |> UI.map SetNormal
             textureMappedValueControl.view textureMappedValueControl.Linear "Clear Coat" 0.0 1.0 0.01 m.clearCoat  |> UI.map SetClearCoat
             textureMappedValueControl.view textureMappedValueControl.Linear "Clear Coat Roughness" 0.0 1.0 0.01 m.clearCoatRoughness  |> UI.map SetClearCoatRoughness
+            textureMappedValueControl.view textureMappedValueControl.Linear "Clear Coat Normal" 0.0 1.0 0.01 m.clearCoatNormal  |> UI.map SetClearCoatNormal
             textureMappedColorControl.view textureMappedColorControl.Linear "Emission" 0.0 10.0 0.01 m.emission  |> UI.map SetEmission
             textureMappedValueControl.view textureMappedValueControl.Linear "Displacement" 0.0 1.0 0.01 m.displacment  |> UI.map SetDisplacment
             Html.table [                        
