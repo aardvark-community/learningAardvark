@@ -24,10 +24,9 @@ module BRDF =
         f0 + (f90 - f0) * pow (1.0 - cosTheta) 5.0
 
     [<ReflectedDefinition>]
-    let DistributionGGX (n : V3d)  h roughness  =
+    let DistributionGGX nDotH roughness  =
         let a  = roughness*roughness
         let a2 = a * a
-        let nDotH = Vec.dot n h |> max 0.0  
         let nDotH2 = nDotH * nDotH
         let deno = nDotH2 * (a2 - 1.0) + 1.0
         let denom =  Math.PI * deno * deno
@@ -45,9 +44,7 @@ module BRDF =
         nDotV / denom
     
     [<ReflectedDefinition>]
-    let GeometrySmith ilb (n : V3d) v l roughness =
-        let nDotV = Vec.dot n v |> max 0.0
-        let nDotL = Vec.dot n l |> max 0.0
+    let GeometrySmith ilb nDotV nDotL roughness =
         let ggx2 = GeometrySchlickGGX ilb nDotV roughness
         let ggx1 = GeometrySchlickGGX ilb nDotL roughness
         ggx1 * ggx2
@@ -58,6 +55,42 @@ module BRDF =
         let f90 = Vec.dot f0  (V3d(50.0  * 0.33) ) |> saturate
         let r = V3d.Max(V3d(f90 - roughness), f0)
         f0 + (r  - f0) * pow (1.0 - cosTheta) 5.0
+
+    [<ReflectedDefinition>] 
+    let distributionCharlie roughness nDotH =
+        let  rcpR = 1.0 / roughness
+        let cos2H = nDotH * nDotH
+        let sin2H = 1.0 - cos2H
+        (2.0 + rcpR) * (pow sin2H (rcpR * 0.5)) / Constant.PiTimesTwo
+
+    [<ReflectedDefinition>] 
+    let distributionAshikhmin roughness nDotH =
+        let r2= roughness * roughness
+        let cos2H = nDotH * nDotH
+        let sin2H = 1.0 - cos2H
+        let sin4H = sin2H * sin2H
+        (sin4H + 4.0 * exp (-cos2H / (sin2H * r2))) / (Constant.Pi * (1.0 + 4.0 * r2) * sin4H)
+
+    [<ReflectedDefinition>] 
+    let visibilityAshikhmin nDotV nDotL =
+        let denominator = (4.0 * (nDotL  +  nDotV  - nDotL * nDotV)) |> max 0.001
+        1.0 / denominator  
+
+    [<ReflectedDefinition>] 
+    let L x (r : float) =  
+        let rs = saturate r
+        let rr =  1.0 - (1.0 - rs) * (1.0 - rs)
+        let a = lerp 25.3245  21.5473 rr
+        let b = lerp  3.32435  3.82987 rr
+        let c = lerp  0.16801  0.19823 rr
+        let d = lerp -1.27393 -1.97760 rr
+        let e = lerp -4.85967 -4.32054 rr
+        a / (1.0 +  b * pow x c) + d + x + e
+
+    let visibilityCharlie roughness  nDotV nDotL =
+        let visV = if nDotV < 0.5  then L nDotV roughness |> exp else 2.0 * L 0.5 roughness - L (1.0 - nDotV) roughness |> exp
+        let visL = if nDotL < 0.5  then L nDotL roughness |> exp else 2.0 * L 0.5 roughness - L (1.0 - nDotL) roughness |> exp
+        1.0 / ((1.0 + visV + visL) * 4.0 * nDotV * nDotL)
 
 module IBL =
     open BRDF
@@ -175,7 +208,7 @@ module IBL =
                 let vDotH = Vec.dot v h |> max 0.0
 
                 if nDotL > 0.0 then
-                    let g = GeometrySmith true n  v  l roughness
+                    let g = GeometrySmith true nDotV nDotL roughness
                     let gVis = (g * vDotH) / (nDotH * nDotV)
                     let fc = pow (1.0 - vDotH) 5.0
 
