@@ -374,7 +374,7 @@ module PBR =
     [<ReflectedDefinition>]
     let specularLobeCloth (F : V3d) roughness nDotH nDotV nDotL=
         // cook-torrance brdf
-        let ndf = distributionCharlie roughness nDotH 
+        let ndf = distributionAshikhmin  roughness nDotH //distributionCharlie roughness nDotH 
         let g = visibilityAshikhmin nDotV nDotL  
         ndf * g * F  
          
@@ -401,7 +401,7 @@ module PBR =
                     let nDotV = Vec.dot frag.n v |> saturate
 
                     //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
-                    let f0Base = if shadingType = ShadeingType.Cloth then sqrt albedo else Lerp (V3d(0.04)) albedo frag.metallic
+                    let f0Base =  if shadingType = ShadeingType.Cloth then (V3d(0.1)) else Lerp (V3d(0.04)) albedo frag.metallic
                     let f0 = Lerp f0Base (f0ClearCoatToSurface f0Base) frag.clearCoat
 
                     let F = fresnelSchlick f0 hDotV 
@@ -429,6 +429,7 @@ module PBR =
 
     [<ReflectedDefinition>]
     let pBRAbientLight f0 roughness metallic (albedo : V3d) n r v (clearCoat : float) clearCoatRoughness clearCoatNormal=
+        let shadingType = ShadeingType.Cloth
         let nDotV = Vec.dot n v |>  max 0.0
         let kSA = fresnelSchlickRoughness f0 roughness nDotV
         let kdA  = (1.0 - kSA) * (1.0 - metallic)
@@ -437,8 +438,8 @@ module PBR =
 
         let maxReflectLod = 4.0
         let prefilteredColor = prefilteredSpecColorSampler.SampleLevel(r, roughness * maxReflectLod).XYZ
-        let brdf = samplerBRDFLtu.Sample(V2d(nDotV, roughness)).XY
-        let specular = prefilteredColor * (kSA * brdf.X + brdf.Y)
+        let brdf = samplerBRDFLtu.Sample(V2d(nDotV, roughness)).XYZ
+        let specular = if shadingType = ShadeingType.Cloth then prefilteredColor * kSA * brdf.Z else prefilteredColor * (kSA * brdf.X + brdf.Y)
 
         let ambient = 
             if clearCoat = 0.0 then
@@ -457,13 +458,13 @@ module PBR =
 
     [<ReflectedDefinition>]
     let pBRAbient metallic roughness albedo n (wPos : V4d) (clearCoat : float) clearCoatRoughness clearCoatNormal=
-
+        let shadingType = ShadeingType.Standard
         let cameraPos = uniform.CameraLocation
         let v = cameraPos - wPos.XYZ |> Vec.normalize
         let r = Vec.reflect -v n
 
         //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
-        let f0Base = Lerp (V3d(0.04)) albedo metallic
+        let f0Base = if shadingType = ShadeingType.Cloth then sqrt albedo else Lerp (V3d(0.04)) albedo metallic
         let f0 = Lerp f0Base (f0ClearCoatToSurface f0Base) clearCoat
 
         let ambient = pBRAbientLight f0 roughness metallic albedo n r v clearCoat clearCoatRoughness clearCoatNormal

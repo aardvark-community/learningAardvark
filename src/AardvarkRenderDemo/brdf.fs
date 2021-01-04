@@ -152,7 +152,16 @@ module IBL =
     [<ReflectedDefinition>]
     let hammersley i n = 
         V2d(float i / float n, radicalInverseVdC(i))
-    
+
+    [<ReflectedDefinition>]
+    let sampleHemisphereUniform (xi : V2d) =
+        let phi = 2.0 * Math.PI * xi.X
+        let cosTheta = 1.0 - xi.Y
+        let sinTheta = sqrt(1.0 - cosTheta*cosTheta);
+        // from spherical coordinates to cartesian coordinates
+        
+        V3d( cos(phi) * sinTheta, sin(phi) * sinTheta, cosTheta)
+
     [<ReflectedDefinition>]
     let importanceSampleGGX (xi : V2d) (n : V3d) roughness =
         let a = roughness*roughness
@@ -216,10 +225,33 @@ module IBL =
                     b <- b + fc * gVis;
         V2d(a/(float sampleCount), b/(float sampleCount))
 
+
+    [<ReflectedDefinition>]
+    let integrateBRDFCharlie nDotV roughness =
+        let v = V3d(sqrt (1.0 - nDotV*nDotV), 0.0, nDotV)
+        let n = V3d.OOI
+        let sampleCount = 1024u
+        let mutable r = 0.0
+        for i in 0..(int sampleCount) do
+                let xi = hammersley (uint32 i) sampleCount
+                let h = sampleHemisphereUniform xi
+                let l = 2.0 * Vec.dot v h * h |> Vec.normalize         
+                let nDotL = max l.Z 0.0
+                let nDotH = max h.Z 0.0
+                let vDotH = Vec.dot v h |> max 0.0
+
+                if nDotL > 0.0 then
+                    let v = visibilityAshikhmin  nDotV nDotL 
+                    let d = distributionCharlie roughness nDotH
+
+                    r <- r + v * d * nDotL * vDotH
+        r + (4.0 * 2.0 * Math.PI / ( float sampleCount))
+
     let integrateBRDFLtu (vert : Vertex) =
         fragment {
            let r = integrateBRDF vert.tc.X vert.tc.Y
-           return V4d(V3d(r,0.0),1.0)
+           let c = integrateBRDFCharlie vert.tc.X vert.tc.Y
+           return V4d(V3d(r,c),1.0)
         }
 
 

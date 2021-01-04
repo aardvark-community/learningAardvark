@@ -4,14 +4,14 @@
   "value": {
     "cameraViewParams": {
       "Item1": {
-        "X": -0.23108332139801205,
-        "Y": 0.8463548263339612,
-        "Z": -1.2682917065724395
+        "X": -2.7844927140053257,
+        "Y": 1.5144177097454783,
+        "Z": -5.266877031485588
       },
       "Item2": {
-        "X": -0.09680660805784916,
-        "Y": -0.05929753911611736,
-        "Z": 0.9935352447151065
+        "X": 0.4623459181444927,
+        "Y": -0.11337611380071874,
+        "Z": 0.8794214625505639
       },
       "Item3": {
         "X": 0.0,
@@ -25,21 +25,30 @@
         {
           "Item1": 0,
           "Item2": {
-            "Case": "DirectionalLight",
+            "Case": "DiskLight",
             "Item": {
+              "lightPosition": {
+                "W": 1.0,
+                "X": -0.5,
+                "Y": 1.0,
+                "Z": -0.5
+              },
               "lightDirection": {
                 "W": 0.0,
-                "X": -3.0,
+                "X": 0.0,
                 "Y": 0.0,
-                "Z": 4.0
+                "Z": 3.0
               },
               "color": {
                 "B": 0.8,
                 "G": 0.9490196078431372,
                 "R": 1.0
               },
-              "intensity": 20.0,
-              "castsShadow": false
+              "intensity": 100.0,
+              "cutOffInner": 30.0,
+              "fallOff": 10.0,
+              "castsShadow": true,
+              "radius": 0.01
             }
           }
         }
@@ -49,7 +58,7 @@
       "skyMap": "GrandCanyon_C_YumaPoint\\GCanyon_C_YumaPoint_3k.hdr",
       "skyMapRotation": 3.8955748904513436,
       "skyMapIntensity": 4.073802778041127,
-      "ambientLightIntensity": 0.0,
+      "ambientLightIntensity": 1.2302687708123812,
       "occlusionSettings": {
         "occlusionStrength": 1.11,
         "scale": 1.0,
@@ -86,6 +95,112 @@
               "materials": {
                 "count": 11,
                 "items": [
+                  {
+                    "Item1": "lashes",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 0.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": true,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "puppil",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_EYE.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.77
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 0.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
                   {
                     "Item1": "innerMount",
                     "Item2": {
@@ -143,7 +258,7 @@
                     }
                   },
                   {
-                    "Item1": "eyewithe",
+                    "Item1": "skin",
                     "Item2": {
                       "metallic": {
                         "fileName": null,
@@ -151,7 +266,7 @@
                       },
                       "roughness": {
                         "fileName": null,
-                        "factor": 0.16
+                        "factor": 0.37
                       },
                       "clearCoat": {
                         "fileName": null,
@@ -163,14 +278,14 @@
                       },
                       "albedo": {
                         "fileName": {
-                          "Some": "SLE_EYE.jpg"
+                          "Some": "SLE_Gnom2.jpg"
                         },
                         "color": {
-                          "B": 0.9333333333333333,
-                          "G": 0.9647058823529412,
-                          "R": 0.9921568627450981
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
                         },
-                        "factor": 1.0
+                        "factor": 0.99
                       },
                       "emission": {
                         "fileName": null,
@@ -182,8 +297,10 @@
                         "factor": 0.0
                       },
                       "normal": {
-                        "fileName": null,
-                        "factor": 0.58
+                        "fileName": {
+                          "Some": "SLE_Gnom2_n.png"
+                        },
+                        "factor": 1.0
                       },
                       "clearCoatNormal": {
                         "fileName": null,
@@ -365,7 +482,63 @@
                     }
                   },
                   {
-                    "Item1": "cornea",
+                    "Item1": "teeth",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.54
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_Gnom2.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.98
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 0.0
+                      },
+                      "normal": {
+                        "fileName": {
+                          "Some": "SLE_Gnom2_n.png"
+                        },
+                        "factor": 1.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "Item1": "eyewithe",
                     "Item2": {
                       "metallic": {
                         "fileName": null,
@@ -373,7 +546,7 @@
                       },
                       "roughness": {
                         "fileName": null,
-                        "factor": 0.46
+                        "factor": 0.16
                       },
                       "clearCoat": {
                         "fileName": null,
@@ -388,9 +561,9 @@
                           "Some": "SLE_EYE.jpg"
                         },
                         "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
+                          "B": 0.9333333333333333,
+                          "G": 0.9647058823529412,
+                          "R": 0.9921568627450981
                         },
                         "factor": 1.0
                       },
@@ -405,13 +578,13 @@
                       },
                       "normal": {
                         "fileName": null,
-                        "factor": 1.0
+                        "factor": 0.58
                       },
                       "clearCoatNormal": {
                         "fileName": null,
                         "factor": 0.0
                       },
-                      "discard": true,
+                      "discard": false,
                       "displacment": {
                         "fileName": null,
                         "factor": 0.0
@@ -471,7 +644,7 @@
                     }
                   },
                   {
-                    "Item1": "lashes",
+                    "Item1": "cornea",
                     "Item2": {
                       "metallic": {
                         "fileName": null,
@@ -479,7 +652,7 @@
                       },
                       "roughness": {
                         "fileName": null,
-                        "factor": 0.8
+                        "factor": 0.46
                       },
                       "clearCoat": {
                         "fileName": null,
@@ -490,7 +663,9 @@
                         "factor": 0.2
                       },
                       "albedo": {
-                        "fileName": null,
+                        "fileName": {
+                          "Some": "SLE_EYE.jpg"
+                        },
                         "color": {
                           "B": 1.0,
                           "G": 1.0,
@@ -516,172 +691,6 @@
                         "factor": 0.0
                       },
                       "discard": true,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "teeth",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 1.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.54
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.98
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 0.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2_n.png"
-                        },
-                        "factor": 1.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "skin",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.78
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.99
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 0.0
-                      },
-                      "normal": {
-                        "fileName": {
-                          "Some": "SLE_Gnom2_n.png"
-                        },
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "puppil",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_EYE.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.77
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 0.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 1.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
                       "displacment": {
                         "fileName": null,
                         "factor": 0.0

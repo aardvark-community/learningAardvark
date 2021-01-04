@@ -214,7 +214,7 @@ module GlobalAmbientLight =
 
     let signatureBRDFLtu (runtime : IRuntime) =
         runtime.CreateFramebufferSignature [
-            DefaultSemantic.Colors, { format = RenderbufferFormat.Rg16f; samples = 1 }
+            DefaultSemantic.Colors, { format = RenderbufferFormat.Rgb16f; samples = 1 }
         ]
 
     let LtuSize = V2i(512,512) |> AVal.init 
