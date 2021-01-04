@@ -55,6 +55,15 @@ module material =
             fileName = None
             factor = 0.0
         }
+        sheenColor ={
+            fileName = None
+            color = C3d.White
+            factor = 0.0
+        }
+        sheenRoughness = {
+            fileName = None
+            factor = 0.8
+        }
     }
 
     let onePxPix (color :C3f)= 
@@ -134,6 +143,22 @@ module material =
                 |> Option.defaultValue (onPixTex C3f.White)
             AVal.bind (fun (m : AdaptivePBRMaterial)-> m.clearCoatRoughness.fileName |> AVal.map loadTex)  x.Material :> IAdaptiveValue
 
+        member x.SheenRoughnessMap =               
+            let loadTex f =
+                f
+                |> Option.map (fun f -> FileTexture(f, TextureParams.empty) :> ITexture)
+                |> Option.defaultValue (onPixTex C3f.White)
+            AVal.bind (fun (m : AdaptivePBRMaterial)-> m.sheenRoughness.fileName |> AVal.map loadTex)  x.Material :> IAdaptiveValue
+
+        member x.SheenColorMap =
+            adaptive {
+                let! m = x.Material 
+                let! f = m.sheenColor.fileName
+                return match f with
+                        | Some file -> FileTexture(file, TextureParams.empty) :> ITexture
+                        | None ->  onPixTex C3f.White
+            }
+
         member x.ClearCoatNormalMap =
             adaptive {
                 let! m = x.Material 
@@ -189,6 +214,11 @@ module material =
                 | "ClearCoatNormalStrength" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.clearCoatNormal.factor) x.Material :> IAdaptiveValue)
                 | "ClearCoatNormalMapTexture" -> Some x.ClearCoatNormalMap
                 | "UseNormalsForClearCoat" -> Some x.UseNormalsForClearCoat
+                | "SheenColorTexture" -> Some (x.SheenColorMap :> IAdaptiveValue)
+                | "SheenColorFactor" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.sheenColor.factor) x.Material :> IAdaptiveValue)
+                | "SheenColor" -> Some  (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.sheenColor.color) x.Material :> IAdaptiveValue)
+                | "SheenRoughness" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.sheenRoughness.factor) x.Material :> IAdaptiveValue)
+                | "SheenRoughnessMap" -> Some x.SheenRoughnessMap 
                 | _ -> None
             
             member x.Dispose() = ()
@@ -330,6 +360,8 @@ module materialControl =
         | SetClearCoat of textureMappedValueControl.Message
         | SetClearCoatRoughness of textureMappedValueControl.Message
         | SetClearCoatNormal of textureMappedValueControl.Message
+        | SetSheenColor of textureMappedColorControl.Message
+        | SetSheenRoughness of textureMappedValueControl.Message
 
     let update  (m : PBRMaterial) (msg : Message)  =
         match msg with
@@ -343,6 +375,8 @@ module materialControl =
         | SetClearCoat msg' -> { m with  clearCoat = textureMappedValueControl.update m.clearCoat msg'}
         | SetClearCoatRoughness msg' -> { m with  clearCoatRoughness = textureMappedValueControl.update m.clearCoatRoughness msg'}
         | SetClearCoatNormal msg' -> { m with  clearCoatNormal = textureMappedValueControl.update m.clearCoatNormal msg'}
+        | SetSheenRoughness msg' -> { m with  sheenRoughness = textureMappedValueControl.update m.sheenRoughness msg'}
+        | SetSheenColor msg' -> { m with  sheenColor = textureMappedColorControl.update m.sheenColor msg'}
 
     let view (m : AdaptivePBRMaterial) =
         div [] [
@@ -353,6 +387,8 @@ module materialControl =
             textureMappedValueControl.view textureMappedValueControl.Linear "Clear Coat" 0.0 1.0 0.01 m.clearCoat  |> UI.map SetClearCoat
             textureMappedValueControl.view textureMappedValueControl.Linear "Clear Coat Roughness" 0.0 1.0 0.01 m.clearCoatRoughness  |> UI.map SetClearCoatRoughness
             textureMappedValueControl.view textureMappedValueControl.Linear "Clear Coat Normal" 0.0 1.0 0.01 m.clearCoatNormal  |> UI.map SetClearCoatNormal
+            textureMappedColorControl.view textureMappedColorControl.Linear "Sheen Color" 0.0 1.0 0.01 m.sheenColor  |> UI.map SetSheenColor
+            textureMappedValueControl.view textureMappedValueControl.Linear "Sheen Roughness" 0.0 1.0 0.01 m.sheenRoughness  |> UI.map SetSheenRoughness
             textureMappedColorControl.view textureMappedColorControl.Linear "Emission" 0.0 10.0 0.01 m.emission  |> UI.map SetEmission
             textureMappedValueControl.view textureMappedValueControl.Linear "Displacement" 0.0 1.0 0.01 m.displacment  |> UI.map SetDisplacment
             Html.table [                        

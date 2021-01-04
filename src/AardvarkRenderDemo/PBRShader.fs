@@ -373,15 +373,13 @@ module PBR =
 
     [<ReflectedDefinition>]
     let specularLobeCloth (F : V3d) roughness nDotH nDotV nDotL=
-        // cook-torrance brdf
-        let ndf = distributionAshikhmin  roughness nDotH //distributionCharlie roughness nDotH 
+        let ndf = distributionCharlie  roughness nDotH //distributionCharlie roughness nDotH 
         let g = visibilityAshikhmin nDotV nDotL  
         ndf * g * F  
          
     
     let lightingDeferred (frag : Fragment)  =
         fragment {
-            let shadingType = ShadeingType.Cloth
             let col = 
                 if frag.metallic < 0.0 then //no lighting, ignore      
                     V3d.Zero
@@ -401,17 +399,24 @@ module PBR =
                     let nDotV = Vec.dot frag.n v |> saturate
 
                     //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
-                    let f0Base =  if shadingType = ShadeingType.Cloth then (V3d(0.1)) else Lerp (V3d(0.04)) albedo frag.metallic
+                    let f0Base = Lerp (V3d(0.04)) albedo frag.metallic
                     let f0 = Lerp f0Base (f0ClearCoatToSurface f0Base) frag.clearCoat
 
                     let F = fresnelSchlick f0 hDotV 
 
-                    let specular = if shadingType = ShadeingType.Cloth then specularLobeCloth F frag.roughness nDotH nDotV nDotL else specularLobeStandard F frag.roughness nDotH nDotV nDotL
+                    let specular = specularLobeStandard F frag.roughness nDotH nDotV nDotL
                     let diffuse = diffuseLobe F frag.metallic albedo
+
+                    let color =
+                        if frag.sheenColor = V3d.OOO then
+                            diffuse + specular * specularAttenuation
+                        else
+                            let sheen = specularLobeCloth frag.sheenColor frag.sheenRoughness nDotH nDotV nDotL
+                            (diffuse + specular * specularAttenuation) + sheen
 
                     if frag.clearCoat = 0.0 then
                         // add to outgoing radiance from single light
-                        (diffuse + specular * specularAttenuation) * illuminannce * nDotL
+                        color * illuminannce * nDotL
                     else
                         let ccF0 = V3d(0.04)
                         let ccNDotL = Vec.dot frag.clearCoatNormal lDir |> saturate
@@ -422,14 +427,14 @@ module PBR =
                         
                         let clearCoatResponce = specularLobeStandard ccF frag.clearCoatRoughness ccNDotH ccNDotV ccNDotL
                         // add to outgoing radiance from single light
-                        ((diffuse + specular * specularAttenuation) * (V3d.One-ccF) * nDotL + clearCoatResponce * ccNDotL) * illuminannce 
+                        (color * (V3d.One-ccF) * nDotL + clearCoatResponce * ccNDotL) * illuminannce 
 
             return V4d(col, 1.0)
         }
 
     [<ReflectedDefinition>]
     let pBRAbientLight f0 roughness metallic (albedo : V3d) n r v (clearCoat : float) clearCoatRoughness clearCoatNormal=
-        let shadingType = ShadeingType.Cloth
+        let shadingType = ShadeingType.Standard
         let nDotV = Vec.dot n v |>  max 0.0
         let kSA = fresnelSchlickRoughness f0 roughness nDotV
         let kdA  = (1.0 - kSA) * (1.0 - metallic)

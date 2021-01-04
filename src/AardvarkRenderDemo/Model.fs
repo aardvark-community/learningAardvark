@@ -95,6 +95,8 @@ type PBRMaterial = {
     clearCoatNormal : TextureMappedValue
     discard : bool
     displacment : TextureMappedValue
+    sheenColor : TextureMappedColor
+    sheenRoughness : TextureMappedValue
 }
 
 [<ModelType>]

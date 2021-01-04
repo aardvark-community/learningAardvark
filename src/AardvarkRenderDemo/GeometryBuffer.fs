@@ -15,6 +15,7 @@ open Aardvark.Base.Rendering.Effects
         let Emission = Symbol.Create "Emission"
         let NormalR = Symbol.Create "NormalR"
         let ClearCoat = Symbol.Create "ClearCoat"
+        let Sheen = Symbol.Create "Sheen"
 
     type UniformScope with
         member x.Roughness : float = x?Roughness
@@ -41,6 +42,11 @@ open Aardvark.Base.Rendering.Effects
 
         member x.NormalMapStrength : float =  x?NormalMapStrength
 
+        member x.SheenColorFactor : float = x?SheenColorFactor
+
+        member x.SheenColor : V3d =  x?SheenColor
+
+        member  x.SheenRoughness :  float =  x?SheenRoughness
 
     let internal skyBoxTrafo (v : Vertex) =
         vertex {
@@ -71,6 +77,7 @@ open Aardvark.Base.Rendering.Effects
         [<TexCoord>]        tc      : V2d
         [<Semantic("Emission")>] em : V4d
         [<Semantic("ClearCoat")>] cc : V4d
+        [<Semantic("Sheen")>] sheen : V4d
     }
 
     let private skySampler =
@@ -121,6 +128,22 @@ open Aardvark.Base.Rendering.Effects
             addressV WrapMode.Wrap
         }
 
+    let private sheenRoughnessSampler =
+        sampler2d {
+            texture uniform?SheenRoughnessMap
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
+    let private sheenColorSampler =
+        sampler2d {
+            texture uniform?SheenColorTexture
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
     let gBufferShader (vert : Vertex) =
         fragment {
             let gamma  = 2.2
@@ -133,7 +156,9 @@ open Aardvark.Base.Rendering.Effects
             let emission = uniform.EmissionColor * uniform.EmissionFactor * emissionSampler.Sample(vert.tc).XYZ
             let clearCoat = uniform.ClearCoat * clearCoatSampler.Sample(vert.tc).X
             let clearCoatRoughness = uniform.ClearCoatRoughness * clearCoatRoughnessSampler.Sample(vert.tc).X
-            return {vert with c = V4d(albedo,metallic); nr = V4d(vert.n.XYZ,  roughness); em = V4d(emission,clearCoatRoughness); cc = V4d(vert.cc.XYZ,clearCoat)}
+            let sheenColor =  pow ( uniform.SheenColor * uniform.SheenColorFactor * sheenColorSampler.Sample(vert.tc).XYZ) (V3d(gamma))
+            let sheenRoughness = uniform.SheenRoughness * sheenRoughnessSampler.Sample(vert.tc).X
+            return {vert with c = V4d(albedo,metallic); nr = V4d(vert.n.XYZ,  roughness); em = V4d(emission,clearCoatRoughness); cc = V4d(vert.cc.XYZ,clearCoat); sheen = V4d(sheenColor.XYZ,sheenRoughness)}
         }
 
     let skyGBuffer (vert : Vertex) =
@@ -145,7 +170,7 @@ open Aardvark.Base.Rendering.Effects
   
             let col = texColor * uniform.SkyMapIntensity
 
-            return {vert with c = V4d(col,-1.0); nr = V4d(vert.n.XYZ,  -1.0); em = V4d.OOOO; cc = V4d.OOOO}
+            return {vert with c = V4d(col,-1.0); nr = V4d(vert.n.XYZ,  -1.0); em = V4d.OOOO; cc = V4d.OOOO; sheen = V4d.OOOO}
         }
 
     let private normalSampler =
@@ -203,6 +228,7 @@ module GeometryBuffer  =
                 GBufferRendering.Semantic.NormalR, RenderbufferFormat.Rgba32f
                 GBufferRendering.Semantic.Emission, RenderbufferFormat.Rgba16f
                 GBufferRendering.Semantic.ClearCoat, RenderbufferFormat.Rgba16f
+                GBufferRendering.Semantic.Sheen, RenderbufferFormat.Rgba16f
              ]
 
         let skyBox =
@@ -237,6 +263,7 @@ module GeometryBuffer  =
                         GBufferRendering.Semantic.NormalR
                         GBufferRendering.Semantic.Emission
                         GBufferRendering.Semantic.ClearCoat
+                        GBufferRendering.Semantic.Sheen
                         ]
                ) size 
 
@@ -291,6 +318,13 @@ module GBuffer =
             filter Filter.MinMagLinear
         }
 
+    let sheen =
+        sampler2d {
+            texture uniform?Sheen
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
 
     type Fragment = {
         [<WorldPosition>]   wp      : V4d
@@ -303,6 +337,8 @@ module GBuffer =
         [<Semantic("ClearCoat")>] clearCoat    : float
         [<Semantic("ClearCoatRoughness")>] clearCoatRoughness    : float
         [<Semantic("ClearCoatNormal")>] clearCoatNormal    : V3d
+        [<Semantic("sheenRoughness")>] sheenRoughness    : float
+        [<Semantic("sheenColor")>] sheenColor : V3d
     }
 
     let getGBufferData (vert : Vertex) =
@@ -314,7 +350,8 @@ module GBuffer =
             let em = emission.Sample(vert.tc)
             let cc  = clearCoat.Sample(vert.tc)
             let clearCoatNormal = cc.XYZ |> Vec.normalize
-            return {wp =  wPos; n = n; c = V4d(albedo.XYZ,1.0);  tc = vert.tc; metallic = albedo.W; roughness = nr.W; emission =  em.XYZ; clearCoat =  cc.W; clearCoatRoughness = em.W; clearCoatNormal = clearCoatNormal}
+            let sheen = sheen.Sample(vert.tc) 
+            return {wp =  wPos; n = n; c = V4d(albedo.XYZ,1.0);  tc = vert.tc; metallic = albedo.W; roughness = nr.W; emission =  em.XYZ; clearCoat =  cc.W; clearCoatRoughness = em.W; clearCoatNormal = clearCoatNormal; sheenColor = sheen.XYZ; sheenRoughness = sheen.W}
         }
 
     let shadowDeferred  (vert : Vertex) =

@@ -139,6 +139,19 @@
                       "displacment": {
                         "fileName": null,
                         "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
                       }
                     }
                   },
@@ -193,6 +206,19 @@
                       "displacment": {
                         "fileName": null,
                         "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
                       }
                     }
                   },
@@ -249,6 +275,19 @@
                       "displacment": {
                         "fileName": null,
                         "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
                       }
                     }
                   },
@@ -305,6 +344,19 @@
                       "displacment": {
                         "fileName": null,
                         "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
                       }
                     }
                   },
@@ -361,6 +413,19 @@
                       "displacment": {
                         "fileName": null,
                         "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
                       }
                     }
                   },
@@ -417,6 +482,19 @@
                       "displacment": {
                         "fileName": null,
                         "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
                       }
                     }
                   },
@@ -471,6 +549,19 @@
                       "displacment": {
                         "fileName": null,
                         "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
                       }
                     }
                   },
@@ -523,6 +614,19 @@
                       "displacment": {
                         "fileName": null,
                         "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
                       }
                     }
                   },
@@ -577,6 +681,19 @@
                       "displacment": {
                         "fileName": null,
                         "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
                       }
                     }
                   },
@@ -629,6 +746,19 @@
                       "displacment": {
                         "fileName": null,
                         "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
                       }
                     }
                   },
@@ -685,6 +815,19 @@
                       "displacment": {
                         "fileName": null,
                         "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
                       }
                     }
                   }

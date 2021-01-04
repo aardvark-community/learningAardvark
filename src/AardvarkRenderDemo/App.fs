@@ -351,6 +351,7 @@ module App =
             |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
             |> Sg.texture (GBufferRendering.Semantic.Emission) (Map.find GBufferRendering.Semantic.Emission gBuffer)
             |> Sg.texture (GBufferRendering.Semantic.ClearCoat) (Map.find GBufferRendering.Semantic.ClearCoat gBuffer)
+            |> Sg.texture (GBufferRendering.Semantic.Sheen) (Map.find GBufferRendering.Semantic.Sheen gBuffer)
             |> Sg.compile runtime signature
             |> RenderTask.renderToColor size   
 
