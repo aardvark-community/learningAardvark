@@ -58,7 +58,7 @@ module BRDF =
 
     [<ReflectedDefinition>] 
     let distributionCharlie roughness nDotH =
-        let  rcpR = 1.0 / roughness
+        let  rcpR = 1.0 / (roughness*roughness)
         let cos2H = nDotH * nDotH
         let sin2H = 1.0 - cos2H
         (2.0 + rcpR) * (pow sin2H (rcpR * 0.5)) / Constant.PiTimesTwo
@@ -230,7 +230,7 @@ module IBL =
     let integrateBRDFCharlie nDotV roughness =
         let v = V3d(sqrt (1.0 - nDotV*nDotV), 0.0, nDotV)
         let n = V3d.OOI
-        let sampleCount = 1024u
+        let sampleCount = 4096u
         let mutable r = 0.0
         for i in 0..(int sampleCount) do
                 let xi = hammersley (uint32 i) sampleCount
@@ -245,7 +245,7 @@ module IBL =
                     let d = distributionCharlie roughness nDotH
 
                     r <- r + v * d * nDotL * vDotH
-        r + (4.0 * 2.0 * Math.PI / ( float sampleCount))
+        r * (4.0 * 2.0 * Math.PI / ( float sampleCount))
 
     let integrateBRDFLtu (vert : Vertex) =
         fragment {

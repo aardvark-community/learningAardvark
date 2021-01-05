@@ -92,7 +92,7 @@
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\System.Text.Json.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.Loader.dll
- 0:   Loading plugins .................................................................... 0.049 s
+ 0:   Loading plugins .................................................................... 0.050 s
  0:   using cache dir: C:\Users\Stefan\AppData\Roaming\Aardvark\cache
  0:   Loading native dependencies for DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: remap.xml
@@ -124,7 +124,7 @@
  0:     found: windows/x86/vkvm.exp
  0:     found: windows/x86/vkvm.lib
  0:     found: windows/x86/vkvm.pdb
- 0:   Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
+ 0:   Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.001 s
  0:   Loading native dependencies for GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: linux/AMD64/libGLSLangNative.so
  0:     found: windows/AMD64/GLSLangNative.dll
@@ -158,7 +158,7 @@
  0:       D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
  0:       C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64
  0:     [Introspection] loaded native library DevIL from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64\DevIL.dll
- 0:   initializing PixImageDevil ......................................................... 0.041 s
+ 0:   initializing PixImageDevil ......................................................... 0.025 s
  0:   [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -204,7 +204,7 @@
  0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     installing pickler: Aardvark.Base.Picklers.AdaptivePicklers
- 0:   initializing CustomPicklerProvider ................................................. 0.041 s
+ 0:   initializing CustomPicklerProvider ................................................. 0.061 s
  0:   [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -398,7 +398,7 @@
  0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   initializing SceneGraphCompletenessCheck ........................................... 0.137 s
+ 0:   initializing SceneGraphCompletenessCheck ........................................... 0.134 s
  0:   [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
  0:   [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -419,7 +419,7 @@
  0:   [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.SceneGraph.IO, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing Loader ................................................................ 0.000 s
- 0: initializing aardvark ................................................................ 0.532 s
+ 0: initializing aardvark ................................................................ 0.520 s
  0: probing paths for nvapi64
  0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
  0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-32f42d4c-4cb0-88cf-a5d3-8c852c69d925-64
@@ -527,38 +527,11 @@
  0: Aardvark.UI serves favicon.ico
  0: Aardvark.UI.Primitives serves spectrum.css
  0: Aardvark.UI.Primitives serves spectrum.js
- 1: [Server] created client for (e6fd6060-483c-1139-1f61-e6b54dfbb05e/n7), mapping enabled
+ 1: [Server] created client for (c7c2e237-82a3-af29-c5a8-1016dabe8bb1/n7), mapping enabled
  1: [Client] 1: running n7
  2: [Scene] n7: created
  2: texture created
  2: result created
- 2: WARNING: load
- 2: texture created
- 2: result created
- 2: WARNING: load
- 2: result created
- 2: WARNING: AdaptiveRenderingResultCube.compute
- 2: [GL] RenderObjects: +1/-0 (430ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (18ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (12ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (8ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +61/-0 (1452ms)
- 2: using optimized native program
- 2: texture created
- 2: texture created
- 2: texture created
- 2: [GL] RenderObjects: +60/-0 (16ms)
- 2: using optimized native program
- 2: texture created
- 2: texture created
  2: Compiling shader:
   1: #version 460
   2: #define __SHADER_STAGE__
@@ -641,7 +614,7 @@
  79: 
  80: #ifdef Fragment
  81: 
- 82: vec3 helper1(vec4 cc, vec3 color, vec4 em, vec3 r, vec3 v)
+ 82: vec3 helper2(vec4 cc, vec3 color, vec4 em, vec3 r, vec3 v)
  83: {
  84:     float ccNDotV = max(0.0, dot(normalize(cc.xyz), v));
  85:     vec3 cckSA = (cc.w * SLEAardvarkRenderDemo_BRDF_fresnelSchlickRoughness_R3fRwUfkUk_vtBtqu24DwA(vec3(0.04, 0.04, 0.04), em.w, ccNDotV));
@@ -649,129 +622,343 @@
  87:     return ((color * (1.0 - cckSA)) + (textureLod(prefilteredSpecColorSampler, r, (em.w * 4.0)).xyz * ((cckSA * ccbrdf.x) + ccbrdf.y)));
  88: }
  89: 
- 90: vec3 helper(vec2 DiffuseColorCoordinates, vec4 ColorsC, vec3 NormalsC, vec4 albedo, vec4 cc, vec4 em, vec4 nr, vec4 sheen)
+ 90: vec3 helper1(vec3 diffuse, float nDotV, vec3 r, vec4 sheen, vec3 specular)
  91: {
- 92:     vec3 v = normalize((CameraLocation - texture(wPos, DiffuseColorCoordinates).xyz));
- 93:     vec3 r = reflect(NormalsC, (-v));
- 94:     vec3 f0Base = mix(vec3(0.04, 0.04, 0.04), ColorsC.xyz, albedo.w);
- 95:     float nDotV = max(0.0, dot(NormalsC, v));
- 96:     vec3 kSA = SLEAardvarkRenderDemo_BRDF_fresnelSchlickRoughness_R3fRwUfkUk_vtBtqu24DwA(mix(f0Base, SLEAardvarkRenderDemo_PBR_f0ClearCoatToSurface_J558wyL5EFxmvuWviPWtyA(f0Base), cc.w), nr.w, nDotV);
- 97:     vec3 diffuse = ((((1.0 - kSA) * (1.0 - albedo.w)) * texture(diffuseIrradianceSampler, NormalsC).xyz) * ColorsC.xyz);
- 98:     vec3 prefilteredColor = textureLod(prefilteredSpecColorSampler, r, (nr.w * 4.0)).xyz;
- 99:     vec3 brdf = texture(samplerBRDFLtu, vec2(nDotV, nr.w)).xyz;
-100:     vec3 specular = (prefilteredColor * ((kSA * brdf.x) + brdf.y));
-101:     vec3 color = ((sheen.xyz == vec3(0.0, 0.0, 0.0)) ? (diffuse + specular) : (((diffuse + specular) * (1.0 - (max(sheen.xyz.x,max(sheen.xyz.y,sheen.xyz.z)) * brdf.z))) + ((prefilteredColor * sheen.xyz) * brdf.z)));
-102:     return ((((cc.w == 0.0) ? color : helper1(cc, color, em, r, v)) * AmbientIntensity) * texture(ambientOcc, DiffuseColorCoordinates).x);
-103: }
-104: 
-105: layout(location = 0) in vec2 fs_DiffuseColorCoordinates;
-106: layout(location = 0) out vec4 ColorsOut;
-107: void main()
-108: {
-109:     vec4 albedo = texture(color, fs_DiffuseColorCoordinates);
-110:     vec4 nr = texture(normal, fs_DiffuseColorCoordinates);
-111:     vec4 em = texture(emission, fs_DiffuseColorCoordinates);
-112:     vec4 cc = texture(clearCoat, fs_DiffuseColorCoordinates);
-113:     vec4 sheen1 = texture(sheen, fs_DiffuseColorCoordinates);
-114:     vec3 NormalsC = normalize(nr.xyz);
-115:     vec4 ColorsC = vec4(albedo.xyz, 1.0);
-116:     ColorsOut = vec4((em.xyz + ((albedo.w < 0.0) ? ColorsC.xyz : helper(fs_DiffuseColorCoordinates, ColorsC, NormalsC, albedo, cc, em, nr, sheen1))), 1.0);
-117: }
-118: 
-119: #endif
+ 92:     float sheenDFG = texture(samplerBRDFLtu, vec2(nDotV, sheen.w)).z;
+ 93:     return (((diffuse + specular) * (1.0 - (max(sheen.xyz.x,max(sheen.xyz.y,sheen.xyz.z)) * sheenDFG))) + ((textureLod(prefilteredSpecColorSampler, r, (sheen.w * 4.0)).xyz * sheen.xyz) * sheenDFG));
+ 94: }
+ 95: 
+ 96: vec3 helper(vec2 DiffuseColorCoordinates, vec4 ColorsC, vec3 NormalsC, vec4 albedo, vec4 cc, vec4 em, vec4 nr, vec4 sheen)
+ 97: {
+ 98:     vec3 v = normalize((CameraLocation - texture(wPos, DiffuseColorCoordinates).xyz));
+ 99:     vec3 r = reflect(NormalsC, (-v));
+100:     vec3 f0Base = mix(vec3(0.04, 0.04, 0.04), ColorsC.xyz, albedo.w);
+101:     float nDotV = max(0.0, dot(NormalsC, v));
+102:     vec3 kSA = SLEAardvarkRenderDemo_BRDF_fresnelSchlickRoughness_R3fRwUfkUk_vtBtqu24DwA(mix(f0Base, SLEAardvarkRenderDemo_PBR_f0ClearCoatToSurface_J558wyL5EFxmvuWviPWtyA(f0Base), cc.w), nr.w, nDotV);
+103:     vec3 diffuse = ((((1.0 - kSA) * (1.0 - albedo.w)) * texture(diffuseIrradianceSampler, NormalsC).xyz) * ColorsC.xyz);
+104:     vec3 brdf = texture(samplerBRDFLtu, vec2(nDotV, nr.w)).xyz;
+105:     vec3 specular = (textureLod(prefilteredSpecColorSampler, r, (nr.w * 4.0)).xyz * ((kSA * brdf.x) + brdf.y));
+106:     vec3 color = ((sheen.xyz == vec3(0.0, 0.0, 0.0)) ? (diffuse + specular) : helper1(diffuse, nDotV, r, sheen, specular));
+107:     return ((((cc.w == 0.0) ? color : helper2(cc, color, em, r, v)) * AmbientIntensity) * texture(ambientOcc, DiffuseColorCoordinates).x);
+108: }
+109: 
+110: layout(location = 0) in vec2 fs_DiffuseColorCoordinates;
+111: layout(location = 0) out vec4 ColorsOut;
+112: void main()
+113: {
+114:     vec4 albedo = texture(color, fs_DiffuseColorCoordinates);
+115:     vec4 nr = texture(normal, fs_DiffuseColorCoordinates);
+116:     vec4 em = texture(emission, fs_DiffuseColorCoordinates);
+117:     vec4 cc = texture(clearCoat, fs_DiffuseColorCoordinates);
+118:     vec4 sheen1 = texture(sheen, fs_DiffuseColorCoordinates);
+119:     vec3 NormalsC = normalize(nr.xyz);
+120:     vec4 ColorsC = vec4(albedo.xyz, 1.0);
+121:     ColorsOut = vec4((em.xyz + ((albedo.w < 0.0) ? ColorsC.xyz : helper(fs_DiffuseColorCoordinates, ColorsC, NormalsC, albedo, cc, em, nr, sheen1))), 1.0);
+122: }
+123: 
+124: #endif
 
  2: texture created
  2: result created
  2: texture created
  2: result created
  2: texture created
- 2: [GL] RenderObjects: +1/-0 (14ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (50ms)
- 2: using optimized native program
+ 2: result created
+ 2: WARNING: load
  2: result created
  2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-0 (427ms)
+ 2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (5ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +61/-0 (1417ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: [GL] RenderObjects: +1/-0 (1493ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1505ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: texture created
  2: result created
  2: WARNING: AdaptiveRenderingResultCube.compute
- 2: [GL] RenderObjects: +1/-0 (9ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (19ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (9ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (37ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (49ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (12ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (35ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (5ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (4ms)
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: texture created
  2: result created
- 2: [GL] RenderObjects: +1/-0 (10ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-0 (8ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +2/-0 (3844ms)
+ 2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3877ms)
+ 2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (4705ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (18ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (20ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (45ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (37ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (6ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: result created
+ 2: Compiling shader:
+  1: #version 460
+  2: #define __SHADER_STAGE__
+  3: 
+  4: 
+  5: 
+  6: 
+  7: layout(std140, binding = 0)
+  8: uniform PerModel
+  9: {
+ 10:     mat4x4 ModelTrafo;
+ 11: };
+ 12: 
+ 13: 
+ 14: layout(std140, binding = 1)
+ 15: uniform PerView
+ 16: {
+ 17:     mat4x4 ViewProjTrafo;
+ 18: };
+ 19: 
+ 20: 
+ 21: float SLEAardvarkRenderDemo_BRDF_visibilityAshikhmin_1GWL7ALGseRABCZZ00R7N8g(float nDotV, float nDotL)
+ 22: {
+ 23:     return (1.0 / max(0.001, (4.0 * ((nDotL + nDotV) - (nDotL * nDotV)))));
+ 24: }
+ 25: 
+ 26: 
+ 27: float SLEAardvarkRenderDemo_BRDF_distributionCharlie_9Ai0hRoW1dnTGa2k_n8d7g(float roughness, float nDotH)
+ 28: {
+ 29:     float rcpR = (1.0 / (roughness * roughness));
+ 30:     return (((2.0 + rcpR) * pow((1.0 - (nDotH * nDotH)), (rcpR * 0.5))) / 6.283185307179586);
+ 31: }
+ 32: 
+ 33: 
+ 34: vec3 SLEAardvarkRenderDemo_IBL_sampleHemisphereUniform_FgaeM90ae3GFapvgDr3MWQ(vec2 xi)
+ 35: {
+ 36:     float phi = (6.283185307179586 * xi.x);
+ 37:     float cosTheta = (1.0 - xi.y);
+ 38:     float sinTheta = sqrt((1.0 - (cosTheta * cosTheta)));
+ 39:     return vec3((cos(phi) * sinTheta), (sin(phi) * sinTheta), cosTheta);
+ 40: }
+ 41: 
+ 42: 
+ 43: float SLEAardvarkRenderDemo_IBL_radicalInverseVdC_PTzu00jjKLhEbXthcNGwxKw(uint bitss)
+ 44: {
+ 45:     uint bits = ((bitss << 16) | (bitss >> 16));
+ 46:     bits = (((bits & uint(1431655765)) << 1) | ((bits & uint(-1431655766)) >> 1));
+ 47:     bits = (((bits & uint(858993459)) << 2) | ((bits & uint(-858993460)) >> 2));
+ 48:     bits = (((bits & uint(252645135)) << 4) | ((bits & uint(-252645136)) >> 4));
+ 49:     bits = (((bits & uint(16711935)) << 8) | ((bits & uint(-16711936)) >> 8));
+ 50:     return (float(bits) * 2.3283064365386963E-10);
+ 51: }
+ 52: 
+ 53: 
+ 54: vec3 SLEAardvarkRenderDemo_IBL_importanceSampleGGX_4V42kWO755TUaY2LZp5AiA(vec2 xi, vec3 n, float roughness)
+ 55: {
+ 56:     float a = (roughness * roughness);
+ 57:     float phi = (6.283185307179586 * xi.x);
+ 58:     float cosTheta = sqrt(((1.0 - xi.y) / (1.0 + (((a * a) - 1.0) * xi.y))));
+ 59:     float sinTheta = sqrt((1.0 - (cosTheta * cosTheta)));
+ 60:     vec3 h = vec3((cos(phi) * sinTheta), (sin(phi) * sinTheta), cosTheta);
+ 61:     vec3 tangent = normalize(cross(((abs(n.z) < 0.999) ? vec3(0.0, 0.0, 1.0) : vec3(1.0, 0.0, 0.0)), n));
+ 62:     return normalize((((tangent * h.x) + (cross(n, tangent) * h.y)) + (n * h.z)));
+ 63: }
+ 64: 
+ 65: 
+ 66: float helper(float roughness)
+ 67: {
+ 68:     float r = (roughness + 1.0);
+ 69:     return ((r * r) / 8.0);
+ 70: }
+ 71: 
+ 72: 
+ 73: float SLEAardvarkRenderDemo_BRDF_GeometrySchlickGGX_26R00oEc3DtK0V8hk2HayMQ(bool ilb, float nDotV, float roughness)
+ 74: {
+ 75:     float k = (ilb ? ((roughness * roughness) / 2.0) : helper(roughness));
+ 76:     return (nDotV / ((nDotV * (1.0 - k)) + k));
+ 77: }
+ 78: 
+ 79: 
+ 80: float SLEAardvarkRenderDemo_BRDF_GeometrySmith_6IVwXuh0yVUxTwB0n7MN2w(bool ilb, float nDotV, float nDotL, float roughness)
+ 81: {
+ 82:     return (SLEAardvarkRenderDemo_BRDF_GeometrySchlickGGX_26R00oEc3DtK0V8hk2HayMQ(ilb, nDotL, roughness) * SLEAardvarkRenderDemo_BRDF_GeometrySchlickGGX_26R00oEc3DtK0V8hk2HayMQ(ilb, nDotV, roughness));
+ 83: }
+ 84: 
+ 85: 
+ 86: vec2 SLEAardvarkRenderDemo_IBL_hammersley_2gyFTS6CAmuofKsNP5ICMA(uint i, uint n)
+ 87: {
+ 88:     return vec2((float(i) / float(n)), SLEAardvarkRenderDemo_IBL_radicalInverseVdC_PTzu00jjKLhEbXthcNGwxKw(i));
+ 89: }
+ 90: 
+ 91: 
+ 92: vec2 SLEAardvarkRenderDemo_IBL_integrateBRDF_BK00K7Olkhdg9nwLKnn1X9Q(float nDotV, float roughness)
+ 93: {
+ 94:     vec3 v = vec3(sqrt((1.0 - (nDotV * nDotV))), 0.0, nDotV);
+ 95:     float a = 0.0;
+ 96:     float b = 0.0;
+ 97:     for(int i = 0; (i < 1025); i++)
+ 98:     {
+ 99:         vec3 h = SLEAardvarkRenderDemo_IBL_importanceSampleGGX_4V42kWO755TUaY2LZp5AiA(SLEAardvarkRenderDemo_IBL_hammersley_2gyFTS6CAmuofKsNP5ICMA(uint(i), 1024), vec3(0.0, 0.0, 1.0), roughness);
+100:         float nDotL = max(normalize(((2.0 * dot(v, h)) * h)).z, 0.0);
+101:         float vDotH = max(0.0, dot(v, h));
+102:         if((nDotL > 0.0))
+103:         {
+104:             float gVis = ((SLEAardvarkRenderDemo_BRDF_GeometrySmith_6IVwXuh0yVUxTwB0n7MN2w(true, nDotV, nDotL, roughness) * vDotH) / (max(h.z, 0.0) * nDotV));
+105:             float fc = pow((1.0 - vDotH), 5.0);
+106:             a = (a + ((1.0 - fc) * gVis));
+107:             b = (b + (fc * gVis));
+108:         }
+109:     }
+110:     return vec2((a / 1024.0), (b / 1024.0));
+111: }
+112: 
+113: 
+114: float SLEAardvarkRenderDemo_IBL_integrateBRDFCharlie_dRwou15SqKzufT12gR14jA(float nDotV, float roughness)
+115: {
+116:     vec3 v = vec3(sqrt((1.0 - (nDotV * nDotV))), 0.0, nDotV);
+117:     float r = 0.0;
+118:     for(int i = 0; (i < 4097); i++)
+119:     {
+120:         vec3 h = SLEAardvarkRenderDemo_IBL_sampleHemisphereUniform_FgaeM90ae3GFapvgDr3MWQ(SLEAardvarkRenderDemo_IBL_hammersley_2gyFTS6CAmuofKsNP5ICMA(uint(i), 4096));
+121:         float nDotL = max(normalize(((2.0 * dot(v, h)) * h)).z, 0.0);
+122:         if((nDotL > 0.0))
+123:         {
+124:             r = (r + (((SLEAardvarkRenderDemo_BRDF_visibilityAshikhmin_1GWL7ALGseRABCZZ00R7N8g(nDotV, nDotL) * SLEAardvarkRenderDemo_BRDF_distributionCharlie_9Ai0hRoW1dnTGa2k_n8d7g(roughness, max(h.z, 0.0))) * nDotL) * max(0.0, dot(v, h))));
+125:         }
+126:     }
+127:     return (r * 0.006135923151542565);
+128: }
+129: 
+130: 
+131: 
+132: #ifdef Vertex
+133: 
+134: layout(location = 0) in vec2 DiffuseColorCoordinates;
+135: layout(location = 1) in vec4 Positions;
+136: layout(location = 0) out vec2 fs_DiffuseColorCoordinates;
+137: void main()
+138: {
+139:     fs_DiffuseColorCoordinates = DiffuseColorCoordinates;
+140:     gl_Position = ((Positions * ModelTrafo) * ViewProjTrafo);
+141: }
+142: 
+143: #endif
+144: 
+145: 
+146: 
+147: #ifdef Fragment
+148: layout(location = 0) in vec2 fs_DiffuseColorCoordinates;
+149: layout(location = 0) out vec4 ColorsOut;
+150: void main()
+151: {
+152:     ColorsOut = vec4(vec3(SLEAardvarkRenderDemo_IBL_integrateBRDF_BK00K7Olkhdg9nwLKnn1X9Q(fs_DiffuseColorCoordinates.x, fs_DiffuseColorCoordinates.y), SLEAardvarkRenderDemo_IBL_integrateBRDFCharlie_dRwou15SqKzufT12gR14jA(fs_DiffuseColorCoordinates.x, fs_DiffuseColorCoordinates.y)), 1.0);
+153: }
+154: 
+155: #endif
+
+ 2: [GL] RenderObjects: +1/-0 (583ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: texture created
+ 2: WARNING: load
+ 2: [GL] RenderObjects: +60/-0 (13ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +2/-0 (4314ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (4342ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (5182ms)
+ 2: using optimized native program
+ 2: WARNING: load
+ 2: WARNING: load
+ 2: WARNING: load
+ 2: WARNING: load
+ 2: [GL] RenderObjects: +810/-0 (331ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-1 (622ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +810/-60 (2751ms)
+ 2: [GL] RenderObjects: +810/-0 (147ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-1 (282ms)
+ 3: WARNING: 9d003d
+ 3: WARNING: 9d003d
+ 3: WARNING: 9d003d
+ 3: WARNING: 9d003d
+ 3: WARNING: 9d003d
+ 3: WARNING: 9d003d
+ 3: WARNING: ffff00
+ 3: WARNING: ffff00
+ 3: WARNING: ffffff
+ 3: WARNING: ffffff
+ 4: [Client] 1: stopped

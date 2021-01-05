@@ -414,7 +414,7 @@ module PBR =
                             let sheen = specularLobeCloth frag.sheenColor frag.sheenRoughness nDotH nDotV nDotL
                             let sheenDFG = samplerBRDFLtu.Sample(V2d(nDotV, frag.sheenRoughness)).Z
                             let sheenScaling = 1.0 - (max3 frag.sheenColor) *  sheenDFG
-                            (diffuse + specular * specularAttenuation) * sheenScaling + sheen
+                            (diffuse + specular * specularAttenuation)  * sheenScaling + sheen
 
                     if frag.clearCoat = 0.0 then
                         // add to outgoing radiance from single light
@@ -509,8 +509,10 @@ module PBR =
                         if frag.sheenColor = V3d.OOO then
                             diffuse + specular
                         else
-                            let sheen = prefilteredColor * frag.sheenColor * brdf.Z
-                            let sheenScaling = 1.0 - (max3 frag.sheenColor) * brdf.Z
+                            let prefilteredColorSheen = prefilteredSpecColorSampler.SampleLevel(r, frag.sheenRoughness * maxReflectLod).XYZ
+                            let sheenDFG = samplerBRDFLtu.Sample(V2d(nDotV, frag.sheenRoughness)).Z
+                            let sheen = prefilteredColorSheen * frag.sheenColor * sheenDFG
+                            let sheenScaling = 1.0 - (max3 frag.sheenColor) * sheenDFG
                             (diffuse + specular ) * sheenScaling + sheen
 
                     let ambient = 
