@@ -412,7 +412,9 @@ module PBR =
                             diffuse + specular * specularAttenuation
                         else
                             let sheen = specularLobeCloth frag.sheenColor frag.sheenRoughness nDotH nDotV nDotL
-                            (diffuse + specular * specularAttenuation) + sheen
+                            let sheenDFG = samplerBRDFLtu.Sample(V2d(nDotV, frag.sheenRoughness)).Z
+                            let sheenScaling = 1.0 - (max3 frag.sheenColor) *  sheenDFG
+                            (diffuse + specular * specularAttenuation) * sheenScaling + sheen
 
                     if frag.clearCoat = 0.0 then
                         // add to outgoing radiance from single light
@@ -432,7 +434,7 @@ module PBR =
             return V4d(col, 1.0)
         }
 
-    [<ReflectedDefinition>]
+ (*   [<ReflectedDefinition>]
     let pBRAbientLight f0 roughness metallic (albedo : V3d) n r v (clearCoat : float) clearCoatRoughness clearCoatNormal=
         let shadingType = ShadeingType.Standard
         let nDotV = Vec.dot n v |>  max 0.0
@@ -473,22 +475,58 @@ module PBR =
         let f0 = Lerp f0Base (f0ClearCoatToSurface f0Base) clearCoat
 
         let ambient = pBRAbientLight f0 roughness metallic albedo n r v clearCoat clearCoatRoughness clearCoatNormal
-        ambient   
+        ambient   *)
 
 
     let abientDeferred (frag : Fragment) =
         fragment {
-            let occlusion = ambientOcc.Sample(frag.tc).X
             let col = 
                 if frag.metallic < 0.0 then //no lighting, just put out the color      
                     frag.c.XYZ
                 else //PBR lightning
-                    let metallic = frag.metallic
-                    let roughness = frag.roughness
+                    let occlusion = ambientOcc.Sample(frag.tc).X
                     let albedo = frag.c.XYZ
-                    let n = frag.n
-                    let wPos = frag.wp
-                    let c = pBRAbient metallic roughness albedo n wPos frag.clearCoat frag.clearCoatRoughness frag.clearCoatNormal
+                    let cameraPos = uniform.CameraLocation
+                    let v = cameraPos - frag.wp.XYZ |> Vec.normalize
+                    let r = Vec.reflect -v frag.n
+
+                    //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
+                    let f0Base = Lerp (V3d(0.04)) albedo frag.metallic
+                    let f0 = Lerp f0Base (f0ClearCoatToSurface f0Base) frag.clearCoat
+
+                    let nDotV = Vec.dot frag.n v |>  max 0.0
+                    let kSA = fresnelSchlickRoughness f0 frag.roughness nDotV
+                    let kdA  = (1.0 - kSA) * (1.0 - frag.metallic)
+                    let irradiance = diffuseIrradianceSampler.Sample(frag.n).XYZ
+                    let diffuse = kdA * irradiance * albedo
+
+                    let maxReflectLod = 4.0
+                    let prefilteredColor = prefilteredSpecColorSampler.SampleLevel(r, frag.roughness * maxReflectLod).XYZ
+                    let brdf = samplerBRDFLtu.Sample(V2d(nDotV, frag.roughness)).XYZ
+                    let specular = prefilteredColor * (kSA * brdf.X + brdf.Y)
+
+                    let color =
+                        if frag.sheenColor = V3d.OOO then
+                            diffuse + specular
+                        else
+                            let sheen = prefilteredColor * frag.sheenColor * brdf.Z
+                            let sheenScaling = 1.0 - (max3 frag.sheenColor) * brdf.Z
+                            (diffuse + specular ) * sheenScaling + sheen
+
+                    let ambient = 
+                        if frag.clearCoat = 0.0 then
+                            color
+                        else
+                            let ccNDotV = Vec.dot frag.clearCoatNormal v |>  max 0.0
+                            let ccf0 = V3d(0.04)
+                            let cckSA = frag.clearCoat * fresnelSchlickRoughness ccf0 frag.clearCoatRoughness ccNDotV
+                            let ccprefilteredColor = prefilteredSpecColorSampler.SampleLevel(r, frag.clearCoatRoughness * maxReflectLod).XYZ
+                            let ccbrdf = samplerBRDFLtu.Sample(V2d(ccNDotV, frag.clearCoatRoughness)).XY
+                            let ccspecular = ccprefilteredColor * (cckSA * ccbrdf.X + ccbrdf.Y)
+                            color * (1.0 - cckSA) + ccspecular
+
+                    let ambientIntensity = uniform.AmbientIntensity
+                    let c = ambient * ambientIntensity
                     c * occlusion
 
             let em = frag.emission
