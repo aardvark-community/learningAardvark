@@ -361,34 +361,7 @@ module App =
                     ])  size   
 
    
-        let combined =
-            let ts = 
-                diffuseAndSpecular
-                |> Map.toList
-                |> ASet.ofList 
-           
-            let signatureC =
-                runtime.CreateFramebufferSignature [
-                    DefaultSemantic.Colors, RenderbufferFormat.Rgba32f
-                ] 
-           
-            let s = aset {
-               for  (_,t) in ts do
-                    let pass = 
-                         Sg.fullScreenQuad
-                        |> Sg.adapter
-                        |> Sg.uniform "AlbedoColor" (AVal.constant C4d.White)
-                        |> Sg.texture ( Sym.ofString "AlbedoColorTexture")  t
-                        |> Sg.shader {
-                            do! AlbedoColor.albedoColor
-                            } 
-                    yield  pass
-            }                             
-            
-            Sg.set s
-            |> Sg.blendMode (blendMode |> AVal.constant)
-            |> Sg.compile runtime signatureC
-            |> RenderTask.renderToColor  size     
+        let combined = combine.combine runtime size diffuseAndSpecular
 
         let postprocessed = 
             AVal.bind (fun doBloom  ->  

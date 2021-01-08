@@ -18,6 +18,7 @@
     <Compile Include="Light.fs" />
     <Compile Include="Material.fs" />
     <Compile Include="basicShaders.fs" />
+    <Compile Include="combine.fs" />
     <Compile Include="shadow.fs" />
     <Compile Include="GeometryBuffer.fs" />
     <Compile Include="brdf.fs" />
