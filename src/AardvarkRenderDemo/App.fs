@@ -187,7 +187,7 @@ module App =
                                     |> Sg.shader {
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
-                                        do! GBuffer.shadowDeferred
+                                        do! PBR.shadowDeferred
                                         }
                                 else
                                      Sg.fullScreenQuad
@@ -209,7 +209,7 @@ module App =
                                     |> Sg.shader {
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
-                                        do! GBuffer.shadowDeferred
+                                        do! PBR.shadowDeferred
                                         }
                                 else
                                      Sg.fullScreenQuad
@@ -247,7 +247,7 @@ module App =
                                     |> Sg.shader {
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
-                                        do! GBuffer.shadowDeferred
+                                        do! PBR.shadowDeferred
                                         }
                                 else
                                      Sg.fullScreenQuad
@@ -269,7 +269,7 @@ module App =
                                     |> Sg.shader {
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
-                                        do! GBuffer.shadowDeferred
+                                        do! PBR.shadowDeferred
                                         }
                                 else
                                      Sg.fullScreenQuad
@@ -336,11 +336,12 @@ module App =
 
         let signature =
             runtime.CreateFramebufferSignature [
-                DefaultSemantic.Colors, RenderbufferFormat.Rgba32f
+                (Sym.ofString "Diffuse") , RenderbufferFormat.Rgba32f
+                (Sym.ofString "Specular") , RenderbufferFormat.Rgba32f
             ]
 
         //render linear HDR output
-        let  output = 
+        let  diffuseAndSpecular = 
             Sg.set lightSgs
             |> Sg.blendMode (blendMode |> AVal.constant)
             |> Sg.uniform "AmbientIntensity" m.enviorment.ambientLightIntensity
@@ -353,14 +354,48 @@ module App =
             |> Sg.texture (GBufferRendering.Semantic.ClearCoat) (Map.find GBufferRendering.Semantic.ClearCoat gBuffer)
             |> Sg.texture (GBufferRendering.Semantic.Sheen) (Map.find GBufferRendering.Semantic.Sheen gBuffer)
             |> Sg.compile runtime signature
-            |> RenderTask.renderToColor size   
+            |> RenderTask.renderSemantics(
+                    Set.ofList [
+                        (Sym.ofString"Diffuse")
+                        (Sym.ofString"Specular")
+                    ])  size   
+
+   
+        let combined =
+            let ts = 
+                diffuseAndSpecular
+                |> Map.toList
+                |> ASet.ofList 
+           
+            let signatureC =
+                runtime.CreateFramebufferSignature [
+                    DefaultSemantic.Colors, RenderbufferFormat.Rgba32f
+                ] 
+           
+            let s = aset {
+               for  (_,t) in ts do
+                    let pass = 
+                         Sg.fullScreenQuad
+                        |> Sg.adapter
+                        |> Sg.uniform "AlbedoColor" (AVal.constant C4d.White)
+                        |> Sg.texture ( Sym.ofString "AlbedoColorTexture")  t
+                        |> Sg.shader {
+                            do! AlbedoColor.albedoColor
+                            } 
+                    yield  pass
+            }                             
+            
+            Sg.set s
+            |> Sg.blendMode (blendMode |> AVal.constant)
+            |> Sg.compile runtime signatureC
+            |> RenderTask.renderToColor  size     
 
         let postprocessed = 
             AVal.bind (fun doBloom  ->  
                 if doBloom then
-                    bloom.bloom runtime size output m.bloom :> aval<ITexture>
+                    bloom.bloom runtime size combined m.bloom :> aval<ITexture>
                 else 
-                    output :> aval<ITexture>) 
+                    combined :> aval<ITexture>) 
                 m.bloom.on
         
         //tone mapping and gamma correction

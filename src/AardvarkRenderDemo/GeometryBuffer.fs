@@ -353,10 +353,3 @@ module GBuffer =
             let sheen = sheen.Sample(vert.tc) 
             return {wp =  wPos; n = n; c = V4d(albedo.XYZ,1.0);  tc = vert.tc; metallic = albedo.W; roughness = nr.W; emission =  em.XYZ; clearCoat =  cc.W; clearCoatRoughness = em.W; clearCoatNormal = clearCoatNormal; sheenColor = sheen.XYZ; sheenRoughness = sheen.W}
         }
-
-    let shadowDeferred  (vert : Vertex) =
-        fragment {
-            let wPos = wPos.Sample(vert.tc)
-            let shadow = Shadow.getShadow wPos
-            return vert.c * shadow
-        }

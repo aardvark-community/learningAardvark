@@ -378,14 +378,14 @@ module PBR =
         ndf * g * F  
          
     [<ReflectedDefinition>]
-    let directSheen (sheenColor : V3d) sheenRoughness (color : V3d) nDotH nDotV nDotL =
+    let directSheen (sheenColor : V3d) sheenRoughness nDotH nDotV nDotL (diffuse : V3d) (specular : V3d) =
         if sheenColor = V3d.OOO then
-            color
+            (diffuse, specular)
         else
             let sheen = specularLobeCloth sheenColor sheenRoughness nDotH nDotV nDotL
             let sheenDFG = samplerBRDFLtu.Sample(V2d(nDotV, sheenRoughness)).Z
             let sheenScaling = 1.0 - (max3 sheenColor) *  sheenDFG
-            color  * sheenScaling + sheen
+            (diffuse  * sheenScaling, specular  * sheenScaling + sheen)
     
     [<ReflectedDefinition>]
     let directclearCoat (clearCoat : float) clearCoatRoughness (clearCoatNormal : V3d) (lDir : V3d) (v : V3d) (h : V3d) hDotV =
@@ -399,11 +399,17 @@ module PBR =
         let clearCoatResponce = specularLobeStandard ccF clearCoatRoughness ccNDotH ccNDotV ccNDotL
         (ccF, clearCoatResponce,ccNDotL)
 
+    type FragmentOut = {
+        [<Semantic("Diffuse")>]  Diffuse       : V4d
+        [<Semantic("Specular")>] Specular      : V4d
+        [<TexCoord>]        tc      : V2d
+    }
+
     let lightingDeferred (frag : Fragment)  =
         fragment {
-            let col = 
+            let diffuse, specular = 
                 if frag.metallic < 0.0 then //no lighting, ignore      
-                    V3d.Zero
+                    V3d.Zero, V3d.Zero
                 else //PBR lightning
                     let wPos = frag.wp.XYZ
                     let albedo = frag.c.XYZ
@@ -426,20 +432,19 @@ module PBR =
 
                     let F = fresnelSchlick f0 hDotV 
 
-                    let specular = specularLobeStandard F frag.roughness nDotH nDotV nDotL
-                    let diffuse = diffuseLobe F frag.metallic albedo
+                    let spec = specularLobeStandard F frag.roughness nDotH nDotV nDotL
+                    let diff = diffuseLobe F frag.metallic albedo
 
-                    let color = directSheen frag.sheenColor frag.sheenRoughness (diffuse + specular * specularAttenuation) nDotH nDotV nDotL
+                   
+                    let diff1, spec1 = directSheen frag.sheenColor frag.sheenRoughness nDotH nDotV nDotL diff (spec * specularAttenuation)
 
                     if frag.clearCoat = 0.0 then
-                        // add to outgoing radiance from single light
-                        color * illuminannce * nDotL
+                        (diff1 * illuminannce * nDotL, spec1 * illuminannce * nDotL)
                     else
                         let ccF, clearCoatResponce, ccNDotL = directclearCoat frag.clearCoat frag.clearCoatRoughness frag.clearCoatNormal lDir v h hDotV
-                        // add to outgoing radiance from single light
-                        (color * (V3d.One-ccF) * nDotL + clearCoatResponce * ccNDotL) * illuminannce 
+                        (diff1 * (V3d.One-ccF) * illuminannce * nDotL, (spec1 * (V3d.One-ccF) * nDotL + clearCoatResponce * ccNDotL)* illuminannce )
 
-            return V4d(col, 1.0)
+            return {Diffuse = V4d(diffuse, 1.0); Specular = V4d(specular, 1.0); tc = frag.tc}
         }
 
 
@@ -457,20 +462,20 @@ module PBR =
         prefilteredColor * (kSA * brdf.X + brdf.Y)
 
     [<ReflectedDefinition>]
-    let ambientSheen (sheenColor : V3d) (sheenRoughness : float) (color : V3d) nDotV r =                  
+    let ambientSheen (sheenColor : V3d) (sheenRoughness : float) nDotV r (diffuse : V3d) (specular : V3d)=                  
         if sheenColor = V3d.OOO then
-            color
+            (diffuse, specular) 
         else
             let prefilteredColorSheen = prefilteredSpecColorSampler.SampleLevel(r, sheenRoughness * maxReflectLod).XYZ
             let sheenDFG = samplerBRDFLtu.Sample(V2d(nDotV, sheenRoughness)).Z
             let sheen = prefilteredColorSheen * sheenColor * sheenDFG
             let sheenScaling = 1.0 - (max3 sheenColor) * sheenDFG
-            color * sheenScaling + sheen
+            (diffuse * sheenScaling , specular * sheenScaling + sheen) 
 
     [<ReflectedDefinition>]
-    let ambienClearCoat (clearCoat : float) (clearCoatRoughness : float) (color : V3d) (clearCoatNormal : V3d) v r =
+    let ambienClearCoat (clearCoat : float) (clearCoatRoughness : float) (clearCoatNormal : V3d) v r (diffuse : V3d) (specular : V3d)=
         if clearCoat = 0.0 then
-            color
+            (diffuse, specular)
         else
             let ccNDotV = Vec.dot clearCoatNormal v |>  max 0.0
             let ccf0 = V3d(0.04)
@@ -478,13 +483,13 @@ module PBR =
             let ccprefilteredColor = prefilteredSpecColorSampler.SampleLevel(r, clearCoatRoughness * maxReflectLod).XYZ
             let ccbrdf = samplerBRDFLtu.Sample(V2d(ccNDotV, clearCoatRoughness)).XY
             let ccspecular = ccprefilteredColor * (cckSA * ccbrdf.X + ccbrdf.Y)
-            color * (1.0 - cckSA) + ccspecular    
+            (diffuse * (1.0 - cckSA), specular * (1.0 - cckSA)  + ccspecular)   
 
     let abientDeferred (frag : Fragment) =
         fragment {
-            let col = 
+            let diffuse, specular = 
                 if frag.metallic < 0.0 then //no lighting, just put out the color      
-                    frag.c.XYZ
+                    (frag.c.XYZ, V3d.OOO)
                 else //PBR lightning
                     let occlusion = ambientOcc.Sample(frag.tc).X
                     let albedo = frag.c.XYZ
@@ -501,20 +506,17 @@ module PBR =
                     let kSA = fresnelSchlickRoughness f0 frag.roughness nDotV
                     let kdA  = (1.0 - kSA) * (1.0 - frag.metallic)
 
-                    let diffuse = ambientDiffuse kdA albedo frag.n
+                    let diff = ambientDiffuse kdA albedo frag.n
 
-                    let specular = ambientSpecular kSA frag.roughness nDotV r
+                    let spec = ambientSpecular kSA frag.roughness nDotV r
 
-                    let color = ambientSheen frag.sheenColor frag.sheenRoughness (diffuse + specular) nDotV r
-                    
-                    let ambient = ambienClearCoat frag.clearCoat frag.clearCoatRoughness color frag.clearCoatNormal v r
+                    let diff1, spec1 = ambientSheen frag.sheenColor frag.sheenRoughness nDotV r diff spec
+                    let diff2, spec2 = ambienClearCoat frag.clearCoat frag.clearCoatRoughness frag.clearCoatNormal v r diff1 spec1
 
-                    let ambientIntensity = uniform.AmbientIntensity
-                    let c = ambient * ambientIntensity
-                    c * occlusion
+                    (diff2 * uniform.AmbientIntensity * occlusion, spec2 * uniform.AmbientIntensity * occlusion)
 
             let em = frag.emission
-            return V4d(em + col, 1.0)
+            return {Diffuse = V4d(diffuse, 1.0); Specular = V4d(specular+em, 1.0); tc = frag.tc}
         }
 
     let abientDeferredSimple (frag : Fragment) =
@@ -530,6 +532,12 @@ module PBR =
             return V4d(em + col, 1.0)
         }
 
+    let shadowDeferred  (vert : FragmentOut) =
+        fragment {
+            let wPos = wPos.Sample(vert.tc)
+            let shadow = Shadow.getShadow wPos
+            return {Diffuse = vert.Diffuse * shadow; Specular = vert.Specular * shadow; tc = vert.tc}
+        }
 
 
 
