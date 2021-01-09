@@ -134,6 +134,7 @@ module App =
         let outputSignature = values.signature
         let view = values.viewTrafo
         let proj = values.projTrafo
+        let camFoVy = radians 30.0
         let size = values.size |> AVal.map (fun s -> V2i(max 1 s.X, max 1 s.Y))
         let runtime = outputSignature.Runtime
 
@@ -360,8 +361,13 @@ module App =
                         (Sym.ofString"Specular")
                     ])  size   
 
-   
-        let combined = combine.combine runtime size diffuseAndSpecular
+        let diffuse = Map.find  (Sym.ofString"Diffuse") diffuseAndSpecular
+        let specular = Map.find  (Sym.ofString"Specular") diffuseAndSpecular
+
+        let ssss = subSurface.makeSubSurfaceScatttering (runtime : IRuntime) (size : aval<V2i>) (AVal.constant  camFoVy) view proj gBuffer diffuse
+
+        let diffuseAndSpecular' = Map.ofList [((Sym.ofString"Diffuse"),ssss); ((Sym.ofString"Specular"), specular)]
+        let combined = combine.combine runtime size diffuseAndSpecular'
 
         let postprocessed = 
             AVal.bind (fun doBloom  ->  

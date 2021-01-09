@@ -78,7 +78,7 @@ open Aardvark.Base.Rendering.Effects
         [<Semantic("Emission")>] em : V4d
         [<Semantic("ClearCoat")>] cc : V4d
         [<Semantic("Sheen")>] sheen : V4d
-    }
+         }
 
     let private skySampler =
         samplerCube {
@@ -144,6 +144,7 @@ open Aardvark.Base.Rendering.Effects
             addressV WrapMode.Wrap
         }
 
+
     let gBufferShader (vert : Vertex) =
         fragment {
             let gamma  = 2.2
@@ -158,7 +159,14 @@ open Aardvark.Base.Rendering.Effects
             let clearCoatRoughness = uniform.ClearCoatRoughness * clearCoatRoughnessSampler.Sample(vert.tc).X
             let sheenColor =  pow ( uniform.SheenColor * uniform.SheenColorFactor * sheenColorSampler.Sample(vert.tc).XYZ) (V3d(gamma))
             let sheenRoughness = uniform.SheenRoughness * sheenRoughnessSampler.Sample(vert.tc).X
-            return {vert with c = V4d(albedo,metallic); nr = V4d(vert.n.XYZ,  roughness); em = V4d(emission,clearCoatRoughness); cc = V4d(vert.cc.XYZ,clearCoat); sheen = V4d(sheenColor.XYZ,sheenRoughness)}
+  
+            return {vert with 
+                        c = V4d(albedo,metallic)
+                        nr = V4d(vert.n.XYZ,  roughness)
+                        em = V4d(emission,clearCoatRoughness)
+                        cc = V4d(vert.cc.XYZ,clearCoat)
+                        sheen = V4d(sheenColor.XYZ,sheenRoughness)
+                        }
         }
 
     let skyGBuffer (vert : Vertex) =
@@ -170,7 +178,12 @@ open Aardvark.Base.Rendering.Effects
   
             let col = texColor * uniform.SkyMapIntensity
 
-            return {vert with c = V4d(col,-1.0); nr = V4d(vert.n.XYZ,  -1.0); em = V4d.OOOO; cc = V4d.OOOO; sheen = V4d.OOOO}
+            return {vert with c = V4d(col,-1.0)
+                              nr = V4d(vert.n.XYZ,  -1.0) 
+                              em = V4d.OOOO
+                              cc = V4d.OOOO
+                              sheen = V4d.OOOO
+            }
         }
 
     let private normalSampler =
