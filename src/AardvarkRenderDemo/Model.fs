@@ -84,6 +84,14 @@ type TextureMappedColor = {
 }
 
 [<ModelType>]
+type SssProfile =  {
+    Name : String
+    Width :  float
+    Strength : C3d
+    Falloff : C3d
+}
+
+[<ModelType>]
 type PBRMaterial = {
     metallic  : TextureMappedValue
     roughness : TextureMappedValue
@@ -97,6 +105,7 @@ type PBRMaterial = {
     displacment : TextureMappedValue
     sheenColor : TextureMappedColor
     sheenRoughness : TextureMappedValue
+    SssProfileIndex : int option
 }
 
 [<ModelType>]
@@ -184,6 +193,7 @@ type Model =
         bloom : Bloom
         objects : HashMap<string, SceneObject>
         selectedObject : string
+        sssProfiles : HashMap<int, SssProfile>
     }
 
 

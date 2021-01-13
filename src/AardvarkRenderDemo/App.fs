@@ -34,6 +34,7 @@ type Message =
     | LoadProject of string
     | FxAAMessage  of fxAA.Message
     | ToneMappingMessage of filmicToneMappingControl.Message
+    | SssProfileMessage of sssProfiles.Message
 
 module App =   
 
@@ -64,10 +65,11 @@ module App =
         bloom = bloom.defaultBloom
         objects = obj
         selectedObject = selected
+        sssProfiles = HashMap.empty
     }
 
     let initial = 
-        let file = !!["initial_scene.json"]
+        let file = !!["initial_scenes.json"]
         if (System.IO.File.Exists file)
         then 
            projetIO.load file
@@ -128,6 +130,8 @@ module App =
             { m with fxAA = fxAA.update m.fxAA msg }
         | ToneMappingMessage msg -> 
             { m with toneMapping = filmicToneMappingControl.update m.toneMapping msg }
+        | SssProfileMessage msg -> 
+            { m with sssProfiles = sssProfiles.update m.sssProfiles msg }
 
      //main render task: put all passes together for deferred rendering
     let compileDeffered (scene : ISg<'msg>) (m : AdaptiveModel) (values : Aardvark.Service.ClientValues)=
@@ -364,7 +368,7 @@ module App =
         let diffuse = Map.find  (Sym.ofString"Diffuse") diffuseAndSpecular
         let specular = Map.find  (Sym.ofString"Specular") diffuseAndSpecular
 
-        let ssss = subSurface.makeSubSurfaceScatttering (runtime : IRuntime) (size : aval<V2i>) (AVal.constant  camFoVy) view proj gBuffer diffuse
+        let ssss = subSurface.makeSubSurfaceScatttering (runtime : IRuntime) (size : aval<V2i>) (AVal.constant  camFoVy) view proj gBuffer diffuse m.sssProfiles
 
         let diffuseAndSpecular' = Map.ofList [((Sym.ofString"Diffuse"),ssss); ((Sym.ofString"Specular"), specular)]
         let combined = combine.combine runtime size diffuseAndSpecular'
@@ -455,7 +459,7 @@ module App =
                         ]
                         m.selectedObject
                         |> AVal.bind (fun n -> AMap.tryFind n m.objects)
-                        |> AVal.map (Option.map  (sceneObjectControl.view >> UI.map SceneObjectMessage  ) >> IndexList.single)
+                        |> AVal.map (Option.map  (sceneObjectControl.view m.sssProfiles>> UI.map SceneObjectMessage  ) >> IndexList.single)
                         |> AList.ofAVal
                         |> AList.choose id
                         |> Incremental.div AttributeMap.empty
@@ -504,6 +508,10 @@ module App =
                     [
                         globalEnviroment.view m.enviorment |> UI.map GlobalEnviormentMessage
                     ]  
+                "Subsurface scattering profiles",
+                    [
+                        sssProfiles.view m.sssProfiles |> UI.map SssProfileMessage
+                    ]
                 "Render Settings",
                     [
                         Html.table [                        

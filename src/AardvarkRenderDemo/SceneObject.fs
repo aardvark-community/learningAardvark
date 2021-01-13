@@ -121,7 +121,7 @@ module sceneObjectControl =
                 |None -> m.materials
             { m with materialLinks =  newLinks; materials = newMaterials }
 
-    let view (m : AdaptiveSceneObject) =
+    let view  (sssProfiles : amap<int,AdaptiveSssProfile>) (m : AdaptiveSceneObject) =
         let linkedMaterial = AVal.bind (fun c -> AMap.tryFind c m.materialLinks)  m.currentMaterial
         let updatedMaterial = AVal.map2 (Option.defaultValue)  m.currentMaterial  linkedMaterial
         let materialsList = m.materials |> AMap.keys |> ASet.toAList |> AList.sort
@@ -147,7 +147,7 @@ module sceneObjectControl =
             |> AVal.bind (fun c ->
                 m.materials
                 |> AMap.find c
-                |> AVal.map (fun m -> materialControl.view m |> UI.map (fun msg -> MaterialMessage (msg,c)) |> IndexList.single)
+                |> AVal.map (fun m -> materialControl.view m sssProfiles |> UI.map (fun msg -> MaterialMessage (msg,c)) |> IndexList.single)
             )
             |> AList.ofAVal
             |> Incremental.div AttributeMap.empty

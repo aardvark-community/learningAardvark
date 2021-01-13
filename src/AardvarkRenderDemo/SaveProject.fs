@@ -21,6 +21,7 @@ module projetIO =
         toneMapping : ToneMapping
         bloom : Bloom
         fxAA : fxAA
+        sssProfiles : HashMap<int, SssProfile>
     }
 
     //store all file paths relative to the dir of the scene file
@@ -62,6 +63,7 @@ module projetIO =
             toneMapping = m'.toneMapping
             objects = m'.objects
             selectedObject = m'.selectedObject
+            sssProfiles = m'.sssProfiles
         }
 
     let fromExportModel (em : ExportModel) f =
@@ -78,6 +80,7 @@ module projetIO =
             bloom = em.bloom
             objects = em.objects
             selectedObject = em.selectedObject
+            sssProfiles = em.sssProfiles
         }
         toAbsolutePaths m f
 

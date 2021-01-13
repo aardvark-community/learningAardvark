@@ -64,6 +64,7 @@ module material =
             fileName = None
             factor = 0.8
         }
+        SssProfileIndex = None
     }
 
     let onePxPix (color :C3f)= 
@@ -219,6 +220,7 @@ module material =
                 | "SheenColor" -> Some  (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.sheenColor.color) x.Material :> IAdaptiveValue)
                 | "SheenRoughness" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.sheenRoughness.factor) x.Material :> IAdaptiveValue)
                 | "SheenRoughnessMap" -> Some x.SheenRoughnessMap 
+                | "SssProfileIndex" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> AVal.map (Option.defaultValue 10) m.SssProfileIndex) x.Material :> IAdaptiveValue)
                 | _ -> None
             
             member x.Dispose() = ()
@@ -362,6 +364,7 @@ module materialControl =
         | SetClearCoatNormal of textureMappedValueControl.Message
         | SetSheenColor of textureMappedColorControl.Message
         | SetSheenRoughness of textureMappedValueControl.Message
+        | SetSssProfile of int option
 
     let update  (m : PBRMaterial) (msg : Message)  =
         match msg with
@@ -377,8 +380,28 @@ module materialControl =
         | SetClearCoatNormal msg' -> { m with  clearCoatNormal = textureMappedValueControl.update m.clearCoatNormal msg'}
         | SetSheenRoughness msg' -> { m with  sheenRoughness = textureMappedValueControl.update m.sheenRoughness msg'}
         | SetSheenColor msg' -> { m with  sheenColor = textureMappedColorControl.update m.sheenColor msg'}
+        | SetSssProfile p -> {m with SssProfileIndex = p}
 
-    let view (m : AdaptivePBRMaterial) =
+    let view (m : AdaptivePBRMaterial) (profiles : amap<int,AdaptiveSssProfile>)=
+        let ProfilList = 
+            profiles 
+            |> AMap.keys 
+            |> ASet.toAList 
+            |> AList.sort
+            |> AList.map (Some)
+            |> AList.append (AList.single None)
+
+        let projection  i = 
+            let inner i' =
+                let name = 
+                    AMap.find i' profiles
+                    |> AVal.bind (fun p -> p.Name)
+                    |> AVal.force 
+                sprintf "%s (%i)" name i'
+            Option.map inner i
+            |>Option.defaultValue "-"
+
+
         div [] [
             textureMappedValueControl.view textureMappedValueControl.Linear "Metallic" 0.0 1.0 0.01 m.metallic  |> UI.map SetMetallic
             textureMappedValueControl.view textureMappedValueControl.Linear "Roughness" 0.0 1.0 0.01 m.roughness  |> UI.map SetRoughness
@@ -391,7 +414,8 @@ module materialControl =
             textureMappedValueControl.view textureMappedValueControl.Linear "Sheen Roughness" 0.0 1.0 0.01 m.sheenRoughness  |> UI.map SetSheenRoughness
             textureMappedColorControl.view textureMappedColorControl.Linear "Emission" 0.0 10.0 0.01 m.emission  |> UI.map SetEmission
             textureMappedValueControl.view textureMappedValueControl.Linear "Displacement" 0.0 1.0 0.01 m.displacment  |> UI.map SetDisplacment
-            Html.table [                        
+            Html.table [   
+                 tr [] [ td [] [text "Subsufrace Scattering Profile"]; td [style "width: 70%;"] [Html.SemUi.dropDown' (ProfilList) m.SssProfileIndex  SetSssProfile  projection]]                     
                  tr [] [ td [] [text "Discard"]; td [style "width: 70%;"] [Html.SemUi.toggleBox  m.discard SetDiscard ]]
             ]   
         ]

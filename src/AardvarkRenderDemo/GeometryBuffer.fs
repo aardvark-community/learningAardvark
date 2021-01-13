@@ -48,6 +48,8 @@ open Aardvark.Base.Rendering.Effects
 
         member  x.SheenRoughness :  float =  x?SheenRoughness
 
+        member  x.SssProfileIndex :  int =  x?SssProfileIndex
+
     let internal skyBoxTrafo (v : Vertex) =
         vertex {
             let wp = uniform.ModelTrafo * v.pos
@@ -159,10 +161,12 @@ open Aardvark.Base.Rendering.Effects
             let clearCoatRoughness = uniform.ClearCoatRoughness * clearCoatRoughnessSampler.Sample(vert.tc).X
             let sheenColor =  pow ( uniform.SheenColor * uniform.SheenColorFactor * sheenColorSampler.Sample(vert.tc).XYZ) (V3d(gamma))
             let sheenRoughness = uniform.SheenRoughness * sheenRoughnessSampler.Sample(vert.tc).X
-  
+
+            let m = 10.0 * float uniform.SssProfileIndex + metallic
+
             return {vert with 
-                        c = V4d(albedo,metallic)
-                        nr = V4d(vert.n.XYZ,  roughness)
+                        c = V4d(albedo,m)
+                        nr = V4d(vert.n.XYZ, roughness)
                         em = V4d(emission,clearCoatRoughness)
                         cc = V4d(vert.cc.XYZ,clearCoat)
                         sheen = V4d(sheenColor.XYZ,sheenRoughness)
@@ -364,5 +368,7 @@ module GBuffer =
             let cc  = clearCoat.Sample(vert.tc)
             let clearCoatNormal = cc.XYZ |> Vec.normalize
             let sheen = sheen.Sample(vert.tc) 
-            return {wp =  wPos; n = n; c = V4d(albedo.XYZ,1.0);  tc = vert.tc; metallic = albedo.W; roughness = nr.W; emission =  em.XYZ; clearCoat =  cc.W; clearCoatRoughness = em.W; clearCoatNormal = clearCoatNormal; sheenColor = sheen.XYZ; sheenRoughness = sheen.W}
+            let metallic = if albedo.W < 0.0 then albedo.W else (albedo.W / 10.0 - truncate (albedo.W / 10.0 )) * 10.0
+            return {wp =  wPos; n = n; c = V4d(albedo.XYZ,1.0);  tc = vert.tc; metallic = metallic; roughness = nr.W; emission =  em.XYZ; clearCoat =  cc.W; clearCoatRoughness = em.W; clearCoatNormal = clearCoatNormal; sheenColor = sheen.XYZ; sheenRoughness = sheen.W}
         }
+
