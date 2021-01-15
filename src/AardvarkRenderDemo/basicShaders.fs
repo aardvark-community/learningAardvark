@@ -18,6 +18,9 @@ module fshadeExt =
     [<GLSLIntrinsic("length({0})")>] // Define function as intrinsic, no implementation needed
     let length (a : V3d) : V3d = failwith ""
 
+    [<GLSLIntrinsic("length({0})")>] // Define function as intrinsic, no implementation needed
+    let length2 (a : V2d) : float = failwith ""
+
     [<GLSLIntrinsic("max({0}.x,max({0}.y,{0}.z))")>] // Define function as intrinsic, no implementation needed
     let max3 (a : V3d) : float = Vec.NormMax(a)
 

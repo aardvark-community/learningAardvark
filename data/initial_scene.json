@@ -149,10 +149,11 @@
                         },
                         "factor": 0.0
                       },
-                      "sheenRoughness": {
+"sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
-                      }
+                      },
+                      "SssProfileIndex": null
                     }
                   },
                   {
@@ -216,10 +217,11 @@
                         },
                         "factor": 0.0
                       },
-                      "sheenRoughness": {
+"sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
-                      }
+                      },
+                      "SssProfileIndex": null
                     }
                   },
                   {
@@ -285,10 +287,11 @@
                         },
                         "factor": 0.0
                       },
-                      "sheenRoughness": {
+"sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
-                      }
+                      },
+                      "SssProfileIndex": null
                     }
                   },
                   {
@@ -354,10 +357,11 @@
                         },
                         "factor": 0.0
                       },
-                      "sheenRoughness": {
+"sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
-                      }
+                      },
+                      "SssProfileIndex": null
                     }
                   },
                   {
@@ -423,10 +427,11 @@
                         },
                         "factor": 0.0
                       },
-                      "sheenRoughness": {
+"sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
-                      }
+                      },
+                      "SssProfileIndex": null
                     }
                   },
                   {
@@ -492,10 +497,11 @@
                         },
                         "factor": 0.0
                       },
-                      "sheenRoughness": {
+"sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
-                      }
+                      },
+                      "SssProfileIndex": null
                     }
                   },
                   {
@@ -559,10 +565,11 @@
                         },
                         "factor": 0.0
                       },
-                      "sheenRoughness": {
+"sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
-                      }
+                      },
+                      "SssProfileIndex": null
                     }
                   },
                   {
@@ -624,10 +631,11 @@
                         },
                         "factor": 0.0
                       },
-                      "sheenRoughness": {
+"sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
-                      }
+                      },
+                      "SssProfileIndex": null
                     }
                   },
                   {
@@ -691,10 +699,11 @@
                         },
                         "factor": 0.0
                       },
-                      "sheenRoughness": {
+"sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
-                      }
+                      },
+                      "SssProfileIndex": null
                     }
                   },
                   {
@@ -756,10 +765,11 @@
                         },
                         "factor": 0.0
                       },
-                      "sheenRoughness": {
+"sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
-                      }
+                      },
+                      "SssProfileIndex": null
                     }
                   },
                   {
@@ -825,10 +835,11 @@
                         },
                         "factor": 0.0
                       },
-                      "sheenRoughness": {
+"sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
-                      }
+                      },
+                      "SssProfileIndex": null
                     }
                   }
                 ]
@@ -863,6 +874,10 @@
       "thresholdMin": 0.0833,
       "subpix": 0.75,
       "preset": "Quality25"
+    },
+    "sssProfiles": {
+      "count": 0,
+      "items": []
     }
   }
 }

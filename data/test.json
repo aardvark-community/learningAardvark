@@ -4,14 +4,14 @@
   "value": {
     "cameraViewParams": {
       "Item1": {
-        "X": -0.2719623943613023,
-        "Y": 1.226018941800938,
-        "Z": -0.4246983890713908
+        "X": -0.4956360473080859,
+        "Y": 0.9531460217451952,
+        "Z": -0.9132759756492277
       },
       "Item2": {
-        "X": 0.43457445042012915,
-        "Y": 0.26326673520679045,
-        "Z": 0.8612988291966968
+        "X": 0.2676513487250955,
+        "Y": 0.18515139747548995,
+        "Z": 0.9455589434501217
       },
       "Item3": {
         "X": 0.0,
@@ -31,7 +31,7 @@
                 "W": 0.0,
                 "X": 3.0,
                 "Y": -2.0,
-                "Z": 2.0
+                "Z": 3.0
               },
               "color": {
                 "B": 0.8,
@@ -80,81 +80,14 @@
               },
               "rotation": {
                 "X": 0.0,
-                "Y": 6.0,
+                "Y": 0.0,
                 "Z": 0.0
               },
               "materials": {
                 "count": 24,
                 "items": [
                   {
-                    "Item1": "Hoof",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_satyr_body.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "sheenColor": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.0
-                      },
-                      "sheenRoughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "EyeCavity",
+                    "Item1": "Lips",
                     "Item2": {
                       "metallic": {
                         "fileName": null,
@@ -217,744 +150,8 @@
                       "sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Lashes",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
                       },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_satyr_head_tex.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "sheenColor": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.0
-                      },
-                      "sheenRoughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "rPuppil",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_EYE.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "sheenColor": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.0
-                      },
-                      "sheenRoughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "rEyeball",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_EYE.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "sheenColor": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.0
-                      },
-                      "sheenRoughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Teeth",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_satyr_head_tex.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "sheenColor": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.0
-                      },
-                      "sheenRoughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "HeadSkin",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_satyr_head_tex.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "sheenColor": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.0
-                      },
-                      "sheenRoughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "lEyeBall",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_EYE.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "sheenColor": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.0
-                      },
-                      "sheenRoughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "UpperEyebrow",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_satyr_head_tex.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "sheenColor": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.0
-                      },
-                      "sheenRoughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "lPuppil",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_EYE.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "sheenColor": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.0
-                      },
-                      "sheenRoughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Horn",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_satyr_head_tex.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "sheenColor": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.0
-                      },
-                      "sheenRoughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "lIris",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_EYE.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "sheenColor": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.0
-                      },
-                      "sheenRoughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "lamicral",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_satyr_head_tex.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "sheenColor": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.0
-                      },
-                      "sheenRoughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      }
+                      "SssProfileIndex": null
                     }
                   },
                   {
@@ -1021,341 +218,9 @@
                       "sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "rEyeWithe",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
                       },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_EYE.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "sheenColor": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.0
-                      },
-                      "sheenRoughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "gumms",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_satyr_head_tex.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "sheenColor": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.0
-                      },
-                      "sheenRoughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "rIris",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_EYE.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "sheenColor": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.0
-                      },
-                      "sheenRoughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Nails",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_satyr_body.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "sheenColor": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.0
-                      },
-                      "sheenRoughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      }
-                    }
-                  },
-                  {
-                    "Item1": "Toungth",
-                    "Item2": {
-                      "metallic": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "roughness": {
-                        "fileName": null,
-                        "factor": 0.8
-                      },
-                      "clearCoat": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatRoughness": {
-                        "fileName": null,
-                        "factor": 0.2
-                      },
-                      "albedo": {
-                        "fileName": {
-                          "Some": "SLE_satyr_head_tex.jpg"
-                        },
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 1.0
-                      },
-                      "emission": {
-                        "fileName": null,
-                        "color": {
-                          "B": 0.0,
-                          "G": 0.0,
-                          "R": 0.0
-                        },
-                        "factor": 1.0
-                      },
-                      "normal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "clearCoatNormal": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "discard": false,
-                      "displacment": {
-                        "fileName": null,
-                        "factor": 0.0
-                      },
-                      "sheenColor": {
-                        "fileName": null,
-                        "color": {
-                          "B": 1.0,
-                          "G": 1.0,
-                          "R": 1.0
-                        },
-                        "factor": 0.0
-                      },
-                      "sheenRoughness": {
-                        "fileName": null,
-                        "factor": 0.8
+                      "SssProfileIndex": {
+                        "Some": 1
                       }
                     }
                   },
@@ -1423,11 +288,12 @@
                       "sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
-                      }
+                      },
+                      "SssProfileIndex": null
                     }
                   },
                   {
-                    "Item1": "lEyeWithe",
+                    "Item1": "rPuppil",
                     "Item2": {
                       "metallic": {
                         "fileName": null,
@@ -1490,11 +356,216 @@
                       "sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
-                      }
+                      },
+                      "SssProfileIndex": null
                     }
                   },
                   {
-                    "Item1": "Nippels",
+                    "Item1": "rEyeball",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_EYE.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": null
+                    }
+                  },
+                  {
+                    "Item1": "EyeCavity",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_satyr_head_tex.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": null
+                    }
+                  },
+                  {
+                    "Item1": "gumms",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_satyr_head_tex.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": null
+                    }
+                  },
+                  {
+                    "Item1": "Hoof",
                     "Item2": {
                       "metallic": {
                         "fileName": null,
@@ -1557,7 +628,212 @@
                       "sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
-                      }
+                      },
+                      "SssProfileIndex": null
+                    }
+                  },
+                  {
+                    "Item1": "Horn",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_satyr_head_tex.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": null
+                    }
+                  },
+                  {
+                    "Item1": "UpperEyebrow",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_satyr_head_tex.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": null
+                    }
+                  },
+                  {
+                    "Item1": "Lashes",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_satyr_head_tex.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": null
                     }
                   },
                   {
@@ -1624,11 +900,12 @@
                       "sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
-                      }
+                      },
+                      "SssProfileIndex": null
                     }
                   },
                   {
-                    "Item1": "Lips",
+                    "Item1": "lamicral",
                     "Item2": {
                       "metallic": {
                         "fileName": null,
@@ -1691,12 +968,763 @@
                       "sheenRoughness": {
                         "fileName": null,
                         "factor": 0.8
+                      },
+                      "SssProfileIndex": null
+                    }
+                  },
+                  {
+                    "Item1": "Nippels",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_satyr_body.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": null
+                    }
+                  },
+                  {
+                    "Item1": "rEyeWithe",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_EYE.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": null
+                    }
+                  },
+                  {
+                    "Item1": "Toungth",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_satyr_head_tex.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": null
+                    }
+                  },
+                  {
+                    "Item1": "Teeth",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_satyr_head_tex.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": null
+                    }
+                  },
+                  {
+                    "Item1": "lIris",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_EYE.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": null
+                    }
+                  },
+                  {
+                    "Item1": "lPuppil",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_EYE.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": null
+                    }
+                  },
+                  {
+                    "Item1": "HeadSkin",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_satyr_head_tex.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": {
+                        "Some": 1
                       }
+                    }
+                  },
+                  {
+                    "Item1": "rIris",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_EYE.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": null
+                    }
+                  },
+                  {
+                    "Item1": "Nails",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_satyr_body.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": null
+                    }
+                  },
+                  {
+                    "Item1": "lEyeWithe",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_EYE.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": null
+                    }
+                  },
+                  {
+                    "Item1": "lEyeBall",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": {
+                          "Some": "SLE_EYE.jpg"
+                        },
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": null
                     }
                   }
                 ]
               },
-              "currentMaterial": "BodySkin",
+              "currentMaterial": "HeadSkin",
               "materialLinks": {
                 "count": 0,
                 "items": []
@@ -1726,6 +1754,28 @@
       "thresholdMin": 0.0833,
       "subpix": 0.75,
       "preset": "Quality25"
+    },
+    "sssProfiles": {
+      "count": 1,
+      "items": [
+        {
+          "Item1": 1,
+          "Item2": {
+            "Name": "Default Skin",
+            "Width": 0.006,
+            "Strength": {
+              "B": 0.28,
+              "G": 0.41,
+              "R": 0.48
+            },
+            "Falloff": {
+              "B": 0.3,
+              "G": 0.37,
+              "R": 1.0
+            }
+          }
+        }
+      ]
     }
   }
 }

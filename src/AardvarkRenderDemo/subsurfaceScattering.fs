@@ -11,6 +11,8 @@ open SLEAardvarkRenderDemo.Model
 open Aardvark.UI
 open Aardvark.UI.Primitives
 
+// subsurface scattering, adapted mostly from 
+// https://github.com/vcrom/SubsurfaceScattering
 module subSurfaceShader =
    open fshadeExt
 
@@ -48,10 +50,34 @@ module subSurfaceShader =
             filter Filter.MinMagLinear
         }
 
+    //lab color conversion: 
+    //https://www.shadertoy.com/view/XddGRN
+    [<ReflectedDefinition>]
+    let  xyzF t = 
+        if t > 0.00885645 then pow t (1.0/3.0) else 7.787037 * t + 0.139731
+
+    [<ReflectedDefinition>]
+    let rgb2lab c = 
+        let m = M33d( 0.4124, 0.3576, 0.1805,
+                      0.2126, 0.7152, 0.0722,
+                      0.0193, 0.1192, 0.9505)
+        let  wref =  V3d(0.95047, 1.0, 1.08883)
+        let (cc : V3d) = c * m / wref
+        let ccc = V3d(xyzF cc.X, xyzF cc.Y, xyzF cc.Z)
+        V3d(max 0.0 (166.0 * ccc.Y - 16.0), 
+            500.0 * (ccc.X - ccc.Y), 
+            200.0 * (ccc.X - ccc.Z))
+             
+    //the profile index is packed together with metallic in the W comaponent of the albedo gBuffer texture
     [<ReflectedDefinition>]
     let extractProfileIndex (w : float) =
         let i = truncate (w / 10.0)
         if (i >= 0.0) && (i <= 7.0) && ( w >= 0.0) then  int i else -1
+
+    [<ReflectedDefinition>]
+    let getAlbedoAndProfileIndex tc =
+        let v = albedoAndProfileIndex.Sample(tc)
+        v.XYZ, extractProfileIndex v.W
 
     [<ReflectedDefinition>]
     let getLinearDepth (ndc : V2d) =
@@ -64,9 +90,8 @@ module subSurfaceShader =
 
     let  ssssBlur (v : Vertex) =   
         fragment {
-            let index  = 
-                albedoAndProfileIndex.Sample(v.tc).W
-                |> extractProfileIndex
+            let albedoM, index  = getAlbedoAndProfileIndex v.tc
+
             let sampleM = inputImage.Sample(v.tc).XYZ
 
             let mutable blurred = V3d.OOO
@@ -93,14 +118,23 @@ module subSurfaceShader =
                 for si in kernelBase .. kernelBase + samples - 1 do
                     let offset = uniform.kernel.[si].W * step
                     let samplePos  = v.tc  + offset
-                    let sampleColor = inputImage.Sample(samplePos).XYZ
+                    let sampleColor' = inputImage.Sample(samplePos).XYZ
 
-                    let weight = uniform.kernel.[si].XYZ
+                    let albedoS, indexS = getAlbedoAndProfileIndex samplePos
+
+                    //ignore sample if from a different profile
+                    let sampleColor = if indexS = index then sampleColor' else sampleM
+
+                    //bilateral filtering to preserve heigh frequency details
+                    //use albedo for bilateral filter on color without lightning
+                    //lab color for perceptional  distance
+                    let colorDist = Vec.distance (rgb2lab albedoM) (rgb2lab albedoS)
+                    let weight = uniform.kernel.[si].XYZ * Math.Exp(-0.09 * colorDist) * Math.Exp(-abs(length2(offset)))
 
                     blurred <- blurred + sampleColor * weight
                     sumWeights <- sumWeights + weight
                 if sumWeights = V3d.OOO then
-                    blurred <- V3d.IOO
+                    blurred <- sampleM
                 else
                     blurred <- blurred / sumWeights
 
