@@ -101,12 +101,12 @@ module subSurfaceShader =
             else
                 let ndc = v.pos.XY / v.pos.W
 
-                let deepM = getLinearDepth ndc
+                let depthM = getLinearDepth ndc
 
                 // Calculate the sssWidth scale (1.0 for a unit plane sitting on the
                 // projection window):
                 let distanceToProjectionWindow = 1.0 / tan (0.5 * uniform.camFoVy)
-                let scale = distanceToProjectionWindow / deepM
+                let scale = distanceToProjectionWindow / depthM
 
                 let dir = if uniform.horizontal then V2d.OI else  V2d.IO
                 let step = uniform.sssWidth.[index] * scale  * dir * 0.7 / uniform.kernelRange
@@ -118,12 +118,19 @@ module subSurfaceShader =
                 for si in kernelBase .. kernelBase + samples - 1 do
                     let offset = uniform.kernel.[si].W * step
                     let samplePos  = v.tc  + offset
-                    let sampleColor' = inputImage.Sample(samplePos).XYZ
+                    let sampleColor0 = inputImage.Sample(samplePos).XYZ
 
-                    let albedoS, indexS = getAlbedoAndProfileIndex samplePos
+                    let albedoS0, indexS = getAlbedoAndProfileIndex samplePos
+
+                    //lerp to central color for big depth differences
+                    let correction = 60.0
+                    let depthS = getLinearDepth (samplePos * 2.0 - V2d.II)//convert to NDC
+                    let s =  min ( abs(depthM - depthS) * correction) 1.0
+                    let sampleColor1 = Lerp sampleColor0 sampleM s
+                    let albedoS = Lerp albedoS0 albedoM s
 
                     //ignore sample if from a different profile
-                    let sampleColor = if indexS = index then sampleColor' else sampleM
+                    let sampleColor = if indexS = index then sampleColor1 else sampleM
 
                     //bilateral filtering to preserve heigh frequency details
                     //use albedo for bilateral filter on color without lightning
