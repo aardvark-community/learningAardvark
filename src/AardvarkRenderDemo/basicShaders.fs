@@ -92,3 +92,14 @@ module AlbedoColor =
             let c = uniform.AlbedoColor
             return texColor * c
         }
+
+module linearDepth =
+
+    [<ReflectedDefinition>]
+    let getLinearDepth (depth : Sampler2d) (projTrafoInv : M44d) (ndc : V2d) =
+        let tc = 0.5 * (ndc + V2d.II)
+        let z = 2.0 * depth.Sample(tc, 0.0).X - 1.0
+
+        let pp = V4d(ndc.X, ndc.Y, z, 1.0) 
+        let temp = projTrafoInv * pp
+        temp.Z / temp.W

@@ -67,13 +67,7 @@ open Aardvark.Base.Rendering.Effects
         member x.SampleDirections : Arr<N<128>, V3d> = uniform?SampleDirections
 
     [<ReflectedDefinition>]
-    let getLinearDepth (ndc : V2d) =
-        let tc = 0.5 * (ndc + V2d.II)
-        let z = 2.0 * depth.Sample(tc, 0.0).X - 1.0
-
-        let pp = V4d(ndc.X, ndc.Y, z, 1.0) 
-        let temp = uniform.ProjTrafoInv * pp
-        temp.Z / temp.W
+    let getLinearDepth ndc = linearDepth.getLinearDepth depth uniform.ProjTrafoInv ndc
 
     [<ReflectedDefinition>]
     let project (vp : V3d) =

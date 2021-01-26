@@ -356,7 +356,14 @@ module GBuffer =
         [<Semantic("ClearCoatNormal")>] clearCoatNormal    : V3d
         [<Semantic("sheenRoughness")>] sheenRoughness    : float
         [<Semantic("sheenColor")>] sheenColor : V3d
+        [<Semantic("sssProfile")>] sssProfile : int
     }
+
+    //the profile index is packed together with metallic in the W comaponent of the albedo gBuffer texture
+    [<ReflectedDefinition>]
+    let extractProfileIndex (w : float) =
+        let i = truncate (w / 10.0)
+        if (i >= 0.0) && (i <= 7.0) && ( w >= 0.0) then  int i else -1
 
     let getGBufferData (vert : Vertex) =
         fragment {
@@ -369,6 +376,20 @@ module GBuffer =
             let clearCoatNormal = cc.XYZ |> Vec.normalize
             let sheen = sheen.Sample(vert.tc) 
             let metallic = if albedo.W < 0.0 then albedo.W else (albedo.W / 10.0 - truncate (albedo.W / 10.0 )) * 10.0
-            return {wp =  wPos; n = n; c = V4d(albedo.XYZ,1.0);  tc = vert.tc; metallic = metallic; roughness = nr.W; emission =  em.XYZ; clearCoat =  cc.W; clearCoatRoughness = em.W; clearCoatNormal = clearCoatNormal; sheenColor = sheen.XYZ; sheenRoughness = sheen.W}
+            let sssProfile = extractProfileIndex albedo.W 
+            return {wp =  wPos
+                    n = n
+                    c = V4d(albedo.XYZ,1.0)
+                    tc = vert.tc
+                    metallic = metallic
+                    roughness = nr.W
+                    emission =  em.XYZ
+                    clearCoat =  cc.W
+                    clearCoatRoughness = em.W
+                    clearCoatNormal = clearCoatNormal
+                    sheenColor = sheen.XYZ
+                    sheenRoughness = sheen.W
+                    sssProfile = sssProfile 
+                   }
         }
 

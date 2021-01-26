@@ -34,6 +34,12 @@ module PBR =
     type UniformScope with
         member x.Light : SLEUniform.Light = x?Light
         member x.AmbientIntensity : float = x?AmbientIntensity
+        member x.LightViewM : M44d = x?LightViewM
+        member x.LightProjM : M44d = x?LightProjM
+        member x.LightProjMInv : M44d = x?LightProjMInv
+        member x.LightFarZ : float = x?LightFarZ
+        member x.LightViewMatrix : M44d = x?LightViewMatrix
+        member x.sssWidth :  Arr<N<200>, float> = x?sssWidth
 
     //Note: Do not use ' in variabel names for shader code, it will lead to an error because it is not valid for GLSL
 
@@ -67,6 +73,15 @@ module PBR =
             addressU WrapMode.Clamp
             addressV WrapMode.Clamp
             filter Filter.MinMagLinear
+        }
+
+    let samplerShadowMap1 =
+        sampler2d {
+            texture uniform?ShadowMap
+            filter Filter.MinMagLinear
+            addressU WrapMode.Border
+            addressV WrapMode.Border
+            borderColor C4f.White
         }
 
     //punctual and area light intensity is given as luminous Power, 
@@ -405,6 +420,39 @@ module PBR =
         [<TexCoord>]        tc      : V2d
     }
 
+    [<ReflectedDefinition>]
+    let getShadowLinearDepth (tc :V2d) = //linearDepth.getLinearDepth samplerShadowMap1 uniform.LightProjMInv ndc
+        samplerShadowMap1.Sample(tc).X * uniform.LightFarZ
+        (*let z = 2.0 * samplerShadowMap1.Sample(tc).X - 1.0
+        let n = 0.0001
+        let f = uniform.LightFarZ
+        (2.0 * n * f) / (f + n - z * (f - n))*)
+
+
+    [<ReflectedDefinition>]
+    let transm (translucency : float) (sssWidth : float) (wp : V3d) (wn : V3d) (l :V3d)  =
+        let t = min translucency  0.999
+        let scale = 8.25 * (1.0 - t) / sssWidth
+        let shrinkedPos = V4d(wp - 0.0005 * wn, 1.0)
+        let posLightSpace = uniform.LightViewM * shrinkedPos
+        let shadowPos =  uniform.LightViewMatrix * shrinkedPos
+        let cc = shadowPos.XY / shadowPos.W * 0.5 + 0.5
+        let d1 = getShadowLinearDepth cc 
+        let d2 = -posLightSpace.Z / posLightSpace.W
+        let dist = abs(d1 - d2) 
+        let d = dist * scale
+        let dd = -d * d
+        let lDotN = Vec.dot l -wn
+        let profile = V3d(0.233, 0.455, 0.649) * Math.Exp(dd / 0.0064) +
+                      V3d(0.1,   0.336, 0.344) * Math.Exp(dd / 0.0484) +
+                      V3d(0.118, 0.198, 0.0)   * Math.Exp(dd / 0.187)  +
+                      V3d(0.113, 0.007, 0.007) * Math.Exp(dd / 0.567)  +
+                      V3d(0.358, 0.004, 0.0)   * Math.Exp(dd / 1.99)   +
+                      V3d(0.078, 0.0,   0.0)   * Math.Exp(dd / 7.41)
+        profile * saturate (0.3 + lDotN) / Constant.Pi
+        //if dist < 0.005 then V3d.IOO else  if dist > 0.01 then V3d.OIO else V3d.OOO
+       
+
     let lightingDeferred (frag : Fragment)  =
         fragment {
             let diffuse, specular = 
@@ -436,14 +484,23 @@ module PBR =
                     let diff = diffuseLobe F frag.metallic albedo
 
                    
-                    let diff1, spec1 = directSheen frag.sheenColor frag.sheenRoughness nDotH nDotV nDotL diff (spec * specularAttenuation)
+                    let diff1', spec1 = directSheen frag.sheenColor frag.sheenRoughness nDotH nDotV nDotL diff (spec * specularAttenuation)
+
+                    let transmission = 
+                        if frag.sssProfile >= 0 then
+                             (1.0 - frag.metallic) * albedo * transm 0.4 uniform.sssWidth.[frag.sssProfile] wPos frag.n lDir
+                        else
+                            V3d.OOO
+
+                    let diff1 = (diff1' * nDotL + transmission) *  illuminannce
 
                     if frag.clearCoat = 0.0 then
-                        (diff1 * illuminannce * nDotL, spec1 * illuminannce * nDotL)
+                        (diff1 , spec1 * illuminannce * nDotL )
                     else
                         let ccF, clearCoatResponce, ccNDotL = directclearCoat frag.clearCoat frag.clearCoatRoughness frag.clearCoatNormal lDir v h hDotV
-                        (diff1 * (V3d.One-ccF) * illuminannce * nDotL, (spec1 * (V3d.One-ccF) * nDotL + clearCoatResponce * ccNDotL)* illuminannce )
+                        (diff1 * (V3d.One-ccF), (spec1 * (V3d.One-ccF) * nDotL + clearCoatResponce * ccNDotL)* illuminannce )
 
+                     
             return {Diffuse = V4d(diffuse, 1.0); Specular = V4d(specular, 1.0); tc = frag.tc}
         }
 

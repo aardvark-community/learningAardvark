@@ -20,11 +20,12 @@
     <Compile Include="basicShaders.fs" />
     <Compile Include="combine.fs" />
     <Compile Include="shadow.fs" />
+    <Compile Include="translucency.fs" />
     <Compile Include="GeometryBuffer.fs" />
     <Compile Include="brdf.fs" />
     <Compile Include="PBRShader.fs" />
-    <Compile Include="SceneObject.fs" />
     <Compile Include="globalEnviroment.fs" />
+    <Compile Include="SceneObject.fs" />
     <Compile Include="Bloom.fs" />
     <Compile Include="SSAO.fs" />
     <Compile Include="subsurfaceScattering.fs" />

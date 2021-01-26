@@ -171,6 +171,8 @@ module App =
             let light = AMap.find i m.lights
             AVal.bind (Shadow.shadowMap runtime scene bb) light 
 
+        let sssWidthBuffer = subSurface.makeWidthBuffer m.sssProfiles
+
         // lightning pass per light
         let lightSgs0 = 
             let lightSet =
@@ -188,7 +190,11 @@ module App =
                                     |> Sg.adapter
                                     |> Sg.uniform "Light" (SLEUniform.uniformLight l)
                                     |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
-                                    |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> AVal.map(fun (v,p)  -> v * p))
+                                    |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> AVal.map(fun (v,p,_)  -> v * p))
+                                    |> Sg.uniform "LightViewM" (lightViewMatrix  i |> AVal.map(fun (v,p,_)  -> v ))
+                                    |> Sg.uniform "LightProjM" (lightViewMatrix  i |> AVal.map(fun (v,p,_)  -> p))
+                                    |> Sg.uniform "LightProjMInv" (lightViewMatrix  i |> AVal.map(fun (v,p,_)  -> p.Inverse))
+                                    |> Sg.uniform "LightFarZ" (lightViewMatrix  i |> AVal.map(fun (_,_,z)  -> z))
                                     |> Sg.shader {
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
@@ -210,7 +216,11 @@ module App =
                                     |> Sg.adapter
                                     |> Sg.uniform "Light" (SLEUniform.uniformLight l)
                                     |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
-                                    |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> AVal.map(fun (v,p)  -> v * p))
+                                    |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> AVal.map(fun (v,p,_)  -> v * p))
+                                    |> Sg.uniform "LightViewM" (lightViewMatrix  i |> AVal.map(fun (v,p,_)  -> v ))
+                                    |> Sg.uniform "LightProjM" (lightViewMatrix  i |> AVal.map(fun (v,p,_)  -> p))
+                                    |> Sg.uniform "LightProjMInv" (lightViewMatrix  i |> AVal.map(fun (v,p,_)  -> p.Inverse))
+                                    |> Sg.uniform "LightFarZ" (lightViewMatrix  i |> AVal.map(fun (_,_,z)  -> z))                                    
                                     |> Sg.shader {
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
@@ -248,7 +258,11 @@ module App =
                                     |> Sg.adapter
                                     |> Sg.uniform "Light" (SLEUniform.uniformLight l)
                                     |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
-                                    |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> AVal.map(fun (v,p)  -> v * p))
+                                    |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> AVal.map(fun (v,p,_)  -> v * p))
+                                    |> Sg.uniform "LightViewM" (lightViewMatrix  i |> AVal.map(fun (v,p,_)  -> v ))
+                                    |> Sg.uniform "LightProjM" (lightViewMatrix  i |> AVal.map(fun (v,p,_)  -> p))
+                                    |> Sg.uniform "LightProjMInv" (lightViewMatrix  i |> AVal.map(fun (v,p,_)  -> p.Inverse))
+                                    |> Sg.uniform "LightFarZ" (lightViewMatrix  i |> AVal.map(fun (_,_,z)  -> z))                                    
                                     |> Sg.shader {
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
@@ -270,7 +284,11 @@ module App =
                                     |> Sg.adapter
                                     |> Sg.uniform "Light" (SLEUniform.uniformLight l)
                                     |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
-                                    |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> AVal.map(fun (v,p)  -> v * p))
+                                    |> Sg.uniform "LightViewMatrix" (lightViewMatrix  i |> AVal.map(fun (v,p,_)  -> v * p))
+                                    |> Sg.uniform "LightProjMInv" (lightViewMatrix  i |> AVal.map(fun (v,p,_)  -> p.Inverse))
+                                    |> Sg.uniform "LightViewM" (lightViewMatrix  i |> AVal.map(fun (v,p,_)  -> v ))
+                                    |> Sg.uniform "LightProjM" (lightViewMatrix  i |> AVal.map(fun (v,p,_)  -> p))
+                                    |> Sg.uniform "LightFarZ" (lightViewMatrix  i |> AVal.map(fun (_,_,z)  -> z))
                                     |> Sg.shader {
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
@@ -351,6 +369,7 @@ module App =
             |> Sg.blendMode (blendMode |> AVal.constant)
             |> Sg.uniform "AmbientIntensity" m.enviorment.ambientLightIntensity
             |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))
+            |> Sg.uniform "sssWidth"  sssWidthBuffer
             |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
             |> Sg.texture ( Sym.ofString "WPos") (Map.find (Sym.ofString "WorldPosition") gBuffer)
             |> Sg.texture ( DefaultSemantic.Normals) (Map.find GBufferRendering.Semantic.NormalR gBuffer)
