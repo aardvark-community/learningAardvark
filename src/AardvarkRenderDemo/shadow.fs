@@ -46,7 +46,7 @@ module Shadow =
                 let proj = 
                     Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) 0.1 size 1.0
                     |> Frustum.projTrafo
-                return lightView , proj, size
+                return lightView , proj, 0.1, size
             }
         | AdaptiveDirectionalLight l -> 
             adaptive {
@@ -64,7 +64,7 @@ module Shadow =
                 let proj = 
                     Frustum.ortho bb
                     |> Frustum.projTrafo
-                return lightView , proj, size*2.0
+                return lightView , proj, 0.1, size*2.0
             }
         | AdaptiveDiskLight l -> 
             adaptive {
@@ -82,7 +82,7 @@ module Shadow =
                 let proj = 
                     Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) (light.radius+offset.X) size 1.0
                     |> Frustum.projTrafo
-                return lightView , proj, size
+                return lightView , proj, light.radius+offset.X, size
             }
         | AdaptiveRectangleLight l -> 
             adaptive {
@@ -104,13 +104,13 @@ module Shadow =
                 let proj = 
                     Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) (max offset 0.1) size 1.0
                     |> Frustum.projTrafo
-                return lightView , proj ,size
+                return lightView , proj, max offset 0.1, size
             }
             
     let shadowMap (runtime : IRuntime) (scene :ISg<'msg>) (bb : aval<Box3d>) (light : AdaptiveLightCase) =
             let pv = lightViewPoject bb light
-            let v = pv |> AVal.map (fun (m,_,_) -> m)
-            let p = pv |> AVal.map (fun (_,m,_) -> m)
+            let v = pv |> AVal.map (fun (m,_,_,_) -> m)
+            let p = pv |> AVal.map (fun (_,m,_,_) -> m)
             scene
             |> Sg.shader {
                 do! DefaultSurfaces.trafo
@@ -125,7 +125,7 @@ module Shadow =
     //shaders for shadow evaluation
 
     type UniformScope with
-        member x.LightViewMatrix : M44d = x?LightViewMatrix
+        member x.LightViewProjMatrix : M44d = x?LightViewProjMatrix
         member x.Light : SLEUniform.Light = x?Light
 
 
@@ -256,7 +256,7 @@ module Shadow =
 
     [<ReflectedDefinition>]
     let getShadow (wPos : V4d) = 
-        let lm = uniform.LightViewMatrix
+        let lm = uniform.LightViewProjMatrix
         let lightSpacePos = lm * wPos
         //to normalized device coordinates 
         let samplePos = 
