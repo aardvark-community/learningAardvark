@@ -39,7 +39,9 @@ module PBR =
         member x.LightProjMInv : M44d = x?LightProjMInv
         member x.LightFarZ : float = x?LightFarZ
         member x.LightViewMatrix : M44d = x?LightViewMatrix
-        member x.sssWidth :  Arr<N<200>, float> = x?sssWidth
+        member x.sssWidth :  Arr<N<8>, float> = x?sssWidth
+        member x.sssFalloff :  Arr<N<8>, V3d> = x?sssFalloff
+        member x.sssStrength :  Arr<N<8>, V3d> = x?sssStrength
 
     //Note: Do not use ' in variabel names for shader code, it will lead to an error because it is not valid for GLSL
 
@@ -430,7 +432,10 @@ module PBR =
 
 
     [<ReflectedDefinition>]
-    let transm (translucency : float) (sssWidth : float) (wp : V3d) (wn : V3d) (l :V3d)  =
+    let transm (translucency : float) (profileIndex : int) (wp : V3d) (wn : V3d) (l :V3d)  =
+        let sssWidth = uniform.sssWidth.[profileIndex]
+        let sssFalloff = uniform.sssFalloff.[profileIndex]
+        let sssStrength = uniform.sssStrength.[profileIndex]
         let t = min translucency  0.999
         let scale = 8.25 * (1.0 - t) / sssWidth
         let shrinkedPos = V4d(wp - 0.0005 * wn, 1.0)
@@ -440,16 +445,22 @@ module PBR =
         let d1 = getShadowLinearDepth cc 
         let d2 = -posLightSpace.Z / posLightSpace.W
         let dist = abs(d1 - d2) 
-        let d = dist * scale
+        let d = dist * scale / (sssFalloff + 0.001)
         let dd = -d * d
         let lDotN = Vec.dot l -wn
-        let profile = V3d(0.233, 0.455, 0.649) * Math.Exp(dd / 0.0064) +
+        (*let profile = V3d(0.233, 0.455, 0.649) * Math.Exp(dd / 0.0064) +
                       V3d(0.1,   0.336, 0.344) * Math.Exp(dd / 0.0484) +
                       V3d(0.118, 0.198, 0.0)   * Math.Exp(dd / 0.187)  +
                       V3d(0.113, 0.007, 0.007) * Math.Exp(dd / 0.567)  +
                       V3d(0.358, 0.004, 0.0)   * Math.Exp(dd / 1.99)   +
-                      V3d(0.078, 0.0,   0.0)   * Math.Exp(dd / 7.41)
-        profile * saturate (0.3 + lDotN) / Constant.Pi
+                      V3d(0.078, 0.0,   0.0)   * Math.Exp(dd / 7.41)*)
+        let profile = 0.233 * exp(dd / 0.0064) +
+                      0.1   * exp(dd / 0.0484) +
+                      0.118 * exp(dd / 0.187)  +
+                      0.113 * exp(dd / 0.567)  +
+                      0.358 * exp(dd / 1.99)   +
+                      0.078 * exp(dd / 7.41)
+        sssStrength *profile * saturate (0.3 + lDotN) / Constant.Pi
         //if dist < 0.005 then V3d.IOO else  if dist > 0.01 then V3d.OIO else V3d.OOO
        
 
@@ -488,7 +499,7 @@ module PBR =
 
                     let transmission = 
                         if frag.sssProfile >= 0 then
-                             (1.0 - frag.metallic) * albedo * transm 0.4 uniform.sssWidth.[frag.sssProfile] wPos frag.n lDir
+                             (1.0 - frag.metallic) * transm 0.5 frag.sssProfile wPos frag.n lDir
                         else
                             V3d.OOO
 

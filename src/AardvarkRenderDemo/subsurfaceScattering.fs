@@ -20,7 +20,7 @@ module subSurfaceShader =
     type UniformScope with
         member x.Samples : int = 25
         member x.horizontal : bool = x?horizontal
-        member x.sssWidth :  Arr<N<200>, float> = x?sssWidth
+        member x.sssWidth :  Arr<N<8>, float> = x?sssWidth
         member x.camFoVy : float = x?camFoVy
         member x.kernelRange : float = 3.0
         member x.kernel : Arr<N<200>, V4d> = uniform?kernel
@@ -222,6 +222,7 @@ module subSurface =
         |> AList.mapA mapper
         |> AList.fold Array.append [||]
 
+
     let makeWidthBuffer (profiles : amap<int,AdaptiveSssProfile>) =
         let empty = AVal.constant 0.0
         let mapper i = 
@@ -234,7 +235,33 @@ module subSurface =
         |> AList.mapA mapper
         |> AList.map Array.singleton
         |> AList.fold Array.append [||]
-        
+
+    let makeFalloffBuffer (profiles : amap<int,AdaptiveSssProfile>) =
+        let empty = AVal.constant C3d.Black
+        let mapper i = 
+            adaptive  {
+                let! c = AMap.tryFind i profiles
+                let c' = Option.map (fun (p :AdaptiveSssProfile) -> p.Falloff) c
+                return!  Option.defaultValue empty c'
+            }
+        AList.init (AVal.constant 8) id
+        |> AList.mapA mapper
+        |> AList.map Array.singleton
+        |> AList.fold Array.append [||]
+
+    let makeStrengthBuffer (profiles : amap<int,AdaptiveSssProfile>) =
+        let empty = AVal.constant C3d.Black
+        let mapper i = 
+            adaptive  {
+                let! c = AMap.tryFind i profiles
+                let c' = Option.map (fun (p :AdaptiveSssProfile) -> p.Strength) c
+                return!  Option.defaultValue empty c'
+            }
+        AList.init (AVal.constant 8) id
+        |> AList.mapA mapper
+        |> AList.map Array.singleton
+        |> AList.fold Array.append [||]
+
     //Render-Task for the screen-space Abient Occlusion pass
     let makeSubSurfaceScatttering (runtime : IRuntime) (size : aval<V2i>) camFoVy view proj gBuffer input (profiles : amap<int,AdaptiveSssProfile>) =
 
