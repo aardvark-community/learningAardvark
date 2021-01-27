@@ -89,6 +89,8 @@ type SssProfile =  {
     Width :  float
     Strength : C3d
     Falloff : C3d
+    TranslucenyStrenght : float
+    TranslucencyBias : float
 }
 
 [<ModelType>]

@@ -149,6 +149,8 @@ module subSurface =
         Width = 0.005
         Falloff = C3d(1.0, 0.37, 0.3)
         Name = "Default Skin"
+        TranslucenyStrenght = 0.0
+        TranslucencyBias = 0.003
     }
 
     let gaussian (variance : float) (r : float) (falloff : V3d) =
@@ -262,6 +264,32 @@ module subSurface =
         |> AList.map Array.singleton
         |> AList.fold Array.append [||]
 
+    let makeTranslucencyStrengthBuffer (profiles : amap<int,AdaptiveSssProfile>) =
+        let empty = AVal.constant 0.0
+        let mapper i = 
+            adaptive  {
+                let! c = AMap.tryFind i profiles
+                let c' = Option.map (fun (p :AdaptiveSssProfile) -> p.TranslucenyStrenght) c
+                return!  Option.defaultValue empty c'
+            }
+        AList.init (AVal.constant 8) id
+        |> AList.mapA mapper
+        |> AList.map Array.singleton
+        |> AList.fold Array.append [||]
+
+    let makeTranslucencyBiasBuffer (profiles : amap<int,AdaptiveSssProfile>) =
+        let empty = AVal.constant 0.0
+        let mapper i = 
+            adaptive  {
+                let! c = AMap.tryFind i profiles
+                let c' = Option.map (fun (p :AdaptiveSssProfile) -> p.TranslucencyBias) c
+                return!  Option.defaultValue empty c'
+            }
+        AList.init (AVal.constant 8) id
+        |> AList.mapA mapper
+        |> AList.map Array.singleton
+        |> AList.fold Array.append [||]
+
     //Render-Task for the screen-space Abient Occlusion pass
     let makeSubSurfaceScatttering (runtime : IRuntime) (size : aval<V2i>) camFoVy view proj gBuffer input (profiles : amap<int,AdaptiveSssProfile>) =
 
@@ -303,6 +331,8 @@ module sssProfile =
         |SetWidth of float
         |SetStrength of C3d
         |SetFallOff of C3d
+        |SetTransStrenght of float
+        |SetTransBias of float
     
     let update (m : SssProfile) (msg : Message) =
         match msg with
@@ -310,6 +340,8 @@ module sssProfile =
         |SetWidth w -> {m with Width = w} 
         |SetStrength s -> {m with Strength = s} 
         |SetFallOff f -> {m with Falloff = f} 
+        |SetTransStrenght s -> {m with TranslucenyStrenght = s} 
+        |SetTransBias b -> {m with TranslucencyBias = b} 
 
     let view (m : AdaptiveSssProfile) =
         let numInput name changed state = labeledFloatInput name 0.0 0.1 0.001 changed state
@@ -318,6 +350,8 @@ module sssProfile =
             tr [] [ td [] [text "Width"]; td [] [numInput "Width" SetWidth m.Width]]
             tr [] [ td [] [text "Strength"]; td [] [ColorPicker.viewSimple (AVal.map (fun (c: C3d) ->c.ToC4b()) m.Strength ) (C3d.FromC4b >> SetStrength)]]
             tr [] [ td [] [text "Falloff"]; td [] [ColorPicker.viewSimple (AVal.map (fun (c: C3d) ->c.ToC4b()) m.Falloff ) (C3d.FromC4b >> SetFallOff)]]
+            tr [] [ td [] [text "Translucency Strenght"]; td []  [inputSlider {min = -0.99;  max = 1.0; step = 0.01} [] m.TranslucenyStrenght SetTransStrenght ]]
+            tr [] [ td [] [text "Translucency Bias"]; td []  [inputSlider {min = 0.0;  max = 0.01; step = 0.0001} [] m.TranslucencyBias SetTransBias ]]
          ] 
 
 module sssProfiles =

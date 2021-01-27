@@ -26,7 +26,7 @@ module Shadow =
             DefaultSemantic.Depth, { format = RenderbufferFormat.DepthComponent32; samples = 1 }
         ]
 
-    let shadowMapSize = V2i(1024) |> AVal.constant
+    let shadowMapSize = V2i(2048) |> AVal.constant
 
     //calculate light view and prjection
     let lightViewPoject (bb : aval<Box3d>) (alight : AdaptiveLightCase) =

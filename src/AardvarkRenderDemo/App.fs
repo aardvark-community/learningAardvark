@@ -174,6 +174,8 @@ module App =
         let sssWidthBuffer = subSurface.makeWidthBuffer m.sssProfiles
         let sssFalloffBuffer = subSurface.makeFalloffBuffer m.sssProfiles
         let sssStrengthBuffer = subSurface.makeStrengthBuffer m.sssProfiles
+        let sssTranslucencyStrengthBuffer = subSurface.makeTranslucencyStrengthBuffer m.sssProfiles
+        let sssTranslucencyBiasBuffer = subSurface.makeTranslucencyBiasBuffer m.sssProfiles
 
         // lightning pass per light
         let lightSgs0 = 
@@ -374,6 +376,8 @@ module App =
             |> Sg.uniform "sssWidth"  sssWidthBuffer
             |> Sg.uniform "sssFalloff"  sssFalloffBuffer
             |> Sg.uniform "sssStrength"  sssStrengthBuffer
+            |> Sg.uniform "TranslucencyStrength" sssTranslucencyStrengthBuffer
+            |> Sg.uniform "TranslucencyBias"  sssTranslucencyBiasBuffer
             |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
             |> Sg.texture ( Sym.ofString "WPos") (Map.find (Sym.ofString "WorldPosition") gBuffer)
             |> Sg.texture ( DefaultSemantic.Normals) (Map.find GBufferRendering.Semantic.NormalR gBuffer)

@@ -41,6 +41,8 @@ module PBR =
         member x.sssWidth :  Arr<N<8>, float> = x?sssWidth
         member x.sssFalloff :  Arr<N<8>, V3d> = x?sssFalloff
         member x.sssStrength :  Arr<N<8>, V3d> = x?sssStrength
+        member x.TranslucencyStrength :  Arr<N<8>, float> = x?TranslucencyStrength
+        member x.TranslucencyBias :  Arr<N<8>, float> = x?TranslucencyBias
 
     //Note: Do not use ' in variabel names for shader code, it will lead to an error because it is not valid for GLSL
 
@@ -338,7 +340,8 @@ module PBR =
                 |> abs
                 |> saturate 
 
-            true, l, light.color * intensity * attenuation * luminance, specularAttenuation    
+            //let nDotL = Vec.dot n l
+            true, l, light.color * intensity * attenuation * luminance (*/ nDotL*), specularAttenuation    
         | SLEUniform.LightType.RectangleLight -> 
             let lUnnorm = light.lightPosition.XYZ - wPos
             let ln = light.lightDirection.XYZ |> Vec.normalize
@@ -438,22 +441,24 @@ module PBR =
             (2.0 * n * f) / (f + n - z * (f - n))
 
     [<ReflectedDefinition>]
-    let getThickness  (wp  :V3d) (wn :V3d) = 
-        let shrinkedPos = V4d(wp - 0.0005 * wn, 1.0)
+    let getThickness (bias : float) (wp  :V3d) (wn :V3d) = 
+        let shrinkedPos = V4d(wp - bias * wn, 1.0)
         let posLightSpace = uniform.LightViewM * shrinkedPos
         let shadowPos =  uniform.LightViewProjMatrix * shrinkedPos
         let cc = shadowPos.XY / shadowPos.W * 0.5 + 0.5
         let d1 = getShadowLinearDepth cc 
         let d2 = -posLightSpace.Z / posLightSpace.W
-        abs(d1 - d2) 
+        max (abs(d1 - d2)) 0.001
 
     [<ReflectedDefinition>]
     let transm (profileIndex : int) (wp : V3d) (wn : V3d) (l :V3d)  =
+        let bias =  uniform.TranslucencyBias.[profileIndex]
         let sssWidth = uniform.sssWidth.[profileIndex]
         let sssFalloff = uniform.sssFalloff.[profileIndex]
         let sssStrength = uniform.sssStrength.[profileIndex]
-        let scale = 4.0 / sssWidth
-        let dist = getThickness  wp wn
+        let translucency = uniform.TranslucencyStrength.[profileIndex]+1.0
+        let scale = 4.0 / translucency / sssWidth
+        let dist = getThickness bias wp wn
         let d = dist * scale / (sssFalloff + 0.001)
         let dd = -d * d
         let lDotN = Vec.dot l -wn
@@ -463,8 +468,7 @@ module PBR =
                       0.113 * exp(dd / 0.567)  +
                       0.358 * exp(dd / 1.99)   +
                       0.078 * exp(dd / 7.41)
-        sssStrength * profile * saturate (0.3 + lDotN)
-       
+        sssStrength * profile * saturate (0.3 + lDotN)       
 
     let lightingDeferred (frag : Fragment)  =
         fragment {
