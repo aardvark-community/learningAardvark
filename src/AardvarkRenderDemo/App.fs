@@ -200,6 +200,7 @@ module App =
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
                                         do! PBR.shadowDeferred
+                                        do! PBR.transmssion
                                         }
                                 else
                                      Sg.fullScreenQuad
@@ -225,6 +226,7 @@ module App =
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
                                         do! PBR.shadowDeferred
+                                        do! PBR.transmssion
                                         }
                                 else
                                      Sg.fullScreenQuad
@@ -266,6 +268,7 @@ module App =
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
                                         do! PBR.shadowDeferred
+                                        do! PBR.transmssion
                                         }
                                 else
                                      Sg.fullScreenQuad
@@ -291,6 +294,7 @@ module App =
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
                                         do! PBR.shadowDeferred
+                                        do! PBR.transmssion
                                         }
                                 else
                                      Sg.fullScreenQuad

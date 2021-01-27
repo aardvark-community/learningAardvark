@@ -419,7 +419,12 @@ module PBR =
         [<Semantic("Diffuse")>]  Diffuse       : V4d
         [<Semantic("Specular")>] Specular      : V4d
         [<TexCoord>]        tc      : V2d
-    }
+        [<WorldPosition>]   wp      : V4d
+        [<Normal>]          n       : V3d
+        [<Semantic("sssProfile")>] sssProfile : int
+        [<Semantic("illuminannce")>] illuminannce : V3d
+        [<Semantic("lightDir")>] lightDir : V3d
+       }
 
     [<ReflectedDefinition>]
     let getShadowLinearDepth (tc :V2d) = //linearDepth.getLinearDepth samplerShadowMap1 uniform.LightProjMInv ndc
@@ -463,9 +468,9 @@ module PBR =
 
     let lightingDeferred (frag : Fragment)  =
         fragment {
-            let diffuse, specular = 
+            let diffuse, specular, ldir, illum = 
                 if frag.metallic < 0.0 then //no lighting, ignore      
-                    V3d.Zero, V3d.Zero
+                    V3d.Zero, V3d.Zero, V3d.Zero, V3d.Zero
                 else //PBR lightning
                     let wPos = frag.wp.XYZ
                     let albedo = frag.c.XYZ
@@ -490,26 +495,26 @@ module PBR =
 
                     let spec = specularLobeStandard F frag.roughness nDotH nDotV nDotL
                     let diff = diffuseLobe F frag.metallic albedo
-
-                   
+        
                     let diff1', spec1 = directSheen frag.sheenColor frag.sheenRoughness nDotH nDotV nDotL diff (spec * specularAttenuation)
-
-                    let transmission = 
-                        if frag.sssProfile >= 0 then
-                             (1.0 - frag.metallic) * transm frag.sssProfile wPos frag.n lDir
-                        else
-                            V3d.OOO
-
-                    let diff1 = (diff1' * nDotL + transmission) *  illuminannce
+ 
+                    let diff1 = diff1' * nDotL * illuminannce
 
                     if frag.clearCoat = 0.0 then
-                        (diff1 , spec1 * illuminannce * nDotL )
+                        (diff1 , spec1 * illuminannce * nDotL, lDir, illuminannce )
                     else
                         let ccF, clearCoatResponce, ccNDotL = directclearCoat frag.clearCoat frag.clearCoatRoughness frag.clearCoatNormal lDir v h hDotV
-                        (diff1 * (V3d.One-ccF), (spec1 * (V3d.One-ccF) * nDotL + clearCoatResponce * ccNDotL)* illuminannce )
+                        (diff1 * (V3d.One-ccF), (spec1 * (V3d.One-ccF) * nDotL + clearCoatResponce * ccNDotL)* illuminannce, lDir, illuminannce )
 
                      
-            return {Diffuse = V4d(diffuse, 1.0); Specular = V4d(specular, 1.0); tc = frag.tc}
+            return {Diffuse = V4d(diffuse, 1.0)
+                    Specular = V4d(specular, 1.0)
+                    tc = frag.tc; wp = frag.wp
+                    n  = frag.n; 
+                    sssProfile = frag.sssProfile; 
+                    lightDir = ldir
+                    illuminannce = illum
+                    }
         }
 
 
@@ -581,7 +586,14 @@ module PBR =
                     (diff2 * uniform.AmbientIntensity * occlusion, spec2 * uniform.AmbientIntensity * occlusion)
 
             let em = frag.emission
-            return {Diffuse = V4d(diffuse, 1.0); Specular = V4d(specular+em, 1.0); tc = frag.tc}
+            return {Diffuse = V4d(diffuse, 1.0)
+                    Specular = V4d(specular+em, 1.0)
+                    tc = frag.tc; wp = frag.wp
+                    n  = frag.n; 
+                    sssProfile = frag.sssProfile; 
+                    lightDir = V3d.Zero
+                    illuminannce = V3d.Zero
+                    }
         }
 
     let abientDeferredSimple (frag : Fragment) =
@@ -599,11 +611,19 @@ module PBR =
 
     let shadowDeferred  (vert : FragmentOut) =
         fragment {
-            let wPos = wPos.Sample(vert.tc)
+            let wPos = vert.wp
             let shadow = Shadow.getShadow wPos
-            return {Diffuse = vert.Diffuse * shadow; Specular = vert.Specular * shadow; tc = vert.tc}
+            return {vert with Diffuse = vert.Diffuse * shadow; Specular = vert.Specular * shadow}
         }
 
-
+    let transmssion  (vert : FragmentOut) =
+        fragment {
+                    let transmission = 
+                        if vert.sssProfile >= 0 then
+                             vert.illuminannce * transm vert.sssProfile vert.wp.XYZ vert.n vert.lightDir
+                        else
+                            V3d.OOO
+            return {vert with Diffuse = vert.Diffuse + V4d(transmission,0.0)}
+        }
 
 
