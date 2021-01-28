@@ -322,7 +322,8 @@ module PBR =
             let luminance = luminousPowerToLuminanceSphere light.radius
             let attenuation = attenuationSphere lUnnorm light.radius n lDir
             let l = representativePointSpehre n v roughness lUnnorm light.radius
-            true, l , light.color * attenuation * luminance, 1.0
+            let nDotL = Vec.dot n l //attenuation allreday includes the  influence of nDotL, but we need it without
+            true, l , light.color * attenuation * luminance / nDotL, 1.0
         | SLEUniform.LightType.DiskLight -> 
             let lUnnorm = light.lightPosition.XYZ - wPos
             let lDir = lUnnorm |> Vec.normalize
@@ -340,8 +341,8 @@ module PBR =
                 |> abs
                 |> saturate 
 
-            //let nDotL = Vec.dot n l
-            true, l, light.color * intensity * attenuation * luminance (*/ nDotL*), specularAttenuation    
+            let nDotL = Vec.dot n l //attenuation allreday includes the  influence of nDotL, but we need it without
+            true, l, light.color * intensity * attenuation * luminance / nDotL, specularAttenuation    
         | SLEUniform.LightType.RectangleLight -> 
             let lUnnorm = light.lightPosition.XYZ - wPos
             let ln = light.lightDirection.XYZ |> Vec.normalize
@@ -364,7 +365,8 @@ module PBR =
                 |> abs
                 |> saturate 
 
-            true, l, light.color * intensity * attenuation * luminance, specularAttenuation    
+            let nDotL = Vec.dot n l //attenuation allreday includes the  influence of nDotL, but we need it without
+            true, l, light.color * intensity * attenuation * luminance /nDotL, specularAttenuation    
         | SLEUniform.LightType.NoLight -> false, V3d(0.0), V3d(0.0), 1.0
         |_ ->  false, V3d(0.0), V3d(0.0), 1.0  //allways match any cases, otherwise fshade will give a cryptic error 
 

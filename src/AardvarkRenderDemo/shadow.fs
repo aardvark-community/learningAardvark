@@ -67,7 +67,7 @@ module Shadow =
                 return lightView , proj, 0.1, size*2.0
             }
         | AdaptiveDiskLight l -> 
-            adaptive {
+           adaptive {
                 let! light = l
                 let! BB = bb
                 let size = (BB.Max - BB.Min).Length
@@ -79,10 +79,11 @@ module Shadow =
                     CameraView.lookAt (light.lightPosition.XYZ - (offset.X * n)) target.XYZ up
                     |> CameraView.viewTrafo 
                 //set the near plane so that the offset is compensated
+                let zNear = light.radius+offset.X |> max 0.1
                 let proj = 
-                    Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) (light.radius+offset.X) size 1.0
+                    Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) zNear size 1.0
                     |> Frustum.projTrafo
-                return lightView , proj, light.radius+offset.X, size
+                return lightView , proj, zNear, size
             }
         | AdaptiveRectangleLight l -> 
             adaptive {
