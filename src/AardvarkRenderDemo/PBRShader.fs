@@ -301,13 +301,14 @@ module PBR =
     [<ReflectedDefinition>]
     let getLightParams (light : SLEUniform.Light) (wPos : V3d) (n : V3d) v roughness= 
         match  light.lightType  with
-        | SLEUniform.LightType.DirectionalLight -> true, -light.lightDirection.XYZ |> Vec.normalize, light.color, 1.0
+        | SLEUniform.LightType.DirectionalLight -> true, -light.lightDirection.XYZ |> Vec.normalize, light.color, 1.0, light.color
         | SLEUniform.LightType.PointLight -> 
             let lDir = light.lightPosition.XYZ - wPos |> Vec.normalize
             let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
             let luminance = luminousPowerToLuminancePoint
             let attenuation = attenuationPunctualLight  dist
-            true, lDir, light.color * attenuation * luminance, 1.0  
+            let illuminannce = light.color * attenuation * luminance
+            true, lDir, illuminannce , 1.0, illuminannce
         | SLEUniform.LightType.SpotLight -> 
             let lDir = light.lightPosition.XYZ - wPos |> Vec.normalize
             let ln = light.lightDirection.XYZ |> Vec.normalize
@@ -315,7 +316,8 @@ module PBR =
             let intensity = attenuationAgular lDir ln light.cutOffInner light.cutOffOuter
             let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
             let attenuation = attenuationPunctualLight  dist 
-            true, lDir, light.color * intensity * attenuation * luminance, 1.0             
+            let illuminannce = light.color * intensity * attenuation * luminance
+            true, lDir, illuminannce, 1.0, illuminannce             
         | SLEUniform.LightType.SphereLight ->
             let lUnnorm = light.lightPosition.XYZ - wPos
             let lDir = lUnnorm |> Vec.normalize
@@ -323,7 +325,10 @@ module PBR =
             let attenuation = attenuationSphere lUnnorm light.radius n lDir
             let l = representativePointSpehre n v roughness lUnnorm light.radius
             let nDotL = Vec.dot n l //attenuation allreday includes the  influence of nDotL, but we need it without
-            true, l , light.color * attenuation * luminance / nDotL, 1.0
+            let illuminannce = light.color * attenuation * luminance / nDotL
+            let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
+            let illuminannceSimple = light.color * luminousPowerToLuminancePoint * attenuationPunctualLight  dist 
+            true, l , illuminannce , 1.0, illuminannceSimple
         | SLEUniform.LightType.DiskLight -> 
             let lUnnorm = light.lightPosition.XYZ - wPos
             let lDir = lUnnorm |> Vec.normalize
@@ -342,7 +347,10 @@ module PBR =
                 |> saturate 
 
             let nDotL = Vec.dot n l //attenuation allreday includes the  influence of nDotL, but we need it without
-            true, l, light.color * intensity * attenuation * luminance / nDotL, specularAttenuation    
+            let illuminannce = light.color * intensity * attenuation * luminance / nDotL
+            let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
+            let illuminannceSimple = light.color* intensity * luminousPowerToLuminanceSpot * attenuationPunctualLight dist 
+            true, l, illuminannce, specularAttenuation, illuminannceSimple  
         | SLEUniform.LightType.RectangleLight -> 
             let lUnnorm = light.lightPosition.XYZ - wPos
             let ln = light.lightDirection.XYZ |> Vec.normalize
@@ -366,9 +374,12 @@ module PBR =
                 |> saturate 
 
             let nDotL = Vec.dot n l //attenuation allreday includes the  influence of nDotL, but we need it without
-            true, l, light.color * intensity * attenuation * luminance /nDotL, specularAttenuation    
-        | SLEUniform.LightType.NoLight -> false, V3d(0.0), V3d(0.0), 1.0
-        |_ ->  false, V3d(0.0), V3d(0.0), 1.0  //allways match any cases, otherwise fshade will give a cryptic error 
+            let illuminannce = light.color * intensity * attenuation * luminance /nDotL
+            let dist = Vec.Distance (light.lightPosition.XYZ, wPos)
+            let illuminannceSimple = light.color* intensity * luminousPowerToLuminanceSpot * attenuationPunctualLight  dist 
+            true, l, illuminannce, specularAttenuation, illuminannceSimple    
+        | SLEUniform.LightType.NoLight -> false, V3d(0.0), V3d(0.0), 1.0,  V3d(0.0)
+        |_ ->  false, V3d(0.0), V3d(0.0), 1.0,  V3d(0.0)  //allways match any cases, otherwise fshade will give a cryptic error 
 
     [<ReflectedDefinition>]
     let f0ClearCoatToSurface (f0Base : V3d)=
@@ -484,7 +495,7 @@ module PBR =
 
                     //calculat light direction for area lights with the clear coat normal if clear coat is applied   
                     let nforl = Lerp frag.n frag.clearCoatNormal frag.clearCoat
-                    let (_, lDir, illuminannce, specularAttenuation)  = getLightParams uniform.Light wPos nforl v frag.roughness
+                    let (_, lDir, illuminannce, specularAttenuation, illuminannceSimple)  = getLightParams uniform.Light wPos nforl v frag.roughness
 
                     let h = v + lDir |> Vec.normalize
                     let nDotL = Vec.dot frag.n lDir |> saturate
@@ -507,10 +518,10 @@ module PBR =
                     let diff1 = diff1' * nDotL * illuminannce
 
                     if frag.clearCoat = 0.0 then
-                        (diff1 , spec1 * illuminannce * nDotL, lDir, illuminannce )
+                        (diff1 , spec1 * illuminannce * nDotL, lDir, illuminannceSimple )
                     else
                         let ccF, clearCoatResponce, ccNDotL = directclearCoat frag.clearCoat frag.clearCoatRoughness frag.clearCoatNormal lDir v h hDotV
-                        (diff1 * (V3d.One-ccF), (spec1 * (V3d.One-ccF) * nDotL + clearCoatResponce * ccNDotL)* illuminannce, lDir, illuminannce )
+                        (diff1 * (V3d.One-ccF), (spec1 * (V3d.One-ccF) * nDotL + clearCoatResponce * ccNDotL)* illuminannce, lDir, illuminannceSimple )
 
                      
             return {Diffuse = V4d(diffuse, 1.0)
