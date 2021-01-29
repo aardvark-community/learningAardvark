@@ -23,6 +23,7 @@
     <Compile Include="translucency.fs" />
     <Compile Include="GeometryBuffer.fs" />
     <Compile Include="brdf.fs" />
+    <Compile Include="LightShader.fs" />
     <Compile Include="PBRShader.fs" />
     <Compile Include="globalEnviroment.fs" />
     <Compile Include="SceneObject.fs" />

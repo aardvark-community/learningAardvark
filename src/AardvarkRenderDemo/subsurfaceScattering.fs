@@ -11,8 +11,13 @@ open SLEAardvarkRenderDemo.Model
 open Aardvark.UI
 open Aardvark.UI.Primitives
 
-// subsurface scattering, adapted mostly from 
-// https://github.com/vcrom/SubsurfaceScattering
+(* subsurface scattering
+Based mostly on "Separable Subsurface Scattering" by Jorge Jimenez et.al. 
+https://www.cg.tuwien.ac.at/research/publications/2015/Jimenez_SSS_2015/
+
+ The implementation at https://github.com/vcrom/SubsurfaceScattering was used as a code reference
+ *)
+
 module subSurfaceShader =
    open fshadeExt
 
@@ -82,15 +87,16 @@ module subSurfaceShader =
     [<ReflectedDefinition>]
     let getLinearDepth ndc = linearDepth.getLinearDepth depth uniform.ProjTrafoInv ndc
 
+    //shader for horizonal and vertical pass sss blurring
     let  ssssBlur (v : Vertex) =   
         fragment {
             let albedoM, index  = getAlbedoAndProfileIndex v.tc
 
-            let sampleM = inputImage.Sample(v.tc).XYZ
+            let sampleM = inputImage.Sample(v.tc).XYZ//central  sample
 
             let mutable blurred = V3d.OOO
           
-            if index < 0 then
+            if index < 0 then //no sss
                 blurred <- sampleM
             else
                 let ndc = v.pos.XY / v.pos.W
@@ -102,18 +108,22 @@ module subSurfaceShader =
                 let distanceToProjectionWindow = 1.0 / tan (0.5 * uniform.camFoVy)
                 let scale = distanceToProjectionWindow / depthM
 
+                //calcualte step size
                 let dir = if uniform.horizontal then V2d.OI else  V2d.IO
                 let step = uniform.sssWidth.[index] * scale  * dir * 0.7 / uniform.kernelRange
 
                 let mutable sumWeights = V3d.OOO
 
                 let samples = uniform.Samples
-                let  kernelBase = index * samples
-                for si in kernelBase .. kernelBase + samples - 1 do
-                    let offset = uniform.kernel.[si].W * step
+                let  kernelBase = index * samples //start of kernel for the current profile
+                for si in kernelBase .. kernelBase + samples - 1 do//loop over kernel
+                    
+                    //calcualte sample position
+                    let offset = uniform.kernel.[si].W * step 
                     let samplePos  = v.tc  + offset
-                    let sampleColor0 = inputImage.Sample(samplePos).XYZ
 
+                    //get diffuse color, sssProfileIndex, and albedo 
+                    let sampleColor0 = inputImage.Sample(samplePos).XYZ
                     let albedoS0, indexS = getAlbedoAndProfileIndex samplePos
 
                     //lerp to central color for big depth differences
@@ -157,6 +167,7 @@ module subSurface =
         let rr = r / (falloff + 0.001)
         exp -(rr*rr) / (2.0  * variance) / (2.0 * Constant.Pi * variance)
     
+    //sum off gausians modified by falloff per color channel
     let profile (r : float) (falloff : V3d)= 
         0.100 * gaussian 0.0484 r falloff +
         0.118 * gaussian 0.187  r falloff +
@@ -164,6 +175,7 @@ module subSurface =
         0.358 * gaussian 1.99   r falloff +
         0.078 * gaussian 7.41   r falloff   
 
+    //percalculate the kernel
     let kernel (samples : int) (strength : V3d) (falloff : V3d) =
         let range  = 2.0
         let exponent = 2.0
@@ -210,6 +222,7 @@ module subSurface =
     let kernel' (samples : int) (strength : C3d) (falloff : C3d) =
         kernel  samples (strength.ToV3d())  (falloff.ToV3d()) 
 
+    //pack kernels for all profiles (max 8) in one buffer
     let makeKernelBuffer (profiles : amap<int,AdaptiveSssProfile>) =
         let empty = Array.init 25 (fun _ -> V4d.OOOO)
         let ps =
