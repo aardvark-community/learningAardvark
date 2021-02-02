@@ -380,11 +380,11 @@ module App =
             |> Sg.uniform "TranslucencyBias"  sssTranslucencyBiasBuffer
             |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
             |> Sg.texture ( Sym.ofString "WPos") (Map.find (Sym.ofString "WorldPosition") gBuffer)
-            |> Sg.texture ( DefaultSemantic.Normals) (Map.find GBufferRendering.Semantic.NormalR gBuffer)
+            |> Sg.texture ( DefaultSemantic.Normals) (Map.find shaderCommon.Semantic.NormalR gBuffer)
             |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
-            |> Sg.texture (GBufferRendering.Semantic.Emission) (Map.find GBufferRendering.Semantic.Emission gBuffer)
-            |> Sg.texture (GBufferRendering.Semantic.ClearCoat) (Map.find GBufferRendering.Semantic.ClearCoat gBuffer)
-            |> Sg.texture (GBufferRendering.Semantic.Sheen) (Map.find GBufferRendering.Semantic.Sheen gBuffer)
+            |> Sg.texture (shaderCommon.Semantic.Emission) (Map.find shaderCommon.Semantic.Emission gBuffer)
+            |> Sg.texture (shaderCommon.Semantic.ClearCoat) (Map.find shaderCommon.Semantic.ClearCoat gBuffer)
+            |> Sg.texture (shaderCommon.Semantic.Sheen) (Map.find shaderCommon.Semantic.Sheen gBuffer)
             |> Sg.compile runtime signature
             |> RenderTask.renderSemantics(
                     Set.ofList [

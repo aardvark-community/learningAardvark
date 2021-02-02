@@ -10,228 +10,28 @@ open Aardvark.Base.Rendering.Effects
  module GBufferRendering =
     open fshadeExt
     //shaders for rendering to a g-buffer
-
-    module Semantic =
-        let Emission = Symbol.Create "Emission"
-        let NormalR = Symbol.Create "NormalR"
-        let ClearCoat = Symbol.Create "ClearCoat"
-        let Sheen = Symbol.Create "Sheen"
-
-    type UniformScope with
-        member x.Roughness : float = x?Roughness
-
-        member x.Metallic : float = x?Metallic
-
-        member x.AlbedoFactor : float = x?AlbedoFactor
-
-        member x.EmissionFactor : float = x?EmissionFactor
-
-        member x.EmissionColor : V3d =  x?EmissionColor
-
-        member x.Discard : bool =  x?Discard
-
-        member x.SkyMapIntensity : float =  x?SkyMapIntensity
-
-        member  x.ClearCoat :  float =  x?ClearCoat
-
-        member  x.ClearCoatRoughness :  float =  x?ClearCoatRoughness
-
-        member  x.ClearCoatNormalStrength :  float =  x?ClearCoatNormalStrength
-       
-        member  x.UseNormalsForClearCoat :  bool =  x?UseNormalsForClearCoat
-
-        member x.NormalMapStrength : float =  x?NormalMapStrength
-
-        member x.SheenColorFactor : float = x?SheenColorFactor
-
-        member x.SheenColor : V3d =  x?SheenColor
-
-        member  x.SheenRoughness :  float =  x?SheenRoughness
-
-        member  x.SssProfileIndex :  int =  x?SssProfileIndex
-
-    let internal skyBoxTrafo (v : Vertex) =
-        vertex {
-            let wp = uniform.ModelTrafo * v.pos
-            //let rotView  = m33d uniform.ViewTrafo |> m44d 
-            //let  clipPos =  uniform.ProjTraSfo * rotView * wp
-            let cameraPos = uniform.CameraLocation
-            let clipPos = (uniform.ViewProjTrafo * (wp + V4d(cameraPos,0.0))) //remove translation
-            return {
-                pos = V4d(clipPos.X,clipPos.Y,clipPos.W,clipPos.W)
-                wp = wp
-                n =  v.n
-                b =  v.b
-                t =  v.t
-                c = v.c
-                tc = v.tc
-            }
-        }
-
-    type Vertex = {
-        [<Position>]        pos     : V4d
+   
+     type Frag = {
         [<WorldPosition>]   wp      : V4d
-        [<Normal>]          n       : V3d
         [<Semantic("NormalR")>] nr       : V4d
-        [<BiNormal>]        b       : V3d
-        [<Tangent>]         t       : V3d
         [<Color>]           c       : V4d
-        [<TexCoord>]        tc      : V2d
         [<Semantic("Emission")>] em : V4d
         [<Semantic("ClearCoat")>] cc : V4d
         [<Semantic("Sheen")>] sheen : V4d
          }
 
-    let private skySampler =
-        samplerCube {
-            texture uniform?SkyCubeMap
-            filter Filter.MinMagMipLinear
-            addressU WrapMode.Wrap
-            addressV WrapMode.Wrap
-        }
-
-    let private metallicSampler =
-        sampler2d {
-            texture uniform?MetallicMap
-            filter Filter.MinMagMipLinear
-            addressU WrapMode.Wrap
-            addressV WrapMode.Wrap
-        }
-
-    let private roughnessSampler =
-        sampler2d {
-            texture uniform?RoughnessMap
-            filter Filter.MinMagMipLinear
-            addressU WrapMode.Wrap
-            addressV WrapMode.Wrap
-        }
-
-    let private emissionSampler =
-        sampler2d {
-            texture uniform?EmissionTexture
-            filter Filter.MinMagMipLinear
-            addressU WrapMode.Wrap
-            addressV WrapMode.Wrap
-        }
-
-    let private clearCoatRoughnessSampler =
-        sampler2d {
-            texture uniform?ClearCoatRoughnessMap
-            filter Filter.MinMagMipLinear
-            addressU WrapMode.Wrap
-            addressV WrapMode.Wrap
-        }
-
-    let private clearCoatSampler =
-        sampler2d {
-            texture uniform?ClearCoatMap
-            filter Filter.MinMagMipLinear
-            addressU WrapMode.Wrap
-            addressV WrapMode.Wrap
-        }
-
-    let private sheenRoughnessSampler =
-        sampler2d {
-            texture uniform?SheenRoughnessMap
-            filter Filter.MinMagMipLinear
-            addressU WrapMode.Wrap
-            addressV WrapMode.Wrap
-        }
-
-    let private sheenColorSampler =
-        sampler2d {
-            texture uniform?SheenColorTexture
-            filter Filter.MinMagMipLinear
-            addressU WrapMode.Wrap
-            addressV WrapMode.Wrap
-        }
-
-
-    let gBufferShader (vert : Vertex) =
+    let gBufferShader (vert : shaderCommon.Fragment) =
         fragment {
-            let gamma  = 2.2
-            
-            if uniform.Discard then
-                discard()
-            let albedo = pow (vert.c.XYZ * uniform.AlbedoFactor) (V3d(gamma))
-            let metallic = uniform.Metallic * metallicSampler.Sample(vert.tc).X
-            let roughness = uniform.Roughness * roughnessSampler.Sample(vert.tc).X
-            let emission = uniform.EmissionColor * uniform.EmissionFactor * emissionSampler.Sample(vert.tc).XYZ
-            let clearCoat = uniform.ClearCoat * clearCoatSampler.Sample(vert.tc).X
-            let clearCoatRoughness = uniform.ClearCoatRoughness * clearCoatRoughnessSampler.Sample(vert.tc).X
-            let sheenColor =  pow ( uniform.SheenColor * uniform.SheenColorFactor * sheenColorSampler.Sample(vert.tc).XYZ) (V3d(gamma))
-            let sheenRoughness = uniform.SheenRoughness * sheenRoughnessSampler.Sample(vert.tc).X
+            let m = 10.0 * float vert.sssProfile + vert.metallic
 
-            let m = 10.0 * float uniform.SssProfileIndex + metallic
-
-            return {vert with 
-                        c = V4d(albedo,m)
-                        nr = V4d(vert.n.XYZ, roughness)
-                        em = V4d(emission,clearCoatRoughness)
-                        cc = V4d(vert.cc.XYZ,clearCoat)
-                        sheen = V4d(sheenColor.XYZ,sheenRoughness)
-                        }
+            return {wp = vert.wp
+                    c = V4d(vert.c.XYZ,m)
+                    nr = V4d(vert.n, vert.roughness)
+                    em = V4d(vert.emission,vert.clearCoatRoughness)
+                    cc = V4d(vert.clearCoatNormal,vert.clearCoat)
+                    sheen = V4d(vert.sheenColor,vert.sheenRoughness)
+                    }
         }
-
-    let skyGBuffer (vert : Vertex) =
-        fragment {
-            let gamma  = 2.2
-            
-            let lPos  = vert.wp.XYZ |> Vec.normalize
-            let texColor = skySampler.Sample(lPos).XYZ
-  
-            let col = texColor * uniform.SkyMapIntensity
-
-            return {vert with c = V4d(col,-1.0)
-                              nr = V4d(vert.n.XYZ,  -1.0) 
-                              em = V4d.OOOO
-                              cc = V4d.OOOO
-                              sheen = V4d.OOOO
-            }
-        }
-
-    let private normalSampler =
-        sampler2d {
-            texture uniform?NormalMapTexture
-            filter Filter.MinMagMipLinear
-            addressU WrapMode.Wrap
-            addressV WrapMode.Wrap
-        }
-
-    let private clearCoatNormalSampler =
-        sampler2d {
-            texture uniform?ClearCoatNormalMapTexture
-            filter Filter.MinMagMipLinear
-            addressU WrapMode.Wrap
-            addressV WrapMode.Wrap
-        }
-
-    let internal normalMap (v : Vertex) =
-        fragment {
-            let texColor = normalSampler.Sample(v.tc).XYZ
-            let texNormal = (2.0 * texColor - V3d.III) |> Vec.normalize
-
-            let n = v.n.Normalized * texNormal.Z + v.b.Normalized * texNormal.X + v.t.Normalized * texNormal.Y |> Vec.normalize
-
-            let strength = uniform.NormalMapStrength
-            let n2 = Lerp v.n n strength
-
-            let ccN =
-                if uniform.UseNormalsForClearCoat then
-                    n
-                else
-                    let cctexColor =  clearCoatNormalSampler.Sample(v.tc).XYZ
-                    let cctexNormal = (2.0 * cctexColor - V3d.III) |> Vec.normalize
-
-                    v.n.Normalized * cctexNormal.Z + v.b.Normalized * cctexNormal.X + v.t.Normalized * cctexNormal.Y |> Vec.normalize  
-
-            let ccstrength = uniform.ClearCoatNormalStrength
-            let ccn2 = Lerp v.n ccN ccstrength
-
-            return { v with n = n2; cc = V4d(ccn2, 0.0) }
-        }
-
-
 module GeometryBuffer  =
 
     //Render task for the Geometry-buffer pass
@@ -242,10 +42,10 @@ module GeometryBuffer  =
                 DefaultSemantic.Colors, RenderbufferFormat.Rgba16f
                 Sym.ofString "WorldPosition", RenderbufferFormat.Rgba32f
                 DefaultSemantic.Depth, RenderbufferFormat.DepthComponent24
-                GBufferRendering.Semantic.NormalR, RenderbufferFormat.Rgba32f
-                GBufferRendering.Semantic.Emission, RenderbufferFormat.Rgba16f
-                GBufferRendering.Semantic.ClearCoat, RenderbufferFormat.Rgba16f
-                GBufferRendering.Semantic.Sheen, RenderbufferFormat.Rgba16f
+                shaderCommon.Semantic.NormalR, RenderbufferFormat.Rgba32f
+                shaderCommon.Semantic.Emission, RenderbufferFormat.Rgba16f
+                shaderCommon.Semantic.ClearCoat, RenderbufferFormat.Rgba16f
+                shaderCommon.Semantic.Sheen, RenderbufferFormat.Rgba16f
              ]
 
         let skyBox =
@@ -255,8 +55,9 @@ module GeometryBuffer  =
                 |> Sg.uniform "SkyMapIntensity" skyMapIntensity
                 |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))
                 |> Sg.shader {
-                    do! GBufferRendering.skyBoxTrafo
-                    do! GBufferRendering.skyGBuffer
+                    do! shaderCommon.skyBoxTrafo
+                    do! shaderCommon.skyGetMatrialValues
+                    do! GBufferRendering.gBufferShader
                 }
 
         scene
@@ -265,7 +66,8 @@ module GeometryBuffer  =
             do! displacemntMap.displacementMap
             do! DefaultSurfaces.vertexColor
             do! AlbedoColor.albedoColor
-            do! GBufferRendering.normalMap 
+            do! shaderCommon.normalMap 
+            do! shaderCommon.getMatrialValues
             do! GBufferRendering.gBufferShader
             }
         |> (Sg.andAlso <| skyBox )
@@ -277,10 +79,10 @@ module GeometryBuffer  =
                         DefaultSemantic.Depth
                         DefaultSemantic.Colors
                         Sym.ofString "WorldPosition"
-                        GBufferRendering.Semantic.NormalR
-                        GBufferRendering.Semantic.Emission
-                        GBufferRendering.Semantic.ClearCoat
-                        GBufferRendering.Semantic.Sheen
+                        shaderCommon.Semantic.NormalR
+                        shaderCommon.Semantic.Emission
+                        shaderCommon.Semantic.ClearCoat
+                        shaderCommon.Semantic.Sheen
                         ]
                ) size 
 
