@@ -276,7 +276,7 @@ module PBR =
                     let transmission = 
                         if vert.sssProfile >= 0 then
                             //simple front side illumination is used to aproxximate back side illumination
-                            //thats visually Ok for rellative thin objects
+                            //thats visually Ok for relative thin objects
                              vert.simpleIllumn * translucency.transm vert.sssProfile vert.wp.XYZ vert.n vert.lightDir
                         else
                             V3d.OOO
