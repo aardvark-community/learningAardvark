@@ -32,6 +32,7 @@ open Aardvark.Base.Rendering.Effects
                     sheen = V4d(vert.sheenColor,vert.sheenRoughness)
                     }
         }
+        
 module GeometryBuffer  =
 
     //Render task for the Geometry-buffer pass

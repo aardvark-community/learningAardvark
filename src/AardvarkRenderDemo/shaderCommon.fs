@@ -167,6 +167,8 @@ module shaderCommon =
                         c = V4d(albedo,1.0)
                         metallic = metallic
                         roughness = roughness
+                        n = frag.n |> Vec.normalize
+                        clearCoatNormal = frag.clearCoatNormal |> Vec.normalize
                         emission = emission
                         clearCoat = clearCoat
                         clearCoatRoughness = clearCoatRoughness
@@ -186,7 +188,7 @@ module shaderCommon =
             let col = texColor * uniform.SkyMapIntensity
 
             return {    wp = frag.wp
-                        n = frag.n
+                        n = frag.n |> Vec.normalize
                         tc = frag.tc
                         c = V4d(col,1.0)
                         metallic = -1.0

@@ -164,9 +164,10 @@ module PBR =
                      
             return {Diffuse = V4d(diffuse, 1.0)
                     Specular = V4d(specular, 1.0)
-                    tc = frag.tc; wp = frag.wp
-                    n  = frag.n; 
-                    sssProfile = frag.sssProfile; 
+                    tc = frag.tc
+                    wp = frag.wp
+                    n  = frag.n
+                    sssProfile = frag.sssProfile
                     lightDir = ldir
                     simpleIllumn = illum
                     }

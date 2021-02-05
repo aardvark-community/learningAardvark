@@ -161,6 +161,18 @@ module App =
             |> ASet.fold (fun s (_,(o : AdaptiveSceneObject)) -> AVal.map2( fun (s : Box3d) (b : Box3d)-> Box.Union(s,b)) s (bounds o)) seed 
             |> AVal.bind id
 
+        let lightKey = 
+            m.lights 
+            |> AMap.keys
+            |> ASet.toAList
+            |> AList.tryFirst
+            |> AVal.map (Option.defaultValue 0)
+
+        let (light : aval<AdaptiveLightCase>) = AVal.bind (fun  i -> AMap.find i m.lights) lightKey
+
+        let diffuseAndSpecular = 
+           forwardRendering.diffuseAndSpecular runtime view proj size skyBoxTexture scene m.enviorment.skyMapIntensity light bb m.enviorment.ambientLightIntensity
+           
         //adaptive function to calcualte the light view matrix for one light
         let lightViewMatrix i = 
             let light = AMap.find i m.lights
@@ -368,7 +380,7 @@ module App =
             ]
 
         //render linear HDR output
-        let  diffuseAndSpecular = 
+        (*let  diffuseAndSpecular = 
             Sg.set lightSgs
             |> Sg.blendMode (blendMode |> AVal.constant)
             |> Sg.uniform "AmbientIntensity" m.enviorment.ambientLightIntensity
@@ -390,9 +402,9 @@ module App =
                     Set.ofList [
                         (Sym.ofString"Diffuse")
                         (Sym.ofString"Specular")
-                    ])  size   
+                    ])  size   *)
 
-        let diffuse = Map.find  (Sym.ofString"Diffuse") diffuseAndSpecular
+        let diffuse =  Map.find  (Sym.ofString"Diffuse")  diffuseAndSpecular
         let specular = Map.find  (Sym.ofString"Specular") diffuseAndSpecular
 
         let ssss = subSurface.makeSubSurfaceScatttering (runtime : IRuntime) (size : aval<V2i>) (AVal.constant  camFoVy) view proj gBuffer diffuse m.sssProfiles
