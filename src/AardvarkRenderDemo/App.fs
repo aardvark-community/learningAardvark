@@ -169,9 +169,6 @@ module App =
             |> AVal.map (Option.defaultValue 0)
 
         let (light : aval<AdaptiveLightCase>) = AVal.bind (fun  i -> AMap.find i m.lights) lightKey
-
-        let diffuseAndSpecular = 
-           forwardRendering.diffuseAndSpecular runtime view proj size skyBoxTexture scene m.enviorment.skyMapIntensity light bb m.enviorment.ambientLightIntensity
            
         //adaptive function to calcualte the light view matrix for one light
         let lightViewMatrix i = 
@@ -404,6 +401,22 @@ module App =
                         (Sym.ofString"Specular")
                     ])  size   *)
 
+        let diffuseAndSpecular = 
+           forwardRendering.diffuseAndSpecular 
+            runtime 
+            view 
+            proj 
+            size 
+            skyBoxTexture 
+            scene 
+            m.enviorment.skyMapIntensity 
+            light 
+            bb 
+            m.enviorment.ambientLightIntensity 
+            diffuseIrradianceMap
+            prefilterdSpecColor
+            bRDFLtu
+            
         let diffuse =  Map.find  (Sym.ofString"Diffuse")  diffuseAndSpecular
         let specular = Map.find  (Sym.ofString"Specular") diffuseAndSpecular
 

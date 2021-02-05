@@ -120,47 +120,50 @@ module PBR =
         [<Semantic("lightDir")>] lightDir : V3d
        }
 
+    [<ReflectedDefinition>]
+    let directLighting metallic (wp :V4d) (c: V4d) (n: V3d) (clearCoatNormal: V3d)  clearCoat  roughness (sheenColor: V3d) sheenRoughness clearCoatRoughness (light : SLEUniform.Light) =
+        if metallic < 0.0 then //no lighting, ignore      
+            V3d.Zero, V3d.Zero, V3d.Zero, V3d.Zero
+        else //PBR lightning
+            let wPos = wp.XYZ
+            let albedo = c.XYZ
+            let v = uniform.CameraLocation - wPos |> Vec.normalize
+
+            //calculat light direction for area lights with the clear coat normal if clear coat is applied   
+            let nforl = Lerp n clearCoatNormal clearCoat
+            let (_, lDir, illuminannce, specularAttenuation, illuminannceSimple)  = LightShader.getLightParams light wPos nforl v roughness
+            //illuminaceSimple gives punctual illuminace for area lights and is used for translucency to approximate back lightning
+
+            let h = v + lDir |> Vec.normalize
+            let nDotL = Vec.dot n lDir |> saturate
+            let hDotV = Vec.dot h v |> saturate      
+            let nDotH = Vec.dot n h |> saturate
+            let nDotV = Vec.dot n v |> saturate
+
+            //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
+            let f0Base = Lerp (V3d(0.04)) albedo metallic
+            //correct for clear coat
+            let f0 = Lerp f0Base (f0ClearCoatToSurface f0Base) clearCoat
+
+            let F = fresnelSchlick f0 hDotV 
+
+            let spec = specularLobeStandard F roughness nDotH nDotV nDotL
+            let diff = diffuseLobe F metallic albedo
+
+            let diff1', spec1 = directSheen sheenColor sheenRoughness nDotH nDotV nDotL diff (spec * specularAttenuation)
+
+            let diff1 = diff1' * nDotL * illuminannce
+
+            if clearCoat = 0.0 then
+                (diff1 , spec1 * illuminannce * nDotL, lDir, illuminannceSimple )
+            else
+                let ccF, clearCoatResponce, ccNDotL = directclearCoat clearCoat clearCoatRoughness clearCoatNormal lDir v h hDotV
+                (diff1 * (V3d.One-ccF), (spec1 * (V3d.One-ccF) * nDotL + clearCoatResponce * ccNDotL)* illuminannce, lDir, illuminannceSimple )
+
     let lightingDeferred (frag : Fragment)  =
         fragment {
             let diffuse, specular, ldir, illum = 
-                if frag.metallic < 0.0 then //no lighting, ignore      
-                    V3d.Zero, V3d.Zero, V3d.Zero, V3d.Zero
-                else //PBR lightning
-                    let wPos = frag.wp.XYZ
-                    let albedo = frag.c.XYZ
-                    let v = uniform.CameraLocation - wPos |> Vec.normalize
-
-                    //calculat light direction for area lights with the clear coat normal if clear coat is applied   
-                    let nforl = Lerp frag.n frag.clearCoatNormal frag.clearCoat
-                    let (_, lDir, illuminannce, specularAttenuation, illuminannceSimple)  = LightShader.getLightParams uniform.Light wPos nforl v frag.roughness
-                    //illuminaceSimple gives punctual illuminace for area lights and is used for translucency to approximate back lightning
-
-                    let h = v + lDir |> Vec.normalize
-                    let nDotL = Vec.dot frag.n lDir |> saturate
-                    let hDotV = Vec.dot h v |> saturate      
-                    let nDotH = Vec.dot frag.n h |> saturate
-                    let nDotV = Vec.dot frag.n v |> saturate
-
-                    //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
-                    let f0Base = Lerp (V3d(0.04)) albedo frag.metallic
-                    //correct for clear coat
-                    let f0 = Lerp f0Base (f0ClearCoatToSurface f0Base) frag.clearCoat
-
-                    let F = fresnelSchlick f0 hDotV 
-
-                    let spec = specularLobeStandard F frag.roughness nDotH nDotV nDotL
-                    let diff = diffuseLobe F frag.metallic albedo
-        
-                    let diff1', spec1 = directSheen frag.sheenColor frag.sheenRoughness nDotH nDotV nDotL diff (spec * specularAttenuation)
- 
-                    let diff1 = diff1' * nDotL * illuminannce
-
-                    if frag.clearCoat = 0.0 then
-                        (diff1 , spec1 * illuminannce * nDotL, lDir, illuminannceSimple )
-                    else
-                        let ccF, clearCoatResponce, ccNDotL = directclearCoat frag.clearCoat frag.clearCoatRoughness frag.clearCoatNormal lDir v h hDotV
-                        (diff1 * (V3d.One-ccF), (spec1 * (V3d.One-ccF) * nDotL + clearCoatResponce * ccNDotL)* illuminannce, lDir, illuminannceSimple )
-
+                directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness uniform.Light
                      
             return {Diffuse = V4d(diffuse, 1.0)
                     Specular = V4d(specular, 1.0)
@@ -211,45 +214,67 @@ module PBR =
             let ccspecular = ccprefilteredColor * (cckSA * ccbrdf.X + ccbrdf.Y)
             (diffuse * (1.0 - cckSA), specular * (1.0 - cckSA)  + ccspecular)   
 
+    [<ReflectedDefinition>]
+    let ambientLight metallic (c : V4d) (wp : V4d) (n : V3d) (clearCoat) roughness (sheenColor : V3d) sheenRoughness clearCoatRoughness clearCoatNormal=   
+        if metallic < 0.0 then //no lighting, just put out the color      
+            (c.XYZ, V3d.OOO)
+        else //PBR lightning
+            let albedo = c.XYZ
+            let cameraPos = uniform.CameraLocation
+            let v = cameraPos - wp.XYZ |> Vec.normalize
+            let r = Vec.reflect -v n
+
+            //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
+            let f0Base = Lerp (V3d(0.04)) albedo metallic
+            //corret for clean coat
+            let f0 = Lerp f0Base (f0ClearCoatToSurface f0Base) clearCoat
+
+            let nDotV = Vec.dot n v |>  max 0.0
+            let kSA = fresnelSchlickRoughness f0 roughness nDotV
+            let kdA  = (1.0 - kSA) * (1.0 - metallic)
+
+            let diff = ambientDiffuse kdA albedo n
+
+            let spec = ambientSpecular kSA roughness nDotV r
+
+            let diff1, spec1 = ambientSheen sheenColor sheenRoughness nDotV r diff spec
+            let diff2, spec2 = ambienClearCoat clearCoat clearCoatRoughness clearCoatNormal v r diff1 spec1
+
+            (diff2 * uniform.AmbientIntensity, spec2 * uniform.AmbientIntensity)
+
     let abientDeferred (frag : Fragment) =
         fragment {
-            let diffuse, specular = 
-                if frag.metallic < 0.0 then //no lighting, just put out the color      
-                    (frag.c.XYZ, V3d.OOO)
-                else //PBR lightning
-                    let occlusion = ambientOcc.Sample(frag.tc).X
-                    let albedo = frag.c.XYZ
-                    let cameraPos = uniform.CameraLocation
-                    let v = cameraPos - frag.wp.XYZ |> Vec.normalize
-                    let r = Vec.reflect -v frag.n
-
-                    //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
-                    let f0Base = Lerp (V3d(0.04)) albedo frag.metallic
-                    //corret for clean coat
-                    let f0 = Lerp f0Base (f0ClearCoatToSurface f0Base) frag.clearCoat
-
-                    let nDotV = Vec.dot frag.n v |>  max 0.0
-                    let kSA = fresnelSchlickRoughness f0 frag.roughness nDotV
-                    let kdA  = (1.0 - kSA) * (1.0 - frag.metallic)
-
-                    let diff = ambientDiffuse kdA albedo frag.n
-
-                    let spec = ambientSpecular kSA frag.roughness nDotV r
-
-                    let diff1, spec1 = ambientSheen frag.sheenColor frag.sheenRoughness nDotV r diff spec
-                    let diff2, spec2 = ambienClearCoat frag.clearCoat frag.clearCoatRoughness frag.clearCoatNormal v r diff1 spec1
-
-                    (diff2 * uniform.AmbientIntensity * occlusion, spec2 * uniform.AmbientIntensity * occlusion)
-
+            let diffuse, specular = ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal
+            let occlusion = if frag.metallic < 0.0 then 1.0 else ambientOcc.Sample(frag.tc).X
             let em = frag.emission
-            return {Diffuse = V4d(diffuse, 1.0)
-                    Specular = V4d(specular+em, 1.0)
+            return {Diffuse = V4d(diffuse * occlusion, 1.0)
+                    Specular = V4d(specular * occlusion + em, 1.0)
                     tc = frag.tc; wp = frag.wp
                     n  = frag.n; 
                     sssProfile = frag.sssProfile; 
                     lightDir = V3d.Zero
                     simpleIllumn = V3d.Zero
                     }
+        }
+
+    let lightnigForward (frag : Fragment) =
+        fragment {
+            let diffuseD, specularD, ldir, illum = 
+                directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness uniform.Light
+            let diffuseO, specularO = 
+                ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal
+            let shadow = Shadow.getShadow frag.wp
+            let diffuse = diffuseD * shadow + diffuseO         
+            let specular = specularD * shadow + specularO         
+            return {Diffuse = V4d(diffuse, 1.0)
+                    Specular = V4d(specular, 1.0)
+                    tc = frag.tc
+                    wp = frag.wp
+                    n  = frag.n
+                    sssProfile = frag.sssProfile
+                    lightDir = ldir
+                    simpleIllumn = illum
+                    }        
         }
 
     let abientDeferredSimple (frag : Fragment) =

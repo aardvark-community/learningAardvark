@@ -9,7 +9,20 @@ open SLEAardvarkRenderDemo.Model
 
 module forwardRendering =
 
-    let diffuseAndSpecular (runtime : IRuntime) (view : aval<Trafo3d>) projection size skyBoxTexture scene skyMapIntensity (light  : aval<AdaptiveLightCase>)bb ambientLightIntensity=
+    let diffuseAndSpecular 
+        (runtime : IRuntime) 
+        (view : aval<Trafo3d>) 
+        projection 
+        size 
+        skyBoxTexture 
+        scene 
+        skyMapIntensity 
+        (light  : aval<AdaptiveLightCase>)
+        bb 
+        ambientLightIntensity
+        diffuseIrradianceMap
+        prefilterdSpecColor
+        bRDFLtu =
 
                 
         let lightViewMatrix light = 
@@ -35,7 +48,7 @@ module forwardRendering =
                 |> Sg.shader {
                     do! shaderCommon.skyBoxTrafo
                     do! shaderCommon.skyGetMatrialValues
-                    do! PBR.abientDeferred
+                    do! PBR.lightnigForward
                 }
         
         scene
@@ -47,8 +60,7 @@ module forwardRendering =
             do! AlbedoColor.albedoColor
             do! shaderCommon.normalMap 
             do! shaderCommon.getMatrialValues
-            do! PBR.lightingDeferred
-            do! PBR.shadowDeferred          
+            do! PBR.lightnigForward        
         }
         |> (Sg.andAlso <| skyBox )
         |> Sg.viewTrafo (view)
@@ -58,6 +70,9 @@ module forwardRendering =
         |> Sg.uniform "LightViewProjMatrix" (lightViewMatrix  light |> AVal.map(fun (v,p,_,_)  -> v * p))
         |> Sg.uniform "AmbientIntensity" ambientLightIntensity
         |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))        
+        |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap
+        |> Sg.texture (Sym.ofString "PrefilteredSpecColor") prefilterdSpecColor
+        |> Sg.texture (Sym.ofString "BRDFLtu") bRDFLtu
         |> Sg.compile runtime signature
         |> RenderTask.renderSemantics(
                     Set.ofList [
