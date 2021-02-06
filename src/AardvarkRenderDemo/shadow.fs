@@ -127,7 +127,7 @@ module Shadow =
 
     type UniformScope with
         member x.LightViewProjMatrix : M44d = x?LightViewProjMatrix
-        member x.Light : SLEUniform.Light = x?Light
+        member x.Light :SLEUniform.Light = x?Light
 
 
     let private samplerShadowMap =

@@ -23,6 +23,8 @@ module PBR =
 
     type UniformScope with
         member x.Light : SLEUniform.Light = x?Light
+        member x.LightArray : Arr<N<80>,SLEUniform.Light> = x?LightArray
+        member x.LightCount : int = x?LightCount
         member x.AmbientIntensity : float = x?AmbientIntensity
 
     //Note: Do not use ' in variabel names for shader code, it will lead to an error because it is not valid for GLSL
@@ -259,21 +261,26 @@ module PBR =
 
     let lightnigForward (frag : Fragment) =
         fragment {
-            let diffuseD, specularD, ldir, illum = 
-                directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness uniform.Light
+            let mutable diffuseD = V3d.Zero 
+            let mutable specularD = V3d.Zero
+            for i in 0..uniform.LightCount-1 do
+                let diffuseDi, specularDi, _, _ = 
+                    directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness uniform.LightArray.[i]
+                //let shadow = if uniform.LightArray.[i].castsShadow then Shadow.getShadow frag.wp else  1.0
+                diffuseD  <- diffuseD  + diffuseDi // * shadow
+                specularD <- specularD + specularDi // * shadow
             let diffuseO, specularO = 
                 ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal
-            let shadow = Shadow.getShadow frag.wp
-            let diffuse = diffuseD * shadow + diffuseO         
-            let specular = specularD * shadow + specularO         
+            let diffuse = diffuseD + diffuseO         
+            let specular = specularD  + specularO         
             return {Diffuse = V4d(diffuse, 1.0)
                     Specular = V4d(specular, 1.0)
                     tc = frag.tc
                     wp = frag.wp
                     n  = frag.n
                     sssProfile = frag.sssProfile
-                    lightDir = ldir
-                    simpleIllumn = illum
+                    lightDir = V3d.Zero
+                    simpleIllumn = V3d.Zero
                     }        
         }
 

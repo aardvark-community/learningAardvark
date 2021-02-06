@@ -808,7 +808,7 @@ module SLEUniform =
         | SphereLight = 4
         | DiskLight = 5
         | RectangleLight = 6
-
+    
     type Light = {
         lightType : LightType
         lightPosition : V4d
@@ -827,7 +827,6 @@ module SLEUniform =
         toWorld : M44d
         fromWorld : M44d
     }
-     
 
     let noLight = {
         lightType = LightType.NoLight
@@ -847,6 +846,7 @@ module SLEUniform =
         toWorld = M44d.Identity
         fromWorld = M44d.Identity
         }
+
 
     let spotLightAxis (lightDirection : V4d) rotation =
         let d = Vec.normalize lightDirection.YXZ
@@ -992,3 +992,21 @@ module SLEUniform =
                  }
                Log.debug "p1 %A p2 %A p3 %A p4 %A" r.p1 r.p2 r.p3 r.p4
                return r        } 
+ 
+    let uniformLightArray (lights : amap<int,AdaptiveLightCase>) = 
+        let uarr =
+            lights
+            |> AMap.mapA (fun _ l -> uniformLight l)
+            |> AMap.toAVal
+            |> AVal.map (fun (m : HashMap<int,Light>) -> m |> HashMap.toArray |> Array.map snd ) 
+        let c'  = uarr |> AVal.map (Array.length >> min 80) 
+        let arr  =
+            aval{
+                let out = Array.replicate 80 noLight
+                let! c = c'
+                let! a = uarr
+                let out = Array.init 80 (fun i -> if i < c then a.[i]  else noLight)  
+                return out
+            }
+        Sg.uniform "LightArray" arr
+        >> Sg.uniform "LightCount" c'

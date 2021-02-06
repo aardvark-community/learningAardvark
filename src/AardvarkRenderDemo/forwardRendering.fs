@@ -17,7 +17,7 @@ module forwardRendering =
         skyBoxTexture 
         scene 
         skyMapIntensity 
-        (light  : aval<AdaptiveLightCase>)
+        (lights : amap<int,AdaptiveLightCase>)
         bb 
         ambientLightIntensity
         diffuseIrradianceMap
@@ -65,9 +65,10 @@ module forwardRendering =
         |> (Sg.andAlso <| skyBox )
         |> Sg.viewTrafo (view)
         |> Sg.projTrafo (projection)
-        |> Sg.uniform "Light" (AVal.bind SLEUniform.uniformLight light)
-        |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex light)
+        |> SLEUniform.uniformLightArray lights 
+        (*|> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex light)
         |> Sg.uniform "LightViewProjMatrix" (lightViewMatrix  light |> AVal.map(fun (v,p,_,_)  -> v * p))
+        *)
         |> Sg.uniform "AmbientIntensity" ambientLightIntensity
         |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))        
         |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap

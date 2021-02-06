@@ -410,7 +410,7 @@ module App =
             skyBoxTexture 
             scene 
             m.enviorment.skyMapIntensity 
-            light 
+            m.lights
             bb 
             m.enviorment.ambientLightIntensity 
             diffuseIrradianceMap
