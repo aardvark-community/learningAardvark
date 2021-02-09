@@ -47,28 +47,20 @@ module forwardRendering =
                 |> AMap.mapA (fun _ l -> mapper l)
             m
 
-        let shadowMapUniform2 (shadowMaps : amap<int,ITexture>) (inp :ISg<'m>)=
-            shadowMaps
-            |> AMap.toAVal
-            |> AVal.map (fun (m : HashMap<int,ITexture>) -> 
+        let shadowMapUniform (shadowMaps : amap<int,ITexture>)  (inp :ISg<'m>) =
+            let l = 
+                shadowMaps
+                |> AMap.toAVal
+                |> AVal.map (fun (m : HashMap<int,ITexture>) -> 
                                 m 
-                                |> HashMap.toList 
-                                |> List.sortBy fst 
-                                |> List.mapi (fun i (_, t) -> i, t)
-                                |> List.fold (fun s (i, t) ->  s |> (Sg.uniform ("ShadowMapArray"+i.ToString()) (AVal.constant t))) inp
-                        ) 
+                                |> HashMap.toArray 
+                                |> Array.sortBy fst
+                                |> Array.map snd)
+            let mapper i = 
+                AVal.map (fun (a : ITexture []) -> if i < Array.length a then a.[i] else NullTexture() :> ITexture) l
+            let a = Array.init 30 (fun i -> i, mapper i)
+            Array.fold (fun s (i, t) ->  s |> (Sg.uniform ("ShadowMapArray"+i.ToString()) t)) inp a
 
-            
-
-        let shadowMapUniform (shadowMaps : amap<int,ITexture>) (inp :ISg<'m>)=
-            let mutable ii = -1
-            shadowMaps
-            |> AMap.toASet
-            |> ASet.sortBy fst
-            |> AList.fold (fun s (_, m) ->  
-                                ii <- ii + 1
-                                s |> (Sg.uniform ("ShadowMapArray"+ii.ToString()) (AVal.constant m))
-                                ) inp
 
         let signature =
             runtime.CreateFramebufferSignature [
@@ -89,11 +81,9 @@ module forwardRendering =
                     do! PBR.lightnigForward
                 }
         
-        let shadows = shadowMapUniform2 (shadowMaps lights)
 
         scene
-        |> shadows
-        |> Sg.dynamic
+        |> shadowMapUniform (shadowMaps lights)
         |> Sg.cullMode (AVal.constant CullMode.None)
         |> Sg.shader {
             do! DefaultSurfaces.trafo
