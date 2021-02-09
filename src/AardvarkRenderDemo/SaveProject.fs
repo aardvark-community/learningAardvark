@@ -81,6 +81,7 @@ module projetIO =
             objects = em.objects
             selectedObject = em.selectedObject
             sssProfiles = em.sssProfiles
+            lightIndexMap = light.lightIndexMap em.lights
         }
         toAbsolutePaths m f
 

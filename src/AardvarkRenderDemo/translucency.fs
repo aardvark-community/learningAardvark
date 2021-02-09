@@ -15,10 +15,6 @@ module translucency =
 
     type UniformScope with
         member x.Light : SLEUniform.Light = x?Light
-        member x.LightViewM : M44d = x?LightViewM
-        member x.LightFarZ : float = x?LightFarZ
-        member x.LightNearZ : float = x?LightNearZ
-        member x.LightViewProjMatrix : M44d = x?LightViewProjMatrix
         member x.sssWidth :  Arr<N<8>, float> = x?sssWidth
         member x.sssFalloff :  Arr<N<8>, V3d> = x?sssFalloff
         member x.sssStrength :  Arr<N<8>, V3d> = x?sssStrength
@@ -38,23 +34,23 @@ module translucency =
     let getShadowLinearDepth (tc :V2d) = 
         match uniform.Light.lightType  with
         | SLEUniform.LightType.DirectionalLight ->              
-            samplerShadowMap1.Sample(tc).X * uniform.LightFarZ //directional lights use ortho projection on shadows with already give linear depht
+            samplerShadowMap1.Sample(tc).X * uniform.Light.shadowMapMaxZ //directional lights use ortho projection on shadows with already give linear depht
         | _ -> // all ohters use perspective projection and depth is non linear 
             let z = 2.0 * samplerShadowMap1.Sample(tc).X - 1.0
-            let n = uniform.LightNearZ
-            let f = uniform.LightFarZ
+            let n = uniform.Light.shadowMapMinZ
+            let f = uniform.Light.shadowMapMaxZ
             (2.0 * n * f) / (f + n - z * (f - n))
 
     // local thickness in light direction approcimated as depth in light space - blocker depth from shadow map
     [<ReflectedDefinition>]
     let getThickness (bias : float) (wp  :V3d) (wn :V3d) = 
         let shrinkedPos = V4d(wp - bias * wn, 1.0) // bias to avoid artifacts at the object edges
-        let posLightSpace = uniform.LightViewM * V4d(wp, 1.0)//* shrinkedPos
-        let shadowPos =  uniform.LightViewProjMatrix * shrinkedPos
+        let posLightSpace = uniform.Light.lightViewMatrix * V4d(wp, 1.0)//* shrinkedPos
+        let shadowPos =  uniform.Light.lightViewProjMatrix * shrinkedPos
         let cc = shadowPos.XY / shadowPos.W * 0.5 + 0.5
         let d1 = getShadowLinearDepth cc 
         let d2 = -posLightSpace.Z / posLightSpace.W
-        max (abs(d1 - d2)) 0.001 //  minimal depth to avoid very small or negativ thickness because of the bias
+        max (abs(d1 - d2)) 0.001 //  minimal depth tos avoid very small or negativ thickness because of the bias
 
     [<ReflectedDefinition>]
     let transm (profileIndex : int) (wp : V3d) (wn : V3d) (l :V3d)  =

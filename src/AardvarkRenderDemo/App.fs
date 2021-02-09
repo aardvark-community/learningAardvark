@@ -66,6 +66,7 @@ module App =
         objects = obj
         selectedObject = selected
         sssProfiles = HashMap.empty
+        lightIndexMap = Map.ofList [0, 0]
     }
 
     let initial = 
@@ -88,7 +89,10 @@ module App =
                 let l = lightControl.update li lms
                 { m with lights = HashMap.update i (fun _ -> l ) m.lights }
             |None ->  m
-        | RemoveLight i ->  { m with lights = HashMap.remove i m.lights }
+        | RemoveLight i ->  
+            let lights = HashMap.remove i m.lights
+            let lightIndexMap = light.lightIndexMap lights
+            { m with lights = lights; lightIndexMap = lightIndexMap }
         | AddLight l -> 
             let i = 
                 if HashMap.isEmpty m.lights then
@@ -98,7 +102,9 @@ module App =
                     |> Seq.max
                     |> max 0
                     |> (+) 1
-            { m with lights = HashMap.add i l m.lights }
+            let lights = HashMap.add i l m.lights
+            let lightIndexMap = light.lightIndexMap lights
+            { m with lights = lights; lightIndexMap = lightIndexMap }
         | SceneObjectMessage (msg) ->
             let o' = HashMap.tryFind m.selectedObject m.objects
             match o' with
@@ -161,20 +167,6 @@ module App =
             |> ASet.fold (fun s (_,(o : AdaptiveSceneObject)) -> AVal.map2( fun (s : Box3d) (b : Box3d)-> Box.Union(s,b)) s (bounds o)) seed 
             |> AVal.bind id
 
-        let lightKey = 
-            m.lights 
-            |> AMap.keys
-            |> ASet.toAList
-            |> AList.tryFirst
-            |> AVal.map (Option.defaultValue 0)
-
-        let (light : aval<AdaptiveLightCase>) = AVal.bind (fun  i -> AMap.find i m.lights) lightKey
-           
-        //adaptive function to calcualte the light view matrix for one light
-        let lightViewMatrix i = 
-            let light = AMap.find i m.lights
-            AVal.bind (Shadow.lightViewPoject bb) light
-
         //adaptive function to calcualte the shadow map for one light
         let shadowMapTex i = 
             let light = AMap.find i m.lights
@@ -201,12 +193,8 @@ module App =
                                 if d.castsShadow then
                                     Sg.fullScreenQuad
                                     |> Sg.adapter
-                                    |> Sg.uniform "Light" (SLEUniform.uniformLight l)
+                                    |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
                                     |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
-                                    |> Sg.uniform "LightViewProjMatrix" (lightViewMatrix  i |> AVal.map(fun (v,p,_,_)  -> v * p))
-                                    |> Sg.uniform "LightViewM" (lightViewMatrix  i |> AVal.map(fun (v,p,_,_)  -> v ))
-                                    |> Sg.uniform "LightFarZ" (lightViewMatrix  i |> AVal.map(fun (_,_,_,z)  -> z))
-                                    |> Sg.uniform "LightNearZ" (lightViewMatrix  i |> AVal.map(fun (_,_,z,_)  -> z))
                                     |> Sg.shader {
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
@@ -216,7 +204,7 @@ module App =
                                 else
                                      Sg.fullScreenQuad
                                     |> Sg.adapter
-                                    |> Sg.uniform "Light" (SLEUniform.uniformLight l)
+                                    |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
                                     |> Sg.shader {
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
@@ -227,12 +215,8 @@ module App =
                                 if d.castsShadow then
                                     Sg.fullScreenQuad
                                     |> Sg.adapter
-                                    |> Sg.uniform "Light" (SLEUniform.uniformLight l)
+                                    |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
                                     |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
-                                    |> Sg.uniform "LightViewProjMatrix" (lightViewMatrix  i |> AVal.map(fun (v,p,_,_)  -> v * p))
-                                    |> Sg.uniform "LightViewM" (lightViewMatrix  i |> AVal.map(fun (v,p,_,_)  -> v ))
-                                    |> Sg.uniform "LightFarZ" (lightViewMatrix  i |> AVal.map(fun (_,_,_,z)  -> z))
-                                    |> Sg.uniform "LightNearZ" (lightViewMatrix  i |> AVal.map(fun (_,_,z,_)  -> z))
                                     |> Sg.shader {
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
@@ -242,7 +226,7 @@ module App =
                                 else
                                      Sg.fullScreenQuad
                                     |> Sg.adapter
-                                    |> Sg.uniform "Light" (SLEUniform.uniformLight l)
+                                    |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
                                     |> Sg.shader {
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
@@ -251,7 +235,7 @@ module App =
                         |AdaptivePointLight _ ->
                             Sg.fullScreenQuad
                             |> Sg.adapter
-                            |> Sg.uniform "Light" (SLEUniform.uniformLight l)
+                            |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
                             |> Sg.shader {
                                 do! GBuffer.getGBufferData
                                 do! PBR.lightingDeferred
@@ -259,7 +243,7 @@ module App =
                         |AdaptiveSphereLight _ ->
                             Sg.fullScreenQuad
                             |> Sg.adapter
-                            |> Sg.uniform "Light" (SLEUniform.uniformLight l)
+                            |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
                             |> Sg.shader {
                                 do! GBuffer.getGBufferData
                                 do! PBR.lightingDeferred
@@ -269,12 +253,8 @@ module App =
                                 if d.castsShadow then
                                     Sg.fullScreenQuad
                                     |> Sg.adapter
-                                    |> Sg.uniform "Light" (SLEUniform.uniformLight l)
+                                    |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
                                     |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
-                                    |> Sg.uniform "LightViewProjMatrix" (lightViewMatrix  i |> AVal.map(fun (v,p,_,_)  -> v * p))
-                                    |> Sg.uniform "LightViewM" (lightViewMatrix  i |> AVal.map(fun (v,p,_,_)  -> v ))
-                                    |> Sg.uniform "LightFarZ" (lightViewMatrix  i |> AVal.map(fun (_,_,_,z)  -> z))
-                                    |> Sg.uniform "LightNearZ" (lightViewMatrix  i |> AVal.map(fun (_,_,z,_)  -> z))
                                     |> Sg.shader {
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
@@ -284,7 +264,7 @@ module App =
                                 else
                                      Sg.fullScreenQuad
                                     |> Sg.adapter
-                                    |> Sg.uniform "Light" (SLEUniform.uniformLight l)
+                                    |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
                                     |> Sg.shader {
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
@@ -295,12 +275,8 @@ module App =
                                 if d.castsShadow then
                                     Sg.fullScreenQuad
                                     |> Sg.adapter
-                                    |> Sg.uniform "Light" (SLEUniform.uniformLight l)
+                                    |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
                                     |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
-                                    |> Sg.uniform "LightViewProjMatrix" (lightViewMatrix  i |> AVal.map(fun (v,p,_,_)  -> v * p))
-                                    |> Sg.uniform "LightViewM" (lightViewMatrix  i |> AVal.map(fun (v,p,_,_)  -> v ))
-                                    |> Sg.uniform "LightFarZ" (lightViewMatrix  i |> AVal.map(fun (_,_,_,z)  -> z))
-                                    |> Sg.uniform "LightNearZ" (lightViewMatrix  i |> AVal.map(fun (_,_,z,_)  -> z))
                                    |> Sg.shader {
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred
@@ -310,7 +286,7 @@ module App =
                                 else
                                      Sg.fullScreenQuad
                                     |> Sg.adapter
-                                    |> Sg.uniform "Light" (SLEUniform.uniformLight l)
+                                    |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
                                     |> Sg.shader {
                                         do! GBuffer.getGBufferData
                                         do! PBR.lightingDeferred

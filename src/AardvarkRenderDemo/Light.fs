@@ -76,6 +76,14 @@ module light =
 
     let defaultAbientOcclusion = {occlusionStrength = 1.0; scale = 1.0; radius = 0.2; samples = 32; threshold = 0.2; sigma = 2.0; sharpness = 1.0}
    
+    let lightIndexMap (lights : HashMap<int, Light>) =
+        lights
+        |> HashMap.keys
+        |> HashSet.toList
+        |> List.sort
+        |> List.mapi (fun i k -> i , k)
+        |> Map.ofList
+
     let calcVirtualPositionOffset  (l : AdaptiveLightCase) =
         match l with 
         | AdaptiveDirectionalLight ld -> AVal.constant V2d.OO
@@ -109,6 +117,86 @@ module light =
             do! DefaultSurfaces.trafo
             do! DefaultSurfaces.vertexColor 
             } 
+
+    //calculate light view and prjection
+    let lightViewPoject (bb : aval<Box3d>) (alight : AdaptiveLightCase) =
+        match alight with
+        | AdaptivePointLight l -> failwith "not implemented"
+        | AdaptiveSphereLight l -> failwith "not implemented"
+        | AdaptiveSpotLight l -> 
+            adaptive {
+                let! light = l
+                let! BB = bb
+                let size = (BB.Max - BB.Min).Length
+                let target = light.lightPosition + light.lightDirection
+                let up = if abs(light.lightDirection.Z) < 0.0000001 && abs(light.lightDirection.X) < 0.0000001 then V3d.OOI else V3d.OIO
+                let lightView = 
+                    CameraView.lookAt (light.lightPosition.XYZ ) target.XYZ up
+                    |> CameraView.viewTrafo 
+                let proj = 
+                    Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) 0.1 size 1.0
+                    |> Frustum.projTrafo
+                return lightView , proj, 0.1, size
+            }
+        | AdaptiveDirectionalLight l -> 
+            adaptive {
+                let! light = l
+                let! BB = bb
+                let distance = max BB.Min.Length BB.Max.Length
+                let size = (BB.Max - BB.Min).Length
+                let lightPos = -light.lightDirection.XYZ |> Vec.normalize |> (*) distance //make sure the light position is outside the sceneBB
+                let up = if abs(lightPos.Z) < 0.0000001 then V3d.OOI else V3d.OIO
+                let lightView = 
+                    CameraView.lookAt lightPos V3d.OOO up
+                    |> CameraView.viewTrafo 
+                let b = BB.Transformed(lightView)
+                let bb = Box3d(V3d(b.Min.XY,0.0001),V3d(b.Max.XY,size*2.0))//set Z Size so that all the scene fits in all cases (size*2.0 ist the upper bound, could be optimized)
+                let proj = 
+                    Frustum.ortho bb
+                    |> Frustum.projTrafo
+                return lightView , proj, 0.1, size*2.0
+            }
+        | AdaptiveDiskLight l -> 
+           adaptive {
+                let! light = l
+                let! BB = bb
+                let size = (BB.Max - BB.Min).Length
+                let target = light.lightPosition + light.lightDirection
+                let up = if abs(light.lightDirection.Z) < 0.0000001 && abs(light.lightDirection.X) < 0.0000001 then V3d.OOI else V3d.OIO
+                let! offset = (calcVirtualPositionOffset alight) //offset position so that the disk fits into the Camera Frustum
+                let n = light.lightDirection.XYZ |> Vec.normalize
+                let lightView = 
+                    CameraView.lookAt (light.lightPosition.XYZ - (offset.X * n)) target.XYZ up
+                    |> CameraView.viewTrafo 
+                //set the near plane so that the offset is compensated
+                let zNear = light.radius+offset.X |> max 0.1
+                let proj = 
+                    Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) zNear size 1.0
+                    |> Frustum.projTrafo
+                return lightView , proj, zNear, size
+            }
+        | AdaptiveRectangleLight l -> 
+            adaptive {
+                let! light = l
+                let! BB = bb
+                let size = (BB.Max - BB.Min).Length
+                let n = light.lightDirection.XYZ |> Vec.normalize
+                let target = light.lightPosition + light.lightDirection
+                //claculat sky direction according to the rotation of the rectangle
+                let rotate = M44d.RotationInDegrees(n,light.rotation) * M44d.RotateInto(V3d.OIO, n) 
+                let up = (rotate * V4d.OOIO).XYZ
+                //offset the position sot thet the  camera fits into the camera fustrum, use the bigger offset of the twoc directions 
+                let! o = (calcVirtualPositionOffset alight)
+                let offset = max o.X o.Y
+                let lightView = 
+                    CameraView.lookAt (light.lightPosition.XYZ - (offset * n)) target.XYZ up
+                    |> CameraView.viewTrafo 
+                //set the near plane so that the offset is compensated, minimum near plane 0.1 to avoid artefacts
+                let proj = 
+                    Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) (max offset 0.1) size 1.0
+                    |> Frustum.projTrafo
+                return lightView , proj, max offset 0.1, size
+            }
 
 // a control to set the properties of a single light
 module lightControl = 
@@ -826,6 +914,10 @@ module SLEUniform =
         p4 : V3d
         toWorld : M44d
         fromWorld : M44d
+        lightViewProjMatrix : M44d
+        lightViewMatrix : M44d
+        shadowMapMinZ : float
+        shadowMapMaxZ : float
     }
 
     let noLight = {
@@ -845,6 +937,10 @@ module SLEUniform =
         p4 = V3d.Zero
         toWorld = M44d.Identity
         fromWorld = M44d.Identity
+        lightViewProjMatrix = M44d.Identity
+        lightViewMatrix = M44d.Identity
+        shadowMapMinZ = 0.0
+        shadowMapMaxZ = 0.0
         }
 
 
@@ -855,7 +951,7 @@ module SLEUniform =
         let r = M44d.RotationInDegrees(d,rotation)
         V4d(a0,1.0) * r
 
-    let uniformLight (l : AdaptiveLightCase) : aval<Light>  =
+    let uniformLight bb (l : AdaptiveLightCase) : aval<Light>  =
         //needs to be adaptive because the  Light can change and is an IMod
         //we go from aval<MLight> to aval<ISg<Message>>
         adaptive {
@@ -864,6 +960,7 @@ module SLEUniform =
             match d with
             | AdaptiveDirectionalLight  x' ->
                let! x  = x'
+               let! viewM, projM, minZ, maxZ = light.lightViewPoject bb l
                 //Map to a type more convinient in the shaders
                let r : Light = {
                    lightType = LightType.DirectionalLight
@@ -882,6 +979,10 @@ module SLEUniform =
                    p4 = V3d.Zero
                    toWorld = M44d.Identity
                    fromWorld = M44d.Identity
+                   lightViewProjMatrix =  (viewM * projM).Forward
+                   lightViewMatrix = viewM.Forward
+                   shadowMapMinZ = minZ
+                   shadowMapMaxZ = maxZ
                 }
                return  r
             | AdaptivePointLight  x' ->
@@ -903,10 +1004,15 @@ module SLEUniform =
                    p4 = V3d.Zero
                    toWorld = M44d.Identity
                    fromWorld = M44d.Identity
+                   lightViewProjMatrix = M44d.Identity
+                   lightViewMatrix = M44d.Identity
+                   shadowMapMinZ = 0.0
+                   shadowMapMaxZ = 0.0
                 }
                return r
             | AdaptiveSpotLight  x' ->
                let! x  = x'
+               let! viewM, projM, minZ, maxZ = light.lightViewPoject bb l
                let r : Light = {
                    lightType = LightType.SpotLight
                    lightPosition = x.lightPosition
@@ -924,6 +1030,10 @@ module SLEUniform =
                    p4 = V3d.Zero
                    toWorld = M44d.Identity
                    fromWorld = M44d.Identity
+                   lightViewProjMatrix = M44d.Identity
+                   lightViewMatrix = M44d.Identity
+                   shadowMapMinZ = 0.0
+                   shadowMapMaxZ = 0.0
                  }
                return r
             | AdaptiveSphereLight  x' ->
@@ -945,10 +1055,15 @@ module SLEUniform =
                    p4 = V3d.Zero
                    toWorld = M44d.Identity
                    fromWorld = M44d.Identity
+                   lightViewProjMatrix = M44d.Identity
+                   lightViewMatrix = M44d.Identity
+                   shadowMapMinZ = 0.0
+                   shadowMapMaxZ = 0.0
                 }
                return r
             | AdaptiveDiskLight  x' ->
                let! x  = x'
+               let! viewM, projM, minZ, maxZ = light.lightViewPoject bb l
                let r : Light = {
                    lightType = LightType.DiskLight
                    lightPosition = x.lightPosition
@@ -966,10 +1081,15 @@ module SLEUniform =
                    p4 = V3d.Zero
                    toWorld = M44d.Identity
                    fromWorld = M44d.Identity
+                   lightViewProjMatrix = M44d.Identity
+                   lightViewMatrix = M44d.Identity
+                   shadowMapMinZ = 0.0
+                   shadowMapMaxZ = 0.0
                  }
                return r
             | AdaptiveRectangleLight  x' ->
                let! x  = x'
+               let! viewM, projM, minZ, maxZ = light.lightViewPoject bb l
                let n = x.lightDirection.XYZ |> Vec.normalize
                let toWorld = M44d.Translation(x.lightPosition.XYZ) * M44d.RotationInDegrees(n,x.rotation) * M44d.RotateInto(V3d.OIO, n) 
                let r : Light = {
@@ -989,16 +1109,20 @@ module SLEUniform =
                    p4 = (toWorld *  V4d(+0.5*x.width,0.0,0.5*x.height, 1.0)).XYZ
                    toWorld = toWorld
                    fromWorld = toWorld.Inverse
+                   lightViewProjMatrix = M44d.Identity
+                   lightViewMatrix = M44d.Identity
+                   shadowMapMinZ = 0.0
+                   shadowMapMaxZ = 0.0
                  }
                Log.debug "p1 %A p2 %A p3 %A p4 %A" r.p1 r.p2 r.p3 r.p4
                return r        } 
  
-    let uniformLightArray (lights : amap<int,AdaptiveLightCase>) = 
+    let uniformLightArray bb (lights : amap<int,AdaptiveLightCase>) = 
         let uarr =
             lights
-            |> AMap.mapA (fun _ l -> uniformLight l)
+            |> AMap.mapA (fun _ l -> uniformLight bb l)
             |> AMap.toAVal
-            |> AVal.map (fun (m : HashMap<int,Light>) -> m |> HashMap.toArray |> Array.map snd ) 
+            |> AVal.map (fun (m : HashMap<int,Light>) -> m |> HashMap.toArray |> Array.sortBy fst |> Array.map snd ) 
         let c'  = uarr |> AVal.map (Array.length >> min 80) 
         let arr  =
             aval{

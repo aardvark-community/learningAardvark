@@ -24,13 +24,51 @@ module forwardRendering =
         prefilterdSpecColor
         bRDFLtu =
 
-                
-        let lightViewMatrix light = 
-            AVal.bind (Shadow.lightViewPoject bb) light
-
         //adaptive function to calcualte the shadow map for one light
         let shadowMapTex light = 
             AVal.bind (Shadow.shadowMap runtime scene bb) light 
+
+        let shadowMaps (lights : amap<int,AdaptiveLightCase>) = 
+            let mapper (l' : AdaptiveLightCase) = 
+                aval{
+                    let! castsShadow =
+                        match l' with
+                        | AdaptivePointLight l -> AVal.constant false
+                        | AdaptiveSphereLight l -> AVal.constant false
+                        | AdaptiveSpotLight l -> AVal.map (fun (x : SpotLightData)-> x.castsShadow) l
+                        | AdaptiveDirectionalLight l -> AVal.map (fun (x : DirectionalLightData)-> x.castsShadow) l
+                        | AdaptiveDiskLight l -> AVal.map (fun (x : DiskLightData)-> x.castsShadow) l
+                        | AdaptiveRectangleLight l ->  AVal.map (fun (x : RectangleLightData) -> x.castsShadow) l
+                    let tex = if castsShadow then Shadow.shadowMap runtime scene bb l' else AVal.constant (NullTexture() :> ITexture)
+                    return! tex               
+                }
+            let m =
+                lights
+                |> AMap.mapA (fun _ l -> mapper l)
+            m
+
+        let shadowMapUniform2 (shadowMaps : amap<int,ITexture>) (inp :ISg<'m>)=
+            shadowMaps
+            |> AMap.toAVal
+            |> AVal.map (fun (m : HashMap<int,ITexture>) -> 
+                                m 
+                                |> HashMap.toList 
+                                |> List.sortBy fst 
+                                |> List.mapi (fun i (_, t) -> i, t)
+                                |> List.fold (fun s (i, t) ->  s |> (Sg.uniform ("ShadowMapArray"+i.ToString()) (AVal.constant t))) inp
+                        ) 
+
+            
+
+        let shadowMapUniform (shadowMaps : amap<int,ITexture>) (inp :ISg<'m>)=
+            let mutable ii = -1
+            shadowMaps
+            |> AMap.toASet
+            |> ASet.sortBy fst
+            |> AList.fold (fun s (_, m) ->  
+                                ii <- ii + 1
+                                s |> (Sg.uniform ("ShadowMapArray"+ii.ToString()) (AVal.constant m))
+                                ) inp
 
         let signature =
             runtime.CreateFramebufferSignature [
@@ -51,7 +89,11 @@ module forwardRendering =
                     do! PBR.lightnigForward
                 }
         
+        let shadows = shadowMapUniform2 (shadowMaps lights)
+
         scene
+        |> shadows
+        |> Sg.dynamic
         |> Sg.cullMode (AVal.constant CullMode.None)
         |> Sg.shader {
             do! DefaultSurfaces.trafo
@@ -65,10 +107,8 @@ module forwardRendering =
         |> (Sg.andAlso <| skyBox )
         |> Sg.viewTrafo (view)
         |> Sg.projTrafo (projection)
-        |> SLEUniform.uniformLightArray lights 
-        (*|> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex light)
-        |> Sg.uniform "LightViewProjMatrix" (lightViewMatrix  light |> AVal.map(fun (v,p,_,_)  -> v * p))
-        *)
+        |> Sg.uniform "Light" (AVal.constant SLEUniform.noLight)
+        |> SLEUniform.uniformLightArray bb lights 
         |> Sg.uniform "AmbientIntensity" ambientLightIntensity
         |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))        
         |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap

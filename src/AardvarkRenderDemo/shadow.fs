@@ -27,89 +27,9 @@ module Shadow =
         ]
 
     let shadowMapSize = V2i(2048) |> AVal.constant
-
-    //calculate light view and prjection
-    let lightViewPoject (bb : aval<Box3d>) (alight : AdaptiveLightCase) =
-        match alight with
-        | AdaptivePointLight l -> failwith "not implemented"
-        | AdaptiveSphereLight l -> failwith "not implemented"
-        | AdaptiveSpotLight l -> 
-            adaptive {
-                let! light = l
-                let! BB = bb
-                let size = (BB.Max - BB.Min).Length
-                let target = light.lightPosition + light.lightDirection
-                let up = if abs(light.lightDirection.Z) < 0.0000001 && abs(light.lightDirection.X) < 0.0000001 then V3d.OOI else V3d.OIO
-                let lightView = 
-                    CameraView.lookAt (light.lightPosition.XYZ ) target.XYZ up
-                    |> CameraView.viewTrafo 
-                let proj = 
-                    Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) 0.1 size 1.0
-                    |> Frustum.projTrafo
-                return lightView , proj, 0.1, size
-            }
-        | AdaptiveDirectionalLight l -> 
-            adaptive {
-                let! light = l
-                let! BB = bb
-                let distance = max BB.Min.Length BB.Max.Length
-                let size = (BB.Max - BB.Min).Length
-                let lightPos = -light.lightDirection.XYZ |> Vec.normalize |> (*) distance //make sure the light position is outside the sceneBB
-                let up = if abs(lightPos.Z) < 0.0000001 then V3d.OOI else V3d.OIO
-                let lightView = 
-                    CameraView.lookAt lightPos V3d.OOO up
-                    |> CameraView.viewTrafo 
-                let b = BB.Transformed(lightView)
-                let bb = Box3d(V3d(b.Min.XY,0.0001),V3d(b.Max.XY,size*2.0))//set Z Size so that all the scene fits in all cases (size*2.0 ist the upper bound, could be optimized)
-                let proj = 
-                    Frustum.ortho bb
-                    |> Frustum.projTrafo
-                return lightView , proj, 0.1, size*2.0
-            }
-        | AdaptiveDiskLight l -> 
-           adaptive {
-                let! light = l
-                let! BB = bb
-                let size = (BB.Max - BB.Min).Length
-                let target = light.lightPosition + light.lightDirection
-                let up = if abs(light.lightDirection.Z) < 0.0000001 && abs(light.lightDirection.X) < 0.0000001 then V3d.OOI else V3d.OIO
-                let! offset = (calcVirtualPositionOffset alight) //offset position so that the disk fits into the Camera Frustum
-                let n = light.lightDirection.XYZ |> Vec.normalize
-                let lightView = 
-                    CameraView.lookAt (light.lightPosition.XYZ - (offset.X * n)) target.XYZ up
-                    |> CameraView.viewTrafo 
-                //set the near plane so that the offset is compensated
-                let zNear = light.radius+offset.X |> max 0.1
-                let proj = 
-                    Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) zNear size 1.0
-                    |> Frustum.projTrafo
-                return lightView , proj, zNear, size
-            }
-        | AdaptiveRectangleLight l -> 
-            adaptive {
-                let! light = l
-                let! BB = bb
-                let size = (BB.Max - BB.Min).Length
-                let n = light.lightDirection.XYZ |> Vec.normalize
-                let target = light.lightPosition + light.lightDirection
-                //claculat sky direction according to the rotation of the rectangle
-                let rotate = M44d.RotationInDegrees(n,light.rotation) * M44d.RotateInto(V3d.OIO, n) 
-                let up = (rotate * V4d.OOIO).XYZ
-                //offset the position sot thet the  camera fits into the camera fustrum, use the bigger offset of the twoc directions 
-                let! o = (calcVirtualPositionOffset alight)
-                let offset = max o.X o.Y
-                let lightView = 
-                    CameraView.lookAt (light.lightPosition.XYZ - (offset * n)) target.XYZ up
-                    |> CameraView.viewTrafo 
-                //set the near plane so that the offset is compensated, minimum near plane 0.1 to avoid artefacts
-                let proj = 
-                    Frustum.perspective ((light.fallOff+light.cutOffInner) *2.0) (max offset 0.1) size 1.0
-                    |> Frustum.projTrafo
-                return lightView , proj, max offset 0.1, size
-            }
-            
-    let shadowMap (runtime : IRuntime) (scene :ISg<'msg>) (bb : aval<Box3d>) (light : AdaptiveLightCase) =
-            let pv = lightViewPoject bb light
+      
+    let shadowMap (runtime : IRuntime) (scene :ISg<'msg>) (bb : aval<Box3d>) (l : AdaptiveLightCase) =
+            let pv = light.lightViewPoject bb l
             let v = pv |> AVal.map (fun (m,_,_,_) -> m)
             let p = pv |> AVal.map (fun (_,m,_,_) -> m)
             scene
@@ -126,8 +46,8 @@ module Shadow =
     //shaders for shadow evaluation
 
     type UniformScope with
-        member x.LightViewProjMatrix : M44d = x?LightViewProjMatrix
         member x.Light :SLEUniform.Light = x?Light
+        member x.LightArray : Arr<N<80>,SLEUniform.Light> = x?LightArray
 
 
     let private samplerShadowMap =
@@ -149,10 +69,29 @@ module Shadow =
             borderColor C4f.White
         }
 
+    let samplerShadowMapTexArray = 
+        sampler2d {
+            textureArray uniform?ShadowMapArray 30
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Border
+            addressV WrapMode.Border
+            borderColor C4f.White
+        }
+    
+    let private samplerShadowMapArray =
+        sampler2dShadow {
+            textureArray uniform?ShadowMapArray 30
+            filter Filter.MinMagLinear
+            addressU WrapMode.Border
+            addressV WrapMode.Border
+            borderColor C4f.White
+            comparison ComparisonFunction.LessOrEqual
+        }
+
     //assume size of 1 cm for punctual lights
     [<ReflectedDefinition>]
-    let lightWidth () =
-        let l = uniform.Light
+    let lightWidth idx =
+        let l = if idx < 0 then uniform.Light else uniform.LightArray.[idx]
         match l.lightType with
         | SLEUniform.LightType.DirectionalLight -> V2d(0.01)
         | SLEUniform.LightType.PointLight -> V2d(0.01) 
@@ -217,7 +156,7 @@ module Shadow =
 
     //sample form Shadow map around pos in a VogelDisk pattern rotated by noise 
     [<ReflectedDefinition>]
-    let vogelDiskSampling (noise : float) (pos : V4d)  spread =
+    let vogelDiskSampling idx (noise : float) (pos : V4d)  spread =
         let numSamples = 16
         let mutable vis = 0.0
         let shadowBias = 0.005
@@ -228,7 +167,12 @@ module Shadow =
                 p/p.W
                 |> (*) 0.5
                 |> (+) 0.5 
-            vis <- vis + samplerShadowMap.Sample(samplePos.XY, samplePos.Z-shadowBias)/(float numSamples)
+            let sp = 
+                if idx < 0 then 
+                    samplerShadowMap.Sample(samplePos.XY, samplePos.Z-shadowBias) 
+                else 
+                    samplerShadowMapArray.[idx].Sample(samplePos.XY, samplePos.Z-shadowBias)
+            vis <- vis + sp/(float numSamples)  
         vis
 
     //Calculate preumbra from average Blocker Depth
@@ -238,13 +182,13 @@ module Shadow =
 
     //approximate average Blocker Depth
     [<ReflectedDefinition>]
-    let penumbra noise (shadowMapUV : V2d) (surfaceDepth : float)  lightSize=
+    let penumbra idx noise (shadowMapUV : V2d) (surfaceDepth : float)  lightSize=
         let numSamples = 16
         let mutable avgBlockersDepth = 0.0
         let mutable blockersCount = 0.0
         for i in 0..numSamples-1 do
             let sampleUV = shadowMapUV + (vogelDiskOffset i numSamples noise)/100.0
-            let sampleDepth = samplerShadowMapTex.Sample(sampleUV).X
+            let sampleDepth = if idx < 0 then samplerShadowMapTex.Sample(sampleUV).X else samplerShadowMapTexArray.[idx].Sample(sampleUV).X
             if sampleDepth < surfaceDepth then
                 avgBlockersDepth <- avgBlockersDepth + sampleDepth
                 blockersCount <- blockersCount + 1.0
@@ -256,8 +200,8 @@ module Shadow =
             V2d(0.0)
 
     [<ReflectedDefinition>]
-    let getShadow (wPos : V4d) = 
-        let lm = uniform.LightViewProjMatrix
+    let getShadowA (idx : int) (wPos : V4d) = 
+        let lm = if idx < 0 then uniform.Light.lightViewProjMatrix else uniform.LightArray.[idx].lightViewProjMatrix
         let lightSpacePos = lm * wPos
         //to normalized device coordinates 
         let samplePos = 
@@ -266,5 +210,10 @@ module Shadow =
             |> (+) 0.5
         //this noise function looks better than interleavedGradientNoise
         let noise = Constant.PiTimesTwo * random samplePos
-        let spread = lightWidth () |> penumbra noise samplePos.XY samplePos.Z  
-        vogelDiskSampling noise lightSpacePos spread
+        let spread = lightWidth idx |> penumbra idx noise samplePos.XY samplePos.Z  
+        vogelDiskSampling idx noise lightSpacePos spread
+
+    [<ReflectedDefinition>]
+    let getShadow (wPos : V4d) = 
+        getShadowA -1 wPos
+
