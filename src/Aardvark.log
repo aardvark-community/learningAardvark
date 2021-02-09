@@ -40,7 +40,7 @@
  0:     found: windows/AMD64/turbojpeg.dll
  0:     copy turbojpeg.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Service-6c07790d-9ae8-a533-bcc3-f89762a0781f-64\turbojpeg.dll
  0:     found: windows/x86/turbojpeg.dll
- 0:   Loading native dependencies for Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.014 s
+ 0:   Loading native dependencies for Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.013 s
  0:   Loading plugins ............................................................................
  0:     [LoadPlugins] Using plugin cache file name: C:\Users\Stefan\AppData\Roaming\Aardvark\cache\AardvarkRenderDemo_plugins.bin
  0:     [ReadCacheFile] loaded cache file: C:\Users\Stefan\AppData\Roaming\Aardvark\cache\AardvarkRenderDemo_plugins.bin
@@ -92,7 +92,7 @@
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\System.Text.Json.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.Loader.dll
- 0:   Loading plugins .................................................................... 0.053 s
+ 0:   Loading plugins .................................................................... 0.056 s
  0:   using cache dir: C:\Users\Stefan\AppData\Roaming\Aardvark\cache
  0:   Loading native dependencies for DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: remap.xml
@@ -158,7 +158,7 @@
  0:       D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
  0:       C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64
  0:     [Introspection] loaded native library DevIL from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64\DevIL.dll
- 0:   initializing PixImageDevil ......................................................... 0.031 s
+ 0:   initializing PixImageDevil ......................................................... 0.028 s
  0:   [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -204,7 +204,7 @@
  0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     installing pickler: Aardvark.Base.Picklers.AdaptivePicklers
- 0:   initializing CustomPicklerProvider ................................................. 0.060 s
+ 0:   initializing CustomPicklerProvider ................................................. 0.050 s
  0:   [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -398,7 +398,7 @@
  0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   initializing SceneGraphCompletenessCheck ........................................... 0.162 s
+ 0:   initializing SceneGraphCompletenessCheck ........................................... 0.153 s
  0:   [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
  0:   [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -419,7 +419,7 @@
  0:   [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.SceneGraph.IO, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing Loader ................................................................ 0.000 s
- 0: initializing aardvark ................................................................ 0.617 s
+ 0: initializing aardvark ................................................................ 0.579 s
  0: probing paths for nvapi64
  0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
  0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-32f42d4c-4cb0-88cf-a5d3-8c852c69d925-64
@@ -484,7 +484,7 @@
  0:   vendor:   "ATI Technologies Inc."
  0:   renderer: "AMD Radeon (TM) R9 380 Series"
  0:   version:  OpenGL 4.5.14736 / GLSL 4.6
- 0: initializing OpenGL runtime .......................................................... 0.148 s
+ 0: initializing OpenGL runtime .......................................................... 0.162 s
  0: WARNING: load
  0: probing paths for kernel32
  0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
@@ -527,113 +527,103 @@
  0: Aardvark.UI serves favicon.ico
  0: Aardvark.UI.Primitives serves spectrum.css
  0: Aardvark.UI.Primitives serves spectrum.js
- 1: [Server] created client for (5996a669-99c9-a5bb-0793-fba64cc3a5d8/n7), mapping enabled
+ 1: [Server] created client for (70a8df16-63b6-10f9-f678-6512984f868b/n7), mapping enabled
  1: [Client] 1: running n7
  2: [Scene] n7: created
  2: texture created
  2: result created
  2: texture created
  2: result created
- 2: texture created
- 2: result created
+ 2: WARNING: load
  2: WARNING: load
  2: result created
  2: WARNING: AdaptiveRenderingResultCube.compute
- 2: [GL] RenderObjects: +1/-0 (453ms)
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-0 (433ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (3ms)
  2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (610ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: result created
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-0 (9ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (47ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (10ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (8ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (34ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (43ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (5ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +61/-0 (1622ms)
- 2: using optimized native program
- 2: texture created
- 2: texture created
- 2: result created
- 2: texture created
- 2: result created
- 2: WARNING: load
- 2: result created
- 2: WARNING: AdaptiveRenderingResultCube.compute
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (4ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: result created
- 2: WARNING: AdaptiveRenderingResultCube.compute
- 2: [GL] RenderObjects: +1/-0 (10ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (6ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (10ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (21ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: [GL] RenderObjects: +1/-0 (19ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (4ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (30ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (42ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (46ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (15ms)
  2: using optimized native program
  2: texture created
  2: result created
@@ -699,25 +689,158 @@
  2: [GL] texture uniform "ShadowMapArray27" not found
  2: [GL] texture uniform "ShadowMapArray28" not found
  2: [GL] texture uniform "ShadowMapArray29" not found
- 2: [GL] RenderObjects: +60/-0 (17ms)
+ 2: result created
+ 2: [GL] RenderObjects: +60/-0 (41ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +61/-0 (1044ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1086ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2873ms)
+ 2: [GL] RenderObjects: +61/-0 (2139ms)
  2: using optimized native program
  2: texture created
- 2: [GL] RenderObjects: +2/-0 (2889ms)
+ 2: result created
+ 2: texture created
+ 2: result created
+ 2: [GL] RenderObjects: +61/-0 (209ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2919ms)
+ 2: texture created
+ 2: texture created
+ 2: result created
+ 2: texture created
+ 2: [GL] RenderObjects: +1/-0 (4ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3791ms)
+ 2: [GL] RenderObjects: +1/-0 (311ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +60/-0 (16ms)
+ 2: [GL] RenderObjects: +2/-0 (2502ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +60/-0 (16ms)
+ 2: [GL] RenderObjects: +1/-0 (2533ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (3365ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (15ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (19ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (10ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (13ms)
  2: using optimized native program
  2: [GL] RenderObjects: +60/-0 (11ms)
  2: using optimized native program
- 3: [Client] 1: stopped
+ 2: [GL] RenderObjects: +60/-0 (13ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (10ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (13ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (10ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (9ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (10ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (10ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (10ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (20ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (10ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (10ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (9ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (11ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (51ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (13ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (12ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (21ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (11ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (11ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (9ms)
+ 2: using optimized native program
+ 3: WARNING: [Media] onEvent callback faulted
+ 2: [GL] RenderObjects: +60/-0 (25ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (16ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (12ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (11ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (12ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (21ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (10ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (13ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (12ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (10ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (27ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (12ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (40ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (56ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (13ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (9ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (26ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (11ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (21ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (10ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (20ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (12ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (12ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (23ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (19ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (14ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (10ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (27ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (22ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (15ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (13ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (11ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (17ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (10ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (17ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (13ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (18ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (10ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +60/-0 (20ms)
+ 2: using optimized native program
+ 4: [Client] 1: stopped

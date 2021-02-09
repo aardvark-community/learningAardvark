@@ -196,7 +196,6 @@ type Model =
         objects : HashMap<string, SceneObject>
         selectedObject : string
         sssProfiles : HashMap<int, SssProfile>
-        lightIndexMap : Map<int,int>
     }
 
 

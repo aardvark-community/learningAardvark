@@ -43,6 +43,41 @@ module Shadow =
             |> RenderTask.renderToDepth shadowMapSize
             :> aval<_>
 
+
+    let shadowMaps (runtime : IRuntime) (scene :ISg<'msg>) (bb : aval<Box3d>) (lights : amap<int,AdaptiveLightCase>) = 
+        let mapper (l' : AdaptiveLightCase) = 
+            aval{
+                let! castsShadow =
+                    match l' with
+                    | AdaptivePointLight l -> AVal.constant false
+                    | AdaptiveSphereLight l -> AVal.constant false
+                    | AdaptiveSpotLight l -> AVal.map (fun (x : SpotLightData)-> x.castsShadow) l
+                    | AdaptiveDirectionalLight l -> AVal.map (fun (x : DirectionalLightData)-> x.castsShadow) l
+                    | AdaptiveDiskLight l -> AVal.map (fun (x : DiskLightData)-> x.castsShadow) l
+                    | AdaptiveRectangleLight l ->  AVal.map (fun (x : RectangleLightData) -> x.castsShadow) l
+                let tex = if castsShadow then shadowMap runtime scene bb l' else AVal.constant (NullTexture() :> ITexture)
+                return! tex               
+            }
+        let m =
+            lights
+            |> AMap.mapA (fun _ l -> mapper l)
+        m
+
+    //generate one uniform per potential shadow map to use with shader array 
+    let shadowMapsUniform  (shadowMaps : amap<int,ITexture>)  (inp :ISg<'m>) =
+        let l = 
+            shadowMaps
+            |> AMap.toAVal
+            |> AVal.map (fun (m : HashMap<int,ITexture>) -> 
+                            m 
+                            |> HashMap.toArray 
+                            |> Array.sortBy fst
+                            |> Array.map snd)
+        let mapper i = 
+            AVal.map (fun (a : ITexture []) -> if i < Array.length a then a.[i] else NullTexture() :> ITexture) l
+        let a = Array.init 30 (fun i -> i, mapper i)
+        Array.fold (fun s (i, t) ->  s |> (Sg.uniform ("ShadowMapArray"+i.ToString()) t)) inp a
+
     //shaders for shadow evaluation
 
     type UniformScope with

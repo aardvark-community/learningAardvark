@@ -66,7 +66,6 @@ module App =
         objects = obj
         selectedObject = selected
         sssProfiles = HashMap.empty
-        lightIndexMap = Map.ofList [0, 0]
     }
 
     let initial = 
@@ -91,8 +90,7 @@ module App =
             |None ->  m
         | RemoveLight i ->  
             let lights = HashMap.remove i m.lights
-            let lightIndexMap = light.lightIndexMap lights
-            { m with lights = lights; lightIndexMap = lightIndexMap }
+            { m with lights = lights}
         | AddLight l -> 
             let i = 
                 if HashMap.isEmpty m.lights then
@@ -103,8 +101,7 @@ module App =
                     |> max 0
                     |> (+) 1
             let lights = HashMap.add i l m.lights
-            let lightIndexMap = light.lightIndexMap lights
-            { m with lights = lights; lightIndexMap = lightIndexMap }
+            { m with lights = lights}
         | SceneObjectMessage (msg) ->
             let o' = HashMap.tryFind m.selectedObject m.objects
             match o' with

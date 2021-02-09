@@ -14,6 +14,9 @@ open SLEAardvarkRenderDemo.Model
 *)
 module light = 
 
+    let maxLights = 80
+    let maxShadows = 30
+
     let defaultDirectionalLight = DirectionalLight  {
         lightDirection = V4d(0.0,-1.0,1.0,0.0); 
         color = C3d.White; 
@@ -76,14 +79,6 @@ module light =
 
     let defaultAbientOcclusion = {occlusionStrength = 1.0; scale = 1.0; radius = 0.2; samples = 32; threshold = 0.2; sigma = 2.0; sharpness = 1.0}
    
-    let lightIndexMap (lights : HashMap<int, Light>) =
-        lights
-        |> HashMap.keys
-        |> HashSet.toList
-        |> List.sort
-        |> List.mapi (fun i k -> i , k)
-        |> Map.ofList
-
     let calcVirtualPositionOffset  (l : AdaptiveLightCase) =
         match l with 
         | AdaptiveDirectionalLight ld -> AVal.constant V2d.OO
@@ -1126,10 +1121,9 @@ module SLEUniform =
         let c'  = uarr |> AVal.map (Array.length >> min 80) 
         let arr  =
             aval{
-                let out = Array.replicate 80 noLight
                 let! c = c'
                 let! a = uarr
-                let out = Array.init 80 (fun i -> if i < c then a.[i]  else noLight)  
+                let out = Array.init light.maxLights (fun i -> if i < c then a.[i]  else noLight)  
                 return out
             }
         Sg.uniform "LightArray" arr
