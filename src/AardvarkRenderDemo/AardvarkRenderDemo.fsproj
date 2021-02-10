@@ -26,12 +26,13 @@
     <Compile Include="brdf.fs" />
     <Compile Include="LightShader.fs" />
     <Compile Include="PBRShader.fs" />
+    <Compile Include="subsurfaceScattering.fs" />
     <Compile Include="forwardRendering.fs" />
+    <Compile Include="deferredRendering.fs" />
     <Compile Include="globalEnviroment.fs" />
     <Compile Include="SceneObject.fs" />
     <Compile Include="Bloom.fs" />
     <Compile Include="SSAO.fs" />
-    <Compile Include="subsurfaceScattering.fs" />
     <Compile Include="fxAAWrapper.fs" />
     <Compile Include="filmicToneMapping.fs" />
     <Compile Include="SaveProject.fs" />

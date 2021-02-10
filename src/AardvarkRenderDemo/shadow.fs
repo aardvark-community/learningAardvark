@@ -81,11 +81,10 @@ module Shadow =
     //shaders for shadow evaluation
 
     type UniformScope with
-        member x.Light :SLEUniform.Light = x?Light
-        member x.LightArray : Arr<N<80>,SLEUniform.Light> = x?LightArray
+         member x.LightArray : Arr<N<80>,SLEUniform.Light> = x?LightArray
 
 
-    let private samplerShadowMap =
+   (* let private samplerShadowMap =
         sampler2dShadow {
             texture uniform?ShadowMap
             filter Filter.MinMagLinear
@@ -103,7 +102,7 @@ module Shadow =
             addressV WrapMode.Border
             borderColor C4f.White
         }
-
+*)
     let samplerShadowMapTexArray = 
         sampler2d {
             textureArray uniform?ShadowMapArray 30
@@ -126,7 +125,7 @@ module Shadow =
     //assume size of 1 cm for punctual lights
     [<ReflectedDefinition>]
     let lightWidth idx =
-        let l = if idx < 0 then uniform.Light else uniform.LightArray.[idx]
+        let l = uniform.LightArray.[idx]
         match l.lightType with
         | SLEUniform.LightType.DirectionalLight -> V2d(0.01)
         | SLEUniform.LightType.PointLight -> V2d(0.01) 
@@ -202,11 +201,7 @@ module Shadow =
                 p/p.W
                 |> (*) 0.5
                 |> (+) 0.5 
-            let sp = 
-                if idx < 0 then 
-                    samplerShadowMap.Sample(samplePos.XY, samplePos.Z-shadowBias) 
-                else 
-                    samplerShadowMapArray.[idx].Sample(samplePos.XY, samplePos.Z-shadowBias)
+            let sp = samplerShadowMapArray.[idx].Sample(samplePos.XY, samplePos.Z-shadowBias)
             vis <- vis + sp/(float numSamples)  
         vis
 
@@ -223,7 +218,7 @@ module Shadow =
         let mutable blockersCount = 0.0
         for i in 0..numSamples-1 do
             let sampleUV = shadowMapUV + (vogelDiskOffset i numSamples noise)/100.0
-            let sampleDepth = if idx < 0 then samplerShadowMapTex.Sample(sampleUV).X else samplerShadowMapTexArray.[idx].Sample(sampleUV).X
+            let sampleDepth = samplerShadowMapTexArray.[idx].Sample(sampleUV).X
             if sampleDepth < surfaceDepth then
                 avgBlockersDepth <- avgBlockersDepth + sampleDepth
                 blockersCount <- blockersCount + 1.0
@@ -235,8 +230,8 @@ module Shadow =
             V2d(0.0)
 
     [<ReflectedDefinition>]
-    let getShadowA (idx : int) (wPos : V4d) = 
-        let lm = if idx < 0 then uniform.Light.lightViewProjMatrix else uniform.LightArray.[idx].lightViewProjMatrix
+    let getShadow (idx : int) (wPos : V4d) = 
+        let lm = uniform.LightArray.[idx].lightViewProjMatrix
         let lightSpacePos = lm * wPos
         //to normalized device coordinates 
         let samplePos = 
@@ -247,8 +242,3 @@ module Shadow =
         let noise = Constant.PiTimesTwo * random samplePos
         let spread = lightWidth idx |> penumbra idx noise samplePos.XY samplePos.Z  
         vogelDiskSampling idx noise lightSpacePos spread
-
-    [<ReflectedDefinition>]
-    let getShadow (wPos : V4d) = 
-        getShadowA -1 wPos
-

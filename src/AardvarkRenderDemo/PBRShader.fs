@@ -22,7 +22,6 @@ module PBR =
         | Cloth = 1
 
     type UniformScope with
-        member x.Light : SLEUniform.Light = x?Light
         member x.LightArray : Arr<N<80>,SLEUniform.Light> = x?LightArray
         member x.LightCount : int = x?LightCount
         member x.AmbientIntensity : float = x?AmbientIntensity
@@ -114,12 +113,6 @@ module PBR =
     type FragmentOut = {
         [<Semantic("Diffuse")>]  Diffuse       : V4d
         [<Semantic("Specular")>] Specular      : V4d
-        [<TexCoord>]        tc      : V2d
-        [<WorldPosition>]   wp      : V4d
-        [<Normal>]          n       : V3d
-        [<Semantic("sssProfile")>] sssProfile : int
-        [<Semantic("simpleIlluminannce")>] simpleIllumn : V3d
-        [<Semantic("lightDir")>] lightDir : V3d
        }
 
     [<ReflectedDefinition>]
@@ -161,22 +154,6 @@ module PBR =
             else
                 let ccF, clearCoatResponce, ccNDotL = directclearCoat clearCoat clearCoatRoughness clearCoatNormal lDir v h hDotV
                 (diff1 * (V3d.One-ccF), (spec1 * (V3d.One-ccF) * nDotL + clearCoatResponce * ccNDotL)* illuminannce, lDir, illuminannceSimple )
-
-    let lightingDeferred (frag : Fragment)  =
-        fragment {
-            let diffuse, specular, ldir, illum = 
-                directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness uniform.Light
-                     
-            return {Diffuse = V4d(diffuse, 1.0)
-                    Specular = V4d(specular, 1.0)
-                    tc = frag.tc
-                    wp = frag.wp
-                    n  = frag.n
-                    sssProfile = frag.sssProfile
-                    lightDir = ldir
-                    simpleIllumn = illum
-                    }
-        }
 
 
     let maxReflectLod = 4.0
@@ -244,76 +221,76 @@ module PBR =
 
             (diff2 * uniform.AmbientIntensity, spec2 * uniform.AmbientIntensity)
 
-    let abientDeferred (frag : Fragment) =
+    let lightnigForward (frag : Fragment) =
         fragment {
-            let diffuse, specular = ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal
-            let occlusion = if frag.metallic < 0.0 then 1.0 else ambientOcc.Sample(frag.tc).X
+            let mutable diffuseD = V3d.Zero 
+            let mutable specularD = V3d.Zero
+            for i in 0..uniform.LightCount-1 do
+                let diffuseDi, specularDi, lDir, simpleIllumn = 
+                    directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness uniform.LightArray.[i]
+                let shadow = if uniform.LightArray.[i].castsShadow then Shadow.getShadow i frag.wp else  1.0
+                let transmission =  simpleIllumn * translucency.transm frag.sssProfile i frag.wp.XYZ frag.n lDir
+                diffuseD  <- diffuseD  + diffuseDi * shadow + transmission
+                specularD <- specularD + specularDi * shadow
+            let diffuseO, specularO = 
+                ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal
             let em = frag.emission
-            return {Diffuse = V4d(diffuse * occlusion, 1.0)
-                    Specular = V4d(specular * occlusion + em, 1.0)
-                    tc = frag.tc; wp = frag.wp
-                    n  = frag.n; 
-                    sssProfile = frag.sssProfile; 
-                    lightDir = V3d.Zero
-                    simpleIllumn = V3d.Zero
-                    }
+            let diffuse = diffuseD + diffuseO         
+            let specular = specularD  + specularO + em        
+            return {Diffuse = V4d(diffuse, 1.0)
+                    Specular = V4d(specular, 1.0)
+                    }        
         }
 
-    let lightnigForward (frag : Fragment) =
+    [<ReflectedDefinition>]
+    let lightnigDeferred (frag : Fragment) =
+        fragment {
+            let mutable diffuseD = V3d.Zero 
+            let mutable specularD = V3d.Zero
+            for i in 0..uniform.LightCount-1 do
+                let diffuseDi, specularDi, lDir, simpleIllumn = 
+                    directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness uniform.LightArray.[i]
+                let shadow = if uniform.LightArray.[i].castsShadow then Shadow.getShadow i frag.wp else  1.0
+                let transmission =  simpleIllumn * translucency.transm frag.sssProfile i frag.wp.XYZ frag.n lDir    
+                diffuseD  <- diffuseD  + diffuseDi * shadow + transmission
+                specularD <- specularD + specularDi * shadow
+            let diffuseO, specularO = 
+                ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal
+            let em = frag.emission
+            let diffuse = diffuseD + diffuseO         
+            let specular = specularD  + specularO + em    
+            return {Diffuse = V4d(diffuse, 1.0)
+                    Specular = V4d(specular, 1.0)
+                    }        
+        }
+
+    [<ReflectedDefinition>]
+    let abientLightSimple metallic (c : V3d)  =
+        let col = 
+            if metallic < 0.0 then //no lighting, just put out the color      
+                c
+            else //ambient
+                let albedo = c
+                let ambientIntensity = uniform.AmbientIntensity
+                albedo * ambientIntensity
+        col
+
+
+    let lightnigDeferredProbe (frag : Fragment) =
         fragment {
             let mutable diffuseD = V3d.Zero 
             let mutable specularD = V3d.Zero
             for i in 0..uniform.LightCount-1 do
                 let diffuseDi, specularDi, _, _ = 
                     directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness uniform.LightArray.[i]
-                let shadow = if uniform.LightArray.[i].castsShadow then Shadow.getShadowA i frag.wp else  1.0
+                let shadow = if uniform.LightArray.[i].castsShadow then Shadow.getShadow i frag.wp else  1.0
                 diffuseD  <- diffuseD  + diffuseDi * shadow
                 specularD <- specularD + specularDi * shadow
-            let diffuseO, specularO = 
-                ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal
-            let diffuse = diffuseD + diffuseO         
-            let specular = specularD  + specularO         
-            return {Diffuse = V4d(diffuse, 1.0)
-                    Specular = V4d(specular, 1.0)
-                    tc = frag.tc
-                    wp = frag.wp
-                    n  = frag.n
-                    sssProfile = frag.sssProfile
-                    lightDir = V3d.Zero
-                    simpleIllumn = V3d.Zero
-                    }        
-        }
-
-    let abientDeferredSimple (frag : Fragment) =
-        fragment {
-            let col = 
-                if frag.metallic < 0.0 then //no lighting, just put out the color      
-                    frag.c.XYZ
-                else //ambient
-                    let albedo = frag.c.XYZ
-                    let ambientIntensity = uniform.AmbientIntensity
-                    albedo * ambientIntensity
+            let ambient = abientLightSimple frag.metallic frag.c.XYZ
             let em = frag.emission
-            return V4d(em + col, 1.0)
+            let col = diffuseD + specularD + ambient + em        
+            return V4d(col, 1.0)
         }
 
-    let shadowDeferred  (vert : FragmentOut) =
-        fragment {
-            let wPos = vert.wp
-            let shadow = Shadow.getShadow wPos
-            return {vert with Diffuse = vert.Diffuse * shadow; Specular = vert.Specular * shadow}
-        }
-
-    let transmssion  (vert : FragmentOut) =
-        fragment {
-                    let transmission = 
-                        if vert.sssProfile >= 0 then
-                            //simple front side illumination is used to aproxximate back side illumination
-                            //thats visually Ok for relative thin objects
-                             vert.simpleIllumn * translucency.transm vert.sssProfile vert.wp.XYZ vert.n vert.lightDir
-                        else
-                            V3d.OOO
-            return {vert with Diffuse = vert.Diffuse + V4d(transmission,0.0)}
-        }
-
+ 
 

@@ -7,75 +7,62 @@ open Aardvark.UI
 open Aardvark.Base.Rendering
 open SLEAardvarkRenderDemo.Model
 
-module forwardRendering =
+module deferredRendering =
 
     let diffuseAndSpecular 
         (runtime : IRuntime) 
         (view : aval<Trafo3d>) 
-        projection 
         size 
-        skyBoxTexture 
         scene 
-        skyMapIntensity 
         (lights : amap<int,AdaptiveLightCase>)
+        sssProfiles
         bb 
+        gBuffer
+        ambientOcclusion
         ambientLightIntensity
         diffuseIrradianceMap
         prefilterdSpecColor
-        bRDFLtu
-        sssProfiles =
+        bRDFLtu =
 
         let sssWidthBuffer = subSurface.makeWidthBuffer sssProfiles
         let sssFalloffBuffer = subSurface.makeFalloffBuffer sssProfiles
         let sssStrengthBuffer = subSurface.makeStrengthBuffer sssProfiles
         let sssTranslucencyStrengthBuffer = subSurface.makeTranslucencyStrengthBuffer sssProfiles
         let sssTranslucencyBiasBuffer = subSurface.makeTranslucencyBiasBuffer sssProfiles
-
+        
         let signature =
             runtime.CreateFramebufferSignature [
-                DefaultSemantic.Depth, RenderbufferFormat.DepthComponent24
                 (Sym.ofString "Diffuse") , RenderbufferFormat.Rgba32f
                 (Sym.ofString "Specular") , RenderbufferFormat.Rgba32f
             ]
 
-        let skyBox =
-            Sg.box (AVal.constant C4b.White) (AVal.constant (Box3d(-V3d.III,V3d.III)))
-                |> Sg.cullMode (AVal.constant CullMode.None)
-                |> Sg.texture (Sym.ofString "SkyCubeMap") skyBoxTexture
-                |> Sg.uniform "SkyMapIntensity" skyMapIntensity
-                |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))
-                |> Sg.shader {
-                    do! shaderCommon.skyBoxTrafo
-                    do! shaderCommon.skyGetMatrialValues
-                    do! PBR.lightnigForward
-                }
-        
-        scene
+        Sg.fullScreenQuad
+        |> Sg.adapter
         |> Shadow.shadowMapsUniform (Shadow.shadowMaps runtime scene bb lights)
-        |> Sg.cullMode (AVal.constant CullMode.None)
         |> Sg.shader {
-            do! DefaultSurfaces.trafo
-            do! displacemntMap.displacementMap
-            do! DefaultSurfaces.vertexColor
-            do! AlbedoColor.albedoColor
-            do! shaderCommon.normalMap 
-            do! shaderCommon.getMatrialValues
-            do! PBR.lightnigForward        
+            do! GBuffer.getGBufferData
+            do! PBR.lightnigDeferred        
         }
-        |> (Sg.andAlso <| skyBox )
-        |> Sg.viewTrafo (view)
-        |> Sg.projTrafo (projection)
+        |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))
         |> SLEUniform.uniformLightArray bb lights 
+        |> Sg.uniform "AmbientIntensity" ambientLightIntensity
+        |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))  
         |> Sg.uniform "sssWidth"  sssWidthBuffer
         |> Sg.uniform "sssFalloff"  sssFalloffBuffer
         |> Sg.uniform "sssStrength"  sssStrengthBuffer
         |> Sg.uniform "TranslucencyStrength" sssTranslucencyStrengthBuffer
         |> Sg.uniform "TranslucencyBias"  sssTranslucencyBiasBuffer      
-        |> Sg.uniform "AmbientIntensity" ambientLightIntensity
-        |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))        
         |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap
         |> Sg.texture (Sym.ofString "PrefilteredSpecColor") prefilterdSpecColor
         |> Sg.texture (Sym.ofString "BRDFLtu") bRDFLtu
+        |> Sg.texture (Sym.ofString "AmbientOcclusion") ambientOcclusion
+        |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
+        |> Sg.texture ( Sym.ofString "WPos") (Map.find (Sym.ofString "WorldPosition") gBuffer)
+        |> Sg.texture ( DefaultSemantic.Normals) (Map.find shaderCommon.Semantic.NormalR gBuffer)
+        |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
+        |> Sg.texture (shaderCommon.Semantic.Emission) (Map.find shaderCommon.Semantic.Emission gBuffer)
+        |> Sg.texture (shaderCommon.Semantic.ClearCoat) (Map.find shaderCommon.Semantic.ClearCoat gBuffer)
+        |> Sg.texture (shaderCommon.Semantic.Sheen) (Map.find shaderCommon.Semantic.Sheen gBuffer)
         |> Sg.compile runtime signature
         |> RenderTask.renderSemantics(
                     Set.ofList [
@@ -83,4 +70,3 @@ module forwardRendering =
                         (Sym.ofString"Specular")
                     ]
                ) size 
-

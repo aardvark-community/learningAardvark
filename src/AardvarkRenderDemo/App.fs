@@ -164,140 +164,12 @@ module App =
             |> ASet.fold (fun s (_,(o : AdaptiveSceneObject)) -> AVal.map2( fun (s : Box3d) (b : Box3d)-> Box.Union(s,b)) s (bounds o)) seed 
             |> AVal.bind id
 
-        //adaptive function to calcualte the shadow map for one light
-        let shadowMapTex i = 
-            let light = AMap.find i m.lights
-            AVal.bind (Shadow.shadowMap runtime scene bb) light 
-
-        let sssWidthBuffer = subSurface.makeWidthBuffer m.sssProfiles
-        let sssFalloffBuffer = subSurface.makeFalloffBuffer m.sssProfiles
-        let sssStrengthBuffer = subSurface.makeStrengthBuffer m.sssProfiles
-        let sssTranslucencyStrengthBuffer = subSurface.makeTranslucencyStrengthBuffer m.sssProfiles
-        let sssTranslucencyBiasBuffer = subSurface.makeTranslucencyBiasBuffer m.sssProfiles
-
-        // lightning pass per light
-        let lightSgs0 = 
-            let lightSet =
-                m.lights
-                |> AMap.toASet
-            aset  {
-                for  (i,l) in lightSet do
-                    let l' = l
-                    let pass = 
-                        match l' with 
-                        |AdaptiveDirectionalLight dl ->
-                            AVal.map (fun (d : DirectionalLightData)->
-                                if d.castsShadow then
-                                    Sg.fullScreenQuad
-                                    |> Sg.adapter
-                                    |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
-                                    |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
-                                    |> Sg.shader {
-                                        do! GBuffer.getGBufferData
-                                        do! PBR.lightingDeferred
-                                        do! PBR.shadowDeferred
-                                        do! PBR.transmssion
-                                        }
-                                else
-                                     Sg.fullScreenQuad
-                                    |> Sg.adapter
-                                    |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
-                                    |> Sg.shader {
-                                        do! GBuffer.getGBufferData
-                                        do! PBR.lightingDeferred
-                                        } ) dl
-                            |> Sg.dynamic                                
-                        |AdaptiveSpotLight sl ->
-                            AVal.map (fun (d : SpotLightData)->
-                                if d.castsShadow then
-                                    Sg.fullScreenQuad
-                                    |> Sg.adapter
-                                    |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
-                                    |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
-                                    |> Sg.shader {
-                                        do! GBuffer.getGBufferData
-                                        do! PBR.lightingDeferred
-                                        do! PBR.shadowDeferred
-                                        do! PBR.transmssion
-                                        }
-                                else
-                                     Sg.fullScreenQuad
-                                    |> Sg.adapter
-                                    |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
-                                    |> Sg.shader {
-                                        do! GBuffer.getGBufferData
-                                        do! PBR.lightingDeferred
-                                        } ) sl
-                            |> Sg.dynamic                          
-                        |AdaptivePointLight _ ->
-                            Sg.fullScreenQuad
-                            |> Sg.adapter
-                            |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
-                            |> Sg.shader {
-                                do! GBuffer.getGBufferData
-                                do! PBR.lightingDeferred
-                                }
-                        |AdaptiveSphereLight _ ->
-                            Sg.fullScreenQuad
-                            |> Sg.adapter
-                            |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
-                            |> Sg.shader {
-                                do! GBuffer.getGBufferData
-                                do! PBR.lightingDeferred
-                                } 
-                        |AdaptiveDiskLight sl ->
-                            AVal.map (fun (d : DiskLightData)->
-                                if d.castsShadow then
-                                    Sg.fullScreenQuad
-                                    |> Sg.adapter
-                                    |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
-                                    |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
-                                    |> Sg.shader {
-                                        do! GBuffer.getGBufferData
-                                        do! PBR.lightingDeferred
-                                        do! PBR.shadowDeferred
-                                        do! PBR.transmssion
-                                        }
-                                else
-                                     Sg.fullScreenQuad
-                                    |> Sg.adapter
-                                    |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
-                                    |> Sg.shader {
-                                        do! GBuffer.getGBufferData
-                                        do! PBR.lightingDeferred
-                                        } ) sl
-                            |> Sg.dynamic    
-                        |AdaptiveRectangleLight sl ->
-                            AVal.map (fun (d : RectangleLightData)->
-                                if d.castsShadow then
-                                    Sg.fullScreenQuad
-                                    |> Sg.adapter
-                                    |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
-                                    |> Sg.texture (Sym.ofString "ShadowMap") (shadowMapTex i)
-                                   |> Sg.shader {
-                                        do! GBuffer.getGBufferData
-                                        do! PBR.lightingDeferred
-                                        do! PBR.shadowDeferred
-                                        do! PBR.transmssion
-                                        }
-                                else
-                                     Sg.fullScreenQuad
-                                    |> Sg.adapter
-                                    |> Sg.uniform "Light" (SLEUniform.uniformLight bb l)
-                                    |> Sg.shader {
-                                        do! GBuffer.getGBufferData
-                                        do! PBR.lightingDeferred
-                                        } ) sl
-                            |> Sg.dynamic    
-                    yield  pass
-            }
-
         let enviromentTexture = 
             m.enviorment.lightProbePosition
             |> AVal.bind 
                 (fun (p' : V3d option) -> 
                     match p' with
-                    |Some p -> LightProbe.lightProbe runtime scene lightSgs0 skyBoxTexture m.enviorment.skyMapIntensity m.enviorment.ambientLightIntensity p :> aval<ITexture>
+                    |Some p -> LightProbe.lightProbe runtime scene skyBoxTexture m.enviorment.skyMapIntensity m.enviorment.ambientLightIntensity bb m.lights p :> aval<ITexture>
                     |None -> skyBoxTexture :> aval<ITexture>
                 )
 
@@ -317,63 +189,22 @@ module App =
             //material.onPixTex C3f.White |> AVal.constant
             SSAO.makeAmbientOcclusion runtime size view proj gBuffer m.enviorment.occlusionSettings
 
-        let lightSgs =
-            aset {
-                yield! lightSgs0
-                let pass0 = //global  abient  lightnig
-                    Sg.fullScreenQuad
-                    |> Sg.adapter
-                    |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap
-                    |> Sg.texture (Sym.ofString "PrefilteredSpecColor") prefilterdSpecColor
-                    |> Sg.texture (Sym.ofString "BRDFLtu") bRDFLtu
-                    |> Sg.texture (Sym.ofString "AmbientOcclusion") ambientOcclusion
-                    |> Sg.shader {
-                        do! GBuffer.getGBufferData
-                        do! PBR.abientDeferred
-                        }
-                yield pass0
-           } 
-            
-        //additive blending
-        let mutable blendMode = BlendMode(true)
-        blendMode.AlphaOperation <- BlendOperation.Add
-        blendMode.Operation <- BlendOperation.Add
-        blendMode.SourceFactor <- BlendFactor.One
-        blendMode.SourceAlphaFactor <- BlendFactor.One
-        blendMode.DestinationFactor <- BlendFactor.One
-        blendMode.DestinationAlphaFactor <- BlendFactor.One
-
-        let signature =
-            runtime.CreateFramebufferSignature [
-                (Sym.ofString "Diffuse") , RenderbufferFormat.Rgba32f
-                (Sym.ofString "Specular") , RenderbufferFormat.Rgba32f
-            ]
-
-        //render linear HDR output
-        (*let  diffuseAndSpecular = 
-            Sg.set lightSgs
-            |> Sg.blendMode (blendMode |> AVal.constant)
-            |> Sg.uniform "AmbientIntensity" m.enviorment.ambientLightIntensity
-            |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))
-            |> Sg.uniform "sssWidth"  sssWidthBuffer
-            |> Sg.uniform "sssFalloff"  sssFalloffBuffer
-            |> Sg.uniform "sssStrength"  sssStrengthBuffer
-            |> Sg.uniform "TranslucencyStrength" sssTranslucencyStrengthBuffer
-            |> Sg.uniform "TranslucencyBias"  sssTranslucencyBiasBuffer
-            |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
-            |> Sg.texture ( Sym.ofString "WPos") (Map.find (Sym.ofString "WorldPosition") gBuffer)
-            |> Sg.texture ( DefaultSemantic.Normals) (Map.find shaderCommon.Semantic.NormalR gBuffer)
-            |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
-            |> Sg.texture (shaderCommon.Semantic.Emission) (Map.find shaderCommon.Semantic.Emission gBuffer)
-            |> Sg.texture (shaderCommon.Semantic.ClearCoat) (Map.find shaderCommon.Semantic.ClearCoat gBuffer)
-            |> Sg.texture (shaderCommon.Semantic.Sheen) (Map.find shaderCommon.Semantic.Sheen gBuffer)
-            |> Sg.compile runtime signature
-            |> RenderTask.renderSemantics(
-                    Set.ofList [
-                        (Sym.ofString"Diffuse")
-                        (Sym.ofString"Specular")
-                    ])  size   *)
-
+        let diffuseAndSpecular =
+            deferredRendering.diffuseAndSpecular
+                runtime
+                view
+                size 
+                scene 
+                m.lights
+                m.sssProfiles
+                bb 
+                gBuffer
+                ambientOcclusion
+                m.enviorment.ambientLightIntensity
+                diffuseIrradianceMap
+                prefilterdSpecColor
+                bRDFLtu
+         (* 
         let diffuseAndSpecular = 
            forwardRendering.diffuseAndSpecular 
             runtime 
@@ -389,7 +220,8 @@ module App =
             diffuseIrradianceMap
             prefilterdSpecColor
             bRDFLtu
-            
+            m.sssProfiles
+           *) 
         let diffuse =  Map.find  (Sym.ofString"Diffuse")  diffuseAndSpecular
         let specular = Map.find  (Sym.ofString"Specular") diffuseAndSpecular
 

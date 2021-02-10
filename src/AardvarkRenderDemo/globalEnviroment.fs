@@ -244,7 +244,7 @@ module LightProbe =
 
     let probeSize = 512 |> AVal.init 
     
-    let renderLightProbeSide runtime size signature scene (lightSgs0 : aset<ISg<obj>>) skyBoxTexture skyMapIntensity ambientLightIntensity position face =
+    let renderLightProbeSide runtime size signature scene skyBoxTexture skyMapIntensity ambientLightIntensity bb lights position face =
         let lookTo = 
             match face with
             |CubeSide.PositiveY  -> position+V3d.OIO
@@ -275,33 +275,17 @@ module LightProbe =
 
         let gBuffer = GeometryBuffer.makeGBuffer runtime view proj size skyBoxTexture scene skyMapIntensity
 
-        let lightSgs =
-            aset {
-                yield! lightSgs0
-                let pass0 = //global  abient  lightnig
-                    Sg.fullScreenQuad
-                    |> Sg.adapter
-                    |> Sg.shader {
-                        do! GBuffer.getGBufferData
-                        do! PBR.abientDeferredSimple
-                        }
-                yield pass0
-           } 
-            
-        //additive blending
-        let mutable blendMode = BlendMode(true)
-        blendMode.AlphaOperation <- BlendOperation.Add
-        blendMode.Operation <- BlendOperation.Add
-        blendMode.SourceFactor <- BlendFactor.One
-        blendMode.SourceAlphaFactor <- BlendFactor.One
-        blendMode.DestinationFactor <- BlendFactor.One
-        blendMode.DestinationAlphaFactor <- BlendFactor.One
-
         //render linear HDR output
         let  output = 
-            Sg.set lightSgs
-            |> Sg.blendMode (blendMode |> AVal.constant)
-            |> Sg.uniform "AmbientIntensity" ambientLightIntensity
+            Sg.fullScreenQuad
+            |> Sg.adapter
+            |> Shadow.shadowMapsUniform (Shadow.shadowMaps runtime scene bb lights)
+            |> SLEUniform.uniformLightArray bb lights
+            |> Sg.shader {
+                do! GBuffer.getGBufferData
+                do! PBR.lightnigDeferredProbe        
+            }
+            |> Sg.uniform "AmbientIntensity" (AVal.constant 1.0)
             |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))
             |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
             |> Sg.texture ( Sym.ofString "WPos") (Map.find (Sym.ofString "WorldPosition") gBuffer)
@@ -312,8 +296,8 @@ module LightProbe =
         
         output
 
-    let lightProbe runtime scene lightSgs0 skyBoxTexture skyMapIntensity ambientLightIntensity position = 
+    let lightProbe runtime scene skyBoxTexture skyMapIntensity ambientLightIntensity bb lights position = 
        let size = AVal.map (fun (s : int) -> V2i(s,s)) probeSize
        let sign = signature runtime
-       let task = renderLightProbeSide runtime size sign scene lightSgs0 skyBoxTexture skyMapIntensity ambientLightIntensity position
+       let task = renderLightProbeSide runtime size sign scene skyBoxTexture skyMapIntensity ambientLightIntensity bb lights position
        RenderTask.renderToColorCubeMip probeSize 1 (fun _ -> task)
