@@ -303,6 +303,19 @@ module subSurface =
         |> AList.map Array.singleton
         |> AList.fold Array.append [||]
 
+    let sssProfileUniforms sssProfiles =
+        let sssWidthBuffer = makeWidthBuffer sssProfiles
+        let sssFalloffBuffer = makeFalloffBuffer sssProfiles
+        let sssStrengthBuffer = makeStrengthBuffer sssProfiles
+        let sssTranslucencyStrengthBuffer = makeTranslucencyStrengthBuffer sssProfiles
+        let sssTranslucencyBiasBuffer = makeTranslucencyBiasBuffer sssProfiles
+
+        Sg.uniform "sssWidth"  sssWidthBuffer
+        >> Sg.uniform "sssFalloff"  sssFalloffBuffer
+        >> Sg.uniform "sssStrength"  sssStrengthBuffer
+        >> Sg.uniform "TranslucencyStrength" sssTranslucencyStrengthBuffer
+        >> Sg.uniform "TranslucencyBias"  sssTranslucencyBiasBuffer   
+
     //Render-Task for the screen-space Abient Occlusion pass
     let makeSubSurfaceScatttering (runtime : IRuntime) (size : aval<V2i>) camFoVy view proj gBuffer input (profiles : amap<int,AdaptiveSssProfile>) =
 

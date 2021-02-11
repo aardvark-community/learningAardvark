@@ -25,12 +25,6 @@ module forwardRendering =
         bRDFLtu
         sssProfiles =
 
-        let sssWidthBuffer = subSurface.makeWidthBuffer sssProfiles
-        let sssFalloffBuffer = subSurface.makeFalloffBuffer sssProfiles
-        let sssStrengthBuffer = subSurface.makeStrengthBuffer sssProfiles
-        let sssTranslucencyStrengthBuffer = subSurface.makeTranslucencyStrengthBuffer sssProfiles
-        let sssTranslucencyBiasBuffer = subSurface.makeTranslucencyBiasBuffer sssProfiles
-
         let signature =
             runtime.CreateFramebufferSignature [
                 DefaultSemantic.Depth, RenderbufferFormat.DepthComponent24
@@ -66,11 +60,7 @@ module forwardRendering =
         |> Sg.viewTrafo (view)
         |> Sg.projTrafo (projection)
         |> SLEUniform.uniformLightArray bb lights 
-        |> Sg.uniform "sssWidth"  sssWidthBuffer
-        |> Sg.uniform "sssFalloff"  sssFalloffBuffer
-        |> Sg.uniform "sssStrength"  sssStrengthBuffer
-        |> Sg.uniform "TranslucencyStrength" sssTranslucencyStrengthBuffer
-        |> Sg.uniform "TranslucencyBias"  sssTranslucencyBiasBuffer      
+        |> subSurface.sssProfileUniforms sssProfiles
         |> Sg.uniform "AmbientIntensity" ambientLightIntensity
         |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))        
         |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap
