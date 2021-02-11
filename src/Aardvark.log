@@ -10,7 +10,7 @@
  0:     found: windows/AMD64/glfw3.dll
  0:     copy glfw3.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-32f42d4c-4cb0-88cf-a5d3-8c852c69d925-64\glfw3.dll
  0:     found: windows/x86/glfw3.dll
- 0:   Loading native dependencies for Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.008 s
+ 0:   Loading native dependencies for Aardvark.Application.Slim.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.052 s
  0:   Loading native dependencies for Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: linux/AMD64/glvm.so
  0:     found: mac/AMD64/glvm.dylib
@@ -32,7 +32,7 @@
  0:     found: windows/x86/glvm.ipdb
  0:     found: windows/x86/glvm.lib
  0:     found: windows/x86/glvm.pdb
- 0:   Loading native dependencies for Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.001 s
+ 0:   Loading native dependencies for Aardvark.Rendering.GL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.075 s
  0:   Loading native dependencies for Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: remap.xml
  0:     found: linux/AMD64/libturbojpeg.so
@@ -40,7 +40,7 @@
  0:     found: windows/AMD64/turbojpeg.dll
  0:     copy turbojpeg.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Service-6c07790d-9ae8-a533-bcc3-f89762a0781f-64\turbojpeg.dll
  0:     found: windows/x86/turbojpeg.dll
- 0:   Loading native dependencies for Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.014 s
+ 0:   Loading native dependencies for Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.084 s
  0:   Loading plugins ............................................................................
  0:     [LoadPlugins] Using plugin cache file name: C:\Users\Stefan\AppData\Roaming\Aardvark\cache\AardvarkRenderDemo_plugins.bin
  0:     [ReadCacheFile] loaded cache file: C:\Users\Stefan\AppData\Roaming\Aardvark\cache\AardvarkRenderDemo_plugins.bin
@@ -92,7 +92,7 @@
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\System.Text.Json.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.Loader.dll
- 0:   Loading plugins .................................................................... 0.054 s
+ 0:   Loading plugins .................................................................... 0.185 s
  0:   using cache dir: C:\Users\Stefan\AppData\Roaming\Aardvark\cache
  0:   Loading native dependencies for DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: remap.xml
@@ -108,7 +108,7 @@
  0:     found: windows/x86/DevIL.dll
  0:     found: windows/x86/ILU.dll
  0:     found: windows/x86/ILUT.dll
- 0:   Loading native dependencies for DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
+ 0:   Loading native dependencies for DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null 0.060 s
  0:   Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: remap.xml
  0:     found: linux/AMD64/libvkvm.so
@@ -124,7 +124,7 @@
  0:     found: windows/x86/vkvm.exp
  0:     found: windows/x86/vkvm.lib
  0:     found: windows/x86/vkvm.pdb
- 0:   Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
+ 0:   Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null 0.056 s
  0:   Loading native dependencies for GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: linux/AMD64/libGLSLangNative.so
  0:     found: windows/AMD64/GLSLangNative.dll
@@ -139,14 +139,14 @@
  0:     copy GLSLangNative.lib to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64\GLSLangNative.lib
  0:     found: windows/AMD64/GLSLangNative.pdb
  0:     copy GLSLangNative.pdb to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64\GLSLangNative.pdb
- 0:   Loading native dependencies for GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
+ 0:   Loading native dependencies for GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null 0.108 s
  0:   Loading native dependencies for AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: linux/AMD64/libassimp.so
  0:     found: mac/AMD64/libassimp.dylib
  0:     found: windows/AMD64/Assimp64.dll
  0:     copy Assimp64.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\AssimpNet-969d1624-35de-e8ae-f27b-d0ea28a223a6-64\Assimp64.dll
  0:     found: windows/x86/Assimp32.dll
- 0:   Loading native dependencies for AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
+ 0:   Loading native dependencies for AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null 0.001 s
  0:   [cache miss] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Adaptify.Core, Version=0.0.46.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
@@ -158,7 +158,7 @@
  0:       D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
  0:       C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64
  0:     [Introspection] loaded native library DevIL from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-936b6fb1-0af2-511d-324b-d21b85e42037-64\DevIL.dll
- 0:   initializing PixImageDevil ......................................................... 0.029 s
+ 0:   initializing PixImageDevil ......................................................... 0.075 s
  0:   [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.Telemetry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.Rendering, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -204,7 +204,7 @@
  0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     installing pickler: Aardvark.Base.Picklers.AdaptivePicklers
- 0:   initializing CustomPicklerProvider ................................................. 0.069 s
+ 0:   initializing CustomPicklerProvider ................................................. 0.302 s
  0:   [cache hit ] FsPickler, Version=5.2.2.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] FShade.GLSL, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -399,7 +399,7 @@
  0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Silk.NET.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   initializing SceneGraphCompletenessCheck ........................................... 0.213 s
+ 0:   initializing SceneGraphCompletenessCheck ........................................... 0.328 s
  0:   [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
  0:   [cache hit ] Aardvark.Application, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Service, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -419,7 +419,7 @@
  0:   [cache hit ] Aardium, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.SceneGraph.IO, Version=5.0.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing Loader ................................................................ 0.000 s
- 0: initializing aardvark ................................................................ 0.672 s
+ 0: initializing aardvark ................................................................ 3.089 s
  0: probing paths for nvapi64
  0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
  0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-32f42d4c-4cb0-88cf-a5d3-8c852c69d925-64
@@ -484,7 +484,7 @@
  0:   vendor:   "ATI Technologies Inc."
  0:   renderer: "AMD Radeon (TM) R9 380 Series"
  0:   version:  OpenGL 4.5.14736 / GLSL 4.6
- 0: initializing OpenGL runtime .......................................................... 0.170 s
+ 0: initializing OpenGL runtime .......................................................... 0.169 s
  0: WARNING: load
  0: probing paths for kernel32
  0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
@@ -527,50 +527,867 @@
  0: Aardvark.UI serves favicon.ico
  0: Aardvark.UI.Primitives serves spectrum.css
  0: Aardvark.UI.Primitives serves spectrum.js
- 1: [Server] created client for (973d2aab-3925-a2a8-f1a9-98a56ae7f88b/n7), mapping enabled
+ 1: [Server] created client for (b7405cd9-b947-b2e2-2ed7-4d7e049a8397/n7), mapping enabled
  1: [Client] 1: running n7
  2: [Scene] n7: created
  2: texture created
  2: result created
  2: texture created
  2: result created
+ 2: Compiling shader:
+  1: #version 460
+  2: #define __SHADER_STAGE__
+  3: 
+  4: 
+  5: 
+  6: 
+  7: struct tup_Aardvark_Base_V3d_Aardvark_Base_V3d_double
+  8: {
+  9:     vec3 Item0;
+ 10:     vec3 Item1;
+ 11:     float Item2;
+ 12: };
+ 13: 
+ 14: struct tup_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d
+ 15: {
+ 16:     vec3 Item0;
+ 17:     vec3 Item1;
+ 18:     vec3 Item2;
+ 19:     vec3 Item3;
+ 20: };
+ 21: 
+ 22: struct tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double_Aardvark_Base_V3d
+ 23: {
+ 24:     bool Item0;
+ 25:     vec3 Item1;
+ 26:     vec3 Item2;
+ 27:     float Item3;
+ 28:     vec3 Item4;
+ 29: };
+ 30: 
+ 31: struct SLEAardvarkRenderDemo_SLEUniform_Light
+ 32: {
+ 33:     int lightType;
+ 34:     vec4 lightPosition;
+ 35:     vec4 lightDirection;
+ 36:     vec3 color;
+ 37:     bool castsShadow;
+ 38:     float cutOffInner;
+ 39:     float cutOffOuter;
+ 40:     float radius;
+ 41:     vec3 virtualPos;
+ 42:     vec3 virtualPos2;
+ 43:     vec3 p1;
+ 44:     vec3 p2;
+ 45:     vec3 p3;
+ 46:     vec3 p4;
+ 47:     mat4x4 toWorld;
+ 48:     mat4x4 fromWorld;
+ 49:     mat4x4 lightViewProjMatrix;
+ 50:     mat4x4 lightViewMatrix;
+ 51:     float shadowMapMinZ;
+ 52:     float shadowMapMaxZ;
+ 53: };
+ 54: 
+ 55: struct tup_Aardvark_Base_V3d_Aardvark_Base_V3d
+ 56: {
+ 57:     vec3 Item0;
+ 58:     vec3 Item1;
+ 59: };
+ 60: 
+ 61: layout(std140, binding = 0)
+ 62: uniform Global
+ 63: {
+ 64:     float AmbientIntensity;
+ 65:     SLEAardvarkRenderDemo_SLEUniform_Light LightArray[80];
+ 66:     int LightCount;
+ 67:     float TranslucencyBias[8];
+ 68:     float TranslucencyStrength[8];
+ 69:     vec3 sssFalloff[8];
+ 70:     vec3 sssStrength[8];
+ 71:     float sssWidth[8];
+ 72: };
+ 73: 
+ 74: 
+ 75: layout(std140, binding = 1)
+ 76: uniform PerView
+ 77: {
+ 78:     vec3 CameraLocation;
+ 79: };
+ 80: 
+ 81: 
+ 82: layout(binding = 0)
+ 83: uniform sampler2D clearCoat;
+ 84: 
+ 85: layout(binding = 1)
+ 86: uniform sampler2D color;
+ 87: 
+ 88: layout(binding = 2)
+ 89: uniform samplerCube diffuseIrradianceSampler;
+ 90: 
+ 91: layout(binding = 3)
+ 92: uniform sampler2D emission;
+ 93: 
+ 94: layout(binding = 4)
+ 95: uniform sampler2D normal;
+ 96: 
+ 97: layout(binding = 5)
+ 98: uniform samplerCube prefilteredSpecColorSampler;
+ 99: 
+100: layout(binding = 6)
+101: uniform sampler2D samplerBRDFLtu;
+102: 
+103: layout(binding = 7)
+104: uniform sampler2DShadow samplerShadowMapArray[30];
+105: 
+106: layout(binding = 37)
+107: uniform sampler2D samplerShadowMapTexArray[30];
+108: 
+109: layout(binding = 67)
+110: uniform sampler2D samplerShadowMapTexArrayT[30];
+111: 
+112: layout(binding = 97)
+113: uniform sampler2D sheen;
+114: 
+115: layout(binding = 98)
+116: uniform sampler2D wPos;
+117: 
+118: tup_Aardvark_Base_V3d_Aardvark_Base_V3d new_tup_Aardvark_Base_V3d_Aardvark_Base_V3d(vec3 item0, vec3 item1)
+119: {
+120:     tup_Aardvark_Base_V3d_Aardvark_Base_V3d res;
+121:     res.Item0 = item0;
+122:     res.Item1 = item1;
+123:     return res;
+124: }
+125: 
+126: 
+127: vec3 SLEAardvarkRenderDemo_BRDF_fresnelSchlickRoughness_R3fRwUfkUk_vtBtqu24DwA(vec3 f0, float roughness, float cosTheta)
+128: {
+129:     return (f0 + ((max(vec3((clamp(dot(f0, vec3(16.5, 16.5, 16.5)), 0, 1) - roughness)), f0) - f0) * pow((1.0 - cosTheta), 5.0)));
+130: }
+131: 
+132: 
+133: vec3 SLEAardvarkRenderDemo_PBR_f0ClearCoatToSurface_J558wyL5EFxmvuWviPWtyA(vec3 f0Base)
+134: {
+135:     vec3 sqrtBase = sqrt(f0Base);
+136:     vec3 baseIOR = ((1.0 + sqrtBase) / (1.0 - sqrtBase));
+137:     return (((baseIOR - 1.5) / (baseIOR + 1.5)) * ((baseIOR - 1.5) / (baseIOR + 1.5)));
+138: }
+139: 
+140: 
+141: int SLEAardvarkRenderDemo_GBuffer_extractProfileIndex_kBjDAbusFqtitZm3MIDG8g(float w)
+142: {
+143:     float i = trunc((w / 10.0));
+144:     if((((i >= 0.0) && (i <= 7.0)) && (w >= 0.0)))
+145:     {
+146:         return int(i);
+147:     }
+148:     else
+149:     {
+150:         return -1;
+151:     }
+152: }
+153: 
+154: 
+155: vec3 SLEAardvarkRenderDemo_PBR_diffuseLobe_28BmPU7EzF002N1qCMj5AKQ(vec3 F, float metallic, vec3 albedo)
+156: {
+157:     return (((vec3(1.0, 1.0, 1.0) - F) * ((1.0 - metallic) * albedo)) / 3.141592653589793);
+158: }
+159: 
+160: 
+161: tup_Aardvark_Base_V3d_Aardvark_Base_V3d_double new_tup_Aardvark_Base_V3d_Aardvark_Base_V3d_double(vec3 item0, vec3 item1, float item2)
+162: {
+163:     tup_Aardvark_Base_V3d_Aardvark_Base_V3d_double res;
+164:     res.Item0 = item0;
+165:     res.Item1 = item1;
+166:     res.Item2 = item2;
+167:     return res;
+168: }
+169: 
+170: 
+171: vec3 SLEAardvarkRenderDemo_BRDF_fresnelSchlick_oKvmgrrRv31EPsFk6qorKg(vec3 f0, float cosTheta)
+172: {
+173:     return (f0 + ((clamp(dot(f0, vec3(16.5, 16.5, 16.5)), 0, 1) - f0) * pow((1.0 - cosTheta), 5.0)));
+174: }
+175: 
+176: 
+177: float SLEAardvarkRenderDemo_BRDF_DistributionGGX_nY0za00tv6jWojDhC5JYWXw(float nDotH, float roughness)
+178: {
+179:     float a = (roughness * roughness);
+180:     float a2 = (a * a);
+181:     float deno = (((nDotH * nDotH) * (a2 - 1.0)) + 1.0);
+182:     return (a2 / ((3.141592653589793 * deno) * deno));
+183: }
+184: 
+185: 
+186: float helper1(float roughness)
+187: {
+188:     float r = (roughness + 1.0);
+189:     return ((r * r) / 8.0);
+190: }
+191: 
+192: 
+193: tup_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d new_tup_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d(vec3 item0, vec3 item1, vec3 item2, vec3 item3)
+194: {
+195:     tup_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d res;
+196:     res.Item0 = item0;
+197:     res.Item1 = item1;
+198:     res.Item2 = item2;
+199:     res.Item3 = item3;
+200:     return res;
+201: }
+202: 
+203: 
+204: float SLEAardvarkRenderDemo_BRDF_visibilityAshikhmin_1GWL7ALGseRABCZZ00R7N8g(float nDotV, float nDotL)
+205: {
+206:     return (1.0 / max(0.001, (4.0 * ((nDotL + nDotV) - (nDotL * nDotV)))));
+207: }
+208: 
+209: 
+210: float SLEAardvarkRenderDemo_BRDF_distributionCharlie_9Ai0hRoW1dnTGa2k_n8d7g(float roughness, float nDotH)
+211: {
+212:     float rcpR = (1.0 / (roughness * roughness));
+213:     return (((2.0 + rcpR) * pow((1.0 - (nDotH * nDotH)), (rcpR * 0.5))) / 6.283185307179586);
+214: }
+215: 
+216: 
+217: float SLEAardvarkRenderDemo_LightShader_attenuationPunctualLight_1NCNKoz6VseVzAXQwxmhag(float dist)
+218: {
+219:     float d = max(dist, 0.01);
+220:     return (1.0 / (d * d));
+221: }
+222: 
+223: 
+224: float helper(float cosTheta, float sinSigmaSqr, float sinTheta)
+225: {
+226:     float x = sqrt(((1.0 / sinSigmaSqr) - 1.0));
+227:     float y = ((-x) * (cosTheta / sinTheta));
+228:     float sinThetaSqrtY = (sinTheta * sqrt((1.0 - (y * y))));
+229:     return ((((cosTheta * acos(y)) - (x * sinThetaSqrtY)) * sinSigmaSqr) + atan((sinThetaSqrtY / x)));
+230: }
+231: 
+232: 
+233: float SLEAardvarkRenderDemo_LightShader_tracePlane_sI5HLjWHcO7mtd2ZbInNOA(vec3 o, vec3 d, vec3 planeOrigin, vec3 planeNormal)
+234: {
+235:     return (dot(planeNormal, (planeOrigin - o)) / dot(planeNormal, d));
+236: }
+237: 
+238: 
+239: float SLEAardvarkRenderDemo_LightShader_traceTriangle_TUj_88KirlHsDKjIMhJJAQ(vec3 o, vec3 d, vec3 A, vec3 B, vec3 C)
+240: {
+241:     vec3 p = (o + (d * SLEAardvarkRenderDemo_LightShader_tracePlane_sI5HLjWHcO7mtd2ZbInNOA(o, d, A, normalize(cross((B - A), (C - B))))));
+242:     vec3 n2 = normalize(cross((C - B), (p - C)));
+243:     if(((dot(normalize(cross((B - A), (p - B))), n2) > 0.999) && (dot(n2, normalize(cross((A - C), (p - A)))) > 0.999)))
+244:     {
+245:         return 1.0;
+246:     }
+247:     else
+248:     {
+249:         return 0.0;
+250:     }
+251: }
+252: 
+253: 
+254: float SLEAardvarkRenderDemo_LightShader_traceRectangle_Y1YWv5k7o5dZMgAY1V3rCQ(vec3 o, vec3 d, vec3 A, vec3 B, vec3 C, vec3 D)
+255: {
+256:     return max(SLEAardvarkRenderDemo_LightShader_traceTriangle_TUj_88KirlHsDKjIMhJJAQ(o, d, A, B, C), SLEAardvarkRenderDemo_LightShader_traceTriangle_TUj_88KirlHsDKjIMhJJAQ(o, d, C, D, A));
+257: }
+258: 
+259: 
+260: float SLEAardvarkRenderDemo_LightShader_luminousPowerToLuminanceDisk_3Fm00pFf99CfR9hPbaGPImw(float radius)
+261: {
+262:     return (1.0 / (((radius * radius) * 3.141592653589793) * 3.141592653589793));
+263: }
+264: 
+265: 
+266: vec3 SLEAardvarkRenderDemo_LightShader_getSpecularDominantDirArea_1ZZJHwQrvhcdzZa00of3JvA(vec3 n, vec3 v, float roughness)
+267: {
+268:     return normalize(mix(n, (-reflect(n, v)), (1.0 - roughness)));
+269: }
+270: 
+271: 
+272: vec3 SLEAardvarkRenderDemo_LightShader_representativePointSpehre_DvHCJ7t4LLabKB7nbPvi5A(vec3 n, vec3 v, float roughness, vec3 lUnnorm, float radius)
+273: {
+274:     vec3 r = SLEAardvarkRenderDemo_LightShader_getSpecularDominantDirArea_1ZZJHwQrvhcdzZa00of3JvA(n, v, roughness);
+275:     vec3 centerToRay = ((dot(lUnnorm, r) * r) - lUnnorm);
+276:     return normalize((lUnnorm + (centerToRay * clamp((radius / length(centerToRay)), 0.0, 1.0))));
+277: }
+278: 
+279: 
+280: vec3 SLEAardvarkRenderDemo_LightShader_closestPointOnSegment_wgkFwPNJgTRyE1qQcnzAkw(vec3 a, vec3 b, vec3 c)
+281: {
+282:     vec3 ab = (b - a);
+283:     return (a + (clamp((dot((c - a), ab) / dot(ab, ab)), 0, 1) * ab));
+284: }
+285: 
+286: 
+287: float SLEAardvarkRenderDemo_LightShader_attenuationAgular_6LX81EpbrYsQsMWxFpR6tg(vec3 lDir, vec3 ln, float cutOffInner, float cutOffOuter)
+288: {
+289:     return clamp(((dot(lDir, (-ln)) - cutOffOuter) / (cutOffInner - cutOffOuter)), 0, 1);
+290: }
+291: 
+292: 
+293: float SLEAardvarkRenderDemo_LightShader_rectangleSolidAngle_yk0LnyTP2qLGhxTZr4oSHw(vec3 wPos, vec3 p1, vec3 p2, vec3 p3, vec3 p4)
+294: {
+295:     vec3 v1 = (p1 - wPos);
+296:     vec3 v2 = (p2 - wPos);
+297:     vec3 v3 = (p3 - wPos);
+298:     vec3 v4 = (p4 - wPos);
+299:     vec3 n1 = normalize(cross(v1, v2));
+300:     vec3 n2 = normalize(cross(v2, v3));
+301:     vec3 n3 = normalize(cross(v3, v4));
+302:     vec3 n4 = normalize(cross(v4, v1));
+303:     return ((((acos(dot((-n1), n2)) + acos(dot((-n2), n3))) + acos(dot((-n3), n4))) + acos(dot((-n4), n1))) - 6.283185307179586);
+304: }
+305: 
+306: 
+307: float SLEAardvarkRenderDemo_LightShader_luminousPowerToLuminanceSphere_UrX1ctp5f0mkaCN8lcAp4g(float radius)
+308: {
+309:     return (1.0 / ((((radius * radius) * 4.0) * 3.141592653589793) * 3.141592653589793));
+310: }
+311: 
+312: 
+313: tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double_Aardvark_Base_V3d new_tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double_Aardvark_Base_V3d(bool item0, vec3 item1, vec3 item2, float item3, vec3 item4)
+314: {
+315:     tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double_Aardvark_Base_V3d res;
+316:     res.Item0 = item0;
+317:     res.Item1 = item1;
+318:     res.Item2 = item2;
+319:     res.Item3 = item3;
+320:     res.Item4 = item4;
+321:     return res;
+322: }
+323: 
+324: 
+325: float SLEAardvarkRenderDemo_LightShader_luminousPowerToLuminanceRectangle_CSsH8PY0AZ5Q9fWUXd5VQ(vec3 p1, vec3 p2, vec3 p4)
+326: {
+327:     return (1.0 / ((abs(length((p1 - p2))) * abs(length((p1 - p4)))) * 3.141592653589793));
+328: }
+329: 
+330: 
+331: float SLEAardvarkRenderDemo_Shadow_random_1MN50IO3BjRacQVcNxGOSw(vec4 seed)
+332: {
+333:     return fract((sin(dot(seed, vec4(12.9898, 78.233, 45.164, 94.673))) * 43758.5453));
+334: }
+335: 
+336: 
+337: vec2 SLEAardvarkRenderDemo_Shadow_vogelDiskOffset_cR3OqSYynaKjhFMpTsd8fQ(int sampleIndex, int sampleCount, float phi)
+338: {
+339:     float r = (sqrt((float(sampleIndex) + 0.5)) / sqrt(float(sampleCount)));
+340:     float theta = ((float(sampleIndex) * 2.39996) + phi);
+341:     return vec2((r * cos(theta)), (r * sin(theta)));
+342: }
+343: 
+344: 
+345: vec2 SLEAardvarkRenderDemo_Shadow_avgBlockersDepthToPenumbra_ntc5ns5VYYuiRbvrmwQQGw(vec2 lightSize, float surfaceDepth, float avgBlockersDepth)
+346: {
+347:     return ((lightSize * (surfaceDepth - avgBlockersDepth)) / avgBlockersDepth);
+348: }
+349: 
+350: 
+351: float SLEAardvarkRenderDemo_LightShader_attenuationRectangle_je2tqG4tNH0N0h4ostr9dQ(vec3 wPos, vec3 p1, vec3 p2, vec3 p3, vec3 p4, vec3 lUnnorm, vec3 ln, vec3 n)
+352: {
+353:     if((dot((-lUnnorm), ln) > 0.0))
+354:     {
+355:         return ((max(0.0, SLEAardvarkRenderDemo_LightShader_rectangleSolidAngle_yk0LnyTP2qLGhxTZr4oSHw(wPos, p1, p2, p3, p4)) * 0.2) * ((((clamp(dot(n, normalize(lUnnorm)), 0, 1) + clamp(dot(n, normalize((p1 - wPos))), 0, 1)) + clamp(dot(n, normalize((p2 - wPos))), 0, 1)) + clamp(dot(n, normalize((p3 - wPos))), 0, 1)) + clamp(dot(n, normalize((p4 - wPos))), 0, 1)));
+356:     }
+357:     else
+358:     {
+359:         return 0.0;
+360:     }
+361: }
+362: 
+363: 
+364: vec3 SLEAardvarkRenderDemo_LightShader_representativePointRectangle_7uXB4Za8_80Ps10k1oBj6A(vec3 r, vec3 wPos, vec3 p1, vec3 p2, vec3 p3, vec3 p4, vec3 ln, vec3 lightPosition)
+365: {
+366:     if((SLEAardvarkRenderDemo_LightShader_traceRectangle_Y1YWv5k7o5dZMgAY1V3rCQ(wPos, r, p1, p2, p3, p4) > 0.0))
+367:     {
+368:         return r;
+369:     }
+370:     else
+371:     {
+372:         vec3 tracedPlane = (wPos + (r * SLEAardvarkRenderDemo_LightShader_tracePlane_sI5HLjWHcO7mtd2ZbInNOA(wPos, r, lightPosition, ln)));
+373:         vec3 pc1 = SLEAardvarkRenderDemo_LightShader_closestPointOnSegment_wgkFwPNJgTRyE1qQcnzAkw(p1, p2, tracedPlane);
+374:         vec3 pc2 = SLEAardvarkRenderDemo_LightShader_closestPointOnSegment_wgkFwPNJgTRyE1qQcnzAkw(p2, p3, tracedPlane);
+375:         vec3 pc3 = SLEAardvarkRenderDemo_LightShader_closestPointOnSegment_wgkFwPNJgTRyE1qQcnzAkw(p3, p4, tracedPlane);
+376:         vec3 pc4 = SLEAardvarkRenderDemo_LightShader_closestPointOnSegment_wgkFwPNJgTRyE1qQcnzAkw(p4, p1, tracedPlane);
+377:         float d2 = distance(pc2, tracedPlane);
+378:         float d3 = distance(pc3, tracedPlane);
+379:         float minDist = distance(pc1, tracedPlane);
+380:         vec3 p = pc1;
+381:         if((d2 < minDist))
+382:         {
+383:             minDist = d2;
+384:             p = pc2;
+385:         }
+386:         if((d3 < minDist))
+387:         {
+388:             minDist = d3;
+389:             p = pc3;
+390:         }
+391:         if((distance(pc4, tracedPlane) < minDist))
+392:         {
+393:             p = pc4;
+394:         }
+395:         return normalize((p - wPos));
+396:     }
+397: }
+398: 
+399: 
+400: vec3 SLEAardvarkRenderDemo_LightShader_representativePointDisk_wKhAwWDNYwPsVTi00Wbf63g(vec3 r, vec3 wPos, float radius, vec3 ln, vec3 lightPosition, vec3 lUnnorm)
+401: {
+402:     vec3 centerToRay = ((wPos + (r * SLEAardvarkRenderDemo_LightShader_tracePlane_sI5HLjWHcO7mtd2ZbInNOA(wPos, r, lightPosition, ln))) - lightPosition);
+403:     return normalize((lUnnorm + (centerToRay * clamp((radius / length(centerToRay)), 0, 1))));
+404: }
+405: 
+406: 
+407: float SLEAardvarkRenderDemo_LightShader_illuminanceSphereDisc_0CS4M8XTusgxGaKgGTrK_A(float cosTheta, float sinSigmaSqr)
+408: {
+409:     float sinTheta = sqrt((1.0 - (cosTheta * cosTheta)));
+410:     return max(0.0, (((cosTheta * cosTheta) > sinSigmaSqr) ? ((3.141592653589793 * sinSigmaSqr) * clamp(cosTheta, 0.0, 1.0)) : helper(cosTheta, sinSigmaSqr, sinTheta)));
+411: }
+412: 
+413: 
+414: float SLEAardvarkRenderDemo_LightShader_attenuationDisk_hLzuCj5zj00GiLEJKhGz99g(vec3 lUnnorm, float radius, vec3 n, vec3 lDir, vec3 ln)
+415: {
+416:     float radius2 = (radius * radius);
+417:     return (SLEAardvarkRenderDemo_LightShader_illuminanceSphereDisc_0CS4M8XTusgxGaKgGTrK_A(clamp(dot(n, lDir), -0.999, 0.999), (radius2 / (radius2 + max(radius2, dot(lUnnorm, lUnnorm))))) * clamp(dot(ln, (-lDir)), 0, 1));
+418: }
+419: 
+420: 
+421: float SLEAardvarkRenderDemo_LightShader_attenuationSphere_TfcoeJaHdIXDFd7jmK6bvA(vec3 lUnnorm, float radius, vec3 n, vec3 lDir)
+422: {
+423:     return SLEAardvarkRenderDemo_LightShader_illuminanceSphereDisc_0CS4M8XTusgxGaKgGTrK_A(clamp(dot(n, lDir), -0.999, 0.999), min(0.9999, ((radius * radius) / dot(lUnnorm, lUnnorm))));
+424: }
+425: 
+426: 
+427: tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double_Aardvark_Base_V3d SLEAardvarkRenderDemo_LightShader_getLightParams_y4VJUa8M00qwIr8rIzH00WQ(SLEAardvarkRenderDemo_SLEUniform_Light light, vec3 wPos, vec3 n, vec3 v, float roughness)
+428: {
+429:     if((light.lightType == 0))
+430:     {
+431:         return new_tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double_Aardvark_Base_V3d(false, vec3(0.0, 0.0, 0.0), vec3(0.0, 0.0, 0.0), 1.0, vec3(0.0, 0.0, 0.0));
+432:     }
+433:     else
+434:     {
+435:         if((light.lightType == 1))
+436:         {
+437:             return new_tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double_Aardvark_Base_V3d(true, normalize((-light.lightDirection.xyz)), light.color, 1.0, light.color);
+438:         }
+439:         else
+440:         {
+441:             if((light.lightType == 2))
+442:             {
+443:                 vec3 illuminannce = ((light.color * SLEAardvarkRenderDemo_LightShader_attenuationPunctualLight_1NCNKoz6VseVzAXQwxmhag(distance(light.lightPosition.xyz, wPos))) * 0.07957747154594767);
+444:                 return new_tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double_Aardvark_Base_V3d(true, normalize((light.lightPosition.xyz - wPos)), illuminannce, 1.0, illuminannce);
+445:             }
+446:             else
+447:             {
+448:                 if((light.lightType == 3))
+449:                 {
+450:                     vec3 lDir = normalize((light.lightPosition.xyz - wPos));
+451:                     vec3 illuminannce1 = (((light.color * SLEAardvarkRenderDemo_LightShader_attenuationAgular_6LX81EpbrYsQsMWxFpR6tg(lDir, normalize(light.lightDirection.xyz), light.cutOffInner, light.cutOffOuter)) * SLEAardvarkRenderDemo_LightShader_attenuationPunctualLight_1NCNKoz6VseVzAXQwxmhag(distance(light.lightPosition.xyz, wPos))) * 0.3183098861837907);
+452:                     return new_tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double_Aardvark_Base_V3d(true, lDir, illuminannce1, 1.0, illuminannce1);
+453:                 }
+454:                 else
+455:                 {
+456:                     if((light.lightType == 4))
+457:                     {
+458:                         vec3 lUnnorm = (light.lightPosition.xyz - wPos);
+459:                         vec3 l = SLEAardvarkRenderDemo_LightShader_representativePointSpehre_DvHCJ7t4LLabKB7nbPvi5A(n, v, roughness, lUnnorm, light.radius);
+460:                         return new_tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double_Aardvark_Base_V3d(true, l, (((light.color * SLEAardvarkRenderDemo_LightShader_attenuationSphere_TfcoeJaHdIXDFd7jmK6bvA(lUnnorm, light.radius, n, normalize(lUnnorm))) * SLEAardvarkRenderDemo_LightShader_luminousPowerToLuminanceSphere_UrX1ctp5f0mkaCN8lcAp4g(light.radius)) / dot(n, l)), 1.0, ((light.color * 0.07957747154594767) * SLEAardvarkRenderDemo_LightShader_attenuationPunctualLight_1NCNKoz6VseVzAXQwxmhag(distance(light.lightPosition.xyz, wPos))));
+461:                     }
+462:                     else
+463:                     {
+464:                         if((light.lightType == 5))
+465:                         {
+466:                             vec3 lUnnorm1 = (light.lightPosition.xyz - wPos);
+467:                             vec3 ln = normalize(light.lightDirection.xyz);
+468:                             float intensity = SLEAardvarkRenderDemo_LightShader_attenuationAgular_6LX81EpbrYsQsMWxFpR6tg(normalize((light.virtualPos.xyz - wPos)), ln, light.cutOffInner, light.cutOffOuter);
+469:                             vec3 r = SLEAardvarkRenderDemo_LightShader_getSpecularDominantDirArea_1ZZJHwQrvhcdzZa00of3JvA(n, v, roughness);
+470:                             vec3 l1 = SLEAardvarkRenderDemo_LightShader_representativePointDisk_wKhAwWDNYwPsVTi00Wbf63g(r, wPos, light.radius, ln, light.lightPosition.xyz, lUnnorm1);
+471:                             return new_tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double_Aardvark_Base_V3d(true, l1, ((((light.color * intensity) * SLEAardvarkRenderDemo_LightShader_attenuationDisk_hLzuCj5zj00GiLEJKhGz99g(lUnnorm1, light.radius, n, normalize(lUnnorm1), ln)) * SLEAardvarkRenderDemo_LightShader_luminousPowerToLuminanceDisk_3Fm00pFf99CfR9hPbaGPImw(light.radius)) / dot(n, l1)), clamp(abs(dot(ln, r)), 0, 1), (((light.color * intensity) * 0.3183098861837907) * SLEAardvarkRenderDemo_LightShader_attenuationPunctualLight_1NCNKoz6VseVzAXQwxmhag(distance(light.lightPosition.xyz, wPos))));
+472:                         }
+473:                         else
+474:                         {
+475:                             if((light.lightType == 6))
+476:                             {
+477:                                 vec3 ln1 = normalize(light.lightDirection.xyz);
+478:                                 vec4 d1 = (vec4(normalize((light.virtualPos.xyz - wPos)), 0.0) * light.fromWorld);
+479:                                 vec4 d3 = (vec4(normalize((light.virtualPos2.xyz - wPos)), 0.0) * light.fromWorld);
+480:                                 float intensity1 = (SLEAardvarkRenderDemo_LightShader_attenuationAgular_6LX81EpbrYsQsMWxFpR6tg(normalize(vec3(d1.x, d1.y, 0.0)), vec3(0.0, 1.0, 0.0), light.cutOffInner, light.cutOffOuter) * SLEAardvarkRenderDemo_LightShader_attenuationAgular_6LX81EpbrYsQsMWxFpR6tg(normalize(vec3(0.0, d3.y, d3.z)), vec3(0.0, 1.0, 0.0), light.cutOffInner, light.cutOffOuter));
+481:                                 vec3 r1 = SLEAardvarkRenderDemo_LightShader_getSpecularDominantDirArea_1ZZJHwQrvhcdzZa00of3JvA(n, v, roughness);
+482:                                 vec3 l2 = SLEAardvarkRenderDemo_LightShader_representativePointRectangle_7uXB4Za8_80Ps10k1oBj6A(r1, wPos, light.p1, light.p2, light.p3, light.p4, ln1, light.lightPosition.xyz);
+483:                                 return new_tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double_Aardvark_Base_V3d(true, l2, ((((light.color * intensity1) * SLEAardvarkRenderDemo_LightShader_attenuationRectangle_je2tqG4tNH0N0h4ostr9dQ(wPos, light.p1, light.p2, light.p3, light.p4, (light.lightPosition.xyz - wPos), ln1, n)) * SLEAardvarkRenderDemo_LightShader_luminousPowerToLuminanceRectangle_CSsH8PY0AZ5Q9fWUXd5VQ(light.p1, light.p2, light.p4)) / dot(n, l2)), clamp(abs(dot(ln1, r1)), 0, 1), (((light.color * intensity1) * 0.3183098861837907) * SLEAardvarkRenderDemo_LightShader_attenuationPunctualLight_1NCNKoz6VseVzAXQwxmhag(distance(light.lightPosition.xyz, wPos))));
+484:                             }
+485:                             else
+486:                             {
+487:                                 return new_tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double_Aardvark_Base_V3d(false, vec3(0.0, 0.0, 0.0), vec3(0.0, 0.0, 0.0), 1.0, vec3(0.0, 0.0, 0.0));
+488:                             }
+489:                         }
+490:                     }
+491:                 }
+492:             }
+493:         }
+494:     }
+495: }
+496: 
+497: 
+498: vec3 SLEAardvarkRenderDemo_PBR_specularLobeCloth_3kg1FHZlm5ky7EgqJuXVoQ(vec3 F, float roughness, float nDotH, float nDotV, float nDotL)
+499: {
+500:     return ((SLEAardvarkRenderDemo_BRDF_distributionCharlie_9Ai0hRoW1dnTGa2k_n8d7g(roughness, nDotH) * SLEAardvarkRenderDemo_BRDF_visibilityAshikhmin_1GWL7ALGseRABCZZ00R7N8g(nDotV, nDotL)) * F);
+501: }
+502: 
+503: 
+504: float SLEAardvarkRenderDemo_BRDF_GeometrySchlickGGX_26R00oEc3DtK0V8hk2HayMQ(bool ilb, float nDotV, float roughness)
+505: {
+506:     float k = (ilb ? ((roughness * roughness) / 2.0) : helper1(roughness));
+507:     return (nDotV / ((nDotV * (1.0 - k)) + k));
+508: }
+509: 
+510: 
+511: float SLEAardvarkRenderDemo_BRDF_GeometrySmith_6IVwXuh0yVUxTwB0n7MN2w(bool ilb, float nDotV, float nDotL, float roughness)
+512: {
+513:     return (SLEAardvarkRenderDemo_BRDF_GeometrySchlickGGX_26R00oEc3DtK0V8hk2HayMQ(ilb, nDotL, roughness) * SLEAardvarkRenderDemo_BRDF_GeometrySchlickGGX_26R00oEc3DtK0V8hk2HayMQ(ilb, nDotV, roughness));
+514: }
+515: 
+516: 
+517: vec3 SLEAardvarkRenderDemo_PBR_specularLobeStandard_xCDJ00_OVkhQA4IgP6xweOw(vec3 F, float roughness, float nDotH, float nDotV, float nDotL)
+518: {
+519:     return (((SLEAardvarkRenderDemo_BRDF_DistributionGGX_nY0za00tv6jWojDhC5JYWXw(nDotH, roughness) * SLEAardvarkRenderDemo_BRDF_GeometrySmith_6IVwXuh0yVUxTwB0n7MN2w(false, nDotV, nDotL, roughness)) * F) / max(0.001, ((4.0 * nDotV) * nDotL)));
+520: }
+521: 
+522: 
+523: tup_Aardvark_Base_V3d_Aardvark_Base_V3d_double SLEAardvarkRenderDemo_PBR_directclearCoat_DXfZ7Xna_Buw7PyEpqh40w(float clearCoat, float clearCoatRoughness, vec3 clearCoatNormal, vec3 lDir, vec3 v, vec3 h, float hDotV)
+524: {
+525:     float ccNDotL = clamp(dot(clearCoatNormal, lDir), 0, 1);
+526:     vec3 ccF = (clearCoat * SLEAardvarkRenderDemo_BRDF_fresnelSchlick_oKvmgrrRv31EPsFk6qorKg(vec3(0.04, 0.04, 0.04), hDotV));
+527:     return new_tup_Aardvark_Base_V3d_Aardvark_Base_V3d_double(ccF, SLEAardvarkRenderDemo_PBR_specularLobeStandard_xCDJ00_OVkhQA4IgP6xweOw(ccF, clearCoatRoughness, clamp(dot(clearCoatNormal, h), 0, 1), clamp(dot(clearCoatNormal, v), 0, 1), ccNDotL), ccNDotL);
+528: }
+529: 
+530: 
+531: 
+532: #ifdef Vertex
+533: layout(location = 0) in vec2 DiffuseColorCoordinates;
+534: layout(location = 1) in vec4 Positions;
+535: layout(location = 0) out vec2 fs_DiffuseColorCoordinates;
+536: void main()
+537: {
+538:     fs_DiffuseColorCoordinates = DiffuseColorCoordinates;
+539:     gl_Position = Positions;
+540: }
+541: 
+542: #endif
+543: 
+544: 
+545: 
+546: #ifdef Fragment
+547: 
+548: vec2 SLEAardvarkRenderDemo_Shadow_penumbra_vxIqKY2Rz2tNUe9XqARykw(int idx, float noise, vec2 shadowMapUV, float surfaceDepth, vec2 lightSize)
+549: {
+550:     float avgBlockersDepth = 0.0;
+551:     float blockersCount = 0.0;
+552:     for(int i = 0; (i < 16); i++)
+553:     {
+554:         float sampleDepth = texture(samplerShadowMapTexArray[idx], (shadowMapUV + (SLEAardvarkRenderDemo_Shadow_vogelDiskOffset_cR3OqSYynaKjhFMpTsd8fQ(i, 16, noise) / 100.0))).x;
+555:         if((sampleDepth < surfaceDepth))
+556:         {
+557:             avgBlockersDepth = (avgBlockersDepth + sampleDepth);
+558:             blockersCount = (blockersCount + 1.0);
+559:         }
+560:     }
+561:     if((blockersCount > 0.0))
+562:     {
+563:         avgBlockersDepth = (avgBlockersDepth / blockersCount);
+564:         return SLEAardvarkRenderDemo_Shadow_avgBlockersDepthToPenumbra_ntc5ns5VYYuiRbvrmwQQGw(lightSize, surfaceDepth, avgBlockersDepth);
+565:     }
+566:     else
+567:     {
+568:         return vec2(0.0, 0.0);
+569:     }
+570: }
+571: 
+572: float SLEAardvarkRenderDemo_Shadow_vogelDiskSampling_onwd7lNvXanFqHo0WH7KJg(int idx, float noise, vec4 pos, vec2 spread)
+573: {
+574:     float vis = 0.0;
+575:     for(int i = 0; (i < 16); i++)
+576:     {
+577:         vec4 p = (pos + vec4((SLEAardvarkRenderDemo_Shadow_vogelDiskOffset_cR3OqSYynaKjhFMpTsd8fQ(i, 16, noise) * spread), 0.0, 0.0));
+578:         vec4 samplePos = (0.5 + (0.5 * (p / p.w)));
+579:         float sp = texture(samplerShadowMapArray[idx], vec3(samplePos.xy, (samplePos.z - 0.005)));
+580:         vis = (vis + (sp / 16.0));
+581:     }
+582:     return vis;
+583: }
+584: 
+585: vec2 SLEAardvarkRenderDemo_Shadow_lightWidth_Zt1CQQcciybgtFIUIlSkzg(int idx)
+586: {
+587:     SLEAardvarkRenderDemo_SLEUniform_Light l = LightArray[idx];
+588:     if((l.lightType == 0))
+589:     {
+590:         return vec2(0.01, 0.01);
+591:     }
+592:     else
+593:     {
+594:         if((l.lightType == 1))
+595:         {
+596:             return vec2(0.01, 0.01);
+597:         }
+598:         else
+599:         {
+600:             if((l.lightType == 2))
+601:             {
+602:                 return vec2(0.01, 0.01);
+603:             }
+604:             else
+605:             {
+606:                 if((l.lightType == 3))
+607:                 {
+608:                     return vec2(0.01, 0.01);
+609:                 }
+610:                 else
+611:                 {
+612:                     if((l.lightType == 4))
+613:                     {
+614:                         return vec2(max(0.01, (l.radius * 2.0)));
+615:                     }
+616:                     else
+617:                     {
+618:                         if((l.lightType == 5))
+619:                         {
+620:                             return vec2(max(0.01, (l.radius * 2.0)));
+621:                         }
+622:                         else
+623:                         {
+624:                             if((l.lightType == 6))
+625:                             {
+626:                                 return vec2(max(0.01, length((l.p1 - l.p4))), max(0.01, length((l.p1 - l.p2))));
+627:                             }
+628:                             else
+629:                             {
+630:                                 return vec2(0.01, 0.01);
+631:                             }
+632:                         }
+633:                     }
+634:                 }
+635:             }
+636:         }
+637:     }
+638: }
+639: 
+640: float SLEAardvarkRenderDemo_Shadow_getShadow_drVRDjVo2yCzGHaYiSYnfg(int idx, vec4 wPos)
+641: {
+642:     mat4x4 lm = LightArray[idx].lightViewProjMatrix;
+643:     vec4 lightSpacePos = (wPos * lm);
+644:     vec4 samplePos = (0.5 + (0.5 * (lightSpacePos / lightSpacePos.w)));
+645:     float noise = (6.283185307179586 * SLEAardvarkRenderDemo_Shadow_random_1MN50IO3BjRacQVcNxGOSw(samplePos));
+646:     return SLEAardvarkRenderDemo_Shadow_vogelDiskSampling_onwd7lNvXanFqHo0WH7KJg(idx, noise, lightSpacePos, SLEAardvarkRenderDemo_Shadow_penumbra_vxIqKY2Rz2tNUe9XqARykw(idx, noise, samplePos.xy, samplePos.z, SLEAardvarkRenderDemo_Shadow_lightWidth_Zt1CQQcciybgtFIUIlSkzg(idx)));
+647: }
+648: 
+649: tup_Aardvark_Base_V3d_Aardvark_Base_V3d SLEAardvarkRenderDemo_PBR_directSheen_0mQlUk_ngWYQ4gtBGreByg(vec3 sheenColor, float sheenRoughness, float nDotH, float nDotV, float nDotL, vec3 diffuse, vec3 specular)
+650: {
+651:     if((sheenColor == vec3(0.0, 0.0, 0.0)))
+652:     {
+653:         return new_tup_Aardvark_Base_V3d_Aardvark_Base_V3d(diffuse, specular);
+654:     }
+655:     else
+656:     {
+657:         float sheenScaling = (1.0 - (max(sheenColor.x,max(sheenColor.y,sheenColor.z)) * texture(samplerBRDFLtu, vec2(nDotV, sheenRoughness)).z));
+658:         return new_tup_Aardvark_Base_V3d_Aardvark_Base_V3d((diffuse * sheenScaling), ((specular * sheenScaling) + SLEAardvarkRenderDemo_PBR_specularLobeCloth_3kg1FHZlm5ky7EgqJuXVoQ(sheenColor, sheenRoughness, nDotH, nDotV, nDotL)));
+659:     }
+660: }
+661: 
+662: tup_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d SLEAardvarkRenderDemo_PBR_directLighting_vnCcBOgIE00UaU7Ie8vn4HA(float metallic, vec4 wp, vec4 c, vec3 n, vec3 clearCoatNormal, float clearCoat, float roughness, vec3 sheenColor, float sheenRoughness, float clearCoatRoughness, SLEAardvarkRenderDemo_SLEUniform_Light light)
+663: {
+664:     if((metallic < 0.0))
+665:     {
+666:         return new_tup_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d(vec3(0.0, 0.0, 0.0), vec3(0.0, 0.0, 0.0), vec3(0.0, 0.0, 0.0), vec3(0.0, 0.0, 0.0));
+667:     }
+668:     else
+669:     {
+670:         vec3 v = normalize((CameraLocation - wp.xyz));
+671:         tup_bool_Aardvark_Base_V3d_Aardvark_Base_V3d_double_Aardvark_Base_V3d patternInput = SLEAardvarkRenderDemo_LightShader_getLightParams_y4VJUa8M00qwIr8rIzH00WQ(light, wp.xyz, mix(n, clearCoatNormal, clearCoat), v, roughness);
+672:         vec3 h = normalize((v + patternInput.Item1));
+673:         float nDotL = clamp(dot(n, patternInput.Item1), 0, 1);
+674:         float hDotV = clamp(dot(h, v), 0, 1);
+675:         float nDotH = clamp(dot(n, h), 0, 1);
+676:         float nDotV = clamp(dot(n, v), 0, 1);
+677:         vec3 f0Base = mix(vec3(0.04, 0.04, 0.04), c.xyz, metallic);
+678:         vec3 F = SLEAardvarkRenderDemo_BRDF_fresnelSchlick_oKvmgrrRv31EPsFk6qorKg(mix(f0Base, SLEAardvarkRenderDemo_PBR_f0ClearCoatToSurface_J558wyL5EFxmvuWviPWtyA(f0Base), clearCoat), hDotV);
+679:         tup_Aardvark_Base_V3d_Aardvark_Base_V3d patternInput1 = SLEAardvarkRenderDemo_PBR_directSheen_0mQlUk_ngWYQ4gtBGreByg(sheenColor, sheenRoughness, nDotH, nDotV, nDotL, SLEAardvarkRenderDemo_PBR_diffuseLobe_28BmPU7EzF002N1qCMj5AKQ(F, metallic, c.xyz), (SLEAardvarkRenderDemo_PBR_specularLobeStandard_xCDJ00_OVkhQA4IgP6xweOw(F, roughness, nDotH, nDotV, nDotL) * patternInput.Item3));
+680:         vec3 diff1 = ((patternInput1.Item0 * nDotL) * patternInput.Item2);
+681:         if((clearCoat == 0.0))
+682:         {
+683:             return new_tup_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d(diff1, ((patternInput1.Item1 * patternInput.Item2) * nDotL), patternInput.Item1, patternInput.Item4);
+684:         }
+685:         else
+686:         {
+687:             tup_Aardvark_Base_V3d_Aardvark_Base_V3d_double patternInput2 = SLEAardvarkRenderDemo_PBR_directclearCoat_DXfZ7Xna_Buw7PyEpqh40w(clearCoat, clearCoatRoughness, clearCoatNormal, patternInput.Item1, v, h, hDotV);
+688:             return new_tup_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d((diff1 * (vec3(1.0, 1.0, 1.0) - patternInput2.Item0)), ((((patternInput1.Item1 * (vec3(1.0, 1.0, 1.0) - patternInput2.Item0)) * nDotL) + (patternInput2.Item1 * patternInput2.Item2)) * patternInput.Item2), patternInput.Item1, patternInput.Item4);
+689:         }
+690:     }
+691: }
+692: 
+693: tup_Aardvark_Base_V3d_Aardvark_Base_V3d SLEAardvarkRenderDemo_PBR_ambientSheen_ZrpU5vAusEQekIe870lJuw(vec3 sheenColor, float sheenRoughness, float nDotV, vec3 r, vec3 diffuse, vec3 specular)
+694: {
+695:     if((sheenColor == vec3(0.0, 0.0, 0.0)))
+696:     {
+697:         return new_tup_Aardvark_Base_V3d_Aardvark_Base_V3d(diffuse, specular);
+698:     }
+699:     else
+700:     {
+701:         float sheenDFG = texture(samplerBRDFLtu, vec2(nDotV, sheenRoughness)).z;
+702:         float sheenScaling = (1.0 - (max(sheenColor.x,max(sheenColor.y,sheenColor.z)) * sheenDFG));
+703:         return new_tup_Aardvark_Base_V3d_Aardvark_Base_V3d((diffuse * sheenScaling), ((specular * sheenScaling) + ((textureLod(prefilteredSpecColorSampler, r, (sheenRoughness * 4.0)).xyz * sheenColor) * sheenDFG)));
+704:     }
+705: }
+706: 
+707: vec3 SLEAardvarkRenderDemo_PBR_ambientSpecular_RV5qqg9LWycqoVezPTSlLw(vec3 kSA, float roughness, float nDotV, vec3 r)
+708: {
+709:     vec3 brdf = texture(samplerBRDFLtu, vec2(nDotV, roughness)).xyz;
+710:     return (textureLod(prefilteredSpecColorSampler, r, (roughness * 4.0)).xyz * ((kSA * brdf.x) + brdf.y));
+711: }
+712: 
+713: vec3 SLEAardvarkRenderDemo_PBR_ambientDiffuse_FO200c5yUsICHiCJedhAjRA(vec3 kdA, vec3 albedo, vec3 n)
+714: {
+715:     return ((kdA * texture(diffuseIrradianceSampler, n).xyz) * albedo);
+716: }
+717: 
+718: tup_Aardvark_Base_V3d_Aardvark_Base_V3d SLEAardvarkRenderDemo_PBR_ambienClearCoat_LyzQK3qsGlATrBMN90lCuw(float clearCoat, float clearCoatRoughness, vec3 clearCoatNormal, vec3 v, vec3 r, vec3 diffuse, vec3 specular)
+719: {
+720:     if((clearCoat == 0.0))
+721:     {
+722:         return new_tup_Aardvark_Base_V3d_Aardvark_Base_V3d(diffuse, specular);
+723:     }
+724:     else
+725:     {
+726:         float ccNDotV = max(0.0, dot(clearCoatNormal, v));
+727:         vec3 cckSA = (clearCoat * SLEAardvarkRenderDemo_BRDF_fresnelSchlickRoughness_R3fRwUfkUk_vtBtqu24DwA(vec3(0.04, 0.04, 0.04), clearCoatRoughness, ccNDotV));
+728:         vec2 ccbrdf = texture(samplerBRDFLtu, vec2(ccNDotV, clearCoatRoughness)).xy;
+729:         return new_tup_Aardvark_Base_V3d_Aardvark_Base_V3d((diffuse * (1.0 - cckSA)), ((specular * (1.0 - cckSA)) + (textureLod(prefilteredSpecColorSampler, r, (clearCoatRoughness * 4.0)).xyz * ((cckSA * ccbrdf.x) + ccbrdf.y))));
+730:     }
+731: }
+732: 
+733: tup_Aardvark_Base_V3d_Aardvark_Base_V3d SLEAardvarkRenderDemo_PBR_ambientLight_FS3XKzAEzYSlAL1f00P5PLg(float metallic, vec4 c, vec4 wp, vec3 n, float clearCoat, float roughness, vec3 sheenColor, float sheenRoughness, float clearCoatRoughness, vec3 clearCoatNormal)
+734: {
+735:     if((metallic < 0.0))
+736:     {
+737:         return new_tup_Aardvark_Base_V3d_Aardvark_Base_V3d(c.xyz, vec3(0.0, 0.0, 0.0));
+738:     }
+739:     else
+740:     {
+741:         vec3 v = normalize((CameraLocation - wp.xyz));
+742:         vec3 r = reflect(n, (-v));
+743:         vec3 f0Base = mix(vec3(0.04, 0.04, 0.04), c.xyz, metallic);
+744:         float nDotV = max(0.0, dot(n, v));
+745:         vec3 kSA = SLEAardvarkRenderDemo_BRDF_fresnelSchlickRoughness_R3fRwUfkUk_vtBtqu24DwA(mix(f0Base, SLEAardvarkRenderDemo_PBR_f0ClearCoatToSurface_J558wyL5EFxmvuWviPWtyA(f0Base), clearCoat), roughness, nDotV);
+746:         tup_Aardvark_Base_V3d_Aardvark_Base_V3d patternInput = SLEAardvarkRenderDemo_PBR_ambientSheen_ZrpU5vAusEQekIe870lJuw(sheenColor, sheenRoughness, nDotV, r, SLEAardvarkRenderDemo_PBR_ambientDiffuse_FO200c5yUsICHiCJedhAjRA(((1.0 - kSA) * (1.0 - metallic)), c.xyz, n), SLEAardvarkRenderDemo_PBR_ambientSpecular_RV5qqg9LWycqoVezPTSlLw(kSA, roughness, nDotV, r));
+747:         tup_Aardvark_Base_V3d_Aardvark_Base_V3d patternInput1 = SLEAardvarkRenderDemo_PBR_ambienClearCoat_LyzQK3qsGlATrBMN90lCuw(clearCoat, clearCoatRoughness, clearCoatNormal, v, r, patternInput.Item0, patternInput.Item1);
+748:         return new_tup_Aardvark_Base_V3d_Aardvark_Base_V3d((patternInput1.Item0 * AmbientIntensity), (patternInput1.Item1 * AmbientIntensity));
+749:     }
+750: }
+751: 
+752: float SLEAardvarkRenderDemo_translucency_getShadowLinearDepth_qKRI00IeIid69YUdZ8mZk5Q(int lightIndex, vec2 tc)
+753: {
+754:     int matchValue = LightArray[lightIndex].lightType;
+755:     if((matchValue == 1))
+756:     {
+757:         return (texture(samplerShadowMapTexArrayT[lightIndex], tc).x * LightArray[lightIndex].shadowMapMaxZ);
+758:     }
+759:     else
+760:     {
+761:         float z = ((2.0 * texture(samplerShadowMapTexArrayT[lightIndex], tc).x) - 1.0);
+762:         float n = LightArray[lightIndex].shadowMapMinZ;
+763:         float f = LightArray[lightIndex].shadowMapMaxZ;
+764:         return (((2.0 * n) * f) / ((f + n) - (z * (f - n))));
+765:     }
+766: }
+767: 
+768: float SLEAardvarkRenderDemo_translucency_getThickness_8xPjdgeImG_JzZAaa2Q6bQ(float bias, int lightIndex, vec3 wp, vec3 wn)
+769: {
+770:     vec4 posLightSpace = (vec4(wp, 1.0) * LightArray[lightIndex].lightViewMatrix);
+771:     vec4 shadowPos = (vec4((wp - (bias * wn)), 1.0) * LightArray[lightIndex].lightViewProjMatrix);
+772:     return max(abs((SLEAardvarkRenderDemo_translucency_getShadowLinearDepth_qKRI00IeIid69YUdZ8mZk5Q(lightIndex, (((shadowPos.xy / shadowPos.w) * 0.5) + 0.5)) - ((-posLightSpace.z) / posLightSpace.w))), 0.001);
+773: }
+774: 
+775: vec3 SLEAardvarkRenderDemo_translucency_transm_Bl4M6jfPXl_isA8Cp9RBdQ(int profileIndex, int lightIndex, vec3 wp, vec3 wn, vec3 l)
+776: {
+777:     float bias = TranslucencyBias[profileIndex];
+778:     float sssWidth = sssWidth[profileIndex];
+779:     vec3 sssFalloff = sssFalloff[profileIndex];
+780:     vec3 sssStrength = sssStrength[profileIndex];
+781:     float translucency = (TranslucencyStrength[profileIndex] + 1.0);
+782:     vec3 d = ((SLEAardvarkRenderDemo_translucency_getThickness_8xPjdgeImG_JzZAaa2Q6bQ(bias, lightIndex, wp, wn) * ((4.0 / translucency) / sssWidth)) / (sssFalloff + 0.001));
+783:     vec3 dd = ((-d) * d);
+784:     return ((sssStrength * ((((((0.233 * exp((dd / 0.0064))) + (0.1 * exp((dd / 0.0484)))) + (0.118 * exp((dd / 0.187)))) + (0.113 * exp((dd / 0.567)))) + (0.358 * exp((dd / 1.99)))) + (0.078 * exp((dd / 7.41))))) * clamp((0.3 + dot(l, (-wn))), 0, 1));
+785: }
+786: 
+787: layout(location = 0) in vec2 fs_DiffuseColorCoordinates;
+788: layout(location = 0) out vec4 DiffuseOut;
+789: layout(location = 1) out vec4 SpecularOut;
+790: void main()
+791: {
+792:     vec4 albedo = texture(color, fs_DiffuseColorCoordinates);
+793:     vec4 nr = texture(normal, fs_DiffuseColorCoordinates);
+794:     vec4 em = texture(emission, fs_DiffuseColorCoordinates);
+795:     vec4 cc = texture(clearCoat, fs_DiffuseColorCoordinates);
+796:     vec4 sheen1 = texture(sheen, fs_DiffuseColorCoordinates);
+797:     int sssProfileC = SLEAardvarkRenderDemo_GBuffer_extractProfileIndex_kBjDAbusFqtitZm3MIDG8g(albedo.w);
+798:     vec4 WorldPositionC = texture(wPos, fs_DiffuseColorCoordinates);
+799:     vec3 NormalsC = normalize(nr.xyz);
+800:     float MetallicC = ((albedo.w < 0.0) ? albedo.w : (((albedo.w / 10.0) - trunc((albedo.w / 10.0))) * 10.0));
+801:     vec4 ColorsC = vec4(albedo.xyz, 1.0);
+802:     vec3 ClearCoatNormalC = normalize(cc.xyz);
+803:     vec3 diffuseD = vec3(0.0, 0.0, 0.0);
+804:     vec3 specularD = vec3(0.0, 0.0, 0.0);
+805:     int last = (LightCount - 1);
+806:     for(int i = 0; (i <= last); i++)
+807:     {
+808:         tup_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d_Aardvark_Base_V3d patternInput = SLEAardvarkRenderDemo_PBR_directLighting_vnCcBOgIE00UaU7Ie8vn4HA(MetallicC, WorldPositionC, ColorsC, NormalsC, ClearCoatNormalC, cc.w, nr.w, sheen1.xyz, sheen1.w, em.w, LightArray[i]);
+809:         float shadow = (LightArray[i].castsShadow ? SLEAardvarkRenderDemo_Shadow_getShadow_drVRDjVo2yCzGHaYiSYnfg(i, WorldPositionC) : 1.0);
+810:         diffuseD = ((diffuseD + (patternInput.Item0 * shadow)) + ((sssProfileC < 0) ? vec3(0.0, 0.0, 0.0) : (patternInput.Item3 * SLEAardvarkRenderDemo_translucency_transm_Bl4M6jfPXl_isA8Cp9RBdQ(sssProfileC, i, WorldPositionC.xyz, NormalsC, patternInput.Item2))));
+811:         specularD = (specularD + (patternInput.Item1 * shadow));
+812:     }
+813:     tup_Aardvark_Base_V3d_Aardvark_Base_V3d patternInput1 = SLEAardvarkRenderDemo_PBR_ambientLight_FS3XKzAEzYSlAL1f00P5PLg(MetallicC, ColorsC, WorldPositionC, NormalsC, cc.w, nr.w, sheen1.xyz, sheen1.w, em.w, ClearCoatNormalC);
+814:     vec3 diffuse = (diffuseD + patternInput1.Item0);
+815:     vec3 specular = ((specularD + patternInput1.Item1) + em.xyz);
+816:     DiffuseOut = vec4(diffuse, 1.0);
+817:     SpecularOut = vec4(specular, 1.0);
+818: }
+819: 
+820: #endif
+
+ 2: WARNING: load
  2: texture created
  2: result created
  2: WARNING: load
  2: result created
  2: WARNING: AdaptiveRenderingResultCube.compute
- 2: [GL] RenderObjects: +1/-0 (450ms)
+ 2: [GL] RenderObjects: +1/-0 (487ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (4ms)
+ 2: [GL] RenderObjects: +1/-0 (3ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +61/-0 (1616ms)
- 2: using optimized native program
- 2: texture created
- 2: texture created
- 2: result created
- 2: texture created
- 2: result created
- 2: WARNING: load
- 2: texture created
- 2: result created
- 2: WARNING: AdaptiveRenderingResultCube.compute
  2: [GL] RenderObjects: +1/-0 (3ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +61/-0 (1622ms)
+ 2: using optimized native program
+ 2: texture created
+ 2: result created
+ 2: WARNING: AdaptiveRenderingResultCube.compute
+ 2: [GL] RenderObjects: +1/-0 (19ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
@@ -578,35 +1395,11 @@
  2: texture created
  2: result created
  2: WARNING: AdaptiveRenderingResultCube.compute
- 2: [GL] RenderObjects: +1/-0 (9ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (9ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (4ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (24ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
@@ -616,23 +1409,47 @@
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (44ms)
+ 2: [GL] RenderObjects: +1/-0 (7ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (19ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (1ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (43ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (36ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (10ms)
  2: using optimized native program
  2: [GL] RenderObjects: +1/-0 (2ms)
  2: using optimized native program
@@ -640,35 +1457,40 @@
  2: using optimized native program
  2: texture created
  2: result created
- 2: [GL] RenderObjects: +1/-0 (3ms)
+ 2: [GL] RenderObjects: +1/-0 (13ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +60/-0 (18ms)
- 2: using optimized native program
- 2: texture created
- 2: texture created
- 2: [GL] RenderObjects: +1/-0 (742ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (758ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2517ms)
+ 2: [GL] RenderObjects: +60/-0 (32ms)
  2: using optimized native program
  2: texture created
- 2: [GL] RenderObjects: +2/-0 (2525ms)
+ 2: texture created
+ 2: [GL] RenderObjects: +1/-0 (9489ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2553ms)
+ 2: texture created
+ 2: result created
+ 2: texture created
+ 2: texture created
+ 2: result created
+ 2: texture created
+ 2: [GL] RenderObjects: +1/-0 (5ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3425ms)
+ 2: [GL] RenderObjects: +1/-0 (32ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +2/-0 (9547ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (9584ms)
+ 2: using optimized native program
+ 2: [GL] RenderObjects: +1/-0 (10479ms)
  2: using optimized native program
  2: WARNING: AdaptiveRenderingResultCube.compute
  2: WARNING: AdaptiveRenderingResultCube.compute
  2: WARNING: AdaptiveRenderingResultCube.compute
  2: WARNING: load
  2: WARNING: load
- 2: [GL] RenderObjects: +8219/-60 (53510ms)
- 2: [GL] RenderObjects: +8219/-0 (3134ms)
+ 2: [GL] RenderObjects: +8219/-60 (68684ms)
+ 2: [GL] RenderObjects: +8219/-0 (4679ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +8219/-0 (3012ms)
+ 2: [GL] RenderObjects: +8219/-0 (3790ms)
  2: using optimized native program
- 2: [GL] RenderObjects: +8219/-0 (3529ms)
+ 2: [GL] RenderObjects: +8219/-0 (5723ms)
  2: using optimized native program
  3: [Client] 1: stopped

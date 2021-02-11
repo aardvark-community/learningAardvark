@@ -1025,10 +1025,10 @@ module SLEUniform =
                    p4 = V3d.Zero
                    toWorld = M44d.Identity
                    fromWorld = M44d.Identity
-                   lightViewProjMatrix = M44d.Identity
-                   lightViewMatrix = M44d.Identity
-                   shadowMapMinZ = 0.0
-                   shadowMapMaxZ = 0.0
+                   lightViewProjMatrix =  (viewM * projM).Forward
+                   lightViewMatrix = viewM.Forward
+                   shadowMapMinZ = minZ
+                   shadowMapMaxZ = maxZ
                  }
                return r
             | AdaptiveSphereLight  x' ->
@@ -1076,10 +1076,10 @@ module SLEUniform =
                    p4 = V3d.Zero
                    toWorld = M44d.Identity
                    fromWorld = M44d.Identity
-                   lightViewProjMatrix = M44d.Identity
-                   lightViewMatrix = M44d.Identity
-                   shadowMapMinZ = 0.0
-                   shadowMapMaxZ = 0.0
+                   lightViewProjMatrix =  (viewM * projM).Forward
+                   lightViewMatrix = viewM.Forward
+                   shadowMapMinZ = minZ
+                   shadowMapMaxZ = maxZ
                  }
                return r
             | AdaptiveRectangleLight  x' ->
@@ -1104,12 +1104,11 @@ module SLEUniform =
                    p4 = (toWorld *  V4d(+0.5*x.width,0.0,0.5*x.height, 1.0)).XYZ
                    toWorld = toWorld
                    fromWorld = toWorld.Inverse
-                   lightViewProjMatrix = M44d.Identity
-                   lightViewMatrix = M44d.Identity
-                   shadowMapMinZ = 0.0
-                   shadowMapMaxZ = 0.0
+                   lightViewProjMatrix =  (viewM * projM).Forward
+                   lightViewMatrix = viewM.Forward
+                   shadowMapMinZ = minZ
+                   shadowMapMaxZ = maxZ
                  }
-               Log.debug "p1 %A p2 %A p3 %A p4 %A" r.p1 r.p2 r.p3 r.p4
                return r        } 
  
     let uniformLightArray bb (lights : amap<int,AdaptiveLightCase>) = 
