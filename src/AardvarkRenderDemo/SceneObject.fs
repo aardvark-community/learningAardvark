@@ -53,11 +53,7 @@ module sceneObject =
 
     //load an external object into an mod and substitute the material definitions with PBR materials
     let object (m : AdaptiveSceneObject) = 
-        AVal.custom (fun toc ->
-            let f = m.file.GetValue toc
-            let o = Assimp.load f
-            o.SubstituteMaterial (fun mat -> Some ({Name = mat.name; Material = (AMap.find  mat.name m.materials)} :> IO.Loader.IMaterial))
-        )    
+        m.object
         |> AVal.map (fun (o :Scene) -> o.SubstituteMaterial (fun mat -> Some ({Name = mat.name; Material = (AMap.find  mat.name m.materials)} :> IO.Loader.IMaterial))) 
 
     // build a scene graph node for a object
