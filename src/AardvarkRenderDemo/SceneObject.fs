@@ -17,12 +17,9 @@ module sceneObject =
 
     //let emptyObject = {Scene.meshes = [||]; animantions = Map.empty; bounds = Box3d.Invalid; root = Empty; rootTrafo = Trafo3d.Identity}
 
-    let defaultObject = {name = "Default"; file  = ""; scale = 1.0; translation = V3d.Zero; rotation = V3d.Zero; materials = HashMap.empty;  currentMaterial = ""; materialLinks = HashMap.empty}
+    let defaultObject = {name = "Default"; file  = ""; scale = 1.0; translation = V3d.Zero; rotation = V3d.Zero; materials = HashMap.empty;  currentMaterial = ""; materialLinks = HashMap.empty; object = emptyScene}
 
     //add an external object to the scene model
-    //note that we have to import it to read the materiaal list but discart the import
-    //for rendering we import it again
-    //This is not very efficient, but happens only when adding a new object to a scene
     let loadObject (objects : HashMap<string,SceneObject>) (file : string) = 
 
         let rec uniqueName name =
@@ -41,7 +38,17 @@ module sceneObject =
             |> HashSet.toList
             |> List.first
             |> Option.defaultValue "none"
-        let obj = {name = name; file = file; scale = 1.0; translation = V3d.Zero; rotation = V3d.Zero; materials = materials;  currentMaterial = currentMaterial; materialLinks = HashMap.empty}
+        let obj = {
+            name = name
+            file = file
+            scale = 1.0
+            translation = V3d.Zero
+            rotation = V3d.Zero
+            materials = materials
+            currentMaterial = currentMaterial
+            materialLinks = HashMap.empty
+            object = import
+            }
         HashMap.add name obj objects , name
 
     //load an external object into an mod and substitute the material definitions with PBR materials
@@ -51,13 +58,13 @@ module sceneObject =
             let o = Assimp.load f
             o.SubstituteMaterial (fun mat -> Some ({Name = mat.name; Material = (AMap.find  mat.name m.materials)} :> IO.Loader.IMaterial))
         )    
+        |> AVal.map (fun (o :Scene) -> o.SubstituteMaterial (fun mat -> Some ({Name = mat.name; Material = (AMap.find  mat.name m.materials)} :> IO.Loader.IMaterial))) 
 
     // build a scene graph node for a object
     let sg (m : AdaptiveSceneObject) =
         m
         |> object
-        |> AVal.map (fun o ->
-        
+        |> AVal.map (fun o ->        
             o
             |> Sg.adapter
         )   
@@ -76,6 +83,47 @@ module sceneObject =
         aset {
             for _,o in AMap.toASet os do
                 let! s = sg o
+                yield s |> Sg.trafo (trafo o ) 
+        }
+        |> Sg.set  
+
+    let trimByMaterials (trimBy : HashSet<string>) (s : Scene) =
+        let rec traverse (n : Node) =
+                match n with
+                    | Node.Empty -> 
+                        Node.Empty
+                    | Node.Group es ->
+                        Node.Group (List.map traverse es)
+                    | Node.Leaf m ->
+                        Node.Leaf m
+                    | Node.Material(m, n) ->
+                        if trimBy |>  HashSet.contains m.name then
+                            Node.Empty
+                        else
+                            Node.Material(m, traverse n)
+                    | Node.Trafo(t, n) ->
+                        Node.Trafo(t, traverse n)
+        {s with root = traverse s.root}
+
+    let trimByMatrial (filter : string -> AdaptivePBRMaterial -> aval<bool>) (m : AdaptiveSceneObject)  =
+        let trimBy =
+            m.materials
+            |> AMap.filterA filter
+            |> AMap.keys
+            |> ASet.toAVal
+        let o  = object m
+        let o' = 
+            aval {
+                let! t = trimBy
+                let! obj = o
+                return trimByMaterials t obj |> Sg.adapter
+            }
+        o'
+
+    let objectsTrimByMaterial (filter : string -> AdaptivePBRMaterial -> aval<bool>) (os :amap<string,  AdaptiveSceneObject>) = 
+        aset {
+            for _,o in AMap.toASet os do
+                let! s = trimByMatrial filter o
                 yield s |> Sg.trafo (trafo o ) 
         }
         |> Sg.set  

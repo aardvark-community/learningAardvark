@@ -6,6 +6,7 @@ open FSharp.Data.Adaptive
 open Aardvark.UI.Primitives
 open Aardvark.SceneGraph
 open Adaptify
+open Aardvark.SceneGraph.IO
 
 (*
     The Domain Types forming the Model of the Elm-style App
@@ -121,6 +122,7 @@ type SceneObject = {
     materials : HashMap<string, PBRMaterial>
     currentMaterial : string
     materialLinks : HashMap<string, string> 
+    object : Loader.Scene
 }
 
 [<ModelType>]

@@ -5,18 +5,31 @@ open SLEAardvarkRenderDemo.Model
 open Aardvark.Base
 open Aardvark.UI.Primitives
 open FSharp.Data.Adaptive
+open Aardvark.SceneGraph.IO
 
 (*
     Scene save and load
 *)
 module projetIO =
 
+    type ExportSceneObject = {
+        //[<PrimaryKey>] 
+        name : string
+        file : string
+        scale : float
+        translation : V3d
+        rotation : V3d
+        materials : HashMap<string, PBRMaterial>
+        currentMaterial : string   
+        materialLinks : HashMap<string, string> 
+    }
+
     type ExportModel  = {
         cameraViewParams : V3d * V3d * V3d
         lights : HashMap<int, Light>
         enviorment : GlobalEnviorment
         expousure  : float
-        objects : HashMap<string, SceneObject>
+        objects : HashMap<string, ExportSceneObject>
         selectedObject : string
         toneMapping : ToneMapping
         bloom : Bloom
@@ -24,6 +37,35 @@ module projetIO =
         sssProfiles : HashMap<int, SssProfile>
     }
 
+    let toExportSceneObject (o : SceneObject) =
+        let o' : ExportSceneObject =
+            {
+                name = o.name
+                file = o.file
+                scale = o.scale
+                translation = o.translation
+                rotation = o.rotation
+                materials = o.materials
+                currentMaterial = o.currentMaterial  
+                materialLinks = o.materialLinks
+            }
+        o'
+
+    let toSceneObject (o : ExportSceneObject) (p :string)=
+        let absoluteF =  System.IO.Path.Combine(p, o.file)
+        let o' : SceneObject =
+            {
+                name = o.name
+                file = o.file
+                scale = o.scale
+                translation = o.translation
+                rotation = o.rotation
+                materials = o.materials
+                currentMaterial = o.currentMaterial  
+                materialLinks = o.materialLinks
+                object =  Loader.Assimp.load absoluteF
+            }
+        o'
     //store all file paths relative to the dir of the scene file
     let mapFileNames (mapper : string -> string) (m : Model) (f :string) =
         {m with 
@@ -61,15 +103,16 @@ module projetIO =
             bloom = m'.bloom
             fxAA  =m'.fxAA
             toneMapping = m'.toneMapping
-            objects = m'.objects
+            objects = m'.objects |> HashMap.map (fun _ o -> toExportSceneObject o)
             selectedObject = m'.selectedObject
             sssProfiles = m'.sssProfiles
         }
 
-    let fromExportModel (em : ExportModel) f =
+    let fromExportModel (em : ExportModel) (f : string) =
         let cameraConfig  =  {FreeFlyController.initial.freeFlyConfig with zoomMouseWheelSensitivity = 0.5} 
         let l,c,s = em.cameraViewParams
         let initialView = CameraView.look l c s
+        let p = System.IO.Path.GetFullPath(System.IO.Path.GetDirectoryName(f))
         let m = {
             cameraState = {FreeFlyController.initial  with freeFlyConfig = cameraConfig; view = initialView}
             lights  = em.lights
@@ -78,7 +121,7 @@ module projetIO =
             toneMapping = em.toneMapping
             fxAA = em.fxAA
             bloom = em.bloom
-            objects = em.objects
+            objects = em.objects |> HashMap.map (fun _ o -> toSceneObject o p)
             selectedObject = em.selectedObject
             sssProfiles = em.sssProfiles
         }

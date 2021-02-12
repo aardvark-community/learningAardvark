@@ -199,9 +199,13 @@ module Loader =
                 root = replaceMeshes x.root
             }
 
-
-
-
+    let emptyScene = {
+            meshes      = Array.empty
+            animantions = Map.empty
+            bounds   = Box3d.FromMinAndSize(V3d.Zero,V3d.Zero)
+            root   = Empty 
+            rootTrafo   = Trafo3d.Identity
+        }
 
     module SgSems =
         open Aardvark.Base.Ag

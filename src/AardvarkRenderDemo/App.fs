@@ -147,6 +147,8 @@ module App =
 
         let scene = m.objects |> sceneObject.objects 
 
+        //let scene = m.objects |> sceneObject.objectsTrimByMaterial (fun _ mat -> AVal.map (fun v -> v > 0.0) mat.metallic.factor)
+        
         //render the speical sky map to a texture cube
         //Ardvark will only rexecute this if the skyMap or rotation changes
         let skyBoxTexture = SkyBox.getTexture runtime m.enviorment.skyMap m.enviorment.skyMapRotation
@@ -267,15 +269,6 @@ module App =
 
         let frustum = 
             Frustum.perspective 30.0 0.1 100.0 1.0 
-
-        //generate sceen graph from the objects 
-        let objects = 
-            aset {
-                for _,o in AMap.toASet m.objects do
-                    let! s = sceneObject.sg o
-                    yield s |> Sg.trafo (sceneObject.trafo o ) 
-            }
-            |> Sg.set  
 
         let att =
             [
