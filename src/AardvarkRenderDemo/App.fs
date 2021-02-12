@@ -137,13 +137,15 @@ module App =
             { m with sssProfiles = sssProfiles.update m.sssProfiles msg }
 
      //main render task: put all passes together for deferred rendering
-    let compileDeffered (scene : ISg<'msg>) (m : AdaptiveModel) (values : Aardvark.Service.ClientValues)=
+    let compileDeffered (m : AdaptiveModel) (values : Aardvark.Service.ClientValues)=
         let outputSignature = values.signature
         let view = values.viewTrafo
         let proj = values.projTrafo
         let camFoVy = radians 30.0
         let size = values.size |> AVal.map (fun s -> V2i(max 1 s.X, max 1 s.Y))
         let runtime = outputSignature.Runtime
+
+        let scene = m.objects |> sceneObject.objects 
 
         //render the speical sky map to a texture cube
         //Ardvark will only rexecute this if the skyMap or rotation changes
@@ -282,7 +284,7 @@ module App =
                // attribute "data-renderalways" "1"
             ]
 
-        let t = compileDeffered objects m
+        let t = compileDeffered m
         RenderControl att m.cameraState frustum t
 
     // main view for UI and  
