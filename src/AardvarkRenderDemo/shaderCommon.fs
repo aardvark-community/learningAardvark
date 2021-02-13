@@ -48,6 +48,8 @@ module shaderCommon =
 
         member  x.SssProfileIndex :  int =  x?SssProfileIndex
 
+        member  x.Transparency :  float =  x?Transparency
+
     let internal skyBoxTrafo (v : Vertex) =
         vertex {
             let wp = uniform.ModelTrafo * v.pos
@@ -130,6 +132,14 @@ module shaderCommon =
             addressV WrapMode.Wrap
         }
 
+    let private transparencySampler =
+        sampler2d {
+            texture uniform?SheenColorTexture
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
     type Fragment = {
         [<WorldPosition>]   wp      : V4d
         [<Normal>]          n       : V3d
@@ -160,11 +170,12 @@ module shaderCommon =
             let clearCoatRoughness = uniform.ClearCoatRoughness * clearCoatRoughnessSampler.Sample(frag.tc).X
             let sheenColor =  pow ( uniform.SheenColor * uniform.SheenColorFactor * sheenColorSampler.Sample(frag.tc).XYZ) (V3d(gamma))
             let sheenRoughness = uniform.SheenRoughness * sheenRoughnessSampler.Sample(frag.tc).X
+            let alpha = 1.0 - uniform.Transparency * transparencySampler.Sample(frag.tc).X
 
             let m = 10.0 * float uniform.SssProfileIndex + metallic
 
             return { frag with   
-                        c = V4d(albedo,1.0)
+                        c = V4d(albedo,alpha)
                         metallic = metallic
                         roughness = roughness
                         n = frag.n |> Vec.normalize

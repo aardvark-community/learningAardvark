@@ -94,6 +94,10 @@ type SssProfile =  {
     TranslucencyBias : float
 }
 
+type TransparencyType =
+    | PartialCoverage = 0
+    | Transmission = 1
+
 [<ModelType>]
 type PBRMaterial = {
     metallic  : TextureMappedValue
@@ -109,6 +113,8 @@ type PBRMaterial = {
     sheenColor : TextureMappedColor
     sheenRoughness : TextureMappedValue
     SssProfileIndex : int option
+    transparency : TextureMappedValue
+    transparencyType : TransparencyType
 }
 
 [<ModelType>]

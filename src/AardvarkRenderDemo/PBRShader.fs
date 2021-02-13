@@ -15,7 +15,7 @@ open System
 module PBR =
     open fshadeExt
     open BRDF
-    open GBuffer
+    open shaderCommon
 
     type ShadeingType =
         | Standard = 0

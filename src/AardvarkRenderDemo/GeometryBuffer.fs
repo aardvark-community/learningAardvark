@@ -22,6 +22,7 @@ open Aardvark.Base.Rendering.Effects
 
     let gBufferShader (vert : shaderCommon.Fragment) =
         fragment {
+            if vert.c.W < 1.0 then discard()//render only fully opaque fragemnts to gBuffer
             let m = 10.0 * float vert.sssProfile + vert.metallic
 
             return {wp = vert.wp
@@ -89,6 +90,7 @@ module GeometryBuffer  =
 
 module GBuffer = 
     open FShade
+    open shaderCommon
     
     let wPos =
         sampler2d {
@@ -145,22 +147,6 @@ module GBuffer =
             addressV WrapMode.Clamp
             filter Filter.MinMagLinear
         }
-
-    type Fragment = {
-        [<WorldPosition>]   wp      : V4d
-        [<Normal>]          n       : V3d
-        [<Color>]           c       : V4d
-        [<TexCoord>]        tc      : V2d
-        [<Semantic("Metallic")>] metallic    : float
-        [<Semantic("Roughness")>] roughness    : float
-        [<Semantic("Emission")>] emission    : V3d
-        [<Semantic("ClearCoat")>] clearCoat    : float
-        [<Semantic("ClearCoatRoughness")>] clearCoatRoughness    : float
-        [<Semantic("ClearCoatNormal")>] clearCoatNormal    : V3d
-        [<Semantic("sheenRoughness")>] sheenRoughness    : float
-        [<Semantic("sheenColor")>] sheenColor : V3d
-        [<Semantic("sssProfile")>] sssProfile : int
-    }
 
     //the profile index is packed together with metallic in the W comaponent of the albedo gBuffer texture
     [<ReflectedDefinition>]

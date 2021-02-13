@@ -69,7 +69,7 @@ module App =
     }
 
     let initial = 
-        let file = !!["initial_scene.json"]
+        let file = !!["initial_scenex.json"]
         if (System.IO.File.Exists file)
         then 
            projetIO.load file
@@ -148,7 +148,7 @@ module App =
         let scene = m.objects |> sceneObject.objects 
 
         //let scene = m.objects |> sceneObject.objectsTrimByMaterial (fun _ mat -> AVal.map (fun v -> v > 0.0) mat.metallic.factor)
-        
+
         //render the speical sky map to a texture cube
         //Ardvark will only rexecute this if the skyMap or rotation changes
         let skyBoxTexture = SkyBox.getTexture runtime m.enviorment.skyMap m.enviorment.skyMapRotation
