@@ -109,7 +109,7 @@ type PBRMaterial = {
     sheenColor : TextureMappedColor
     sheenRoughness : TextureMappedValue
     SssProfileIndex : int option
-    transparency : TextureMappedValue
+    coverage : TextureMappedValue
     transmission : TextureMappedColor
 }
 

@@ -22,6 +22,7 @@
     <Compile Include="combine.fs" />
     <Compile Include="shadow.fs" />
     <Compile Include="translucency.fs" />
+    <Compile Include="transparencyWBOTI.fs" />
     <Compile Include="GeometryBuffer.fs" />
     <Compile Include="brdf.fs" />
     <Compile Include="LightShader.fs" />

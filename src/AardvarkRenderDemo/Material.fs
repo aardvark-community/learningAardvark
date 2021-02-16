@@ -65,7 +65,7 @@ module material =
             factor = 0.8
         }
         SssProfileIndex = None
-        transparency = {
+        coverage = {
             fileName = None
             factor = 0.0
         }
@@ -205,12 +205,12 @@ module material =
                         | None ->  false
             } :> IAdaptiveValue
 
-        member x.TransparencyMap =               
+        member x.CoverageMap =               
             let loadTex f =
                 f
                 |> Option.map (fun f -> FileTexture(f, TextureParams.empty) :> ITexture)
                 |> Option.defaultValue (onPixTex C3f.White)
-            AVal.bind (fun (m : AdaptivePBRMaterial)-> m.transparency.fileName |> AVal.map loadTex)  x.Material :> IAdaptiveValue
+            AVal.bind (fun (m : AdaptivePBRMaterial)-> m.coverage.fileName |> AVal.map loadTex)  x.Material :> IAdaptiveValue
 
         interface IO.Loader.IMaterial with
 
@@ -242,8 +242,8 @@ module material =
                 | "SheenColor" -> Some  (AVal.bind (fun (m : AdaptivePBRMaterial)-> AVal.map2 (*) m.sheenColor.color  m.sheenColor.factor) x.Material :> IAdaptiveValue)
                 | "SheenRoughness" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.sheenRoughness.factor) x.Material :> IAdaptiveValue)
                 | "SheenRoughnessMap" -> Some x.SheenRoughnessMap 
-                | "Transparency" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.transparency.factor) x.Material :> IAdaptiveValue)
-                | "TransparencyMap" -> Some x.TransparencyMap 
+                | "Coverage" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.coverage.factor) x.Material :> IAdaptiveValue)
+                | "CoverageTexture" -> Some x.CoverageMap 
                 | "TransmissionColorTexture" -> Some (x.TransmissionColorMap :> IAdaptiveValue)
                 | "Transmission" ->  Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> AVal.map2 (*) m.transmission.color  m.transmission.factor) x.Material :> IAdaptiveValue)
                 | "SssProfileIndex" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> AVal.map (Option.defaultValue 10) m.SssProfileIndex) x.Material :> IAdaptiveValue)
@@ -390,7 +390,7 @@ module materialControl =
         | SetClearCoatNormal of textureMappedValueControl.Message
         | SetSheenColor of textureMappedColorControl.Message
         | SetSheenRoughness of textureMappedValueControl.Message
-        | SetTransparency of textureMappedValueControl.Message
+        | SetCoverage of textureMappedValueControl.Message
         | SetTransmission of  textureMappedColorControl.Message
         | SetSssProfile of int option
 
@@ -409,7 +409,7 @@ module materialControl =
         | SetSheenRoughness msg' -> { m with  sheenRoughness = textureMappedValueControl.update m.sheenRoughness msg'}
         | SetSheenColor msg' -> { m with  sheenColor = textureMappedColorControl.update m.sheenColor msg'}
         | SetSssProfile p -> {m with SssProfileIndex = p}
-        | SetTransparency msg' -> { m with  transparency = textureMappedValueControl.update m.transparency msg'}
+        | SetCoverage msg' -> { m with  coverage = textureMappedValueControl.update m.coverage msg'}
         | SetTransmission msg' -> { m with transmission = textureMappedColorControl.update m.transmission msg'}
 
     let view (m : AdaptivePBRMaterial) (profiles : amap<int,AdaptiveSssProfile>)=
@@ -437,7 +437,7 @@ module materialControl =
             textureMappedValueControl.view textureMappedValueControl.Linear "Roughness" 0.0 1.0 0.01 m.roughness  |> UI.map SetRoughness
             textureMappedColorControl.view textureMappedColorControl.Linear "Albedo" 0.0 1.0 0.01 m.albedo  |> UI.map SetAlbedo
             textureMappedValueControl.view textureMappedValueControl.Linear "Normal Map" 0.0 1.0 0.01 m.normal  |> UI.map SetNormal
-            textureMappedValueControl.view textureMappedValueControl.Linear "Transparency" 0.0 1.0 0.01 m.transparency  |> UI.map SetTransparency
+            textureMappedValueControl.view textureMappedValueControl.Linear "Coverage" 0.0 1.0 0.01 m.coverage  |> UI.map SetCoverage
             textureMappedColorControl.view textureMappedColorControl.Linear "Transmission" 0.0 1.0 0.01 m.transmission  |> UI.map SetTransmission
             textureMappedValueControl.view textureMappedValueControl.Linear "Clear Coat" 0.0 1.0 0.01 m.clearCoat  |> UI.map SetClearCoat
             textureMappedValueControl.view textureMappedValueControl.Linear "Clear Coat Roughness" 0.0 1.0 0.01 m.clearCoatRoughness  |> UI.map SetClearCoatRoughness

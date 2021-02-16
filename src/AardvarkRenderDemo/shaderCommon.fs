@@ -42,7 +42,7 @@ module shaderCommon =
 
         member  x.SssProfileIndex :  int =  x?SssProfileIndex
 
-        member  x.Transparency :  float =  x?Transparency
+        member  x.Coverage :  float =  x?Coverage
 
         member  x.Transmission :  V3d =  x?Transmission
 
@@ -128,9 +128,9 @@ module shaderCommon =
             addressV WrapMode.Wrap
         }
 
-    let private transparencySampler =
+    let private coverageSampler =
         sampler2d {
-            texture uniform?SheenColorTexture
+            texture uniform?CoverageTexture
             filter Filter.MinMagMipLinear
             addressU WrapMode.Wrap
             addressV WrapMode.Wrap
@@ -175,7 +175,7 @@ module shaderCommon =
             let clearCoatRoughness = uniform.ClearCoatRoughness * clearCoatRoughnessSampler.Sample(frag.tc).X
             let sheenColor =  pow ( uniform.SheenColor * sheenColorSampler.Sample(frag.tc).XYZ) (V3d(gamma))
             let sheenRoughness = uniform.SheenRoughness * sheenRoughnessSampler.Sample(frag.tc).X
-            let alpha = 1.0 - uniform.Transparency * transparencySampler.Sample(frag.tc).X
+            let alpha = 1.0 - uniform.Coverage * coverageSampler.Sample(frag.tc).X
             let transmission = pow (uniform.Transmission * transmissionSampler.Sample(frag.tc).XYZ) (V3d(gamma))
             let m = 10.0 * float uniform.SssProfileIndex + metallic
 
