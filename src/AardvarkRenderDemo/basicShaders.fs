@@ -24,6 +24,9 @@ module fshadeExt =
     [<GLSLIntrinsic("max({0}.x,max({0}.y,{0}.z))")>] // Define function as intrinsic, no implementation needed
     let max3 (a : V3d) : float = Vec.NormMax(a)
 
+    [<GLSLIntrinsic("min({0}.x,min({0}.y,{0}.z))")>]
+    let min3 (a : V3d) : float = min a.X a.Y |> min a.Z
+    
 module  displacemntMap =
     //simple  displacement mapping, I am not realy happy with the results.
 

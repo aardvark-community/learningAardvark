@@ -22,7 +22,7 @@ open Aardvark.Base.Rendering.Effects
 
     let gBufferShader (vert : shaderCommon.Fragment) =
         fragment {
-            if vert.c.W < 1.0 then discard()//render only fully opaque fragemnts to gBuffer
+            if min3 (vert.c.W * (V3d.III - vert.transmission)) < 1.0 then discard()//render only fully opaque fragments to gBuffer
             let m = 10.0 * float vert.sssProfile + vert.metallic
 
             return {wp = vert.wp
@@ -179,6 +179,7 @@ module GBuffer =
                     sheenColor = sheen.XYZ
                     sheenRoughness = sheen.W
                     sssProfile = sssProfile 
+                    transmission = V3d.OOO
                    }
         }
 

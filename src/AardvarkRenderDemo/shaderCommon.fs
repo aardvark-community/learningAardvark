@@ -20,10 +20,6 @@ module shaderCommon =
 
         member x.Metallic : float = x?Metallic
 
-        member x.AlbedoFactor : float = x?AlbedoFactor
-
-        member x.EmissionFactor : float = x?EmissionFactor
-
         member x.EmissionColor : V3d =  x?EmissionColor
 
         member x.Discard : bool =  x?Discard
@@ -40,8 +36,6 @@ module shaderCommon =
 
         member x.NormalMapStrength : float =  x?NormalMapStrength
 
-        member x.SheenColorFactor : float = x?SheenColorFactor
-
         member x.SheenColor : V3d =  x?SheenColor
 
         member  x.SheenRoughness :  float =  x?SheenRoughness
@@ -49,6 +43,8 @@ module shaderCommon =
         member  x.SssProfileIndex :  int =  x?SssProfileIndex
 
         member  x.Transparency :  float =  x?Transparency
+
+        member  x.Transmission :  V3d =  x?Transmission
 
     let internal skyBoxTrafo (v : Vertex) =
         vertex {
@@ -140,6 +136,14 @@ module shaderCommon =
             addressV WrapMode.Wrap
         }
 
+    let private transmissionSampler =
+        sampler2d {
+            texture uniform?TransmissionColorTexture
+            filter Filter.MinMagMipLinear
+            addressU WrapMode.Wrap
+            addressV WrapMode.Wrap
+        }
+
     type Fragment = {
         [<WorldPosition>]   wp      : V4d
         [<Normal>]          n       : V3d
@@ -154,6 +158,7 @@ module shaderCommon =
         [<Semantic("sheenRoughness")>] sheenRoughness    : float
         [<Semantic("sheenColor")>] sheenColor : V3d
         [<Semantic("sssProfile")>] sssProfile : int
+        [<Semantic("Transmission")>] transmission : V3d
     }
 
 
@@ -162,16 +167,16 @@ module shaderCommon =
             if uniform.Discard then
                 discard()
             let gamma  = 2.2
-            let albedo = pow (frag.c.XYZ * uniform.AlbedoFactor) (V3d(gamma))
+            let albedo = pow frag.c.XYZ (V3d(gamma))
             let metallic = uniform.Metallic * metallicSampler.Sample(frag.tc).X
             let roughness = uniform.Roughness * roughnessSampler.Sample(frag.tc).X
-            let emission = uniform.EmissionColor * uniform.EmissionFactor * emissionSampler.Sample(frag.tc).XYZ
+            let emission = uniform.EmissionColor * emissionSampler.Sample(frag.tc).XYZ
             let clearCoat = uniform.ClearCoat * clearCoatSampler.Sample(frag.tc).X
             let clearCoatRoughness = uniform.ClearCoatRoughness * clearCoatRoughnessSampler.Sample(frag.tc).X
-            let sheenColor =  pow ( uniform.SheenColor * uniform.SheenColorFactor * sheenColorSampler.Sample(frag.tc).XYZ) (V3d(gamma))
+            let sheenColor =  pow ( uniform.SheenColor * sheenColorSampler.Sample(frag.tc).XYZ) (V3d(gamma))
             let sheenRoughness = uniform.SheenRoughness * sheenRoughnessSampler.Sample(frag.tc).X
             let alpha = 1.0 - uniform.Transparency * transparencySampler.Sample(frag.tc).X
-
+            let transmission = pow (uniform.Transmission * transmissionSampler.Sample(frag.tc).XYZ) (V3d(gamma))
             let m = 10.0 * float uniform.SssProfileIndex + metallic
 
             return { frag with   
@@ -186,6 +191,7 @@ module shaderCommon =
                         sheenRoughness = sheenRoughness
                         sheenColor = sheenColor
                         sssProfile = uniform.SssProfileIndex
+                        transmission = transmission
                         }
         }
 
@@ -211,6 +217,7 @@ module shaderCommon =
                         sheenRoughness = 0.0
                         sheenColor = V3d.OOO
                         sssProfile = -1
+                        transmission = V3d.OOO
                         }
         }
 
@@ -265,5 +272,6 @@ module shaderCommon =
                         sheenRoughness = 0.0
                         sheenColor = V3d.OOO
                         sssProfile = -1
+                        transmission = V3d.OOO
                         }
         }

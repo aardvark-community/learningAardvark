@@ -83,26 +83,6 @@ module Shadow =
     type UniformScope with
          member x.LightArray : Arr<N<80>,SLEUniform.Light> = x?LightArray
 
-
-   (* let private samplerShadowMap =
-        sampler2dShadow {
-            texture uniform?ShadowMap
-            filter Filter.MinMagLinear
-            addressU WrapMode.Border
-            addressV WrapMode.Border
-            borderColor C4f.White
-            comparison ComparisonFunction.LessOrEqual
-        }
-
-    let private samplerShadowMapTex =
-        sampler2d {
-            texture uniform?ShadowMap
-            filter Filter.MinMagLinear
-            addressU WrapMode.Border
-            addressV WrapMode.Border
-            borderColor C4f.White
-        }
-*)
     let samplerShadowMapTexArray = 
         sampler2d {
             textureArray uniform?ShadowMapArray 30

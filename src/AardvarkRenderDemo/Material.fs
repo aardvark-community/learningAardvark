@@ -69,7 +69,11 @@ module material =
             fileName = None
             factor = 0.0
         }
-        transparencyType = TransparencyType.PartialCoverage
+        transmission ={
+            fileName = None
+            color = C3d.White
+            factor = 0.0
+        }
     }
 
     let onePxPix (color :C3f)= 
@@ -165,6 +169,15 @@ module material =
                         | None ->  onPixTex C3f.White
             }
 
+        member x.TransmissionColorMap =
+            adaptive {
+                let! m = x.Material 
+                let! f = m.transmission.fileName
+                return match f with
+                        | Some file -> FileTexture(file, TextureParams.empty) :> ITexture
+                        | None ->  onPixTex C3f.White
+            }
+
         member x.ClearCoatNormalMap =
             adaptive {
                 let! m = x.Material 
@@ -210,16 +223,14 @@ module material =
                 | "Roughness" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.roughness.factor) x.Material :> IAdaptiveValue)
                 | "RoughnessMap" -> Some x.RoughnessMap 
                 | "AlbedoColorTexture" -> Some (x.AlbedoMap :> IAdaptiveValue)
-                | "AlbedoFactor" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.albedo.factor) x.Material :> IAdaptiveValue)
+                | "AlbedoColor" -> Some  (AVal.bind (fun (m : AdaptivePBRMaterial)-> AVal.map2 (*) m.albedo.color  m.albedo.factor ) x.Material :> IAdaptiveValue)
                 | "NormalMapStrength" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.normal.factor) x.Material :> IAdaptiveValue)
                 | "NormalMapTexture" -> Some (x.NormalMap :> IAdaptiveValue)
                 | "Discard" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.discard) x.Material :> IAdaptiveValue)
                 | "DisplacmentStrength" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.displacment.factor) x.Material :> IAdaptiveValue)
                 | "DisplacmentMap" -> Some x.DisplacemntMap 
-                | "AlbedoColor" -> Some  (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.albedo.color) x.Material :> IAdaptiveValue)
                 | "EmissionTexture" -> Some (x.EmissionMap :> IAdaptiveValue)
-                | "EmissionColor" -> Some  (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.emission.color) x.Material :> IAdaptiveValue)
-                | "EmissionFactor" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.emission.factor) x.Material :> IAdaptiveValue)
+                | "EmissionColor" -> Some  (AVal.bind (fun (m : AdaptivePBRMaterial)->  AVal.map2 (*) m.emission.color  m.emission.factor) x.Material :> IAdaptiveValue)
                 | "ClearCoat" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.clearCoat.factor) x.Material :> IAdaptiveValue)
                 | "ClearCoatMap" -> Some x.ClearCoatMap 
                 | "ClearCoatRoughness" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.clearCoatRoughness.factor) x.Material :> IAdaptiveValue)
@@ -228,13 +239,13 @@ module material =
                 | "ClearCoatNormalMapTexture" -> Some x.ClearCoatNormalMap
                 | "UseNormalsForClearCoat" -> Some x.UseNormalsForClearCoat
                 | "SheenColorTexture" -> Some (x.SheenColorMap :> IAdaptiveValue)
-                | "SheenColorFactor" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.sheenColor.factor) x.Material :> IAdaptiveValue)
-                | "SheenColor" -> Some  (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.sheenColor.color) x.Material :> IAdaptiveValue)
+                | "SheenColor" -> Some  (AVal.bind (fun (m : AdaptivePBRMaterial)-> AVal.map2 (*) m.sheenColor.color  m.sheenColor.factor) x.Material :> IAdaptiveValue)
                 | "SheenRoughness" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.sheenRoughness.factor) x.Material :> IAdaptiveValue)
                 | "SheenRoughnessMap" -> Some x.SheenRoughnessMap 
                 | "Transparency" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.transparency.factor) x.Material :> IAdaptiveValue)
                 | "TransparencyMap" -> Some x.TransparencyMap 
-                | "TransparencyType" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.transparencyType) x.Material :> IAdaptiveValue)
+                | "TransmissionColorTexture" -> Some (x.TransmissionColorMap :> IAdaptiveValue)
+                | "Transmission" ->  Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> AVal.map2 (*) m.transmission.color  m.transmission.factor) x.Material :> IAdaptiveValue)
                 | "SssProfileIndex" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> AVal.map (Option.defaultValue 10) m.SssProfileIndex) x.Material :> IAdaptiveValue)
                 | _ -> None
             
@@ -380,7 +391,7 @@ module materialControl =
         | SetSheenColor of textureMappedColorControl.Message
         | SetSheenRoughness of textureMappedValueControl.Message
         | SetTransparency of textureMappedValueControl.Message
-        | SetTransparencyType of TransparencyType
+        | SetTransmission of  textureMappedColorControl.Message
         | SetSssProfile of int option
 
     let update  (m : PBRMaterial) (msg : Message)  =
@@ -399,7 +410,7 @@ module materialControl =
         | SetSheenColor msg' -> { m with  sheenColor = textureMappedColorControl.update m.sheenColor msg'}
         | SetSssProfile p -> {m with SssProfileIndex = p}
         | SetTransparency msg' -> { m with  transparency = textureMappedValueControl.update m.transparency msg'}
-        | SetTransparencyType t -> { m with transparencyType = t}
+        | SetTransmission msg' -> { m with transmission = textureMappedColorControl.update m.transmission msg'}
 
     let view (m : AdaptivePBRMaterial) (profiles : amap<int,AdaptiveSssProfile>)=
         let ProfilList = 
@@ -427,9 +438,7 @@ module materialControl =
             textureMappedColorControl.view textureMappedColorControl.Linear "Albedo" 0.0 1.0 0.01 m.albedo  |> UI.map SetAlbedo
             textureMappedValueControl.view textureMappedValueControl.Linear "Normal Map" 0.0 1.0 0.01 m.normal  |> UI.map SetNormal
             textureMappedValueControl.view textureMappedValueControl.Linear "Transparency" 0.0 1.0 0.01 m.transparency  |> UI.map SetTransparency
-            Html.table [   
-                 tr [] [ td [] [text "TransparencyType"]; td [style "width: 70%;"] [Html.SemUi.dropDown m.transparencyType  SetTransparencyType]]                     
-            ]   
+            textureMappedColorControl.view textureMappedColorControl.Linear "Transmission" 0.0 1.0 0.01 m.transmission  |> UI.map SetTransmission
             textureMappedValueControl.view textureMappedValueControl.Linear "Clear Coat" 0.0 1.0 0.01 m.clearCoat  |> UI.map SetClearCoat
             textureMappedValueControl.view textureMappedValueControl.Linear "Clear Coat Roughness" 0.0 1.0 0.01 m.clearCoatRoughness  |> UI.map SetClearCoatRoughness
             textureMappedValueControl.view textureMappedValueControl.Linear "Clear Coat Normal" 0.0 1.0 0.01 m.clearCoatNormal  |> UI.map SetClearCoatNormal
