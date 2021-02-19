@@ -229,8 +229,8 @@ module PBR =
                 let diffuseDi, specularDi, lDir, simpleIllumn = 
                     directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness uniform.LightArray.[i]
                 let shadow = if uniform.LightArray.[i].castsShadow then Shadow.getShadow i frag.wp else  1.0
-                let transmission =  simpleIllumn * translucency.transm frag.sssProfile i frag.wp.XYZ frag.n lDir
-                diffuseD  <- diffuseD  + diffuseDi * shadow + transmission
+                let translucency =  simpleIllumn * translucency.transm frag.sssProfile i frag.wp.XYZ frag.n lDir
+                diffuseD  <- diffuseD  + diffuseDi * shadow + translucency
                 specularD <- specularD + specularDi * shadow
             let diffuseO, specularO = 
                 ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal
@@ -251,8 +251,8 @@ module PBR =
                 let diffuseDi, specularDi, lDir, simpleIllumn = 
                     directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness uniform.LightArray.[i]
                 let shadow = if uniform.LightArray.[i].castsShadow then Shadow.getShadow i frag.wp else  1.0
-                let transmission = if frag.sssProfile < 0 then V3d.Zero else simpleIllumn * translucency.transm frag.sssProfile i frag.wp.XYZ frag.n lDir    
-                diffuseD  <- diffuseD  + diffuseDi * shadow + transmission
+                let translucency = if frag.sssProfile < 0 then V3d.Zero else simpleIllumn * translucency.transm frag.sssProfile i frag.wp.XYZ frag.n lDir    
+                diffuseD  <- diffuseD  + diffuseDi * shadow + translucency
                 specularD <- specularD + specularDi * shadow
             let diffuseO, specularO = 
                 ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal
