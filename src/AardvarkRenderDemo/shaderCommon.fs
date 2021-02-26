@@ -1,9 +1,9 @@
 namespace SLEAardvarkRenderDemo
 
 open Aardvark.Base
-open Aardvark.Base.Rendering
+open Aardvark.Rendering
 open FShade
-open Aardvark.Base.Rendering.Effects
+open Aardvark.Rendering.Effects
 open System
 
 module shaderCommon = 
@@ -175,9 +175,8 @@ module shaderCommon =
             let clearCoatRoughness = uniform.ClearCoatRoughness * clearCoatRoughnessSampler.Sample(frag.tc).X
             let sheenColor =  pow ( uniform.SheenColor * sheenColorSampler.Sample(frag.tc).XYZ) (V3d(gamma))
             let sheenRoughness = uniform.SheenRoughness * sheenRoughnessSampler.Sample(frag.tc).X
-            let alpha = 1.0 - uniform.Coverage * coverageSampler.Sample(frag.tc).X
+            let alpha = uniform.Coverage * coverageSampler.Sample(frag.tc).X
             let transmission = pow (uniform.Transmission * transmissionSampler.Sample(frag.tc).XYZ) (V3d(gamma))
-            let m = 10.0 * float uniform.SssProfileIndex + metallic
 
             return { frag with   
                         c = V4d(albedo,alpha)
@@ -197,8 +196,7 @@ module shaderCommon =
 
     let skyGetMatrialValues (frag : Fragment) =
         fragment {
-            let gamma  = 2.2
-            
+           
             let lPos  = frag.wp.XYZ |> Vec.normalize
             let texColor = skySampler.Sample(lPos).XYZ
   

@@ -2,7 +2,7 @@ namespace Aardvark.SceneGraph.IO
 
 open Aardvark.Base
 open Aardvark.Base.Sorting
-open Aardvark.Base.Rendering
+open Aardvark.Rendering
 open FSharp.Data.Adaptive
 
 #nowarn "9"
@@ -366,24 +366,13 @@ module Loader =
 
         [<AutoOpen>]
         module Conversions =
-            let private additiveBlending = 
-                BlendMode(
-                    true, 
-                    SourceFactor = BlendFactor.One, 
-                    DestinationFactor = BlendFactor.One,
-                    Operation = BlendOperation.Add,
-                    SourceAlphaFactor = BlendFactor.One,
-                    DestinationAlphaFactor = BlendFactor.One,
-                    AlphaOperation = BlendOperation.Add
-                )
-
             let toC4f (c : Assimp.Color4D) =
                 C4f(c.R, c.G, c.B, c.A)
 
             let toBlendMode (m : Assimp.BlendMode) =
                 match m with
                     | Assimp.BlendMode.Default -> BlendMode.None
-                    | Assimp.BlendMode.Additive -> additiveBlending
+                    | Assimp.BlendMode.Additive -> BlendMode.Add
                     | _ -> failwithf "[Assimp] unknown blend-mode: %A" m
 
             let toSemantic (t : Assimp.TextureType) =
@@ -526,7 +515,7 @@ module Loader =
 
             let toV2d (v : Assimp.Vector2D) =
                 V2d(v.X, v.Y)
-
+               
             let toQuaternion (v : Assimp.Quaternion) =
                 QuaternionD(float v.W, float v.X, float v.Y, float v.Z)
 
@@ -767,18 +756,18 @@ module Loader =
 
 
 
-        [<CompiledName("Initialize")>]
-        let initialize () =
-            Log.start "unpacking native dependencies for assimp"
-            let r = 
-                try
-                    DynamicLinker.tryUnpackNativeLibrary "Assimp"
-                with e -> 
-                    Log.warn "failed to unpack native dependencies: %s" e.Message
-                    false
-            Log.stop ()
-            if r then Log.line "Assimp native dependencies successfully unpacked."
-            else Log.line "Failed to unpack native assimp dependencies. Did you forget Aardvark.Init()? Make sure Aardvark.SceneGraph.IO.dll is in your output directory."
+        //[<CompiledName("Initialize")>]
+        //let initialize () =
+        //    Log.start "unpacking native dependencies for assimp"
+        //    let r = 
+        //        try
+        //            DynamicLinker.tryUnpackNativeLibrary "Assimp"
+        //        with e -> 
+        //            Log.warn "failed to unpack native dependencies: %s" e.Message
+        //            false
+        //    Log.stop ()
+        //    if r then Log.line "Assimp native dependencies successfully unpacked."
+        //    else Log.line "Failed to unpack native assimp dependencies. Did you forget Aardvark.Init()? Make sure Aardvark.SceneGraph.IO.dll is in your output directory."
 
         let defaultFlags = 
             Assimp.PostProcessSteps.CalculateTangentSpace |||
@@ -787,7 +776,7 @@ module Loader =
             //Assimp.PostProcessSteps.JoinIdenticalVertices |||
             Assimp.PostProcessSteps.FindDegenerates |||
             //Assimp.PostProcessSteps.FlipUVs |||
-            //Assimp.PostProcessSteps.FlipWindingOrder |||
+            Assimp.PostProcessSteps.FlipWindingOrder |||
             Assimp.PostProcessSteps.MakeLeftHanded ||| 
             Assimp.PostProcessSteps.Triangulate |||
             Assimp.PostProcessSteps.CalculateTangentSpace
@@ -917,7 +906,6 @@ module Loader =
                             M44d.Translation(p) * r * M44d.Scale(s) 
                         )
 
-
                     keyFrames.[na.NodeName] <- matrices
 
                 let animTree = toAnimTree (Seq.toArray scene.Meshes) keyFrames scene.RootNode
@@ -1006,7 +994,6 @@ module Loader =
             }
 
         let load (file : string) =
-            Log.warn "load"
             loadFrom file defaultFlags
 
     type Assimp with

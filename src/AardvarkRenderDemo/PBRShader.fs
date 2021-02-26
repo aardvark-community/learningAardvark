@@ -1,9 +1,9 @@
 namespace SLEAardvarkRenderDemo
 
 open Aardvark.Base
-open Aardvark.Base.Rendering
+open Aardvark.Rendering
 open FShade
-open Aardvark.Base.Rendering.Effects
+open Aardvark.Rendering.Effects
 open System
 (*
     Shaders for pysical based rendering (PBR) 
@@ -99,16 +99,19 @@ module PBR =
             (diffuse  * sheenScaling, specular  * sheenScaling + sheen)
     
     [<ReflectedDefinition>]
-    let directclearCoat (clearCoat : float) clearCoatRoughness (clearCoatNormal : V3d) (lDir : V3d) (v : V3d) (h : V3d) hDotV =
-        let ccF0 = V3d(0.04)
-        let ccNDotL = Vec.dot clearCoatNormal lDir |> saturate
-        let ccNDotV = Vec.dot clearCoatNormal v |> saturate 
-        let ccNDotH = Vec.dot clearCoatNormal h |> saturate
+    let directclearCoat (clearCoat : float) clearCoatRoughness (clearCoatNormal : V3d) (lDir : V3d) (v : V3d) (h : V3d) hDotV nDotL (diffuse : V3d) (specular : V3d)=
+        if clearCoat = 0.0 then
+            (diffuse , specular  * nDotL)
+        else
+            let ccF0 = V3d(0.04)
+            let ccNDotL = Vec.dot clearCoatNormal lDir |> saturate
+            let ccNDotV = Vec.dot clearCoatNormal v |> saturate 
+            let ccNDotH = Vec.dot clearCoatNormal h |> saturate
 
-        let ccF = clearCoat * fresnelSchlick ccF0 hDotV
-        
-        let clearCoatResponce = specularLobeStandard ccF clearCoatRoughness ccNDotH ccNDotV ccNDotL
-        (ccF, clearCoatResponce,ccNDotL)
+            let ccF = clearCoat * fresnelSchlick ccF0 hDotV
+            
+            let clearCoatResponce = specularLobeStandard ccF clearCoatRoughness ccNDotH ccNDotV ccNDotL
+            (diffuse * (V3d.One-ccF), (specular * (V3d.One-ccF) * nDotL + clearCoatResponce * ccNDotL))
 
     type FragmentOut = {
         [<Semantic("Diffuse")>]  Diffuse       : V4d
@@ -116,10 +119,11 @@ module PBR =
        }
 
     [<ReflectedDefinition>]
-    let directLighting metallic (wp :V4d) (c: V4d) (n: V3d) (clearCoatNormal: V3d)  clearCoat  roughness (sheenColor: V3d) sheenRoughness clearCoatRoughness (light : SLEUniform.Light) =
+    let directLighting metallic (wp :V4d) (c: V4d) (n: V3d) (clearCoatNormal: V3d)  clearCoat  roughness (sheenColor: V3d) sheenRoughness clearCoatRoughness lightIndex sssProfile =
         if metallic < 0.0 then //no lighting, ignore      
-            V3d.Zero, V3d.Zero, V3d.Zero, V3d.Zero
+            V3d.Zero, V3d.Zero
         else //PBR lightning
+            let light = uniform.LightArray.[lightIndex]
             let wPos = wp.XYZ
             let albedo = c.XYZ
             let v = uniform.CameraLocation - wPos |> Vec.normalize
@@ -147,14 +151,14 @@ module PBR =
 
             let diff1', spec1 = directSheen sheenColor sheenRoughness nDotH nDotV nDotL diff (spec * specularAttenuation)
 
-            let diff1 = diff1' * nDotL * illuminannce
+            let diff1 = diff1' * nDotL
 
-            if clearCoat = 0.0 then
-                (diff1 , spec1 * illuminannce * nDotL, lDir, illuminannceSimple )
-            else
-                let ccF, clearCoatResponce, ccNDotL = directclearCoat clearCoat clearCoatRoughness clearCoatNormal lDir v h hDotV
-                (diff1 * (V3d.One-ccF), (spec1 * (V3d.One-ccF) * nDotL + clearCoatResponce * ccNDotL)* illuminannce, lDir, illuminannceSimple )
+            let diff2, spec2 =   directclearCoat clearCoat clearCoatRoughness clearCoatNormal lDir v h hDotV nDotL diff1 spec1
 
+            let shadow = if light.castsShadow then Shadow.getShadow lightIndex wp else 1.0
+            let translucency =  illuminannceSimple * translucency.transm sssProfile lightIndex wPos n lDir
+
+            (diff2 * illuminannce * shadow + translucency, spec2 * illuminannce * shadow)
 
     let maxReflectLod = 4.0
 
@@ -226,12 +230,10 @@ module PBR =
             let mutable diffuseD = V3d.Zero 
             let mutable specularD = V3d.Zero
             for i in 0..uniform.LightCount-1 do
-                let diffuseDi, specularDi, lDir, simpleIllumn = 
-                    directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness uniform.LightArray.[i]
-                let shadow = if uniform.LightArray.[i].castsShadow then Shadow.getShadow i frag.wp else  1.0
-                let translucency =  simpleIllumn * translucency.transm frag.sssProfile i frag.wp.XYZ frag.n lDir
-                diffuseD  <- diffuseD  + diffuseDi * shadow + translucency
-                specularD <- specularD + specularDi * shadow
+                let diffuseDi, specularDi= 
+                    directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness i frag.sssProfile
+                diffuseD  <- diffuseD  + diffuseDi 
+                specularD <- specularD + specularDi
             let diffuseO, specularO = 
                 ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal
             let em = frag.emission
@@ -242,18 +244,44 @@ module PBR =
                     }        
         }
 
+    let lightnigTransparent (frag : Fragment) =
+        fragment {
+            let mutable diffuseD = V3d.Zero 
+            let mutable specularD = V3d.Zero
+            for i in 0..uniform.LightCount-1 do
+                let diffuseDi, specularDi= 
+                    directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness i frag.sssProfile
+                diffuseD  <- diffuseD  + diffuseDi
+                specularD <- specularD + specularDi 
+            
+            let diffuseO, specularO = 
+                ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal
+            
+            let em = frag.emission
+            let diffuse = diffuseD + diffuseO         
+            let specular = specularD  + specularO + em   
+            let alpha = frag.c.W 
+            let color =  (diffuse + specular) * alpha
+
+            let cameraPos = uniform.CameraLocation
+            let v = cameraPos - frag.wp.XYZ |> Vec.normalize
+
+            let nDotV = Vec.dot frag.n v |>  max 0.0
+            let f = fresnelSchlick (V3d(0.04)) nDotV
+
+            return {frag with c = V4d(color, alpha); transmission = frag.transmission * (V3d.III - f)}        
+        }
+
     [<ReflectedDefinition>]
     let lightnigDeferred (frag : Fragment) =
         fragment {
             let mutable diffuseD = V3d.Zero 
             let mutable specularD = V3d.Zero
             for i in 0..uniform.LightCount-1 do
-                let diffuseDi, specularDi, lDir, simpleIllumn = 
-                    directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness uniform.LightArray.[i]
-                let shadow = if uniform.LightArray.[i].castsShadow then Shadow.getShadow i frag.wp else  1.0
-                let translucency = if frag.sssProfile < 0 then V3d.Zero else simpleIllumn * translucency.transm frag.sssProfile i frag.wp.XYZ frag.n lDir    
-                diffuseD  <- diffuseD  + diffuseDi * shadow + translucency
-                specularD <- specularD + specularDi * shadow
+                let diffuseDi, specularDi = 
+                    directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness i frag.sssProfile
+                diffuseD  <- diffuseD  + diffuseDi 
+                specularD <- specularD + specularDi 
             let diffuseO, specularO = 
                 ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal
             let em = frag.emission
@@ -281,11 +309,10 @@ module PBR =
             let mutable diffuseD = V3d.Zero 
             let mutable specularD = V3d.Zero
             for i in 0..uniform.LightCount-1 do
-                let diffuseDi, specularDi, _, _ = 
-                    directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness uniform.LightArray.[i]
-                let shadow = if uniform.LightArray.[i].castsShadow then Shadow.getShadow i frag.wp else  1.0
-                diffuseD  <- diffuseD  + diffuseDi * shadow
-                specularD <- specularD + specularDi * shadow
+                let diffuseDi, specularDi = 
+                    directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness i -1
+                diffuseD  <- diffuseD  + diffuseDi 
+                specularD <- specularD + specularDi
             let ambient = abientLightSimple frag.metallic frag.c.XYZ
             let em = frag.emission
             let col = diffuseD + specularD + ambient + em        

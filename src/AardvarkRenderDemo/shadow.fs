@@ -3,7 +3,7 @@ namespace SLEAardvarkRenderDemo
 open Aardvark.Base
 open FSharp.Data.Adaptive
 open Aardvark.UI
-open Aardvark.Base.Rendering
+open Aardvark.Rendering
 open SLEAardvarkRenderDemo.Model
 
 (*
@@ -55,7 +55,7 @@ module Shadow =
                     | AdaptiveDirectionalLight l -> AVal.map (fun (x : DirectionalLightData)-> x.castsShadow) l
                     | AdaptiveDiskLight l -> AVal.map (fun (x : DiskLightData)-> x.castsShadow) l
                     | AdaptiveRectangleLight l ->  AVal.map (fun (x : RectangleLightData) -> x.castsShadow) l
-                let tex = if castsShadow then shadowMap runtime scene bb l' else AVal.constant (NullTexture() :> ITexture)
+                let tex = if castsShadow then shadowMap runtime scene bb l' |> AVal.cast<ITexture> else AVal.constant (NullTexture() :> ITexture)
                 return! tex               
             }
         let m =

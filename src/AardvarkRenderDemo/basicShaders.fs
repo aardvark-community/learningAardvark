@@ -1,9 +1,9 @@
 namespace SLEAardvarkRenderDemo
 
 open Aardvark.Base
-open Aardvark.Base.Rendering
+open Aardvark.Rendering
 open FShade
-open Aardvark.Base.Rendering.Effects
+open Aardvark.Rendering.Effects
 open System
 
 module fshadeExt = 

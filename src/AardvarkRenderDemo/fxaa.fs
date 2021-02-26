@@ -478,7 +478,7 @@ module FXAA =
             filter Filter.MinMagLinear
         }
 
-    open Aardvark.Base.Rendering
+    open Aardvark.Rendering
 
     type Vertex = {
         [<TexCoord>] tc : V2d

@@ -7,6 +7,7 @@ open Aardvark.UI
 open Aardvark.UI.Primitives
 open Aardvark.SceneGraph
 open SLEAardvarkRenderDemo.Model
+open Aardvark.Rendering
 open System.IO
 
 (*
@@ -67,7 +68,7 @@ module material =
         SssProfileIndex = None
         coverage = {
             fileName = None
-            factor = 0.0
+            factor = 1.0
         }
         transmission ={
             fileName = None

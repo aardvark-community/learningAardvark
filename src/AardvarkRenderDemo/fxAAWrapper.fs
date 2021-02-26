@@ -5,7 +5,7 @@ open Aardvark.Base
 open FSharp.Data.Adaptive
 open Aardvark.UI
 open Aardvark.UI.Primitives
-open Aardvark.Base.Rendering
+open Aardvark.Rendering
 open SLEAardvarkRenderDemo.Model
 open Aardvark.SceneGraph
 open FShade
@@ -81,7 +81,7 @@ module fxAA =
                 return c
             }
     
-    let fxAA (runtime : IRuntime) outputSignature (inputTexture : aval<ITexture>) (m : AdaptivefxAA)=
+    let fxAA (runtime : IRuntime) outputSignature (inputTexture : IAdaptiveResource<IBackendTexture>) (m : AdaptivefxAA)=
         Sg.fullScreenQuad
         |> Sg.adapter
         |> Sg.texture DefaultSemantic.DiffuseColorTexture inputTexture

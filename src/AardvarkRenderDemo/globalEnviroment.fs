@@ -3,7 +3,7 @@ namespace SLEAardvarkRenderDemo
 open System
 open Aardvark.Base
 open FSharp.Data.Adaptive
-open Aardvark.Base.Rendering
+open Aardvark.Rendering
 open SLEAardvarkRenderDemo.Model
 open System.IO
 open Aardvark.SceneGraph
@@ -108,7 +108,7 @@ module globalEnviroment =
 // helper module to render to an texture cube
 module CubeRenderTask =
 
-    let renderToCubeTask runtime size signature source level face =
+    let renderToCubeTask runtime size signature source (level :int) face=
         let lookTo = 
             match face with
             |CubeSide.PositiveY  -> V3d.OIO
@@ -141,12 +141,15 @@ module CubeRenderTask =
         |> Sg.compile runtime (signature runtime)
 
     let renderToCubeMip (runtime : IRuntime) size levels signature source=
-        RenderTask.renderToColorCubeMip size levels (renderToCubeTask runtime size signature source)
+        (fun f i  -> renderToCubeTask runtime size signature source i f)
+        |> CubeMap.init levels 
+        |> RenderTask.renderSemanticsCubeMip (Set.singleton DefaultSemantic.Colors) size
+        |> Map.find DefaultSemantic.Colors
 
     let renderToCube (runtime : IRuntime) size signature source=
-        RenderTask.renderToColorCubeMip size 1 (renderToCubeTask  runtime size signature (fun _ ->  source))
+        RenderTask.renderToColorCube size (renderToCubeTask  runtime size signature (fun _ ->  source) 1)
 
-//convert equirectenggular map to cube map for the sky box
+//convert equirectengular map to cube map for the sky box
 module SkyBox =
     open CubeRenderTask
     open Aardvark.UI
@@ -172,7 +175,7 @@ module SkyBox =
                 do! IBL.skyTextureEquirec
             }
 
-    let getTexture (runtime : IRuntime) skyMap rotation = 
+    let getTexture (runtime : IRuntime) skyMap (rotation : aval<float>) = 
         renderToCube runtime skyMapSize signature (skyBoxEquirec skyMap rotation)
 
 //render the prefilterd maps for ambient diffuse and  specular lighning
@@ -195,12 +198,12 @@ module GlobalAmbientLight =
                 do! IBL.convoluteDiffuseIrradiance
             }       
 
-    let diffuseIrradianceMap (runtime : IRuntime) skyBoxTexture = 
+    let diffuseIrradianceMap (runtime : IRuntime) (skyBoxTexture : aval<IBackendTexture>) = 
         renderToCube runtime diffuseIrradianceSize signature (diffuseIrradianceBox runtime skyBoxTexture) 
 
     let prefilterSpecSize = 128 |> AVal.init 
 
-    let prefilterSpecBox (runtime : IRuntime) skyBoxTexture (level : int) =
+    let prefilterSpecBox (runtime : IRuntime) (skyBoxTexture : aval<IBackendTexture>) (level : int) =
         Sg.box (AVal.constant C4b.White) (AVal.constant (Box3d(-V3d.III,V3d.III)))
             |> Sg.texture (Sym.ofString "SkyCubeMap") skyBoxTexture
             |> Sg.uniform "Roughness" (AVal.constant (float level / 4.0) )
@@ -209,7 +212,7 @@ module GlobalAmbientLight =
                 do! IBL.prefilterSpec
             } 
 
-    let prefilterdSpecColor (runtime : IRuntime) skyBoxTexture = 
+    let prefilterdSpecColor (runtime : IRuntime) (skyBoxTexture : aval<IBackendTexture>) = 
         renderToCubeMip runtime prefilterSpecSize 5 signature (prefilterSpecBox runtime skyBoxTexture) 
 
     let signatureBRDFLtu (runtime : IRuntime) =
@@ -273,7 +276,7 @@ module LightProbe =
                 Frustum.perspective 90.0 0.1 100.0 1.0 |> Frustum.projTrafo
               )
 
-        let gBuffer = GeometryBuffer.makeGBuffer runtime view proj size skyBoxTexture scene skyMapIntensity
+        let gBuffer = GeometryBuffer.makeGBuffer runtime view proj size skyBoxTexture scene skyMapIntensity None
 
         //render linear HDR output
         let  output = 
@@ -285,7 +288,7 @@ module LightProbe =
                 do! GBuffer.getGBufferData
                 do! PBR.lightnigDeferredProbe        
             }
-            |> Sg.uniform "AmbientIntensity" (AVal.constant 1.0)
+            |> Sg.uniform' "AmbientIntensity" 1.0
             |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))
             |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
             |> Sg.texture ( Sym.ofString "WPos") (Map.find (Sym.ofString "WorldPosition") gBuffer)
@@ -299,5 +302,5 @@ module LightProbe =
     let lightProbe runtime scene skyBoxTexture skyMapIntensity ambientLightIntensity bb lights position = 
        let size = AVal.map (fun (s : int) -> V2i(s,s)) probeSize
        let sign = signature runtime
-       let task = renderLightProbeSide runtime size sign scene skyBoxTexture skyMapIntensity ambientLightIntensity bb lights position
-       RenderTask.renderToColorCubeMip probeSize 1 (fun _ -> task)
+       let tasks = renderLightProbeSide runtime size sign scene skyBoxTexture skyMapIntensity ambientLightIntensity bb lights position
+       RenderTask.renderToColorCube probeSize tasks

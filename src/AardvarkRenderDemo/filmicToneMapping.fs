@@ -2,9 +2,9 @@ namespace SLEAardvarkRenderDemo
 
 open System
 open Aardvark.Base
-open Aardvark.Base.Rendering
+open Aardvark.Rendering
 open FShade
-open Aardvark.Base.Rendering.Effects
+open Aardvark.Rendering.Effects
 open FSharp.Data.Adaptive
 open Aardvark.SceneGraph
 open SLEAardvarkRenderDemo.Model
@@ -237,7 +237,7 @@ module filmicToneMapping =
             return V4d(colg, 1.0)
         }
 
-    let toneMapping (runtime : IRuntime) outputSignature (inputTexture : aval<ITexture>) (m : AdaptiveModel) =             
+    let toneMapping (runtime : IRuntime) outputSignature (inputTexture : aval<IBackendTexture>) (m : AdaptiveModel) =             
         Sg.fullScreenQuad
             |> Sg.adapter
             |> Sg.texture DefaultSemantic.DiffuseColorTexture inputTexture

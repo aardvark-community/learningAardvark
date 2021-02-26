@@ -3,9 +3,9 @@ open Aardvark.Base
 open FSharp.Data.Adaptive
 open Aardvark.SceneGraph
 open Aardvark.UI
-open Aardvark.Base.Rendering
+open Aardvark.Rendering
 open FShade
-open Aardvark.Base.Rendering.Effects
+open Aardvark.Rendering.Effects
 
  module GBufferRendering =
     open fshadeExt
@@ -37,7 +37,15 @@ open Aardvark.Base.Rendering.Effects
 module GeometryBuffer  =
 
     //Render task for the Geometry-buffer pass
-    let makeGBuffer (runtime : IRuntime) (view : aval<Trafo3d>) projection size skyBoxTexture scene skyMapIntensity=
+    let makeGBuffer 
+        (runtime : IRuntime) 
+        (view : aval<Trafo3d>) 
+        projection 
+        size 
+        (skyBoxTexture : IAdaptiveResource<IBackendTexture>) 
+        scene 
+        (skyMapIntensity : aval<float>)
+        (depthBuffer : aval<IFramebufferOutput> option) =
 
         let signature =
             runtime.CreateFramebufferSignature [
@@ -49,7 +57,7 @@ module GeometryBuffer  =
                 shaderCommon.Semantic.ClearCoat, RenderbufferFormat.Rgba16f
                 shaderCommon.Semantic.Sheen, RenderbufferFormat.Rgba16f
              ]
-
+     
         let skyBox =
             Sg.box (AVal.constant C4b.White) (AVal.constant (Box3d(-V3d.III,V3d.III)))
                 |> Sg.cullMode (AVal.constant CullMode.None)
@@ -61,6 +69,14 @@ module GeometryBuffer  =
                     do! shaderCommon.skyGetMatrialValues
                     do! GBufferRendering.gBufferShader
                 }
+
+        let attachments =
+            match depthBuffer with
+            |Some a -> 
+                (Map.ofList [
+                    DefaultSemantic.Depth, a
+                ]) 
+            |None -> Map.empty
 
         scene
         |> Sg.shader {
@@ -76,7 +92,7 @@ module GeometryBuffer  =
         |> Sg.viewTrafo (view)
         |> Sg.projTrafo (projection)
         |> Sg.compile runtime signature
-        |> RenderTask.renderSemantics(
+        |> RenderTaskExtensions.renderSemanticsCustom'(
                     Set.ofList [
                         DefaultSemantic.Depth
                         DefaultSemantic.Colors
@@ -86,7 +102,10 @@ module GeometryBuffer  =
                         shaderCommon.Semantic.ClearCoat
                         shaderCommon.Semantic.Sheen
                         ]
-               ) size 
+               ) 
+               size 
+               attachments
+     
 
 module GBuffer = 
     open FShade

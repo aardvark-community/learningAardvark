@@ -4,10 +4,10 @@ open Aardvark.Base
 open FSharp.Data.Adaptive
 open Aardvark.SceneGraph
 open Aardvark.UI
-open Aardvark.Base.Rendering
+open Aardvark.Rendering
 open SLEAardvarkRenderDemo.Model
 open FShade
-open Aardvark.Base.Rendering.Effects
+open Aardvark.Rendering.Effects
 
  module SSAO =
     //Screen Space Ambinet Occlusion
@@ -179,7 +179,7 @@ open Aardvark.Base.Rendering.Effects
         runtime.PrepareTexture(PixTexture2d(PixImageMipMap [| img :> PixImage |], TextureParams.empty))
 
     //Render-Task for the screen-space Abient Occlusion pass
-    let makeAmbientOcclusion ( runtime : IRuntime) (size : aval<V2i>) view proj gBuffer (settings : AdaptiveAmbientOcclusionSettings)=
+    let makeAmbientOcclusion ( runtime : IRuntime) (size : aval<V2i>) view proj (gBuffer : Map<Symbol,IAdaptiveResource<IBackendTexture>>) (settings : AdaptiveAmbientOcclusionSettings)=
 
         let signature =
             runtime.CreateFramebufferSignature [

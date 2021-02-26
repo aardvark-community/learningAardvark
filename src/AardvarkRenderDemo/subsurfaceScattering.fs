@@ -2,10 +2,10 @@ namespace SLEAardvarkRenderDemo
 
 open System
 open Aardvark.Base
-open Aardvark.Base.Rendering
+open Aardvark.Rendering
 open FShade
 open FSharp.Data.Adaptive
-open Aardvark.Base.Rendering.Effects
+open Aardvark.Rendering.Effects
 open Aardvark.SceneGraph
 open SLEAardvarkRenderDemo.Model
 open Aardvark.UI
@@ -317,7 +317,14 @@ module subSurface =
         >> Sg.uniform "TranslucencyBias"  sssTranslucencyBiasBuffer   
 
     //Render-Task for the screen-space Abient Occlusion pass
-    let makeSubSurfaceScatttering (runtime : IRuntime) (size : aval<V2i>) camFoVy view proj gBuffer input (profiles : amap<int,AdaptiveSssProfile>) =
+    let makeSubSurfaceScatttering 
+        (runtime : IRuntime) 
+        (size : aval<V2i>) 
+        (camFoVy : float) 
+        view 
+        proj 
+        (gBuffer : Map<Symbol,IAdaptiveResource<IBackendTexture>>)  
+        input (profiles : amap<int,AdaptiveSssProfile>) =
 
         let signature =
             runtime.CreateFramebufferSignature [
@@ -330,15 +337,15 @@ module subSurface =
         let blurr h i = 
             Sg.fullScreenQuad
             |> Sg.adapter
-            |> Sg.blendMode (AVal.constant (BlendMode(false)))
+            |> Sg.blendMode' BlendMode.None 
             |> Sg.viewTrafo view
             |> Sg.projTrafo proj
             |> Sg.texture ( Sym.ofString "inputImage")  i
             |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
             |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
-            |> Sg.uniform "horizontal" (AVal.constant h)
+            |> Sg.uniform' "horizontal" h
             |> Sg.uniform "sssWidth"  widthBuffer
-            |> Sg.uniform "camFoVy" camFoVy
+            |> Sg.uniform' "camFoVy" camFoVy
             |> Sg.uniform "kernel" kernelBuffer
             |> Sg.shader {
                 do! subSurfaceShader.ssssBlur

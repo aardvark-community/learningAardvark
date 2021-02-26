@@ -5,7 +5,7 @@ open Aardvark.Base
 open FSharp.Data.Adaptive
 open Aardvark.UI
 open Aardvark.UI.Primitives
-open Aardvark.Base.Rendering
+open Aardvark.Rendering
 open SLEAardvarkRenderDemo.Model
 (*
     Light UI control
@@ -103,7 +103,7 @@ module light =
                     | AdaptiveRectangleLight ls -> Sg.empty
                     | AdaptivePointLight lp -> 
                         Sg.sphere 6 (AVal.map ( fun (v : PointLightData) -> v.color.ToC4b()) lp ) (AVal.constant 0.03) 
-                        |> Sg.translate' (AVal.map ( fun (v : PointLightData) -> v.lightPosition.XYZ) lp)
+                        |> Sg.translation (AVal.map ( fun (v : PointLightData) -> v.lightPosition.XYZ) lp)
                 yield m 
         } 
         |> Sg.set

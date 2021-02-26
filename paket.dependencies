@@ -1,9 +1,11 @@
+version 5.249.0
 framework: netstandard2.0, net471, netcoreapp3.1
 source https://api.nuget.org/v3/index.json
 
+nuget Silk.NET.Core                     = 1.7.0
 nuget FSharp.Core                       >= 4.6.2 lowest_matching: true
 
-nuget FSharp.Data.Adaptive ~> 1.1.0 
+nuget FSharp.Data.Adaptive ~> 1.2.0 
 
 nuget Aardvark.Base                         ~> 5.1.0
 nuget Aardvark.Base.FSharp                  ~> 5.1.0

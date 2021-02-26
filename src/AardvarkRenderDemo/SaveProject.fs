@@ -3,6 +3,7 @@ namespace SLEAardvarkRenderDemo
 open MBrace.FsPickler.Json
 open SLEAardvarkRenderDemo.Model
 open Aardvark.Base
+open Aardvark.Rendering
 open Aardvark.UI.Primitives
 open FSharp.Data.Adaptive
 open Aardvark.SceneGraph.IO

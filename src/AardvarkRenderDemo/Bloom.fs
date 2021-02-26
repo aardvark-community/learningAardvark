@@ -2,7 +2,7 @@ namespace SLEAardvarkRenderDemo
 
 open System
 open Aardvark.Base
-open Aardvark.Base.Rendering
+open Aardvark.Rendering
 open FShade
 open FSharp.Data.Adaptive
 open Aardvark.SceneGraph
@@ -75,7 +75,7 @@ module bloom =
 
     let defaultBloom = {on = true; threshold = 1.0;  blurSize  = 3; sigma = 3.0}
 
-    let bloom (runtime : IRuntime)  (size : aval<V2i>)  (inputTexture : aval<ITexture>)  (model : AdaptiveBloom)=
+    let bloom (runtime : IRuntime)  (size : aval<V2i>)  (inputTexture : IAdaptiveResource<IBackendTexture>)  (model : AdaptiveBloom)=
 
         let signature =
             runtime.CreateFramebufferSignature [

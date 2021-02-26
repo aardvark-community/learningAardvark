@@ -8,11 +8,8 @@ open Aardvark.SceneGraph.IO
 open Aardvark.SceneGraph.Semantics
 open Aardvark.UI
 open Aardvark.UI.Primitives
-open Aardvark.Base.Rendering
+open Aardvark.Rendering
 open SLEAardvarkRenderDemo.Model
-open Aardvark.Base.Ag
-open material
-open Aardvark.SceneGraph.IO.Loader.SgSems
 
 (*
    The main addaptive elm-style App and the main setup of the render pipeline
@@ -44,8 +41,6 @@ module App =
 
     let (!!) inner = 
         Path.combine ([__SOURCE_DIRECTORY__;"..";"..";"data";] @ inner)
-
-        
 
     let obj , selected = sceneObject.loadObject HashMap.empty !!["SLE_Gnom4.obj"]
 
@@ -143,7 +138,7 @@ module App =
         let proj = values.projTrafo
         let camFoVy = radians 30.0
         let size = values.size |> AVal.map (fun s -> V2i(max 1 s.X, max 1 s.Y))
-        let runtime = outputSignature.Runtime
+        let runtime = values.runtime
 
         let scene = m.objects |> sceneObject.objects 
 
@@ -168,13 +163,14 @@ module App =
             |> ASet.fold (fun s (_,(o : AdaptiveSceneObject)) -> AVal.map2( fun (s : Box3d) (b : Box3d)-> Box.Union(s,b)) s (bounds o)) seed 
             |> AVal.bind id
 
+
         let enviromentTexture = 
             m.enviorment.lightProbePosition
             |> AVal.bind 
                 (fun (p' : V3d option) -> 
                     match p' with
-                    |Some p -> LightProbe.lightProbe runtime scene skyBoxTexture m.enviorment.skyMapIntensity m.enviorment.ambientLightIntensity bb m.lights p :> aval<ITexture>
-                    |None -> skyBoxTexture :> aval<ITexture>
+                    |Some p -> LightProbe.lightProbe runtime scene skyBoxTexture m.enviorment.skyMapIntensity m.enviorment.ambientLightIntensity bb m.lights p :> aval<_>
+                    |None -> skyBoxTexture :> aval<_>
                 )
 
         //render the precalculated  Maps for PBR Global Ambient Light
@@ -185,8 +181,13 @@ module App =
 
         let bRDFLtu = GlobalAmbientLight.BRDFLtu runtime
 
+        let depthTex = runtime.CreateTexture(TextureFormat.ofRenderbufferFormat RenderbufferFormat.DepthComponent24, 1, size)
+        let depthAttachment = runtime.CreateTextureAttachment(depthTex, 0) :> aval<_>
+
+        let shadowMaps = Shadow.shadowMaps runtime scene bb m.lights
+
         //render the geometry to the gBuffer
-        let gBuffer = GeometryBuffer.makeGBuffer runtime view proj size skyBoxTexture scene m.enviorment.skyMapIntensity
+        let gBuffer = GeometryBuffer.makeGBuffer runtime view proj size skyBoxTexture scene m.enviorment.skyMapIntensity (Some depthAttachment)
 
         //render the abient occlousion map    
         let ambientOcclusion = 
@@ -198,7 +199,7 @@ module App =
                 runtime
                 view
                 size 
-                scene 
+                shadowMaps 
                 m.lights
                 m.sssProfiles
                 bb 
@@ -208,7 +209,7 @@ module App =
                 diffuseIrradianceMap
                 prefilterdSpecColor
                 bRDFLtu
-         (* 
+          (*
         let diffuseAndSpecular = 
            forwardRendering.diffuseAndSpecular 
             runtime 
@@ -225,25 +226,52 @@ module App =
             prefilterdSpecColor
             bRDFLtu
             m.sssProfiles
-           *) 
+            *)
         let diffuse =  Map.find  (Sym.ofString"Diffuse")  diffuseAndSpecular
         let specular = Map.find  (Sym.ofString"Specular") diffuseAndSpecular
 
-        let ssss = subSurface.makeSubSurfaceScatttering (runtime : IRuntime) (size : aval<V2i>) (AVal.constant  camFoVy) view proj gBuffer diffuse m.sssProfiles
+        let ssss = subSurface.makeSubSurfaceScatttering (runtime : IRuntime) (size : aval<V2i>) camFoVy view proj gBuffer diffuse m.sssProfiles
 
         let diffuseAndSpecular' = Map.ofList [((Sym.ofString"Diffuse"),ssss); ((Sym.ofString"Specular"), specular)]
         let combined = combine.combine runtime size diffuseAndSpecular'
 
+        let transparent = 
+            WBOTI.acummulate 
+                runtime 
+                view 
+                proj 
+                size 
+                m.objects
+                shadowMaps
+                m.lights
+                bb 
+                m.enviorment.ambientLightIntensity
+                diffuseIrradianceMap
+                prefilterdSpecColor
+                bRDFLtu
+                m.sssProfiles
+                depthAttachment
+
+        let combined' =
+            WBOTI.compose
+                runtime
+                outputSignature 
+                size 
+                combined 
+                (Map.find  (Sym.ofString "Accum") transparent)
+                (Map.find  (Sym.ofString "ModulateColor") transparent)
+
         let postprocessed = 
             AVal.bind (fun doBloom  ->  
                 if doBloom then
-                    bloom.bloom runtime size combined m.bloom :> aval<ITexture>
+                    bloom.bloom runtime size combined' m.bloom :> aval<IBackendTexture>
                 else 
-                    combined :> aval<ITexture>) 
+                    combined' :> aval<IBackendTexture>) 
                 m.bloom.on
-        
+       
+
         //tone mapping and gamma correction
-        let toneMapped =  
+        let toneMapped =  //(Map.find  (Sym.ofString "Accum") transparent)
             filmicToneMapping.toneMapping runtime outputSignature postprocessed m        
             |> RenderTask.renderToColor size
 
@@ -274,7 +302,7 @@ module App =
             [
                 style "position: fixed; left: 0; top: 0; width: 100%; height: 100%"
                 attribute "showFPS" "true"
-               // attribute "data-renderalways" "1"
+                attribute "data-renderalways" "1"
             ]
 
         let t = compileDeffered m

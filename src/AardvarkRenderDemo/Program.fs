@@ -8,6 +8,7 @@ open Suave
 open Suave.WebPart
 open Aardvark.Rendering.Vulkan
 open Aardvark.Base
+open Aardvark.Rendering
 open System
 
 [<EntryPoint>]

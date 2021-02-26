@@ -4,7 +4,7 @@ open Aardvark.Base
 open FSharp.Data.Adaptive
 open Aardvark.SceneGraph
 open Aardvark.UI
-open Aardvark.Base.Rendering
+open Aardvark.Rendering
 open SLEAardvarkRenderDemo.Model
 
 module deferredRendering =
@@ -13,16 +13,16 @@ module deferredRendering =
         (runtime : IRuntime) 
         (view : aval<Trafo3d>) 
         size 
-        scene 
+        shadowMaps 
         (lights : amap<int,AdaptiveLightCase>)
         sssProfiles
         bb 
-        gBuffer
-        ambientOcclusion
-        ambientLightIntensity
-        diffuseIrradianceMap
-        prefilterdSpecColor
-        bRDFLtu =
+        (gBuffer : Map<Symbol,IAdaptiveResource<IBackendTexture>>) 
+        (ambientOcclusion : IAdaptiveResource<IBackendTexture>) 
+        (ambientLightIntensity : aval<float>)
+        (diffuseIrradianceMap : IAdaptiveResource<IBackendTexture>) 
+        (prefilterdSpecColor  : IAdaptiveResource<IBackendTexture>) 
+        (bRDFLtu  : IAdaptiveResource<IBackendTexture>) =
         
         let signature =
             runtime.CreateFramebufferSignature [
@@ -32,7 +32,7 @@ module deferredRendering =
 
         Sg.fullScreenQuad
         |> Sg.adapter
-        |> Shadow.shadowMapsUniform (Shadow.shadowMaps runtime scene bb lights)
+        |> Shadow.shadowMapsUniform shadowMaps
         |> Sg.shader {
             do! GBuffer.getGBufferData
             do! PBR.lightnigDeferred        

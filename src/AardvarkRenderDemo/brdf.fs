@@ -1,9 +1,9 @@
 namespace SLEAardvarkRenderDemo
 
 open Aardvark.Base
-open Aardvark.Base.Rendering
+open Aardvark.Rendering
 open FShade
-open Aardvark.Base.Rendering.Effects
+open Aardvark.Rendering.Effects
 open System
 (*
     Shaders for pysical based rendering (PBR)
@@ -211,7 +211,7 @@ module IBL =
         for i in 0..(int sampleCount) do
                 let xi = hammersley (uint32 i) sampleCount
                 let h = importanceSampleGGX xi n roughness
-                let l = 2.0 * Vec.dot v h * h |> Vec.normalize         
+                let l = 2.0 * (Vec.dot v h) * h |> Vec.normalize         
                 let nDotL = max l.Z 0.0
                 let nDotH = max h.Z 0.0
                 let vDotH = Vec.dot v h |> max 0.0

@@ -2,7 +2,7 @@ namespace SLEAardvarkRenderDemo
 
 open Aardvark.Base
 open FShade
-open Aardvark.Base.Rendering.Effects
+open Aardvark.Rendering.Effects
 open System
 (*
     Shader functions for calculatin illuminace fro various light types

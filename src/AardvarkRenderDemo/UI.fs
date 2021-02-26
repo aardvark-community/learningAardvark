@@ -17,14 +17,14 @@ module Simple =
         labeledFloatInput' "" minValue maxValue step changed value (AttributeMap.ofList [ clazz "ui small input"; style "width: 60pt"]) (AttributeMap.ofList []) 
 
      // slider with linked input
-    let inputSlider (cfg : SliderConfig) (atts : (string * AttributeValue<'msg>) list )  (value : aval<float>) (update : float -> 'msg) =
+    let inputSlider (cfg : SliderConfig<float>) (atts : (string * AttributeValue<'msg>) list )  (value : aval<float>) (update : float -> 'msg) =
         div atts [
             labeledFloatInput' "" cfg.min cfg.max (cfg.step*10.0) update value (AttributeMap.ofList [ clazz "ui small input"; style "width: 60pt; float: left"]) (AttributeMap.ofList []) 
             slider cfg (AttributeMap.ofList [style "width: auto; margin-left: 68pt"])  value update
         ]
 
     // a logaritmic slider with linked input
-    let inputLogSlider (cfg : SliderConfig) (atts : (string * AttributeValue<'msg>) list )  (value : aval<float>) (update : float -> 'msg) =
+    let inputLogSlider (cfg : SliderConfig<float>) (atts : (string * AttributeValue<'msg>) list )  (value : aval<float>) (update : float -> 'msg) =
         if cfg.min <= 0.0 then failwith "min must be positve for log silder"
         let value' = AVal.map Math.Log10 value
         let update' = fun v -> update (Math.Pow(10.0,v))

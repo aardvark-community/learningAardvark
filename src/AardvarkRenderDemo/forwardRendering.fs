@@ -4,7 +4,7 @@ open Aardvark.Base
 open FSharp.Data.Adaptive
 open Aardvark.SceneGraph
 open Aardvark.UI
-open Aardvark.Base.Rendering
+open Aardvark.Rendering
 open SLEAardvarkRenderDemo.Model
 
 module forwardRendering =
@@ -14,15 +14,15 @@ module forwardRendering =
         (view : aval<Trafo3d>) 
         projection 
         size 
-        skyBoxTexture 
+        (skyBoxTexture   : IAdaptiveResource<IBackendTexture>) 
         scene 
-        skyMapIntensity 
+        (skyMapIntensity   : aval<float>)
         (lights : amap<int,AdaptiveLightCase>)
         bb 
-        ambientLightIntensity
-        diffuseIrradianceMap
-        prefilterdSpecColor
-        bRDFLtu
+        (ambientLightIntensity  : aval<float>)
+        (diffuseIrradianceMap  : IAdaptiveResource<IBackendTexture>) 
+        (prefilterdSpecColor   : IAdaptiveResource<IBackendTexture>) 
+        (bRDFLtu   : IAdaptiveResource<IBackendTexture>) 
         sssProfiles =
 
         let signature =
@@ -68,9 +68,9 @@ module forwardRendering =
         |> Sg.texture (Sym.ofString "BRDFLtu") bRDFLtu
         |> Sg.compile runtime signature
         |> RenderTask.renderSemantics(
-                    Set.ofList [
-                        (Sym.ofString"Diffuse")
-                        (Sym.ofString"Specular")
-                    ]
-               ) size 
+                Set.ofList [
+                    (Sym.ofString"Diffuse")
+                    (Sym.ofString"Specular")
+                ]
+           ) size 
 
