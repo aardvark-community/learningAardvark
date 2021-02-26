@@ -30,13 +30,25 @@ module WBOTI =
         [<Semantic("Accum")>]         Accum     : V4d
        }
 
+    let dummySampler =
+        sampler2d {
+            texture uniform?Dummy
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
+
     //calculates 
     let accumulateShader (frag : Fragment) =
         fragment {
             let coverage = frag.Color.W
             //Perform this operation before modifying the coverage to account for transmission.
             //modulation of background color by transmission color
-            let modulate = coverage * (V3d.III - frag.Transmission)
+            let modulate = 
+                coverage * (V3d.III - frag.Transmission) 
+                //wild hack to convince the adaptivw system that this shader realy depends on the gBuffer to insure that this render tasks runs after the gBuffer because 
+                //it neds to use the deep attachment from the gBuffer task 
+                + if frag.Color.W > 1.000 then (dummySampler.Sample(V2d.II).W * 0.0) else 0.0
             
             (* Modulate the net coverage for composition by the transmission. This does not affect the color channels of the
                transparent surface because the caller's BSDF model should have already taken into account if transmission modulates
@@ -122,7 +134,9 @@ module WBOTI =
         (prefilterdSpecColor : aval<IBackendTexture>)
         (bRDFLtu : aval<IBackendTexture>)
         sssProfiles
-        (depthBuffer : aval<IFramebufferOutput>) =
+        (depthBuffer : aval<IFramebufferOutput>)
+        (gBuffer : Map<Symbol,IAdaptiveResource<IBackendTexture>>) //only to force dependency on the gBuffer
+        =
 
         let signature =
             runtime.CreateFramebufferSignature [
@@ -169,6 +183,7 @@ module WBOTI =
         |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap
         |> Sg.texture (Sym.ofString "PrefilteredSpecColor") prefilterdSpecColor
         |> Sg.texture (Sym.ofString "BRDFLtu") bRDFLtu
+        |> Sg.texture (Sym.ofString "Dummy") (Map.find DefaultSemantic.Colors gBuffer)//only to force dependency on the gBuffer
         |> Sg.compile runtime signature
         |> RenderTaskExtensions.renderSemanticsCustom
             (

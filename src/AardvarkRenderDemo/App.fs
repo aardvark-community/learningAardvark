@@ -251,6 +251,7 @@ module App =
                 bRDFLtu
                 m.sssProfiles
                 depthAttachment
+                gBuffer//only to force dependency on the gBuffer
 
         let combined' =
             WBOTI.compose
