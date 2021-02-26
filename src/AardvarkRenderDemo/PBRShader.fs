@@ -266,8 +266,8 @@ module PBR =
             let cameraPos = uniform.CameraLocation
             let v = cameraPos - frag.wp.XYZ |> Vec.normalize
 
-            let nDotV = Vec.dot frag.n v |>  max 0.0
-            let f = fresnelSchlick (V3d(0.04)) nDotV
+            let nDotV = Vec.dot frag.n v |>  abs
+            let f = fresnelSchlick (V3d(0.04)) nDotV |> saturate
 
             return {frag with c = V4d(color, alpha); transmission = frag.transmission * (V3d.III - f)}        
         }

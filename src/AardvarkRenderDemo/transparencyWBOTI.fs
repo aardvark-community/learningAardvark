@@ -46,7 +46,7 @@ module WBOTI =
             //modulation of background color by transmission color
             let modulate = 
                 coverage * (V3d.III - frag.Transmission) 
-                //wild hack to convince the adaptivw system that this shader realy depends on the gBuffer to insure that this render tasks runs after the gBuffer because 
+                //wild hack to convince the adaptive system that this shader depends on the gBuffer to insure that this render tasks runs after the gBuffer because 
                 //it neds to use the deep attachment from the gBuffer task 
                 + if frag.Color.W > 1.000 then (dummySampler.Sample(V2d.II).W * 0.0) else 0.0
             
