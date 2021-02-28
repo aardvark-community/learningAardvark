@@ -26,7 +26,7 @@ open Aardvark.Rendering.Effects
             let m = 
                 if vert.metallic < 0.0 
                 then vert.metallic
-                else 10.0 * if vert.sssProfile < 0 then 10.0 else float vert.sssProfile + vert.metallic
+                else 10.0 * (if vert.sssProfile < 0 then 10.0 else float vert.sssProfile) + vert.metallic
 
             return {wp = vert.wp
                     c = V4d(vert.c.XYZ,m)

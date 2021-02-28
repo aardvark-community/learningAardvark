@@ -177,8 +177,7 @@ module shaderCommon =
             let sheenRoughness = uniform.SheenRoughness * sheenRoughnessSampler.Sample(frag.tc).X
             let alpha = uniform.Coverage * coverageSampler.Sample(frag.tc).X
             let transmission = pow (uniform.Transmission * transmissionSampler.Sample(frag.tc).XYZ) (V3d(gamma))
-
-            return { frag with   
+           return { frag with   
                         c = V4d(albedo,alpha)
                         metallic = metallic
                         roughness = roughness
