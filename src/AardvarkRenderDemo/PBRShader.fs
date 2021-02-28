@@ -212,7 +212,7 @@ module PBR =
             //corret for clean coat
             let f0 = Lerp f0Base (f0ClearCoatToSurface f0Base) clearCoat
 
-            let nDotV = Vec.dot n v |>  max 0.0
+            let nDotV = Vec.dot n v |> abs
             let kSA = fresnelSchlickRoughness f0 roughness nDotV
             let kdA  = (1.0 - kSA) * (1.0 - metallic)
 
