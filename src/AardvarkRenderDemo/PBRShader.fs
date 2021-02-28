@@ -246,6 +246,14 @@ module PBR =
 
     let lightnigTransparent (frag : Fragment) =
         fragment {
+            let cameraPos = uniform.CameraLocation
+            let v = cameraPos - frag.wp.XYZ |> Vec.normalize
+
+            let nDotV = Vec.dot frag.n v |> abs
+            let f = fresnelSchlick (V3d(0.04)) nDotV |> saturate
+
+            let transmission = frag.transmission * (V3d.III - f)
+
             let mutable diffuseD = V3d.Zero 
             let mutable specularD = V3d.Zero
             for i in 0..uniform.LightCount-1 do
@@ -258,18 +266,13 @@ module PBR =
                 ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal
             
             let em = frag.emission
-            let diffuse = diffuseD + diffuseO         
+            let diffuse = (diffuseD + diffuseO) * (1.0 - max3 transmission)
+   
             let specular = specularD  + specularO + em   
             let alpha = frag.c.W 
             let color =  (diffuse + specular) * alpha
 
-            let cameraPos = uniform.CameraLocation
-            let v = cameraPos - frag.wp.XYZ |> Vec.normalize
-
-            let nDotV = Vec.dot frag.n v |> abs
-            let f = fresnelSchlick (V3d(0.04)) nDotV |> saturate
-
-            return {frag with c = V4d(color, alpha); transmission = frag.transmission * (V3d.III - f)}        
+            return {frag with c = V4d(color, alpha); transmission = transmission}        
         }
 
     [<ReflectedDefinition>]
