@@ -47,8 +47,8 @@ module WBOTI =
             let modulate = 
                 coverage * (V3d.III - frag.Transmission) 
                 //wild hack to convince the adaptive system that this shader depends on the gBuffer to insure that this render tasks runs after the gBuffer because 
-                //it neds to use the deep attachment from the gBuffer task 
-                + if frag.Color.W > 1.000 then (dummySampler.Sample(V2d.II).W * 0.0) else 0.0
+                //it needs to use the deep attachment from the gBuffer task 
+                + if frag.Color.W > 1000.0 then (dummySampler.Sample(V2d.II).W * 0.0) else 0.0
             
             (* Modulate the net coverage for composition by the transmission. This does not affect the color channels of the
                transparent surface because the caller's BSDF model should have already taken into account if transmission modulates
@@ -167,7 +167,7 @@ module WBOTI =
         |> Sg.shader {
             do! DefaultSurfaces.trafo
             do! displacemntMap.displacementMap
-            //do! DefaultSurfaces.vertexColor
+            do! DefaultSurfaces.vertexColor
             do! AlbedoColor.albedoColor
             do! shaderCommon.normalMap 
             do! shaderCommon.getMatrialValues

@@ -16,7 +16,7 @@ let main args =
     Aardvark.Init()
     Aardium.init()
 
-    let vapp = new OpenGlApplication()//new HeadlessVulkanApplication()
+    let vapp = new OpenGlApplication()//new HeadlessVulkanApplication()//
 
     let runtime = vapp.Runtime :> IRuntime
 

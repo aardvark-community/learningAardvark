@@ -92,13 +92,13 @@ module sceneObject =
                         Node.Group (List.map traverse es)
                     | Node.Leaf m ->
                         Node.Leaf m
-                    | Node.Material(m, n) ->
+                    | Node.Material(m, ni) ->
                         if trimBy |>  HashSet.contains m.name then
                             Node.Empty
                         else
-                            Node.Material(m, traverse n)
-                    | Node.Trafo(t, n) ->
-                        Node.Trafo(t, traverse n)
+                            Node.Material(m, traverse ni)
+                    | Node.Trafo(t, ni) ->
+                        Node.Trafo(t, traverse ni)
         {s with root = traverse s.root}
 
     let trimByMatrial (filter : string -> AdaptivePBRMaterial -> aval<bool>) (m : AdaptiveSceneObject)  =

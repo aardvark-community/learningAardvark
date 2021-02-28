@@ -247,7 +247,7 @@ module material =
                 | "CoverageTexture" -> Some x.CoverageMap 
                 | "TransmissionColorTexture" -> Some (x.TransmissionColorMap :> IAdaptiveValue)
                 | "Transmission" ->  Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> AVal.map2 (*) m.transmission.color  m.transmission.factor) x.Material :> IAdaptiveValue)
-                | "SssProfileIndex" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> AVal.map (Option.defaultValue 10) m.SssProfileIndex) x.Material :> IAdaptiveValue)
+                | "SssProfileIndex" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> AVal.map (Option.defaultValue -1) m.SssProfileIndex) x.Material :> IAdaptiveValue)
                 | _ -> None
             
             member x.Dispose() = ()

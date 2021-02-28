@@ -23,7 +23,10 @@ open Aardvark.Rendering.Effects
     let gBufferShader (vert : shaderCommon.Fragment) =
         fragment {
             if min3 (vert.c.W * (V3d.III - vert.transmission)) < 1.0 then discard()//render only fully opaque fragments to gBuffer
-            let m = 10.0 * float vert.sssProfile + vert.metallic
+            let m = 
+                if vert.metallic < 0.0 
+                then vert.metallic
+                else 10.0 * if vert.sssProfile < 0 then 10.0 else float vert.sssProfile + vert.metallic
 
             return {wp = vert.wp
                     c = V4d(vert.c.XYZ,m)

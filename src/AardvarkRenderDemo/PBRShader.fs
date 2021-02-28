@@ -153,10 +153,10 @@ module PBR =
 
             let diff1 = diff1' * nDotL
 
-            let diff2, spec2 =   directclearCoat clearCoat clearCoatRoughness clearCoatNormal lDir v h hDotV nDotL diff1 spec1
+            let diff2, spec2 = directclearCoat clearCoat clearCoatRoughness clearCoatNormal lDir v h hDotV nDotL diff1 spec1
 
             let shadow = if light.castsShadow then Shadow.getShadow lightIndex wp else 1.0
-            let translucency =  illuminannceSimple * translucency.transm sssProfile lightIndex wPos n lDir
+            let translucency =  illuminannceSimple * if sssProfile < 0 then V3d.OOO else translucency.transm sssProfile lightIndex wPos n lDir
 
             (diff2 * illuminannce * shadow + translucency, spec2 * illuminannce * shadow)
 
@@ -266,7 +266,7 @@ module PBR =
             let cameraPos = uniform.CameraLocation
             let v = cameraPos - frag.wp.XYZ |> Vec.normalize
 
-            let nDotV = Vec.dot frag.n v |>  abs
+            let nDotV = Vec.dot frag.n v |> abs
             let f = fresnelSchlick (V3d(0.04)) nDotV |> saturate
 
             return {frag with c = V4d(color, alpha); transmission = frag.transmission * (V3d.III - f)}        
