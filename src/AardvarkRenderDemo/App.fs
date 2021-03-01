@@ -64,7 +64,7 @@ module App =
     }
 
     let initial = 
-        let file = !!["initial_scenex.json"]
+        let file = !!["initial_scene.json"]
         if (System.IO.File.Exists file)
         then 
            projetIO.load file
