@@ -142,8 +142,7 @@ module CubeRenderTask =
 
     let renderToCubeMip (runtime : IRuntime) size levels signature source=
         (fun f i  -> renderToCubeTask runtime size signature source i f)
-        |> CubeMap.init levels 
-        |> RenderTask.renderSemanticsCubeMip (Set.singleton DefaultSemantic.Colors) size
+        |> RenderTaskExtensions.renderSemanticsCubeMip' (Set.singleton DefaultSemantic.Colors) levels size 
         |> Map.find DefaultSemantic.Colors
 
     let renderToCube (runtime : IRuntime) size signature source=

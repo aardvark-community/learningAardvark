@@ -173,7 +173,7 @@ module App =
                     |None -> skyBoxTexture :> aval<_>
                 )
 
-        //render the precalculated  Maps for PBR Global Ambient Light
+        //render the precalculated  aps for PBR Global Ambient Light
         //Ardvark will only rexecute this if the global enviroment changes
         let diffuseIrradianceMap = GlobalAmbientLight.diffuseIrradianceMap runtime enviromentTexture
 
@@ -181,9 +181,11 @@ module App =
 
         let bRDFLtu = GlobalAmbientLight.BRDFLtu runtime
 
+        //create a depth frameBuffer attachment that can be shared between the gBuffer and the transparency task
         let depthTex = runtime.CreateTexture(TextureFormat.ofRenderbufferFormat RenderbufferFormat.DepthComponent24, 1, size)
         let depthAttachment = runtime.CreateTextureAttachment(depthTex, 0) :> aval<_>
-
+        
+        //get shadow maps for all lights
         let shadowMaps = Shadow.shadowMaps runtime scene bb m.lights
 
         //render the geometry to the gBuffer
@@ -250,8 +252,8 @@ module App =
                 prefilterdSpecColor
                 bRDFLtu
                 m.sssProfiles
-                depthAttachment
-                gBuffer//only to force dependency on the gBuffer
+                depthAttachment//depth attachment shared with the gBuffer creation
+                gBuffer//only to force dependency on the gBuffer, so that this is always executed after the gBuffer creation
 
         let combined' =
             WBOTI.compose
@@ -303,7 +305,7 @@ module App =
             [
                 style "position: fixed; left: 0; top: 0; width: 100%; height: 100%"
                 attribute "showFPS" "true"
-                attribute "data-renderalways" "1"
+                //attribute "data-renderalways" "1"
             ]
 
         let t = compileDeffered m

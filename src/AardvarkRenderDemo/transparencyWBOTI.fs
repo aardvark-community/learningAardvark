@@ -155,9 +155,7 @@ module WBOTI =
         
         objects
         |> sceneObject.objectsTrimByMaterial (fun _  (a : AdaptivePBRMaterial) -> AVal.map2 (fun c t -> c > 0.99999 && t < 0.00001) a.coverage.factor a.transmission.factor)
-        //|>sceneObject.objects 
         |> Sg.depthWrite' false
-        //|> Sg.cullMode' CullMode.Back
         |> Sg.blendModes' (Map.ofList [
             (Sym.ofString "Accum"), BlendMode.Add
             (Sym.ofString "ModulateColor"), ModulateBlend
@@ -186,18 +184,18 @@ module WBOTI =
         |> Sg.texture (Sym.ofString "Dummy") (Map.find DefaultSemantic.Colors gBuffer)//only to force dependency on the gBuffer
         |> Sg.compile runtime signature
         |> RenderTaskExtensions.renderSemanticsCustom
-            (
+            (   //output
                 Set.ofList [
                     (Sym.ofString "ModulateColor")
                     (Sym.ofString "Accum")
                 ]
            ) 
            size
-           (Map.ofList [
+           (Map.ofList [//clear colors
                 (Sym.ofString "Accum"), C4f.Zero
                 (Sym.ofString "ModulateColor"),C4f.White
             ])
-           (Map.ofList [
+           (Map.ofList [// use preexisting depth attachment
                 DefaultSemantic.Depth, depthBuffer
             ])      
 

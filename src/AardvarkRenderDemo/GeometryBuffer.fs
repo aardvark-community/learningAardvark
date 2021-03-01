@@ -107,7 +107,7 @@ module GeometryBuffer  =
                         ]
                ) 
                size 
-               attachments
+               attachments//render with preexisting depth attachment becaus we need to share it with the transparency pass
      
 
 module GBuffer = 

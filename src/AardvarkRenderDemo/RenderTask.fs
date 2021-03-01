@@ -38,6 +38,7 @@ module RenderTaskExtensions =
     let getResult (sem : Symbol) (t : IAdaptiveResource<IFramebuffer>) =
         t.GetOutputTexture sem
 
+    ///render with custom clear colors and preexisting fbo attachments
     let renderSemanticsCustom (output : Set<Symbol>) (size : aval<V2i>) (clearColors : Map<Symbol,C4f>) (attachments : Map<Symbol, aval<IFramebufferOutput>>) (task : IRenderTask) =
         let runtime = task.Runtime.Value
         let signature = task.FramebufferSignature.Value
@@ -49,6 +50,7 @@ module RenderTaskExtensions =
         let res = task'.RenderTo(fbo, dispose = true)
         output |> Seq.map (fun k -> k, getResult k res) |> Map.ofSeq
 
+    ///render with preexisting fbo attachments
     let renderSemanticsCustom' (output : Set<Symbol>) (size : aval<V2i>) (attachments : Map<Symbol, aval<IFramebufferOutput>>) (task : IRenderTask) =
         let runtime = task.Runtime.Value
         let signature = task.FramebufferSignature.Value
@@ -60,5 +62,11 @@ module RenderTaskExtensions =
         let res = task'.RenderTo(fbo, dispose = true)
         output |> Seq.map (fun k -> k, getResult k res) |> Map.ofSeq
 
+    ///render with custom clear colors
     let renderSemanticsCustomClear (output : Set<Symbol>) (size : aval<V2i>) (clearColors : Map<Symbol,C4f>) (task : IRenderTask) =
         renderSemanticsCustom output size clearColors Map.empty task
+
+    let renderSemanticsCubeMip' (output : Set<Symbol>) levels size (tasks : CubeSide -> int -> IRenderTask) =
+        tasks
+        |> CubeMap.init levels 
+        |> RenderTask.renderSemanticsCubeMip (Set.singleton DefaultSemantic.Colors) size

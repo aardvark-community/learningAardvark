@@ -246,6 +246,7 @@ module PBR =
 
     let lightnigTransparent (frag : Fragment) =
         fragment {
+            //adjust transparency by fresnel
             let cameraPos = uniform.CameraLocation
             let v = cameraPos - frag.wp.XYZ |> Vec.normalize
 
@@ -254,6 +255,7 @@ module PBR =
 
             let transmission = frag.transmission * (V3d.III - f)
 
+            //direct lightnig
             let mutable diffuseD = V3d.Zero 
             let mutable specularD = V3d.Zero
             for i in 0..uniform.LightCount-1 do
@@ -262,13 +264,16 @@ module PBR =
                 diffuseD  <- diffuseD  + diffuseDi
                 specularD <- specularD + specularDi 
             
+            //abient kighning
             let diffuseO, specularO = 
                 ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal
             
-            let em = frag.emission
+            //adjust diffuse for transmission            
             let diffuse = (diffuseD + diffuseO) * (1.0 - max3 transmission)
    
+            let em = frag.emission
             let specular = specularD  + specularO + em   
+            //premultiply alpha from partial  coverage
             let alpha = frag.c.W 
             let color =  (diffuse + specular) * alpha
 
