@@ -12,7 +12,7 @@ At the moment the Demo features
 * normal mapping
 * displacement mapping
 * screen space ambient occlusion
-* cloth shadeing (sheen)
+* cloth shading (sheen)
 * screen space subsurface scattering
 * transluceny
 * transparency with partial coverage and colored transmission
