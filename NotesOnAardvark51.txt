@@ -1,0 +1,20 @@
+Some Feedback on the Aardvark 5.1 version:
+
+I really like reorganisation of the Aardvar.Rendering repository. It is much easier to locate things now. Before 5.1 I was always searching for things like BlendMode before I remembered that they where hiding in the Aardvark.Base repository. The organisation makes much more sense now.
+
+The methods for rendering to cube maps work great and are very useful; I was able to retire a lot of homebrew stuff. The only thing additional thing I needed is a function to specify a separate rendertask for each face and mip level, when preintegrating a specular BRSF for image based lightning, the MIP levels are used for different roughness values. But this function is trivial with the new functionality.
+https://github.com/aardvark-community/learningAardvark/blob/master/src/AardvarkRenderDemo/RenderTask.fs#L69
+
+For more advanced features the AdaptiveFramebuffer type and associated functions are great, especially when I need to share a framebuffer attachment between different render tasks. I added some functions to render a rendertask to framebuffers with pre-existing attachments and custom clear colors. But they are a bit to specialized for the general API.
+
+The BlendModes are much nicer to use now and the ability to set them per attachment very much welcome. 
+
+The non adaptive SG methods where useful to reduce some code clutter.
+ 
+The various renderTo methods now return an IAdaptiveResource<IBackendTexture> now, witch is a subtype of aval<IBackendTexture>. It was an aval<ITexture> in 5.0. 
+
+I found that change a very minor inconvenience: While the SG.texture method can take that type directly (which is great), it gets a bit less smooth when the SG.texture is in a function and the texture is a function parameter. The type interference will type that parameter as aval<ITexture>  in the absence of a type annotation.  And the function will not accept an AdaptiveResource<IBackendTexture> as input. So I had to add type annotations to a lot of functions. 
+
+The new functions in the Fun and Vec  module are very useful, I just wish more of them would work directly in FShade shaders (e.g Vec.MinElement, Vec.MaxElement).
+
+All in all a great release!
