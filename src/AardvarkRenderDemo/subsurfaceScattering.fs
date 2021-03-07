@@ -26,7 +26,7 @@ module subSurfaceShader =
         member x.Samples : int = 25
         member x.horizontal : bool = x?horizontal
         member x.sssWidth :  Arr<N<8>, float> = x?sssWidth
-        member x.camFoVy : float = x?camFoVy
+        member x.tanFoVxHalf : float = x?tanFoVxHalf
         member x.kernelRange : float = 3.0
         member x.kernel : Arr<N<200>, V4d> = uniform?kernel
 
@@ -105,7 +105,7 @@ module subSurfaceShader =
 
                 // Calculate the sssWidth scale (1.0 for a unit plane sitting on the
                 // projection window):
-                let distanceToProjectionWindow = 1.0 / tan (0.5 * uniform.camFoVy)
+                let distanceToProjectionWindow = 1.0 / uniform.tanFoVxHalf
                 let scale = distanceToProjectionWindow / depthM
 
                 //calcualte step size
@@ -320,7 +320,7 @@ module subSurface =
     let makeSubSurfaceScatttering 
         (runtime : IRuntime) 
         (size : aval<V2i>) 
-        (camFoVy : float) 
+        (tanFoVxHalf : aval<float>) 
         view 
         proj 
         (gBuffer : Map<Symbol,IAdaptiveResource<IBackendTexture>>)  
@@ -345,7 +345,7 @@ module subSurface =
             |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
             |> Sg.uniform' "horizontal" h
             |> Sg.uniform "sssWidth"  widthBuffer
-            |> Sg.uniform' "camFoVy" camFoVy
+            |> Sg.uniform "tanFoVxHalf" tanFoVxHalf
             |> Sg.uniform "kernel" kernelBuffer
             |> Sg.shader {
                 do! subSurfaceShader.ssssBlur

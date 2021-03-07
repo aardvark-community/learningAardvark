@@ -64,7 +64,7 @@ module App =
     }
 
     let initial = 
-        let file = !!["initial_scene.json"]
+        let file = !!["refract_test.json"]//!!["initial_scene.json"]
         if (System.IO.File.Exists file)
         then 
            projetIO.load file
@@ -136,8 +136,11 @@ module App =
         let outputSignature = values.signature
         let view = values.viewTrafo
         let proj = values.projTrafo
-        let camFoVy = radians 30.0
+        let f = AVal.map Frustum.ofTrafo values.projTrafo
+        let camFoVx = AVal.map (Frustum.horizontalFieldOfViewInDegrees >> radians) f
+        let tanFoVxHalf =  AVal.map (fun  b -> b * 0.5  |> tan) camFoVx
         let size = values.size |> AVal.map (fun s -> V2i(max 1 s.X, max 1 s.Y))
+        let aspectRatio = AVal.map (fun (s : V2i) -> float s.Y / float s.X) size 
         let runtime = values.runtime
 
         let scene = m.objects |> sceneObject.objects 
@@ -232,7 +235,7 @@ module App =
         let diffuse =  Map.find  (Sym.ofString"Diffuse")  diffuseAndSpecular
         let specular = Map.find  (Sym.ofString"Specular") diffuseAndSpecular
 
-        let ssss = subSurface.makeSubSurfaceScatttering (runtime : IRuntime) (size : aval<V2i>) camFoVy view proj gBuffer diffuse m.sssProfiles
+        let ssss = subSurface.makeSubSurfaceScatttering (runtime : IRuntime) (size : aval<V2i>) tanFoVxHalf view proj gBuffer diffuse m.sssProfiles
 
         let diffuseAndSpecular' = Map.ofList [((Sym.ofString"Diffuse"),ssss); ((Sym.ofString"Specular"), specular)]
         let combined = combine.combine runtime size diffuseAndSpecular'
@@ -252,6 +255,8 @@ module App =
                 prefilterdSpecColor
                 bRDFLtu
                 m.sssProfiles
+                tanFoVxHalf
+                aspectRatio
                 depthAttachment//depth attachment shared with the gBuffer creation
                 gBuffer//only to force dependency on the gBuffer, so that this is always executed after the gBuffer creation
 
@@ -263,6 +268,7 @@ module App =
                 combined 
                 (Map.find  (Sym.ofString "Accum") transparent)
                 (Map.find  (Sym.ofString "ModulateColor") transparent)
+                (Map.find  (Sym.ofString "Delta") transparent)
 
         let postprocessed = 
             AVal.bind (fun doBloom  ->  

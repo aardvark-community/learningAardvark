@@ -1,0 +1,206 @@
+{
+  "FsPickler": "4.0.0",
+  "type": "SLEAardvarkRenderDemo.projetIO+ExportModel",
+  "value": {
+    "cameraViewParams": {
+      "Item1": {
+        "X": -2.7248084081970667,
+        "Y": 1.4997819697467574,
+        "Z": -5.153352379389908
+      },
+      "Item2": {
+        "X": 0.4623459181444927,
+        "Y": -0.11337611380071874,
+        "Z": 0.8794214625505639
+      },
+      "Item3": {
+        "X": 0.0,
+        "Y": 1.0,
+        "Z": 0.0
+      }
+    },
+    "lights": {
+      "count": 1,
+      "items": [
+        {
+          "Item1": 0,
+          "Item2": {
+            "Case": "DirectionalLight",
+            "Item": {
+              "lightDirection": {
+                "W": 0.0,
+                "X": 3.0,
+                "Y": -2.0,
+                "Z": 3.0
+              },
+              "color": {
+                "B": 0.8,
+                "G": 0.9490196078431372,
+                "R": 1.0
+              },
+              "intensity": 5.0,
+              "castsShadow": true
+            }
+          }
+        }
+      ]
+    },
+    "enviorment": {
+      "skyMap": "GrandCanyon_C_YumaPoint\\GCanyon_C_YumaPoint_3k.hdr",
+      "skyMapRotation": 3.8955748904513436,
+      "skyMapIntensity": 1.5135612484362087,
+      "ambientLightIntensity": 1.2302687708123812,
+      "occlusionSettings": {
+        "occlusionStrength": 1.11,
+        "scale": 1.0,
+        "radius": 0.21,
+        "samples": 32,
+        "threshold": 0.2,
+        "sigma": 2.0,
+        "sharpness": 1.0
+      },
+      "lightProbePosition": null
+    },
+    "expousure": 0.4677351412871981,
+    "objects": {
+      "count": 1,
+      "items": {
+        "length": 1,
+        "array": [
+          {
+            "Item1": "sphere",
+            "Item2": {
+              "name": "sphere",
+              "file": "sphere.obj",
+              "scale": 1.0,
+              "translation": {
+                "X": 0.0,
+                "Y": 1.0,
+                "Z": 0.0
+              },
+              "rotation": {
+                "X": 0.0,
+                "Y": 0.0,
+                "Z": 0.0
+              },
+              "materials": {
+                "count": 1,
+                "items": [
+                  {
+                    "Item1": "default",
+                    "Item2": {
+                      "metallic": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "roughness": {
+                        "fileName": null,
+                        "factor": 0.17
+                      },
+                      "clearCoat": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatRoughness": {
+                        "fileName": null,
+                        "factor": 0.2
+                      },
+                      "albedo": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.6940444707870483,
+                          "G": 0.8133333325386047,
+                          "R": 0.7898538112640381
+                        },
+                        "factor": 1.0
+                      },
+                      "emission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 0.0,
+                          "G": 0.0,
+                          "R": 0.0
+                        },
+                        "factor": 1.0
+                      },
+                      "normal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "clearCoatNormal": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "discard": false,
+                      "displacment": {
+                        "fileName": null,
+                        "factor": 0.0
+                      },
+                      "sheenColor": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      },
+                      "sheenRoughness": {
+                        "fileName": null,
+                        "factor": 0.8
+                      },
+                      "SssProfileIndex": null,
+                      "coverage": {
+                        "fileName": null,
+                        "factor": 1.0
+                      },
+                      "transmission": {
+                        "fileName": null,
+                        "color": {
+                          "B": 1.0,
+                          "G": 1.0,
+                          "R": 1.0
+                        },
+                        "factor": 0.0
+                      }
+                    }
+                  }
+                ]
+              },
+              "currentMaterial": "default",
+              "materialLinks": {
+                "count": 0,
+                "items": []
+              }
+            }
+          }
+        ]
+      }
+    },
+    "selectedObject": "sphere",
+    "toneMapping": {
+      "ToeLength": 0.41,
+      "ToeStrength": 0.57,
+      "ShoulderLength": 0.5,
+      "ShoulderStrength": 2.0,
+      "ShoulderAngle": 0.48,
+      "Gamma": 1.0
+    },
+    "bloom": {
+      "on": false,
+      "threshold": 5.248074602497728,
+      "blurSize": 3,
+      "sigma": 3.0
+    },
+    "fxAA": {
+      "threshold": 0.166,
+      "thresholdMin": 0.0833,
+      "subpix": 0.75,
+      "preset": "Quality25"
+    },
+    "sssProfiles": {
+      "count": 0,
+      "items": []
+    }
+  }
+}
