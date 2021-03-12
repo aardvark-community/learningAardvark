@@ -64,7 +64,7 @@ module App =
     }
 
     let initial = 
-        let file = !!["refract_test.json"]//!!["initial_scene.json"]
+        let file = !!["initial_scene.json"]
         if (System.IO.File.Exists file)
         then 
            projetIO.load file

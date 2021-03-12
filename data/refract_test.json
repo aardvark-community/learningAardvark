@@ -161,7 +161,12 @@
                           "G": 1.0,
                           "R": 1.0
                         },
-                        "factor": 0.0
+                        "factor": 1.0
+                      },
+                      "indexOfRefraction": 1.0,
+                      "refractionDistance": {
+                        "fileName": null,
+                        "factor": 2.0
                       }
                     }
                   }

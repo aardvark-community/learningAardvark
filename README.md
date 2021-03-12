@@ -16,6 +16,7 @@ At the moment the Demo features
 * screen space subsurface scattering
 * transluceny
 * transparency with partial coverage and colored transmission
+* refraction
 
 The app uses [aardvark.media](https://github.com/aardvark-platform/aardvark.media) and I explored the adaptive elm-style UI concept a bit.
 

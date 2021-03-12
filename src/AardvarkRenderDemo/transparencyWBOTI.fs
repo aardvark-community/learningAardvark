@@ -22,12 +22,16 @@ module WBOTI =
     type UniformScope with
         member x.tanFoVxHalf : float = x?tanFoVxHalf
         member x.aspectRatio  : float = x?aspectRatio 
+        member x.indexOfRefraction : float = x?IndexOfRefraction
+        member x.refractionDistance  : float = x?RefractionDistance
 
     type Fragment = {
         [<Color>]                    Color        : V4d
         [<Normal>]                   N            : V3d
-        [<FragCoord>]                CsPos        : V4d
-        [<Semantic("Transmission")>] Transmission : V3d
+        [<WorldPosition>]            wsPos        : V4d
+        [<TexCoord>]                 tc           : V2d
+        [<Semantic("Transmission")>] transmission : V3d
+        [<FrontFacing>]              frontFacing  : bool
        }
 
     type FragmentOut = {
@@ -44,34 +48,44 @@ module WBOTI =
             filter Filter.MinMagLinear
         }
 
+    let refractionDistanceSampler =
+        sampler2d {
+            texture uniform?RefractionDistanceMap
+            addressU WrapMode.Clamp
+            addressV WrapMode.Clamp
+            filter Filter.MinMagLinear
+        }
+
     [<ReflectedDefinition>]
     let backgroundSizeInMeter z = 
         let x = 2.0 * z  + uniform.tanFoVxHalf
         V2d(x, x * uniform.aspectRatio)
 
     [<ReflectedDefinition>]
-    let computeRefactionOffset (backgroundZ : float) (csN : V3d) (csPosition : V3d) (etaRatio : float) =
+    let computeRefactionOffset (backgroundZ : float) (vsN : V3d) (vsPosition : V3d) (etaRatio : float) =
         // Incoming ray direction from eye, pointing away from csPosition 
-        let csw_i = Vec.normalize -csPosition
+        let csw_i = Vec.normalize vsPosition
 
         // Refracted ray direction, pointing away from wsPos 
-        let csw_o = Vec.refract etaRatio csN -csw_i
+        let csw_o = Vec.refract etaRatio vsN csw_i
 
         let totalInternalRefraction = Vec.dot csw_o csw_o < 0.01
+
 
         if totalInternalRefraction then
             V2d(0.0)
         else
             //point on the backraound xy plane
-            let p = V3d(csPosition.XY, backgroundZ) 
+            let p = V3d(vsPosition.XY, backgroundZ) 
 
-            //intersection of the refracted ray with background plan
+            //intersection of the refracted ray with background plane
             let hit = p.XY - csw_o.XY * p.Z / csw_o.Z
+            let start = p.XY - csw_i.XY * p.Z / csw_i.Z
 
             // hit is in meter from the center of the screen, scale to fraction of the background size
-            let backgroundSize = backgroundSizeInMeter p.Z
+            let backgroundSize = backgroundSizeInMeter (p.Z)
             let hitPos = hit / backgroundSize + V2d(0.5)
-            let startPos = p.XY / backgroundSize + V2d(0.5)
+            let startPos = start / backgroundSize + V2d(0.5)
 
             hitPos - startPos
 
@@ -79,11 +93,15 @@ module WBOTI =
     //calculates 
     let accumulateShader (frag : Fragment) =
         fragment {
+            let vsPos = //normal in view space
+                uniform.ViewTrafo * frag.wsPos 
+                |> Vec.xyz 
+                
             let coverage = frag.Color.W
             //Perform this operation before modifying the coverage to account for transmission.
             //modulation of background color by transmission color
             let modulate = 
-                coverage * (V3d.III - frag.Transmission) 
+                coverage * (V3d.III - frag.transmission) 
                 //wild hack to convince the adaptive system that this shader depends on the gBuffer to insure that this render tasks runs after the gBuffer because 
                 //it needs to use the deep attachment from the gBuffer task 
                 + if frag.Color.W > 1000.0 then (dummySampler.Sample(V2d.II).W * 0.0) else 0.0
@@ -96,22 +114,29 @@ module WBOTI =
                http://graphics.cs.williams.edu/papers/CSSM/
 
                for a full explanation and derivation.*)           
-            let netCoverage = coverage * (1.0 - Vec.dot frag.Transmission (V3d(1.0/3.0)))
+            let netCoverage = coverage * (1.0 - Vec.dot frag.transmission (V3d(1.0/3.0)))
 
             //calcualte weight. See reference implementation on http://casual-effects.com/research/McGuire2016Transparency/index.html for alternate weight functions 
-            let tmp = (1.0 - frag.CsPos.Z * 0.99) 
+            let tmp = (1.0 - vsPos.Z * 0.99) 
             let w  = netCoverage * tmp * tmp * tmp * 1000.0  |>  clamp 0.01 30.0
 
             let accum = V4d(frag.Color.XYZ, netCoverage) * w
 
-            let csN = //normal in view space
-                uniform.ViewProjTrafo * V4d(frag.N, 0.0) 
+            //frontFacing seems do be true on the  backsid and false on the front (why?)
+            let n = if frag.frontFacing then frag.N * -1.0 else frag.N 
+            let vsN = //normal in view space
+                uniform.ViewTrafo * V4d(n, 0.0) 
                 |> Vec.xyz 
                 |> Vec.normalize
             
-            let etaRatio = 1.0/1.5//if coverage = netCoverage  then 1.0 else 1.0/1.5
+            let etaRatio = if frag.frontFacing then 1.0  else 1.0/uniform.indexOfRefraction//no refracton on the back side, it looks bad for some reason
 
-            let delta = netCoverage * 8.0 * computeRefactionOffset 2.0 csN frag.CsPos.XYZ etaRatio
+            let delta = 
+                if etaRatio = 1.0 then
+                    V2d(0.0)
+                else
+                    let refractionDistance = uniform.refractionDistance * refractionDistanceSampler.Sample(frag.tc).X |> max  0.001
+                    coverage * 8.0 * computeRefactionOffset refractionDistance vsN vsPos etaRatio
 
             return { Modulate = modulate; Accum = accum; Delta = delta}
         } 
@@ -168,7 +193,7 @@ module WBOTI =
                     // background modulation
                     //let accum = accumColor0 * (V3d(0.5) + modulation / max 0.01 (2.0 * max3 modulation));
 
-                    let delta = deltaSampler.Sample(frag.tc).XY * 3.0 / 8.0 //why 3.0/8.0 and and not  1.0/8.0
+                    let delta = deltaSampler.Sample(frag.tc).XY * 2.0 / 8.0 //the original algorithem had 3.0/8.0 but I dont know why and it looks better this way
                     let background =  backgroundSampler.Sample(frag.tc + delta).XYZ
                     background * modulation + 
                     (V3d.III - modulation) * 
@@ -216,6 +241,7 @@ module WBOTI =
         objects
         |> sceneObject.objectsTrimByMaterial (fun _  (a : AdaptivePBRMaterial) -> AVal.map2 (fun c t -> c > 0.99999 && t < 0.00001) a.coverage.factor a.transmission.factor)
         |> Sg.depthWrite' false
+        //|> Sg.cullMode' CullMode.Front
         |> Sg.blendModes' (Map.ofList [
             (Sym.ofString "Accum"), BlendMode.Add
             (Sym.ofString "ModulateColor"), ModulateBlend

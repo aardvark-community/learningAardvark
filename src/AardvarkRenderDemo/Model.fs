@@ -111,6 +111,8 @@ type PBRMaterial = {
     SssProfileIndex : int option
     coverage : TextureMappedValue
     transmission : TextureMappedColor
+    indexOfRefraction : float
+    refractionDistance  : TextureMappedValue
 }
 
 [<ModelType>]

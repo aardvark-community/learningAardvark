@@ -75,6 +75,11 @@ module material =
             color = C3d.White
             factor = 0.0
         }
+        indexOfRefraction = 1.0
+        refractionDistance = {
+            fileName = None
+            factor = 2.0
+        }
     }
 
     let onePxPix (color :C3f)= 
@@ -213,6 +218,13 @@ module material =
                 |> Option.defaultValue (onPixTex C3f.White)
             AVal.bind (fun (m : AdaptivePBRMaterial)-> m.coverage.fileName |> AVal.map loadTex)  x.Material :> IAdaptiveValue
 
+        member x.RefractionDistanceMap =               
+            let loadTex f =
+                f
+                |> Option.map (fun f -> FileTexture(f, TextureParams.empty) :> ITexture)
+                |> Option.defaultValue (onPixTex C3f.White)
+            AVal.bind (fun (m : AdaptivePBRMaterial)-> m.refractionDistance.fileName |> AVal.map loadTex)  x.Material :> IAdaptiveValue
+
         interface IO.Loader.IMaterial with
 
             member x.name = x.Name
@@ -248,6 +260,9 @@ module material =
                 | "TransmissionColorTexture" -> Some (x.TransmissionColorMap :> IAdaptiveValue)
                 | "Transmission" ->  Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> AVal.map2 (*) m.transmission.color  m.transmission.factor) x.Material :> IAdaptiveValue)
                 | "SssProfileIndex" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> AVal.map (Option.defaultValue -1) m.SssProfileIndex) x.Material :> IAdaptiveValue)
+                | "IndexOfRefraction" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.indexOfRefraction) x.Material :> IAdaptiveValue) 
+                | "RefractionDistance" -> Some (AVal.bind (fun (m : AdaptivePBRMaterial)-> m.refractionDistance.factor) x.Material :> IAdaptiveValue)
+                | "RefractionDistanceMap" -> Some x.RefractionDistanceMap
                 | _ -> None
             
             member x.Dispose() = ()
@@ -394,6 +409,8 @@ module materialControl =
         | SetCoverage of textureMappedValueControl.Message
         | SetTransmission of  textureMappedColorControl.Message
         | SetSssProfile of int option
+        | SetIndexOfRefraction of float
+        | SetRefractionDistance of textureMappedValueControl.Message
 
     let update  (m : PBRMaterial) (msg : Message)  =
         match msg with
@@ -412,6 +429,8 @@ module materialControl =
         | SetSssProfile p -> {m with SssProfileIndex = p}
         | SetCoverage msg' -> { m with  coverage = textureMappedValueControl.update m.coverage msg'}
         | SetTransmission msg' -> { m with transmission = textureMappedColorControl.update m.transmission msg'}
+        | SetIndexOfRefraction i -> {m with indexOfRefraction = i}
+        | SetRefractionDistance msg' -> { m with  refractionDistance = textureMappedValueControl.update m.refractionDistance msg'}
 
     let view (m : AdaptivePBRMaterial) (profiles : amap<int,AdaptiveSssProfile>)=
         let ProfilList = 
@@ -440,6 +459,10 @@ module materialControl =
             textureMappedValueControl.view textureMappedValueControl.Linear "Normal Map" 0.0 1.0 0.01 m.normal  |> UI.map SetNormal
             textureMappedValueControl.view textureMappedValueControl.Linear "Coverage" 0.0 1.0 0.01 m.coverage  |> UI.map SetCoverage
             textureMappedColorControl.view textureMappedColorControl.Linear "Transmission" 0.0 1.0 0.01 m.transmission  |> UI.map SetTransmission
+            Html.table [   
+                 tr [] [ td [] [text "Index of Refraction"]; td [style "width: 70%;"] [inputSlider {min =1.0;  max = 3.0; step = 0.01} [] m.indexOfRefraction SetIndexOfRefraction]]
+            ]   
+            textureMappedValueControl.view textureMappedValueControl.Log "Refraction Distance" 0.001 100.0 0.01 m.refractionDistance  |> UI.map SetRefractionDistance
             textureMappedValueControl.view textureMappedValueControl.Linear "Clear Coat" 0.0 1.0 0.01 m.clearCoat  |> UI.map SetClearCoat
             textureMappedValueControl.view textureMappedValueControl.Linear "Clear Coat Roughness" 0.0 1.0 0.01 m.clearCoatRoughness  |> UI.map SetClearCoatRoughness
             textureMappedValueControl.view textureMappedValueControl.Linear "Clear Coat Normal" 0.0 1.0 0.01 m.clearCoatNormal  |> UI.map SetClearCoatNormal
