@@ -8,33 +8,33 @@
  0:     found: linux/AMD64/libglfw.so.3
  0:     found: mac/AMD64/libglfw.3.dylib
  0:     found: windows/AMD64/glfw3.dll
- 0:     copy glfw3.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-e8198255-26bf-a4f9-74c2-a38d5a2b0b53-64\glfw3.dll
+ 0:     copy glfw3.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-4fac4e43-def7-dade-eaa2-0e27bd45ccb7-64\glfw3.dll
  0:     found: windows/x86/glfw3.dll
- 0:   Loading native dependencies for Aardvark.Application.Slim.GL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null 0.007 s
+ 0:   Loading native dependencies for Aardvark.Application.Slim.GL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null 0.033 s
  0:   Loading native dependencies for Aardvark.Rendering.GL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: linux/AMD64/glvm.so
  0:     found: mac/AMD64/glvm.dylib
  0:     found: windows/AMD64/glvm.dll
- 0:     copy glvm.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-2969573b-f089-b823-770a-4328a7cb0211-64\glvm.dll
+ 0:     copy glvm.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-e0aa73aa-849d-8032-0eca-2eeaf3d67515-64\glvm.dll
  0:     found: windows/AMD64/glvm.exp
- 0:     copy glvm.exp to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-2969573b-f089-b823-770a-4328a7cb0211-64\glvm.exp
+ 0:     copy glvm.exp to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-e0aa73aa-849d-8032-0eca-2eeaf3d67515-64\glvm.exp
  0:     found: windows/AMD64/glvm.lib
- 0:     copy glvm.lib to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-2969573b-f089-b823-770a-4328a7cb0211-64\glvm.lib
+ 0:     copy glvm.lib to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-e0aa73aa-849d-8032-0eca-2eeaf3d67515-64\glvm.lib
  0:     found: windows/AMD64/glvm.pdb
- 0:     copy glvm.pdb to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-2969573b-f089-b823-770a-4328a7cb0211-64\glvm.pdb
+ 0:     copy glvm.pdb to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-e0aa73aa-849d-8032-0eca-2eeaf3d67515-64\glvm.pdb
  0:     found: windows/x86/glvm.dll
  0:     found: windows/x86/glvm.exp
  0:     found: windows/x86/glvm.lib
  0:     found: windows/x86/glvm.pdb
- 0:   Loading native dependencies for Aardvark.Rendering.GL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
+ 0:   Loading native dependencies for Aardvark.Rendering.GL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null 0.098 s
  0:   Loading native dependencies for Aardvark.Service, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null 
  0:     found: remap.xml
  0:     found: linux/AMD64/libturbojpeg.so
  0:     found: mac/AMD64/libturbojpeg.dylib
  0:     found: windows/AMD64/turbojpeg.dll
- 0:     copy turbojpeg.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Service-a84c03f8-27e1-814d-a331-c11a4705dfad-64\turbojpeg.dll
+ 0:     copy turbojpeg.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Service-965ef7c1-a638-c71a-825f-36a783e30579-64\turbojpeg.dll
  0:     found: windows/x86/turbojpeg.dll
- 0:   Loading native dependencies for Aardvark.Service, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null 0.015 s
+ 0:   Loading native dependencies for Aardvark.Service, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null 0.042 s
  0:   Loading plugins ............................................................................
  0:     using cache dir: C:\Users\Stefan\AppData\Roaming\Aardvark\Cache
  0:     [LoadPlugins] Using plugin cache file name: C:\Users\Stefan\AppData\Roaming\Aardvark\Cache\Plugins\AardvarkRenderDemo_1.0.0.0_plugins.bin
@@ -49,40 +49,44 @@
  0:     [GetPluginAssemblyPaths] Ignoring assembly System.Text.Encodings.Web due to filter
  0:     [GetPluginAssemblyPaths] Ignoring assembly System.Text.Json due to filter
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardium.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Application.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Application.Slim.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Application.Slim.GL.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Application.Slim.Vulkan.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Essentials.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.FSharp.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Incremental.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Application.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Application.Slim.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Application.Slim.GL.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Application.Slim.Vulkan.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Essentials.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.FSharp.dll
+ 0:     [GetPluginAssemblyPaths] plugin found D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.FSharp.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Incremental.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Rendering.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Runtime.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Telemetry.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Tensors.CSharp.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Tensors.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Runtime.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Telemetry.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Tensors.CSharp.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Tensors.dll
+ 0:     [GetPluginAssemblyPaths] plugin found D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.Tensors.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Base.TypeProviders.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Geometry.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.GPGPU.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.PixImage.DevIL.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Rendering.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Rendering.GL.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Rendering.Vulkan.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.SceneGraph.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.SceneGraph.IO.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Service.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.UI.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.UI.Primitives.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Geometry.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.GPGPU.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.PixImage.DevIL.dll
+ 0:     [GetPluginAssemblyPaths] plugin found D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.PixImage.DevIL.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Rendering.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Rendering.GL.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Rendering.Vulkan.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.SceneGraph.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.SceneGraph.IO.dll
+ 0:     [GetPluginAssemblyPaths] plugin found D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.SceneGraph.IO.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.Service.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.UI.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Aardvark.UI.Primitives.dll
  0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\AardvarkRenderDemo.dll
  0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\AardvarkRenderDemo.exe
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Adaptify.Core.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\AssimpNet.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\DevILSharp.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FShade.Core.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FShade.GLSL.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FShade.Imperative.dll
- 0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FShade.SpirV.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FShade.Core.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FShade.GLSL.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FShade.Imperative.dll
+ 0:     [GetPluginAssemblyPaths] retrying to load because not in cache D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FShade.SpirV.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FSharp.Core.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FSharp.Data.Adaptive.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\FsPickler.dll
@@ -96,7 +100,7 @@
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Suave.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.dll
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1\Ultz.SuperInvoke.Loader.dll
- 0:   Loading plugins .................................................................... 0.063 s
+ 0:   Loading plugins .................................................................... 0.656 s
  0:   [Introspection] Ignoring assembly System.Runtime due to filter
  0:   [Introspection] Ignoring assembly System.Runtime due to filter
  0:   [Introspection] Ignoring assembly System.IO.MemoryMappedFiles due to filter
@@ -363,18 +367,18 @@
  0:     found: remap.xml
  0:     found: linux/AMD64/libvkvm.so
  0:     found: windows/AMD64/vkvm.dll
- 0:     copy vkvm.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-0dc5299f-1f76-f668-1f30-a94e3af48516-64\vkvm.dll
+ 0:     copy vkvm.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-9d67cbc4-ee14-5ac6-dc14-5b53fb9ec0d4-64\vkvm.dll
  0:     found: windows/AMD64/vkvm.exp
- 0:     copy vkvm.exp to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-0dc5299f-1f76-f668-1f30-a94e3af48516-64\vkvm.exp
+ 0:     copy vkvm.exp to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-9d67cbc4-ee14-5ac6-dc14-5b53fb9ec0d4-64\vkvm.exp
  0:     found: windows/AMD64/vkvm.lib
- 0:     copy vkvm.lib to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-0dc5299f-1f76-f668-1f30-a94e3af48516-64\vkvm.lib
+ 0:     copy vkvm.lib to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-9d67cbc4-ee14-5ac6-dc14-5b53fb9ec0d4-64\vkvm.lib
  0:     found: windows/AMD64/vkvm.pdb
- 0:     copy vkvm.pdb to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-0dc5299f-1f76-f668-1f30-a94e3af48516-64\vkvm.pdb
+ 0:     copy vkvm.pdb to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-9d67cbc4-ee14-5ac6-dc14-5b53fb9ec0d4-64\vkvm.pdb
  0:     found: windows/x86/vkvm.dll
  0:     found: windows/x86/vkvm.exp
  0:     found: windows/x86/vkvm.lib
  0:     found: windows/x86/vkvm.pdb
- 0:   Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
+ 0:   Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null 0.042 s
  0:   [Introspection] Ignoring assembly System.Runtime due to filter
  0:   [Introspection] Ignoring assembly System.Threading due to filter
  0:   [Introspection] Ignoring assembly System.Globalization due to filter
@@ -523,106 +527,106 @@
  0:   [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
  0:   [cache hit ] FSharp.Data.Adaptive, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
- 0:   [cache hit ] Aardvark.Base, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Base.Telemetry, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Rendering, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Base.FSharp, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Base, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Base.Telemetry, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Rendering, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Base.FSharp, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing CustomPicklerProvider .........................................................
  0:     [cache miss] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Adaptify.Core, Version=1.0.5.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
  0:     [cache hit ] FSharp.Data.Adaptive, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
- 0:     [cache hit ] Aardvark.Base, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Telemetry, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.FSharp, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Base, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Base.Telemetry, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Rendering, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Base.FSharp, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] FsPickler, Version=5.3.2.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.Core, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.Imperative, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Tensors.CSharp, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] FShade.GLSL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Tensors, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] FShade.Core, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] FShade.Imperative, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Base.Tensors.CSharp, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] FShade.GLSL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Base.Tensors, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] SixLabors.ImageSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13
- 0:     [cache hit ] Aardvark.Base.Incremental, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Essentials, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI.Primitives, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.UI, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.SceneGraph, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Base.Incremental, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Base.Essentials, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.UI.Primitives, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.UI, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.SceneGraph, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
- 0:     [cache hit ] Aardvark.Application, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Service, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Application, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Service, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.Vulkan, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Rendering.Vulkan, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.PixImage.DevIL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.GPGPU, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Rendering.GL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Geometry, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.PixImage.DevIL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.GPGPU, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Rendering.GL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Geometry, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] LibTessDotNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Base.Runtime, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Base.Runtime, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] FsPickler.Json, Version=5.3.2.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:     [cache hit ] Aardvark.Application.Slim.GL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:     [cache miss] Aardvark.Application.Slim.GL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Silk.NET.GLFW, Version=1.7.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Ultz.SuperInvoke, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Ultz.SuperInvoke.Loader, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Silk.NET.Core, Version=1.7.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardium, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     installing pickler: Aardvark.Base.Picklers.AdaptivePicklers
- 0:   initializing CustomPicklerProvider ................................................. 0.059 s
+ 0:   initializing CustomPicklerProvider ................................................. 0.613 s
  0:   [cache hit ] FsPickler, Version=5.3.2.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] FShade.Core, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] FShade.Imperative, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Base.Tensors.CSharp, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] FShade.GLSL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Base.Tensors, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:   initializing PixImageSharp ......................................................... 0.029 s
+ 0:   [cache miss] FShade.Core, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] FShade.Imperative, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Base.Tensors.CSharp, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] FShade.GLSL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Base.Tensors, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   initializing PixImageSharp ......................................................... 0.022 s
  0:   [cache hit ] SixLabors.ImageSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13
- 0:   [cache hit ] Aardvark.Base.Incremental, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Base.Essentials, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.UI.Primitives, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.UI, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.SceneGraph, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Base.Incremental, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Base.Essentials, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.UI.Primitives, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.UI, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.SceneGraph, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
- 0:   [cache hit ] Aardvark.Application, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Service, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Application, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Service, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Rendering.Vulkan, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Rendering.Vulkan, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.PixImage.DevIL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.PixImage.DevIL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing PixImageDevil .................................................................
  0:     probing paths for DevIL
  0:       D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
  0:       C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-3bd7f194-a523-2e86-8661-c4afe365a43a-64
  0:     [Introspection] loaded native library DevIL from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-3bd7f194-a523-2e86-8661-c4afe365a43a-64\DevIL.dll
- 0:   initializing PixImageDevil ......................................................... 0.026 s
- 0:   [cache hit ] Aardvark.GPGPU, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Rendering.GL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Geometry, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   initializing PixImageDevil ......................................................... 0.023 s
+ 0:   [cache miss] Aardvark.GPGPU, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Rendering.GL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Geometry, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] LibTessDotNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Base.Runtime, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Base.Runtime, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] FsPickler.Json, Version=5.3.2.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.Application.Slim.GL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.Application.Slim.GL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Silk.NET.GLFW, Version=1.7.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Ultz.SuperInvoke, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Ultz.SuperInvoke.Loader, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Silk.NET.Core, Version=1.7.0.0, Culture=neutral, PublicKeyToken=null
  0:   [cache hit ] Aardium, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null
- 0:   [cache hit ] Aardvark.SceneGraph.IO, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 0:   [cache miss] Aardvark.SceneGraph.IO, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing Loader ................................................................ 0.000 s
- 0: initializing aardvark ................................................................ 0.471 s
+ 0: initializing aardvark ................................................................ 2.691 s
  0: probing paths for nvapi64
  0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
- 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-e8198255-26bf-a4f9-74c2-a38d5a2b0b53-64
- 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-2969573b-f089-b823-770a-4328a7cb0211-64
- 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Service-a84c03f8-27e1-814d-a331-c11a4705dfad-64
- 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-0dc5299f-1f76-f668-1f30-a94e3af48516-64
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-4fac4e43-def7-dade-eaa2-0e27bd45ccb7-64
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-e0aa73aa-849d-8032-0eca-2eeaf3d67515-64
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Service-965ef7c1-a638-c71a-825f-36a783e30579-64
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-9d67cbc4-ee14-5ac6-dc14-5b53fb9ec0d4-64
  0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64
  0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-3bd7f194-a523-2e86-8661-c4afe365a43a-64
  0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\AssimpNet-969d1624-35de-e8ae-f27b-d0ea28a223a6-64
@@ -633,8 +637,8 @@
  0:   depth: D24S8
  0: probing paths for glvm
  0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
- 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-2969573b-f089-b823-770a-4328a7cb0211-64
- 0: [Introspection] loaded native library glvm from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-2969573b-f089-b823-770a-4328a7cb0211-64\glvm.dll
+ 0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-e0aa73aa-849d-8032-0eca-2eeaf3d67515-64
+ 0: [Introspection] loaded native library glvm from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-e0aa73aa-849d-8032-0eca-2eeaf3d67515-64\glvm.dll
  0: backbuffer
  0:   color: R8G8B8A8
  0:   depth: D24S8
@@ -952,33 +956,33 @@
  0:   version:  OpenGL 4.5.14736 / GLSL 4.6.0  Core
  0:   probing paths for glvm
  0:     D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
- 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-e8198255-26bf-a4f9-74c2-a38d5a2b0b53-64
- 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-2969573b-f089-b823-770a-4328a7cb0211-64
- 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Service-a84c03f8-27e1-814d-a331-c11a4705dfad-64
- 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-0dc5299f-1f76-f668-1f30-a94e3af48516-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-4fac4e43-def7-dade-eaa2-0e27bd45ccb7-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-e0aa73aa-849d-8032-0eca-2eeaf3d67515-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Service-965ef7c1-a638-c71a-825f-36a783e30579-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-9d67cbc4-ee14-5ac6-dc14-5b53fb9ec0d4-64
  0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64
  0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-3bd7f194-a523-2e86-8661-c4afe365a43a-64
  0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\AssimpNet-969d1624-35de-e8ae-f27b-d0ea28a223a6-64
- 0:   [Introspection] loaded native library glvm from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-2969573b-f089-b823-770a-4328a7cb0211-64\glvm.dll
+ 0:   [Introspection] loaded native library glvm from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-e0aa73aa-849d-8032-0eca-2eeaf3d67515-64\glvm.dll
  0:   probing paths for Opengl32
  0:     D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
- 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-e8198255-26bf-a4f9-74c2-a38d5a2b0b53-64
- 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-2969573b-f089-b823-770a-4328a7cb0211-64
- 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Service-a84c03f8-27e1-814d-a331-c11a4705dfad-64
- 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-0dc5299f-1f76-f668-1f30-a94e3af48516-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Application.Slim.GL-4fac4e43-def7-dade-eaa2-0e27bd45ccb7-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-e0aa73aa-849d-8032-0eca-2eeaf3d67515-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Service-965ef7c1-a638-c71a-825f-36a783e30579-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.Vulkan-9d67cbc4-ee14-5ac6-dc14-5b53fb9ec0d4-64
  0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-fb08be3f-76ef-01e5-86cb-7c1c69b76b7e-64
  0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-3bd7f194-a523-2e86-8661-c4afe365a43a-64
  0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\AssimpNet-969d1624-35de-e8ae-f27b-d0ea28a223a6-64
  0:   [Introspection] loaded native library Opengl32.dll from Opengl32.dll
  0:   probing paths for opengl32
  0:     D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
- 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-2969573b-f089-b823-770a-4328a7cb0211-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-e0aa73aa-849d-8032-0eca-2eeaf3d67515-64
  0:   [Introspection] loaded native library opengl32.dll from opengl32.dll
  0:   probing paths for kernel32
  0:     D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
- 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-2969573b-f089-b823-770a-4328a7cb0211-64
+ 0:     C:\Users\Stefan\AppData\Local\Temp\aardvark-native\Aardvark.Rendering.GL-e0aa73aa-849d-8032-0eca-2eeaf3d67515-64
  0:   [Introspection] loaded native library kernel32.dll from kernel32.dll
- 0: initializing OpenGL runtime .......................................................... 0.185 s
+ 0: initializing OpenGL runtime .......................................................... 0.191 s
  0: probing paths for kernel32
  0:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\netcoreapp3.1
  0:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\AssimpNet-969d1624-35de-e8ae-f27b-d0ea28a223a6-64
@@ -1020,7 +1024,7 @@
  0: Aardvark.UI serves favicon.ico
  0: Aardvark.UI.Primitives serves spectrum.css
  0: Aardvark.UI.Primitives serves spectrum.js
- 1: [Server] created client for (67b17289-ee21-8eaf-3063-3f233d0ac8d1/n7), mapping enabled
+ 1: [Server] created client for (eb7bb6a0-470f-f677-17b4-41815cf8619e/n7), mapping enabled
  1: [Client] 1: running n7
  2: [Scene] n7: created
  2: [cache miss] AardvarkRenderDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -1028,39 +1032,39 @@
  2: [cache hit ] netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
  2: [cache hit ] FSharp.Data.Adaptive, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null
  2: [cache hit ] FSharp.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
- 2: [cache hit ] Aardvark.Base, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] Aardvark.Base.Telemetry, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] Aardvark.Rendering, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] Aardvark.Base.FSharp, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.Base, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.Base.Telemetry, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.Rendering, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.Base.FSharp, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  2: [cache hit ] FsPickler, Version=5.3.2.0, Culture=neutral, PublicKeyToken=null
  2: [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] FShade.Core, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] FShade.Imperative, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] Aardvark.Base.Tensors.CSharp, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] FShade.GLSL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] Aardvark.Base.Tensors, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] FShade.Core, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] FShade.Imperative, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.Base.Tensors.CSharp, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] FShade.GLSL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.Base.Tensors, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  2: [cache hit ] SixLabors.ImageSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13
- 2: [cache hit ] Aardvark.Base.Incremental, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] Aardvark.Base.Essentials, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] Aardvark.UI.Primitives, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] Aardvark.UI, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] Aardvark.SceneGraph, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.Base.Incremental, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.Base.Essentials, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.UI.Primitives, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.UI, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.SceneGraph, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  2: [cache hit ] Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
- 2: [cache hit ] Aardvark.Application, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] Aardvark.Service, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.Application, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.Service, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  2: [cache hit ] Suave, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] Aardvark.Rendering.Vulkan, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.Rendering.Vulkan, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  2: [cache hit ] GLSLangSharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null
  2: [cache hit ] DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] Aardvark.PixImage.DevIL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] Aardvark.GPGPU, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] Aardvark.Rendering.GL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] Aardvark.Geometry, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.PixImage.DevIL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.GPGPU, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.Rendering.GL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.Geometry, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  2: [cache hit ] LibTessDotNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] Aardvark.Base.Runtime, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.Base.Runtime, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  2: [cache hit ] FsPickler.Json, Version=5.3.2.0, Culture=neutral, PublicKeyToken=null
  2: [cache hit ] AssimpNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null
- 2: [cache hit ] Aardvark.Application.Slim.GL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
+ 2: [cache miss] Aardvark.Application.Slim.GL, Version=5.1.0.0, Culture=neutral, PublicKeyToken=null
  2: [cache hit ] Silk.NET.GLFW, Version=1.7.0.0, Culture=neutral, PublicKeyToken=null
  2: [cache hit ] Ultz.SuperInvoke, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null
  2: [cache hit ] Ultz.SuperInvoke.Loader, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null
@@ -1109,111 +1113,119 @@
  2: [cache hit ] Ultz.SuperInvoke.Loader, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null
  2: [cache hit ] Silk.NET.Core, Version=1.7.0.0, Culture=neutral, PublicKeyToken=null
  2: [cache hit ] Aardium, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null
- 2: [GL] RenderObjects: +1/-0 (567ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (5ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (0ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (762ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (14ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (0ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +61/-0 (761ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (17ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (5ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (0ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (0ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (5ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (0ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (0ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (0ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (0ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (0ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (12ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (1ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (62ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (0ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (0ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (9ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +60/-0 (24ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +2/-0 (2338ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (12ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (0ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (39ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +2/-0 (72ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2430ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (2477ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +1/-0 (3500ms)
- 2: using optimized native program
- 2: [GL] RenderObjects: +43/-2 (316ms)
+ 2: ERROR
+ 2:   [Client] 1: rendering faulted with System.NullReferenceException: Object reference not set to an instance of an object.
+ 2:      at Aardvark.Rendering.AdaptiveRenderToTypes.AdaptiveRenderingResult.Compute(AdaptiveToken t, RenderToken rt)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AdaptiveResource.arg10@68-1[a](AdaptiveResource`1 x, RenderToken rt, AdaptiveToken token)
+ 2:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
+ 2:      at Aardvark.Rendering.AdaptiveResource`1.Aardvark.Rendering.IAdaptiveResource<'a>.GetValue(AdaptiveToken c, RenderToken t)
+ 2:      at Aardvark.Rendering.AdaptiveRenderToTypes.AdaptiveOutputTexture.Compute(AdaptiveToken t, RenderToken rt)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AdaptiveResource.arg10@68-1[a](AdaptiveResource`1 x, RenderToken rt, AdaptiveToken token)
+ 2:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
+ 2:      at Aardvark.Rendering.AdaptiveResource`1.FSharp.Data.Adaptive.IAdaptiveValue<'a>.GetValue(AdaptiveToken c)
+ 2:      at FSharp.Data.Adaptive.AValModule.arg10@77[T](AbstractVal`1 x, AdaptiveToken token)
+ 2:      at FSharp.Data.Adaptive.AValModule.AbstractVal`1.GetValue(AdaptiveToken token)
+ 2:      at FSharp.Data.Adaptive.AValModule.AbstractVal`1.FSharp.Data.Adaptive.IAdaptiveValue<'T>.GetValue(AdaptiveToken t)
+ 2:      at Aardvark.SceneGraph.SgFSharp.SgFSharpHelpers.AdaptiveResource.MapResource`2.Compute(AdaptiveToken t, RenderToken rt)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AdaptiveResource.arg10@68-1[a](AdaptiveResource`1 x, RenderToken rt, AdaptiveToken token)
+ 2:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
+ 2:      at Aardvark.Rendering.AdaptiveResource`1.Aardvark.Rendering.IAdaptiveResource<'a>.GetValue(AdaptiveToken c, RenderToken t)
+ 2:      at <StartupCode$Aardvark-Rendering>.$ResourceManagement.GetOrCreateWrapped@357-1.Create(AdaptiveToken token, RenderToken rt, FSharpOption`1 old)
+ 2:      at Aardvark.Rendering.Resource`2.PerformUpdate(AdaptiveToken token, RenderToken t)
+ 2:      at Aardvark.Rendering.Resource`2.ForceUpdate(AdaptiveToken token, RenderToken rt)
+ 2:      at <StartupCode$Aardvark-Rendering>.$ResourceManagement.action@1-15[h,v](Resource`2 x, Unit unitVar0)
+ 2:      at Aardvark.Rendering.Resource`2.AddRef()
+ 2:      at Aardvark.Rendering.ResourceCache`2.GetOrCreateLocalWrapped[x,y](FSharpList`1 key, FSharpFunc`2 create, FSharpFunc`2 wrap)
+ 2:      at Aardvark.Rendering.ResourceCache`2.GetOrCreateLocal(FSharpList`1 key, FSharpFunc`2 create)
+ 2:      at Aardvark.Rendering.ResourceCache`2.GetOrCreateWrapped[a,x,y](IAdaptiveValue`1 dataMod, FSharpList`1 additionalKeys, FSharpFunc`2 creator, FSharpFunc`2 wrap)
+ 2:      at Aardvark.Rendering.GL.PreparedPipelineStateModule.ResourceManager-CreateTextureBindings@215.Invoke(Tuple`2 tupledArg)
+ 2:      at Microsoft.FSharp.Collections.ArrayModule.Choose[T,TResult](FSharpFunc`2 chooser, T[] array)
+ 2:      at Aardvark.Rendering.GL.PreparedPipelineStateModule.ofRenderObject(IFramebufferSignature fboSignature, ResourceManager x, RenderObject rj)
+ 2:      at Aardvark.Rendering.GL.PreparedCommandModule.ofRenderObject@1207(Boolean owned, IFramebufferSignature fboSignature, ResourceManager x, IRenderObject o)
+ 2:      at Aardvark.Rendering.GL.RenderTasks.preparedObjects@438-3.Invoke(IRenderObject x)
+ 2:      at FSharp.Data.Adaptive.ASetModule.map@1166-2.Invoke(Unit unitVar0)
+ 2:      at System.Lazy`1.ViaFactory(LazyThreadSafetyMode mode)
+ 2:      at System.Lazy`1.ExecutionAndPublication(LazyHelper executionAndPublication, Boolean useDefaultConstructor)
+ 2:      at System.Lazy`1.CreateValue()
+ 2:      at System.Lazy`1.get_Value()
+ 2:      at FSharp.Data.Adaptive.AdaptiveHashSetImplementation.GetReader@396-1.Invoke(Unit unitVar)
+ 2:      at System.Lazy`1.ViaFactory(LazyThreadSafetyMode mode)
+ 2:      at System.Lazy`1.ExecutionAndPublication(LazyHelper executionAndPublication, Boolean useDefaultConstructor)
+ 2:      at System.Lazy`1.CreateValue()
+ 2:      at System.Lazy`1.get_Value()
+ 2:      at FSharp.Data.Traceable.History.Readers.action@1-14[State,Delta](ConstantReader`2 x, Unit unitVar0)
+ 2:      at FSharp.Data.Traceable.History.Readers.ConstantReader`2.FSharp.Data.Traceable.IOpReader<'Delta>.GetChanges(AdaptiveToken caller)
+ 2:      at Aardvark.Rendering.GL.RenderTasks.RenderTask.ProcessDeltas(AdaptiveToken token, RenderToken t)
+ 2:      at Aardvark.Rendering.GL.RenderTasks.AbstractOpenGlRenderTask.Perform(AdaptiveToken token, RenderToken t, OutputDescription desc, IQuery queries)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@134-3.Invoke(AdaptiveToken token)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@132-5(AbstractRenderTask x, RenderToken t, OutputDescription out, IQuery queries, AdaptiveToken token)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.action@1-42(AbstractRenderTask x, AdaptiveToken token, RenderToken t, OutputDescription out, IQuery queries, Unit _arg1)
+ 2:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken t, OutputDescription out, IQuery queries)
+ 2:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken t, OutputDescription out, IQuery queries)
+ 2:      at Aardvark.Rendering.SequentialRenderTask.Perform(AdaptiveToken token, RenderToken rt, OutputDescription output, IQuery queries)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@134-3.Invoke(AdaptiveToken token)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@132-5(AbstractRenderTask x, RenderToken t, OutputDescription out, IQuery queries, AdaptiveToken token)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.action@1-42(AbstractRenderTask x, AdaptiveToken token, RenderToken t, OutputDescription out, IQuery queries, Unit _arg1)
+ 2:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken t, OutputDescription out, IQuery queries)
+ 2:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken t, OutputDescription out, IQuery queries)
+ 2:      at Aardvark.Rendering.AdaptiveRenderToTypes.AdaptiveRenderingResult.Compute(AdaptiveToken t, RenderToken rt)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AdaptiveResource.arg10@68-1[a](AdaptiveResource`1 x, RenderToken rt, AdaptiveToken token)
+ 2:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
+ 2:      at Aardvark.Rendering.AdaptiveResource`1.Aardvark.Rendering.IAdaptiveResource<'a>.GetValue(AdaptiveToken c, RenderToken t)
+ 2:      at Aardvark.Rendering.AdaptiveRenderToTypes.AdaptiveOutputTexture.Compute(AdaptiveToken t, RenderToken rt)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AdaptiveResource.arg10@68-1[a](AdaptiveResource`1 x, RenderToken rt, AdaptiveToken token)
+ 2:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
+ 2:      at Aardvark.Rendering.AdaptiveResource`1.Aardvark.Rendering.IAdaptiveResource<'a>.GetValue(AdaptiveToken c, RenderToken t)
+ 2:      at Aardvark.SceneGraph.SgFSharp.SgFSharpHelpers.AdaptiveResource.MapResource`2.Compute(AdaptiveToken t, RenderToken rt)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AdaptiveResource.arg10@68-1[a](AdaptiveResource`1 x, RenderToken rt, AdaptiveToken token)
+ 2:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
+ 2:      at Aardvark.Rendering.AdaptiveResource`1.Aardvark.Rendering.IAdaptiveResource<'a>.GetValue(AdaptiveToken c, RenderToken t)
+ 2:      at <StartupCode$Aardvark-Rendering>.$ResourceManagement.GetOrCreateWrapped@357-1.Create(AdaptiveToken token, RenderToken rt, FSharpOption`1 old)
+ 2:      at Aardvark.Rendering.Resource`2.PerformUpdate(AdaptiveToken token, RenderToken t)
+ 2:      at Aardvark.Rendering.Resource`2.ForceUpdate(AdaptiveToken token, RenderToken rt)
+ 2:      at <StartupCode$Aardvark-Rendering>.$ResourceManagement.action@1-15[h,v](Resource`2 x, Unit unitVar0)
+ 2:      at Aardvark.Rendering.Resource`2.AddRef()
+ 2:      at Aardvark.Rendering.ResourceCache`2.GetOrCreateLocalWrapped[x,y](FSharpList`1 key, FSharpFunc`2 create, FSharpFunc`2 wrap)
+ 2:      at Aardvark.Rendering.ResourceCache`2.GetOrCreateLocal(FSharpList`1 key, FSharpFunc`2 create)
+ 2:      at Aardvark.Rendering.ResourceCache`2.GetOrCreateWrapped[a,x,y](IAdaptiveValue`1 dataMod, FSharpList`1 additionalKeys, FSharpFunc`2 creator, FSharpFunc`2 wrap)
+ 2:      at Aardvark.Rendering.GL.PreparedPipelineStateModule.ResourceManager-CreateTextureBindings@215.Invoke(Tuple`2 tupledArg)
+ 2:      at Microsoft.FSharp.Collections.ArrayModule.Choose[T,TResult](FSharpFunc`2 chooser, T[] array)
+ 2:      at Aardvark.Rendering.GL.PreparedPipelineStateModule.ofRenderObject(IFramebufferSignature fboSignature, ResourceManager x, RenderObject rj)
+ 2:      at Aardvark.Rendering.GL.PreparedCommandModule.ofRenderObject@1207(Boolean owned, IFramebufferSignature fboSignature, ResourceManager x, IRenderObject o)
+ 2:      at Aardvark.Rendering.GL.RenderTasks.preparedObjects@438-3.Invoke(IRenderObject x)
+ 2:      at FSharp.Data.Adaptive.ASetModule.map@1166-2.Invoke(Unit unitVar0)
+ 2:      at System.Lazy`1.ViaFactory(LazyThreadSafetyMode mode)
+ 2:      at System.Lazy`1.ExecutionAndPublication(LazyHelper executionAndPublication, Boolean useDefaultConstructor)
+ 2:      at System.Lazy`1.CreateValue()
+ 2:      at System.Lazy`1.get_Value()
+ 2:      at FSharp.Data.Adaptive.AdaptiveHashSetImplementation.GetReader@396-1.Invoke(Unit unitVar)
+ 2:      at System.Lazy`1.ViaFactory(LazyThreadSafetyMode mode)
+ 2:      at System.Lazy`1.ExecutionAndPublication(LazyHelper executionAndPublication, Boolean useDefaultConstructor)
+ 2:      at System.Lazy`1.CreateValue()
+ 2:      at System.Lazy`1.get_Value()
+ 2:      at FSharp.Data.Traceable.History.Readers.action@1-14[State,Delta](ConstantReader`2 x, Unit unitVar0)
+ 2:      at FSharp.Data.Traceable.History.Readers.ConstantReader`2.FSharp.Data.Traceable.IOpReader<'Delta>.GetChanges(AdaptiveToken caller)
+ 2:      at Aardvark.Rendering.GL.RenderTasks.RenderTask.ProcessDeltas(AdaptiveToken token, RenderToken t)
+ 2:      at Aardvark.Rendering.GL.RenderTasks.AbstractOpenGlRenderTask.Perform(AdaptiveToken token, RenderToken t, OutputDescription desc, IQuery queries)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@134-3.Invoke(AdaptiveToken token)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@132-5(AbstractRenderTask x, RenderToken t, OutputDescription out, IQuery queries, AdaptiveToken token)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.action@1-42(AbstractRenderTask x, AdaptiveToken token, RenderToken t, OutputDescription out, IQuery queries, Unit _arg1)
+ 2:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken t, OutputDescription out, IQuery queries)
+ 2:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken t, OutputDescription out, IQuery queries)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@134-3.Invoke(AdaptiveToken token)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@132-5(AbstractRenderTask x, RenderToken t, OutputDescription out, IQuery queries, AdaptiveToken token)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.action@1-42(AbstractRenderTask x, AdaptiveToken token, RenderToken t, OutputDescription out, IQuery queries, Unit _arg1)
+ 2:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken t, OutputDescription out, IQuery queries)
+ 2:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken t, OutputDescription out, IQuery queries)
+ 2:      at Aardvark.Rendering.SequentialRenderTask.Perform(AdaptiveToken token, RenderToken rt, OutputDescription output, IQuery queries)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@134-3.Invoke(AdaptiveToken token)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@132-5(AbstractRenderTask x, RenderToken t, OutputDescription out, IQuery queries, AdaptiveToken token)
+ 2:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.action@1-42(AbstractRenderTask x, AdaptiveToken token, RenderToken t, OutputDescription out, IQuery queries, Unit _arg1)
+ 2:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken t, OutputDescription out, IQuery queries)
+ 2:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken t, OutputDescription out, IQuery queries)
+ 2:      at <StartupCode$Aardvark-Service>.$Server.arg10@795(ClientRenderTask x, ClientState state, ClientInfo info, IRenderTask task, ConcreteScene scene, FSharpRef`1 target, AdaptiveToken token)
+ 2:      at <StartupCode$Aardvark-Service>.$Server.action@1-2(ClientRenderTask x, AdaptiveToken token, ClientState state, ClientInfo info, IRenderTask task, ConcreteScene scene, ChangeableValue`1 clearColor, FSharpRef`1 t, FSharpRef`1 target, Unit unitVar0)
+ 2:      at Aardvark.Service.ClientRenderTask.Run(AdaptiveToken token, ClientInfo info, ClientState state)
+ 2:      at <StartupCode$Aardvark-Service>.$Server.arg10@1860-1(Client this, V2i size, C4b background, AdaptiveToken token) (stopping)
  3: [Client] 1: stopped
+ 3: [Scene] n7: destroyed

@@ -185,7 +185,7 @@ module App =
         let bRDFLtu = GlobalAmbientLight.BRDFLtu runtime
 
         //create a depth frameBuffer attachment that can be shared between the gBuffer and the transparency task
-        let depthTex = runtime.CreateTexture(TextureFormat.ofRenderbufferFormat RenderbufferFormat.DepthComponent24, 1, size)
+        let depthTex = runtime.CreateTexture2D(TextureFormat.ofRenderbufferFormat RenderbufferFormat.DepthComponent24, 1, size)
         let depthAttachment = runtime.CreateTextureAttachment(depthTex, 0) :> aval<_>
         
         //get shadow maps for all lights

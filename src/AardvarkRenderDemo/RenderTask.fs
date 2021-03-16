@@ -13,7 +13,7 @@ module RenderTaskExtensions =
             |> Map.tryFind sem 
             |> Option.defaultValue (
                 if output |> Set.contains sem then
-                    let tex = runtime.CreateTexture(TextureFormat.ofRenderbufferFormat att.format, att.samples, size)
+                    let tex = runtime.CreateTexture2D(TextureFormat.ofRenderbufferFormat att.format, att.samples, size)
                     runtime.CreateTextureAttachment(tex, 0) :> aval<_>
                 else
                     let rb = runtime.CreateRenderbuffer(att.format, att.samples, size)
@@ -46,8 +46,9 @@ module RenderTaskExtensions =
         let clear = runtime.CompileClear(signature, clearColors)
         let fbo = CreateFramebufferWithExistingAttachments runtime signature size output attachments
 
+
         let task' = new SequentialRenderTask([|clear; task|])
-        let res = task'.RenderTo(fbo, dispose = true)
+        let res = task'.RenderTo(fbo)
         output |> Seq.map (fun k -> k, getResult k res) |> Map.ofSeq
 
     ///render with preexisting fbo attachments
@@ -59,7 +60,7 @@ module RenderTaskExtensions =
         let fbo = CreateFramebufferWithExistingAttachments runtime signature size output attachments
 
         let task' = new SequentialRenderTask([|clear; task|])
-        let res = task'.RenderTo(fbo, dispose = true)
+        let res = task'.RenderTo(fbo)
         output |> Seq.map (fun k -> k, getResult k res) |> Map.ofSeq
 
     ///render with custom clear colors
