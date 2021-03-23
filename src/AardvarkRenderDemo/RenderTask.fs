@@ -39,33 +39,28 @@ module RenderTaskExtensions =
         t.GetOutputTexture sem
 
     ///render with custom clear colors and preexisting fbo attachments
-    let renderSemanticsCustom (output : Set<Symbol>) (size : aval<V2i>) (clearColors : Map<Symbol,C4f>) (attachments : Map<Symbol, aval<IFramebufferOutput>>) (task : IRenderTask) =
+    let renderSemanticsCustom (output : Set<Symbol>) (size : aval<V2i>) (clearValues : ClearValues) (attachments : Map<Symbol, aval<IFramebufferOutput>>) (task : IRenderTask) =
         let runtime = task.Runtime.Value
         let signature = task.FramebufferSignature.Value
 
-        let clear = runtime.CompileClear(signature, clearColors)
         let fbo = CreateFramebufferWithExistingAttachments runtime signature size output attachments
-
-
-        let task' = new SequentialRenderTask([|clear; task|])
-        let res = task'.RenderTo(fbo)
+        let res = task.RenderTo(fbo,clearValues)
         output |> Seq.map (fun k -> k, getResult k res) |> Map.ofSeq
+
+    let private defaultClearValues =
+        clear {
+            color C4f.Black
+            depth 1.0
+            stencil 0
+        }
 
     ///render with preexisting fbo attachments
     let renderSemanticsCustom' (output : Set<Symbol>) (size : aval<V2i>) (attachments : Map<Symbol, aval<IFramebufferOutput>>) (task : IRenderTask) =
-        let runtime = task.Runtime.Value
-        let signature = task.FramebufferSignature.Value
-
-        let clear = runtime.CompileClear(signature, C4f.Black, 1.0)
-        let fbo = CreateFramebufferWithExistingAttachments runtime signature size output attachments
-
-        let task' = new SequentialRenderTask([|clear; task|])
-        let res = task'.RenderTo(fbo)
-        output |> Seq.map (fun k -> k, getResult k res) |> Map.ofSeq
+        renderSemanticsCustom output size defaultClearValues attachments task
 
     ///render with custom clear colors
-    let renderSemanticsCustomClear (output : Set<Symbol>) (size : aval<V2i>) (clearColors : Map<Symbol,C4f>) (task : IRenderTask) =
-        renderSemanticsCustom output size clearColors Map.empty task
+    let renderSemanticsCustomClear (output : Set<Symbol>) (size : aval<V2i>) (clearValues : ClearValues) (task : IRenderTask) =
+        renderSemanticsCustom output size clearValues Map.empty task
 
     let renderSemanticsCubeMip' (output : Set<Symbol>) levels size (tasks : CubeSide -> int -> IRenderTask) =
         tasks

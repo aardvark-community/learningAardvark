@@ -238,6 +238,15 @@ module WBOTI =
                 DestinationAlphaFactor = BlendFactor.SourceAlpha
             }
         
+        let clearValues =
+            clear {
+                colors [//clear colors
+                (Sym.ofString "Accum"), C4f.Zero
+                (Sym.ofString "ModulateColor"),C4f.White
+                (Sym.ofString "Delta"), C4f.Zero
+                ]
+            }
+
         objects
         |> sceneObject.objectsTrimByMaterial (fun _  (a : AdaptivePBRMaterial) -> AVal.map2 (fun c t -> c > 0.99999 && t < 0.00001) a.coverage.factor a.transmission.factor)
         |> Sg.depthWrite' false
@@ -282,11 +291,7 @@ module WBOTI =
                 ]
            ) 
            size
-           (Map.ofList [//clear colors
-                (Sym.ofString "Accum"), C4f.Zero
-                (Sym.ofString "ModulateColor"),C4f.White
-                (Sym.ofString "Delta"), C4f.Zero
-            ])
+           clearValues
            (Map.ofList [// use preexisting depth attachment
                 DefaultSemantic.Depth, depthBuffer
             ])      

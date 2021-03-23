@@ -169,7 +169,7 @@ module App =
 
         let enviromentTexture = 
             m.enviorment.lightProbePosition
-            |> AVal.bind 
+            |> AdaptiveResource.bind 
                 (fun (p' : V3d option) -> 
                     match p' with
                     |Some p -> LightProbe.lightProbe runtime scene skyBoxTexture m.enviorment.skyMapIntensity m.enviorment.ambientLightIntensity bb m.lights p :> aval<_>
@@ -271,7 +271,7 @@ module App =
                 (Map.find  (Sym.ofString "Delta") transparent)
 
         let postprocessed = 
-            AVal.bind (fun doBloom  ->  
+            AdaptiveResource.bind (fun doBloom  ->  
                 if doBloom then
                     bloom.bloom runtime size combined' m.bloom :> aval<IBackendTexture>
                 else 

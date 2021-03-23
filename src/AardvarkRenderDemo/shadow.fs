@@ -45,7 +45,21 @@ module Shadow =
 
 
     let shadowMaps (runtime : IRuntime) (scene :ISg<'msg>) (bb : aval<Box3d>) (lights : amap<int,AdaptiveLightCase>) = 
-        let mapper (l' : AdaptiveLightCase) = 
+        let castSchadow l = 
+            match l with
+                | AdaptivePointLight l -> AVal.constant false
+                | AdaptiveSphereLight l -> AVal.constant false
+                | AdaptiveSpotLight l -> AVal.map (fun (x : SpotLightData)-> x.castsShadow) l
+                | AdaptiveDirectionalLight l -> AVal.map (fun (x : DirectionalLightData)-> x.castsShadow) l
+                | AdaptiveDiskLight l -> AVal.map (fun (x : DiskLightData)-> x.castsShadow) l
+                | AdaptiveRectangleLight l ->  AVal.map (fun (x : RectangleLightData) -> x.castsShadow) l
+
+        let shadowTexture l =
+            l
+            |> castSchadow 
+            |> AdaptiveResource.bind( fun c -> if c then shadowMap runtime scene bb l |> AdaptiveResource.cast<ITexture> else AVal.constant (NullTexture() :> ITexture))
+        
+       (* let mapper (l' : AdaptiveLightCase) = AVal.constant (NullTexture() :> ITexture)
             aval{
                 let! castsShadow =
                     match l' with
@@ -53,14 +67,14 @@ module Shadow =
                     | AdaptiveSphereLight l -> AVal.constant false
                     | AdaptiveSpotLight l -> AVal.map (fun (x : SpotLightData)-> x.castsShadow) l
                     | AdaptiveDirectionalLight l -> AVal.map (fun (x : DirectionalLightData)-> x.castsShadow) l
-                    | AdaptiveDiskLight l -> AVal.map (fun (x : DiskLightData)-> x.castsShadow) l
+                    | AdaptiveDiskLight l -> +AVal.map (fun (x : DiskLightData)-> x.castsShadow) l
                     | AdaptiveRectangleLight l ->  AVal.map (fun (x : RectangleLightData) -> x.castsShadow) l
-                let tex = if castsShadow then shadowMap runtime scene bb l' |> AVal.cast<ITexture> else AVal.constant (NullTexture() :> ITexture)
+                let tex = if castsShadow then shadowMap runtime scene bb l' |> AdaptiveResource.cast<ITexture> else AVal.constant (NullTexture() :> ITexture)
                 return! tex               
-            }
+            }*)
         let m =
             lights
-            |> AMap.mapA (fun _ l -> mapper l)
+            |> AMap.mapA (fun _ l -> shadowTexture l)
         m
 
     //generate one uniform per potential shadow map to use with shader array 
@@ -74,7 +88,7 @@ module Shadow =
                             |> Array.sortBy fst
                             |> Array.map snd)
         let mapper i = 
-            AVal.map (fun (a : ITexture []) -> if i < Array.length a then a.[i] else NullTexture() :> ITexture) l
+            AdaptiveResource.map (fun (a : ITexture []) -> if i < Array.length a then a.[i] else NullTexture() :> ITexture) l
         let a = Array.init 30 (fun i -> i, mapper i)
         Array.fold (fun s (i, t) ->  s |> (Sg.uniform ("ShadowMapArray"+i.ToString()) t)) inp a
 
