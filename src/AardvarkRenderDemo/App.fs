@@ -39,8 +39,7 @@ module App =
     let cameraConfig  =  {FreeFlyController.initial.freeFlyConfig with zoomMouseWheelSensitivity = 0.5} 
     let initialView = CameraView.lookAt (V3d(0.0, 2.0, -6.0)) (V3d(0.0, 2.0, 0.0)) (V3d.OIO * 1.0)
 
-    let (!!) inner = 
-        Path.combine ([__SOURCE_DIRECTORY__;"..";"..";"data";] @ inner)
+    let (!!) inner = Path.combine ([__SOURCE_DIRECTORY__;"..";"..";"data";] @ inner)
 
     let obj , selected = sceneObject.loadObject HashMap.empty !!["SLE_Gnom4.obj"]
 
@@ -158,7 +157,7 @@ module App =
                 adaptive{
                     let! object  = sceneObject.object o
                     let! trans = sceneObject.trafo o
-                    let bounds = object.bounds
+                    let bounds = object.bounds 
                     return bounds.Transformed(trans)
                 }    
             m.objects
@@ -185,15 +184,15 @@ module App =
         let bRDFLtu = GlobalAmbientLight.BRDFLtu runtime
 
         //create a depth frameBuffer attachment that can be shared between the gBuffer and the transparency task
-        let depthTex = runtime.CreateTexture2D(TextureFormat.ofRenderbufferFormat RenderbufferFormat.DepthComponent24, 1, size)
-        let depthAttachment = runtime.CreateTextureAttachment(depthTex, 0) :> aval<_>
+        let depthTex = runtime.CreateTexture2D(size, TextureFormat.DepthComponent24)
+        let depthAttachment = runtime.CreateTextureAttachment(depthTex) :> aval<_>
         
         //get shadow maps for all lights
         let shadowMaps = Shadow.shadowMaps runtime scene bb m.lights
 
         //render the geometry to the gBuffer
         let gBuffer = GeometryBuffer.makeGBuffer runtime view proj size skyBoxTexture scene m.enviorment.skyMapIntensity (Some depthAttachment)
-
+        //let wpt = gBuffer.[DefaultSemantic.Colors]
         //render the abient occlousion map    
         let ambientOcclusion = 
             //material.onPixTex C3f.White |> AVal.constant

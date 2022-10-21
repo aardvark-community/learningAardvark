@@ -41,7 +41,7 @@ module subSurfaceShader =
 
     let depth =
         sampler2d {
-            texture uniform?Depth
+            texture uniform?DepthStencil
             addressU WrapMode.Clamp
             addressV WrapMode.Clamp
             filter Filter.MinMagLinear
@@ -85,7 +85,7 @@ module subSurfaceShader =
         v.XYZ, extractProfileIndex v.W
 
     [<ReflectedDefinition>]
-    let getLinearDepth ndc = linearDepth.getLinearDepth depth uniform.ProjTrafoInv ndc
+    let getLinearDepth ndc = linearDepth.getLinearDepth  uniform.ProjTrafoInv depth ndc
 
     //shader for horizonal and vertical pass sss blurring
     let  ssssBlur (v : Vertex) =   
@@ -328,7 +328,7 @@ module subSurface =
 
         let signature =
             runtime.CreateFramebufferSignature [
-                DefaultSemantic.Colors, RenderbufferFormat.Rgba32f
+                DefaultSemantic.Colors, TextureFormat.Rgba32f
             ]
         
         let kernelBuffer = makeKernelBuffer profiles
@@ -341,7 +341,7 @@ module subSurface =
             |> Sg.viewTrafo view
             |> Sg.projTrafo proj
             |> Sg.texture ( Sym.ofString "inputImage")  i
-            |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
+            |> Sg.texture ( DefaultSemantic.DepthStencil) (Map.find DefaultSemantic.DepthStencil gBuffer)
             |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
             |> Sg.uniform' "horizontal" h
             |> Sg.uniform "sssWidth"  widthBuffer

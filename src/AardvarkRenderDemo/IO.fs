@@ -787,7 +787,6 @@ module Loader =
             let scene = ctx.ImportFile(file, postProcessingFlags)
 
             let textureTable = getTextureTable dir
-            //printfn "%A" textureTable
             let materials = scene.Materials.MapToArray(fun m -> toMaterial textureTable m)
 
             let boneIndices = Dict()

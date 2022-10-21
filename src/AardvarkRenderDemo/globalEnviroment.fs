@@ -155,7 +155,7 @@ module SkyBox =
 
     let signature (runtime : IRuntime) =
         runtime.CreateFramebufferSignature [
-            DefaultSemantic.Colors, { format = RenderbufferFormat.Rgb16f; samples = 1 }
+            DefaultSemantic.Colors, TextureFormat.Rgba16f
         ]
 
     let skyMapSize = 1024 |> AVal.init 
@@ -184,7 +184,7 @@ module GlobalAmbientLight =
 
     let signature (runtime : IRuntime) =
         runtime.CreateFramebufferSignature [
-            DefaultSemantic.Colors, { format = RenderbufferFormat.Rgb16f; samples = 1 }
+            DefaultSemantic.Colors, TextureFormat.Rgba16f
         ]
 
     let diffuseIrradianceSize = 32 |> AVal.init 
@@ -216,7 +216,7 @@ module GlobalAmbientLight =
 
     let signatureBRDFLtu (runtime : IRuntime) =
         runtime.CreateFramebufferSignature [
-            DefaultSemantic.Colors, { format = RenderbufferFormat.Rgb16f; samples = 1 }
+            DefaultSemantic.Colors, TextureFormat.Rgba16f
         ]
 
     let LtuSize = V2i(512,512) |> AVal.init 
@@ -241,7 +241,7 @@ module LightProbe =
 
     let signature (runtime : IRuntime) =
         runtime.CreateFramebufferSignature [
-            DefaultSemantic.Colors, { format = RenderbufferFormat.Rgb16f; samples = 1 }
+            DefaultSemantic.Colors, TextureFormat.Rgba16f
         ]
 
     let probeSize = 512 |> AVal.init 
@@ -292,7 +292,7 @@ module LightProbe =
             |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
             |> Sg.texture ( Sym.ofString "WPos") (Map.find (Sym.ofString "WorldPosition") gBuffer)
             |> Sg.texture ( DefaultSemantic.Normals) (Map.find shaderCommon.Semantic.NormalR gBuffer)
-            |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
+            |> Sg.texture ( DefaultSemantic.DepthStencil) (Map.find DefaultSemantic.DepthStencil gBuffer)
             |> Sg.texture (shaderCommon.Semantic.Emission) (Map.find shaderCommon.Semantic.Emission gBuffer)
             |> Sg.compile runtime signature   
         

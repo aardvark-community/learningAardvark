@@ -26,8 +26,8 @@ module deferredRendering =
         
         let signature =
             runtime.CreateFramebufferSignature [
-                (Sym.ofString "Diffuse") , RenderbufferFormat.Rgba32f
-                (Sym.ofString "Specular") , RenderbufferFormat.Rgba32f
+                (Sym.ofString "Diffuse") , TextureFormat.Rgba32f
+                (Sym.ofString "Specular") , TextureFormat.Rgba32f
             ]
 
         Sg.fullScreenQuad
@@ -49,7 +49,7 @@ module deferredRendering =
         |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
         |> Sg.texture ( Sym.ofString "WPos") (Map.find (Sym.ofString "WorldPosition") gBuffer)
         |> Sg.texture ( DefaultSemantic.Normals) (Map.find shaderCommon.Semantic.NormalR gBuffer)
-        |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
+        |> Sg.texture ( DefaultSemantic.DepthStencil) (Map.find DefaultSemantic.DepthStencil gBuffer)
         |> Sg.texture (shaderCommon.Semantic.Emission) (Map.find shaderCommon.Semantic.Emission gBuffer)
         |> Sg.texture (shaderCommon.Semantic.ClearCoat) (Map.find shaderCommon.Semantic.ClearCoat gBuffer)
         |> Sg.texture (shaderCommon.Semantic.Sheen) (Map.find shaderCommon.Semantic.Sheen gBuffer)

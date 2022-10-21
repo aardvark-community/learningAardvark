@@ -3,6 +3,7 @@ FSharp.Core
 Aardvark.Base
 FSharp.Data.Adaptive
 Aardvark.Base.FSharp
+Aardvark.PixImage.DevIL
 
 Aardvark.Rendering
 Aardvark.Application.Slim

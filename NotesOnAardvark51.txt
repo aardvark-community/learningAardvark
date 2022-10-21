@@ -1,3 +1,16 @@
+(AS) On 2022-10-20 updated the following:
++ net6.0
++ update to Aardvark.Rendering v53, Adaptify 1.1.x
++ remove unnecessary build script
++ switch to Vulkan to get around shader stage 32 sampler limit
++ changed invalid texture formats rgb -> rgba
++ added DevIL
+- had to remove displacemntMap.displacementMap in GeometryBuffer.fs because it makes things invisible (unclear why, investigate)
+- Lightprobe button crashes with [Vulkan] could not get uniform: { ufName = "TranslucencyBias", ufType = Array (8, Float 32, 16) investigate
+
+
+---
+
 Some Feedback on the Aardvark 5.1 version:
 
 I really like reorganisation of the Aardvar.Rendering repository. It is much easier to locate things now. Before 5.1 I was always searching for things like BlendMode before I remembered that they where hiding in the Aardvark.Base repository. The organisation makes much more sense now.

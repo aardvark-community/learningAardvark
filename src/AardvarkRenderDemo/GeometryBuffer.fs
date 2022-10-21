@@ -52,13 +52,13 @@ module GeometryBuffer  =
 
         let signature =
             runtime.CreateFramebufferSignature [
-                DefaultSemantic.Colors, RenderbufferFormat.Rgba16f
-                Sym.ofString "WorldPosition", RenderbufferFormat.Rgba32f
-                DefaultSemantic.Depth, RenderbufferFormat.DepthComponent24
-                shaderCommon.Semantic.NormalR, RenderbufferFormat.Rgba32f
-                shaderCommon.Semantic.Emission, RenderbufferFormat.Rgba16f
-                shaderCommon.Semantic.ClearCoat, RenderbufferFormat.Rgba16f
-                shaderCommon.Semantic.Sheen, RenderbufferFormat.Rgba16f
+                DefaultSemantic.Colors, TextureFormat.Rgba16f
+                Sym.ofString "WorldPosition", TextureFormat.Rgba32f
+                DefaultSemantic.DepthStencil, TextureFormat.DepthComponent24
+                shaderCommon.Semantic.NormalR, TextureFormat.Rgba32f
+                shaderCommon.Semantic.Emission, TextureFormat.Rgba16f
+                shaderCommon.Semantic.ClearCoat, TextureFormat.Rgba16f
+                shaderCommon.Semantic.Sheen, TextureFormat.Rgba16f
              ]
      
         let skyBox =
@@ -77,14 +77,14 @@ module GeometryBuffer  =
             match depthBuffer with
             |Some a -> 
                 (Map.ofList [
-                    DefaultSemantic.Depth, a
+                    DefaultSemantic.DepthStencil, a
                 ]) 
             |None -> Map.empty
 
         scene
         |> Sg.shader {
             do! DefaultSurfaces.trafo
-            do! displacemntMap.displacementMap
+            //do! displacemntMap.displacementMap
             do! DefaultSurfaces.vertexColor
             do! AlbedoColor.albedoColor
             do! shaderCommon.normalMap 
@@ -97,7 +97,7 @@ module GeometryBuffer  =
         |> Sg.compile runtime signature
         |> RenderTaskExtensions.renderSemanticsCustom'(
                     Set.ofList [
-                        DefaultSemantic.Depth
+                        DefaultSemantic.DepthStencil
                         DefaultSemantic.Colors
                         Sym.ofString "WorldPosition"
                         shaderCommon.Semantic.NormalR
@@ -140,7 +140,7 @@ module GBuffer =
 
     let depth =
         sampler2d {
-            texture uniform?Depth
+            texture uniform?DepthStencil
             addressU WrapMode.Clamp
             addressV WrapMode.Clamp
             filter Filter.MinMagLinear

@@ -27,9 +27,9 @@ module forwardRendering =
 
         let signature =
             runtime.CreateFramebufferSignature [
-                DefaultSemantic.Depth, RenderbufferFormat.DepthComponent24
-                (Sym.ofString "Diffuse") , RenderbufferFormat.Rgba32f
-                (Sym.ofString "Specular") , RenderbufferFormat.Rgba32f
+                DefaultSemantic.DepthStencil, TextureFormat.DepthComponent24
+                (Sym.ofString "Diffuse") , TextureFormat.Rgba32f
+                (Sym.ofString "Specular") , TextureFormat.Rgba32f
             ]
 
         let skyBox =

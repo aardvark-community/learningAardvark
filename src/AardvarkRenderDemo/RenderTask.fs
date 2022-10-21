@@ -8,30 +8,26 @@ module RenderTaskExtensions =
 
     let CreateFramebufferWithExistingAttachments (runtime : IFramebufferRuntime) (signature : IFramebufferSignature) (size : aval<V2i>) (output : Set<Symbol>) (attachments : Map<Symbol, aval<IFramebufferOutput>>)=
 
-        let inline createAttachment (sem : Symbol) (att : AttachmentSignature) =
+        let inline createAttachment (sem : Symbol) (fmt : TextureFormat) =
             attachments
             |> Map.tryFind sem 
             |> Option.defaultValue (
                 if output |> Set.contains sem then
-                    let tex = runtime.CreateTexture2D(TextureFormat.ofRenderbufferFormat att.format, att.samples, size)
+                    let tex = runtime.CreateTexture2D(size, fmt, samples = signature.Samples)
                     runtime.CreateTextureAttachment(tex, 0) :> aval<_>
                 else
-                    let rb = runtime.CreateRenderbuffer(att.format, att.samples, size)
+                    let rb = runtime.CreateRenderbuffer(size, fmt, samples = signature.Samples)
                     runtime.CreateRenderbufferAttachment(rb) :> aval<_>
                 )
  
         let atts = SymDict.empty
 
-        signature.DepthAttachment |> Option.iter (fun d ->
-            atts.[DefaultSemantic.Depth] <- createAttachment DefaultSemantic.Depth d
+        signature.DepthStencilAttachment |> Option.iter (fun d ->
+            atts.[DefaultSemantic.DepthStencil] <- createAttachment DefaultSemantic.DepthStencil d
         )
 
-        signature.StencilAttachment |> Option.iter (fun s ->
-            atts.[DefaultSemantic.Stencil] <- createAttachment DefaultSemantic.Stencil s
-        )
-
-        for (_, (sem, att)) in Map.toSeq signature.ColorAttachments do
-            atts.[sem] <- createAttachment sem att
+        for (_, att) in Map.toSeq signature.ColorAttachments do
+            atts.[att.Name] <- createAttachment att.Name att.Format
 
         runtime.CreateFramebuffer(signature, SymDict.toMap atts)
 

@@ -224,10 +224,10 @@ module WBOTI =
 
         let signature =
             runtime.CreateFramebufferSignature [
-                DefaultSemantic.Depth, RenderbufferFormat.DepthComponent24
-                (Sym.ofString "Accum") , RenderbufferFormat.Rgba32f
-                (Sym.ofString "ModulateColor") , RenderbufferFormat.Rgb32f
-                (Sym.ofString "Delta") , RenderbufferFormat.Rg32f
+                DefaultSemantic.DepthStencil, TextureFormat.DepthComponent24
+                (Sym.ofString "Accum") , TextureFormat.Rgba32f
+                (Sym.ofString "ModulateColor") , TextureFormat.Rgba32f
+                (Sym.ofString "Delta") , TextureFormat.Rg32f
             ]
 
         let ModulateBlend =
@@ -293,7 +293,7 @@ module WBOTI =
            size
            clearValues
            (Map.ofList [// use preexisting depth attachment
-                DefaultSemantic.Depth, depthBuffer
+                DefaultSemantic.DepthStencil, depthBuffer
             ])      
 
     let compose runtime outputSignature size (backgroundTexture : aval<IBackendTexture>) (accumTexture : aval<IBackendTexture>) (modulateTexture : aval<IBackendTexture>)  (deltaTexture : aval<IBackendTexture>)=

@@ -61,7 +61,7 @@ module  Html =
             div [clazz "ui inverted segment"] [
                 div [clazz "ui inverted accordion fluid"] [
                     div [clazz title] [
-                            i [clazz (icon + " icon circular")][] 
+                            i [clazz (icon + " icon circular")] [] 
                             text text'
                     ]
                     div [clazz content] content'

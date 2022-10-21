@@ -16,10 +16,10 @@ let main args =
     Aardvark.Init()
     Aardium.init()
 
-    let vapp = new OpenGlApplication()//new HeadlessVulkanApplication()//
+    let vapp = new HeadlessVulkanApplication()//new OpenGlApplication()
 
     let runtime = vapp.Runtime :> IRuntime
-
+    //runtime.ShaderCachePath <- None
     let app = App.app  
 
     WebPart.startServer 4321 [

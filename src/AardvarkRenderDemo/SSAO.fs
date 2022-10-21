@@ -26,7 +26,7 @@ open Aardvark.Rendering.Effects
 
     let depth =
         sampler2d {
-            texture uniform?Depth
+            texture uniform?DepthStencil
             addressU WrapMode.Clamp
             addressV WrapMode.Clamp
             filter Filter.MinMagLinear
@@ -34,7 +34,7 @@ open Aardvark.Rendering.Effects
 
     let depthCmp =
         sampler2dShadow {
-            texture uniform?Depth
+            texture uniform?DepthStencil
             addressU WrapMode.Clamp
             addressV WrapMode.Clamp
             comparison ComparisonFunction.Greater
@@ -67,7 +67,7 @@ open Aardvark.Rendering.Effects
         member x.SampleDirections : Arr<N<128>, V3d> = uniform?SampleDirections
 
     [<ReflectedDefinition>]
-    let getLinearDepth ndc = linearDepth.getLinearDepth depth uniform.ProjTrafoInv ndc
+    let getLinearDepth ndc = linearDepth.getLinearDepth  uniform.ProjTrafoInv depth ndc
 
     [<ReflectedDefinition>]
     let project (vp : V3d) =
@@ -183,7 +183,7 @@ open Aardvark.Rendering.Effects
 
         let signature =
             runtime.CreateFramebufferSignature [
-                DefaultSemantic.Colors, RenderbufferFormat.Rgba8
+                DefaultSemantic.Colors, TextureFormat.Rgba8
             ]
 
         let aoSize = 
@@ -218,7 +218,7 @@ open Aardvark.Rendering.Effects
                 do! ambientOcclusion
             }
             |> Sg.texture ( DefaultSemantic.Normals) (Map.find shaderCommon.Semantic.NormalR gBuffer)
-            |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
+            |> Sg.texture ( DefaultSemantic.DepthStencil) (Map.find DefaultSemantic.DepthStencil gBuffer)
             |> Sg.viewTrafo view
             |> Sg.projTrafo proj
             |> Sg.uniform "Random" (AVal.constant (randomTex runtime :> ITexture))
@@ -236,7 +236,7 @@ open Aardvark.Rendering.Effects
             |> Sg.shader {
                 do! blur
             }
-            |> Sg.texture ( DefaultSemantic.Depth) (Map.find DefaultSemantic.Depth gBuffer)
+            |> Sg.texture ( DefaultSemantic.DepthStencil) (Map.find DefaultSemantic.DepthStencil gBuffer)
             |> Sg.texture (Sym.ofString "AmbientOcclusion") ambientOc
             |> Sg.viewTrafo view
             |> Sg.projTrafo proj

@@ -164,7 +164,7 @@ module LightShader =
         |> Vec.normalize
 
     [<ReflectedDefinition>]
-    let rectangleSolidAngle (wPos :V3d) p1 p2 p3 p4 =
+    let rectangleSolidAngle (wPos :V3d) (p1 : V3d) p2 p3 p4 =
         let v1 = p1 - wPos
         let v2 = p2 - wPos
         let v3 = p3 - wPos
@@ -183,7 +183,7 @@ module LightShader =
         g0 + g1 + g2 + g3 - 2.0 * Math.PI
 
     [<ReflectedDefinition>]
-    let attenuationRectangle (wPos :V3d) p1 p2 p3 p4 (lUnnorm : V3d) ln n=
+    let attenuationRectangle (wPos :V3d) (p1 : V3d) (p2 : V3d) (p3 : V3d) (p4 : V3d) (lUnnorm : V3d) (ln : V3d) (n : V3d) =
         let solidAngle = rectangleSolidAngle wPos p1 p2 p3 p4 |> max 0.0
         if Vec.dot -lUnnorm ln > 0.0 then
             let x0 = lUnnorm |> Vec.normalize |> Vec.dot n |> saturate

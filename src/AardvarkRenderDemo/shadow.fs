@@ -23,7 +23,7 @@ module Shadow =
     
     let signatureShadowMap (runtime : IRuntime) =
         runtime.CreateFramebufferSignature [
-            DefaultSemantic.Depth, { format = RenderbufferFormat.DepthComponent32; samples = 1 }
+            DefaultSemantic.DepthStencil, TextureFormat.DepthComponent32
         ]
 
     let shadowMapSize = V2i(2048) |> AVal.constant

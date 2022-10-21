@@ -79,7 +79,7 @@ module bloom =
 
         let signature =
             runtime.CreateFramebufferSignature [
-                DefaultSemantic.Colors, RenderbufferFormat.Rgba32f
+                DefaultSemantic.Colors, TextureFormat.Rgba32f
             ]
 
         let brightColor =  

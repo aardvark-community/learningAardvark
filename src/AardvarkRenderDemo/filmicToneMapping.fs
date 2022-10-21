@@ -65,7 +65,7 @@ module filmicToneMapping =
 
     // f(x) = (mx+b)^g
     // f'(x) = gm(mx+b)^(g-1)
-    let derivativeLinearGamma m b g x = g * m * (pow (m * x + b) (g - 1.0))
+    let derivativeLinearGamma m (b : float) g (x : float) = g * m * (pow (m * x + b) (g - 1.0))
 
     let CurveFromParams  (P : CurveParams) =
         //normaize parameters

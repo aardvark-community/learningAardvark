@@ -77,9 +77,9 @@ module sceneObject =
     //generate sceen graph from the objects 
     let objects (os :amap<string,  AdaptiveSceneObject>) = 
         aset {
-            for _,o in AMap.toASet os do
+            for o in AMap.toASetValues os do
                 let! s = sg o
-                yield s |> Sg.trafo (trafo o ) 
+                yield s |> Sg.trafo (trafo o) 
         }
         |> Sg.set  
 

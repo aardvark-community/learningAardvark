@@ -19,7 +19,7 @@ module combine =
 
         let signatureC =
             runtime.CreateFramebufferSignature [
-                DefaultSemantic.Colors, RenderbufferFormat.Rgba32f
+                DefaultSemantic.Colors, TextureFormat.Rgba32f
             ] 
        
         let s = aset {
