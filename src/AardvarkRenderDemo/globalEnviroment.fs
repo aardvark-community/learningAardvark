@@ -284,7 +284,7 @@ module LightProbe =
             |> Shadow.shadowMapsUniform (Shadow.shadowMaps runtime scene bb lights)
             |> SLEUniform.uniformLightArray bb lights
             |> Sg.shader {
-                do! GBuffer.getGBufferData
+                do! GBuffer.getGBufferDataSimple
                 do! PBR.lightnigDeferredProbe        
             }
             |> Sg.uniform' "AmbientIntensity" 1.0

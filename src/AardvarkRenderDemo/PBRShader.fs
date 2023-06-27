@@ -160,6 +160,38 @@ module PBR =
 
             (diff2 * illuminannce * shadow + translucency, spec2 * illuminannce * shadow)
 
+    [<ReflectedDefinition>]
+    let directLightingSimple metallic (wp :V4d) (c: V4d) (n: V3d)  roughness  lightIndex =
+        if metallic < 0.0 then //no lighting, ignore      
+            V3d.Zero, V3d.Zero
+        else //PBR lightning
+            let light = uniform.LightArray.[lightIndex]
+            let wPos = wp.XYZ
+            let albedo = c.XYZ
+            let v = uniform.CameraLocation - wPos |> Vec.normalize
+
+            let (_, lDir, illuminannce, specularAttenuation, illuminannceSimple)  = LightShader.getLightParams light wPos n v roughness
+            //illuminaceSimple gives punctual illuminace for area lights and is used for translucency to approximate back lightning
+
+            let h = v + lDir |> Vec.normalize
+            let nDotL = Vec.dot n lDir |> saturate
+            let hDotV = Vec.dot h v |> saturate      
+            let nDotH = Vec.dot n h |> saturate
+            let nDotV = Vec.dot n v |> saturate
+
+            //asume 0.04 as F0 for non metals, set albedo as specular color for metallics
+            let f0 = Lerp (V3d(0.04)) albedo metallic
+      
+            let F = fresnelSchlick f0 hDotV 
+
+            let spec = specularLobeStandard F roughness nDotH nDotV nDotL
+            let diff = diffuseLobe F metallic albedo
+
+            let diff1 = diff * nDotL
+
+            let shadow = if light.castsShadow then Shadow.getShadow lightIndex wp else 1.0
+            (diff1 * illuminannce * shadow, spec * illuminannce * shadow)
+
     let maxReflectLod = 4.0
 
     [<ReflectedDefinition>]
@@ -311,14 +343,13 @@ module PBR =
                 albedo * ambientIntensity
         col
 
-
     let lightnigDeferredProbe (frag : Fragment) =
         fragment {
             let mutable diffuseD = V3d.Zero 
             let mutable specularD = V3d.Zero
             for i in 0..uniform.LightCount-1 do
                 let diffuseDi, specularDi = 
-                    directLighting frag.metallic frag.wp frag.c frag.n frag.clearCoatNormal frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness i -1
+                    directLightingSimple frag.metallic frag.wp frag.c frag.n frag.roughness  i 
                 diffuseD  <- diffuseD  + diffuseDi 
                 specularD <- specularD + specularDi
             let ambient = abientLightSimple frag.metallic frag.c.XYZ

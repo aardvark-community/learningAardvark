@@ -205,3 +205,27 @@ module GBuffer =
                    }
         }
 
+    let getGBufferDataSimple (vert : Vertex) =
+        fragment {
+            let albedo = color.Sample(vert.tc) 
+            let wPos = wPos.Sample(vert.tc)
+            let nr  = normal.Sample(vert.tc)
+            let n = nr.XYZ |> Vec.normalize
+            let em = emission.Sample(vert.tc)
+            let metallic = if albedo.W < 0.0 then albedo.W else (albedo.W / 10.0 - truncate (albedo.W / 10.0 )) * 10.0
+            return {wp =  wPos
+                    n = n
+                    c = V4d(albedo.XYZ,1.0)
+                    tc = vert.tc
+                    metallic = metallic
+                    roughness = nr.W
+                    emission =  em.XYZ
+                    clearCoat =  0.0
+                    clearCoatRoughness = 0.0
+                    clearCoatNormal = V3d.OOO
+                    sheenColor = V3d.OOO
+                    sheenRoughness = 0.0
+                    sssProfile = -1 
+                    transmission = V3d.OOO
+                   }
+        }
