@@ -75,7 +75,33 @@ open Aardvark.Rendering.Effects
         vp.Z <- min -0.01 vp.Z
         let pp = uniform.ProjTrafo * V4d(vp, 1.0)
         pp.XYZ / pp.W
-        
+
+ 
+    let visualizeDepthShader (v : Vertex) =
+        fragment {
+            let z0 = depth.Sample(v.tc).X
+           
+            return V4d(z0, z0, z0, 1.0)
+        }
+    let visualizeDepth ( runtime : IRuntime) (size : aval<V2i>) (gBuffer : Map<Symbol,IAdaptiveResource<IBackendTexture>>) =
+
+        let signature =
+            runtime.CreateFramebufferSignature [
+                DefaultSemantic.Colors, TextureFormat.Rgba8
+            ]
+
+        let d = 
+            Sg.fullScreenQuad
+            |> Sg.adapter
+            |> Sg.shader {
+                do! visualizeDepthShader
+            }
+             |> Sg.texture ( DefaultSemantic.DepthStencil) (Map.find DefaultSemantic.DepthStencil gBuffer)
+            |> Sg.compile runtime signature
+            |> RenderTask.renderToColor size
+
+        d
+
     let ambientOcclusion (v : Vertex) =
         fragment {
             let ndc = v.pos.XY / v.pos.W

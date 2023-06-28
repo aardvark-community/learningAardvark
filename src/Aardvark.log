@@ -36,7 +36,7 @@
  0:       found: windows/x86/vkvm.exp
  0:       found: windows/x86/vkvm.lib
  0:       found: windows/x86/vkvm.pdb
- 0:     Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null 0.035 s
+ 0:     Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null 0.030 s
  0:   skipped LoadNativeDependencies for netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
  0:   trying to load native dependencies for Aardvark.Rendering, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null
  0:   trying to load native dependencies for Aardvark.Base, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
@@ -135,7 +135,7 @@
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\net6.0\Silk.NET.GLFW.dll
  0:     trying to load native dependencies for Aardvark.Base.FSharp, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
  0:     trying to load native dependencies for Aardvark.PixImage.DevIL, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
- 0:   Loading plugins .................................................................... 0.206 s
+ 0:   Loading plugins .................................................................... 0.065 s
  0:   [Introspection] Ignoring assembly System.Runtime due to filter
  0:   trying to load native dependencies for Adaptify.Core, Version=1.1.8.0, Culture=neutral, PublicKeyToken=null
  0:   [Introspection] Ignoring assembly netstandard due to filter
@@ -269,7 +269,7 @@
  0:       found: windows/x86/glvm.exp
  0:       found: windows/x86/glvm.lib
  0:       found: windows/x86/glvm.pdb
- 0:     Loading native dependencies for Aardvark.Rendering.GL, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null 0.001 s
+ 0:     Loading native dependencies for Aardvark.Rendering.GL, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
  0:   [Introspection] Ignoring assembly netstandard due to filter
  0:   [Introspection] Ignoring assembly FSharp.Data.Adaptive due to filter
  0:   [Introspection] Ignoring assembly FShade.GLSL due to filter
@@ -347,7 +347,7 @@
  0:   trying to load native dependencies for Aardvark.SceneGraph.IO, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null
  0:     Loading native dependencies for Aardvark.SceneGraph.IO, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null 
  0:       found: remap.xml
- 0:     Loading native dependencies for Aardvark.SceneGraph.IO, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null 0.001 s
+ 0:     Loading native dependencies for Aardvark.SceneGraph.IO, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
  0:   [Introspection] Ignoring assembly netstandard due to filter
  0:   [Introspection] Ignoring assembly FSharp.Data.Adaptive due to filter
  0:   [Introspection] Ignoring assembly System.Collections due to filter
@@ -358,7 +358,7 @@
  0:     [cache hit ] Adaptify.Core, Version=1.1.8.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] FSharp.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
  0:     [cache hit ] Aardvark.Base, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
- 0:   initializing Constants ............................................................. 0.015 s
+ 0:   initializing Constants ............................................................. 0.009 s
  0:     [cache hit ] Aardvark.Base.Telemetry, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.Rendering, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.Base.FSharp, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
@@ -395,14 +395,14 @@
  0:     [cache hit ] FSys, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.SceneGraph.IO, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null
  0:     installing pickler: Aardvark.Base.Picklers.AdaptivePicklers
- 0:   initializing CustomPicklerProvider ................................................. 0.423 s
+ 0:   initializing CustomPicklerProvider ................................................. 0.050 s
  0:     [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.Base.Tensors.CSharp, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.Base.Tensors, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing PixImageSharp .................................................................
  0:     skipped LoadNativeDependencies for SixLabors.ImageSharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13
  0:     skipped LoadNativeDependencies for System.Numerics.Vectors, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
- 0:   initializing PixImageSharp ......................................................... 0.220 s
+ 0:   initializing PixImageSharp ......................................................... 0.036 s
  0:     [cache hit ] Aardvark.Base.Incremental, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.Base.Essentials, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.UI.Primitives, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -464,8 +464,8 @@
  0:       D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\net6.0
  0:       C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-d5b37588-b2b9-c020-dc32-3b8398c1bebb-64
  0:     [Introspection] loaded native library DevIL from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-d5b37588-b2b9-c020-dc32-3b8398c1bebb-64\DevIL.dll
- 0:   initializing PixImageDevil ......................................................... 0.167 s
- 0: initializing aardvark ........................................................ [0.08x] 2.910 s
+ 0:   initializing PixImageDevil ......................................................... 0.047 s
+ 0: initializing aardvark ........................................................ [0.16x] 0.478 s
  0: skipped LoadNativeDependencies for System.Diagnostics.Process, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
  0: skipped LoadNativeDependencies for System.ComponentModel.Primitives, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
  0: [Vulkan] enabled instance extension "vk_khr_get_physical_device_properties2"
@@ -951,13 +951,13 @@
  0: Aardvark.UI.Primitives serves spectrum.js
  0: skipped LoadNativeDependencies for System.Net.Primitives, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
  0: skipped LoadNativeDependencies for System.Collections.Specialized, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
- 0: skipped LoadNativeDependencies for Microsoft.Win32.Primitives, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
  1: skipped LoadNativeDependencies for System.Net.Sockets, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+ 0: skipped LoadNativeDependencies for Microsoft.Win32.Primitives, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
  1: skipped LoadNativeDependencies for System.Diagnostics.Tracing, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
  1: skipped LoadNativeDependencies for System.Threading.Overlapped, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
  2: skipped LoadNativeDependencies for System.Web.HttpUtility, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
  2: skipped LoadNativeDependencies for System.Private.Uri, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
- 3: [Server] created client for (704db81b-99c6-f060-bc27-3e29fa47dede/n7), mapping enabled
+ 3: [Server] created client for (8df03da0-15db-b237-33e0-a170e3277436/n7), mapping enabled
  3: [Client] 1: running n7
  4: [Scene] n7: created
  4: trying to load native dependencies for FSharp.Core.resources, Version=5.0.0.0, Culture=de, PublicKeyToken=b03f5f7f11d50a3a
@@ -1058,14 +1058,14 @@
  4:             entry: "main"
  4:             uniform {ub::Global, sam::diffuseSampler}
  4:             called {
- 4:                 {0} = {1} : float -> float -> void
  4:                 clamp : float -> float
- 4:                 abs : float -> float
- 4:                 textureSize : sampler2D -> int -> int2
  4:                 min : float -> float -> float
- 4:                 textureLod : sampler2D -> float2 -> float -> float4
- 4:                 max : float -> float -> float
  4:                 break : void -> void
+ 4:                 textureLod : sampler2D -> float2 -> float -> float4
+ 4:                 {0} = {1} : float -> float -> void
+ 4:                 abs : float -> float
+ 4:                 max : float -> float -> float
+ 4:                 textureSize : sampler2D -> int -> int2
  4:             }
  4:             in fs_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in gl_Position : float4 
@@ -1094,10 +1094,10 @@
  4:             entry: "main"
  4:             uniform {ub::Global, sam::diffuseSampler}
  4:             called {
+ 4:                 exp : float -> float
+ 4:                 pow : float3 -> float3 -> float3
  4:                 log : float -> float
  4:                 texture : sampler2D -> float2 -> float4
- 4:                 pow : float3 -> float3 -> float3
- 4:                 exp : float -> float
  4:             }
  4:             in fs_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in gl_Position : float4 
@@ -1122,191 +1122,23 @@
  4:             out gl_Position : float4 
  4:         Fragment:
  4:             entry: "main"
- 4:             uniform {sam::deltaSampler, sam::accumSampler, sam::modulateSampler, sam::backgroundSampler}
+ 4:             uniform {sam::accumSampler, sam::deltaSampler, sam::backgroundSampler, sam::modulateSampler}
  4:             called {
- 4:                 texture : sampler2D -> float2 -> float4
  4:                 isinf : float -> bool
  4:                 min : float3 -> float
  4:                 max : float -> float -> float
+ 4:                 texture : sampler2D -> float2 -> float4
  4:                 max : float3 -> float
  4:             }
  4:             in fs_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in gl_Position : float4 
  4:             out ColorsOut : float4 // location: 0 semantic: Colors
- 4: [Vulkan] loading shader b800877b-2049-fccf-7801-23ed87b52b02.effect
- 4:   Interface
- 4:     in DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
- 4:     in DiffuseColorUTangents : float3 // location: 1 semantic: DiffuseColorUTangents
- 4:     in DiffuseColorVTangents : float3 // location: 2 semantic: DiffuseColorVTangents
- 4:     in Normals : float3 // location: 3 semantic: Normals
- 4:     in Positions : float4 // location: 4 semantic: Positions
- 4:     out AccumOut : float4 // location: 0 semantic: Accum
- 4:     out ModulateColorOut : float4 // location: 1 semantic: ModulateColor
- 4:     out DeltaOut : float2 // location: 2 semantic: Delta
- 4:     ub Global { // set: 0 binding: 0
- 4:         AlbedoColor : float4 // offset: 0
- 4:         AmbientIntensity : float // offset: 16
- 4:         ClearCoat : float // offset: 20
- 4:         ClearCoatNormalStrength : float // offset: 24
- 4:         ClearCoatRoughness : float // offset: 28
- 4:         Coverage : float // offset: 32
- 4:         Discard : bool // offset: 36
- 4:         DisplacmentStrength : float // offset: 40
- 4:         EmissionColor : float3 // offset: 48
- 4:         IndexOfRefraction : float // offset: 60
- 4:         LightArray : SLEAardvarkRenderDemo_SLEUniform_Light[80] // offset: 64
- 4:         LightCount : int // offset: 35904
- 4:         Metallic : float // offset: 35908
- 4:         NormalMapStrength : float // offset: 35912
- 4:         RefractionDistance : float // offset: 35916
- 4:         Roughness : float // offset: 35920
- 4:         SheenColor : float3 // offset: 35936
- 4:         SheenRoughness : float // offset: 35948
- 4:         SssProfileIndex : int // offset: 35952
- 4:         TranslucencyBias : float[8] // offset: 35968
- 4:         TranslucencyStrength : float[8] // offset: 36096
- 4:         Transmission : float3 // offset: 36224
- 4:         UseNormalsForClearCoat : bool // offset: 36236
- 4:         aspectRatio : float // offset: 36240
- 4:         sssFalloff : float3[8] // offset: 36256
- 4:         sssStrength : float3[8] // offset: 36384
- 4:         sssWidth : float[8] // offset: 36512
- 4:         tanFoVxHalf : float // offset: 36640
- 4:     }
- 4:     ub PerModel { // set: 0 binding: 2
- 4:         ModelTrafo : float4x4 // offset: 0
- 4:         ModelTrafoInv : float4x4 // offset: 64
- 4:     }
- 4:     ub PerView { // set: 0 binding: 1
- 4:         CameraLocation : float3 // offset: 0
- 4:         ViewProjTrafo : float4x4 // offset: 16
- 4:         ViewTrafo : float4x4 // offset: 80
- 4:     }
- 4:     sam albedoSampler : sampler2D // set: 0 binding: 3
- 4:     sam clearCoatNormalSampler : sampler2D // set: 0 binding: 4
- 4:     sam clearCoatRoughnessSampler : sampler2D // set: 0 binding: 5
- 4:     sam clearCoatSampler : sampler2D // set: 0 binding: 6
- 4:     sam coverageSampler : sampler2D // set: 0 binding: 7
- 4:     sam diffuseIrradianceSampler : samplerCube // set: 0 binding: 8
- 4:     sam dummySampler : sampler2D // set: 0 binding: 9
- 4:     sam emissionSampler : sampler2D // set: 0 binding: 10
- 4:     sam metallicSampler : sampler2D // set: 0 binding: 11
- 4:     sam normalSampler : sampler2D // set: 0 binding: 12
- 4:     sam prefilteredSpecColorSampler : samplerCube // set: 0 binding: 13
- 4:     sam refractionDistanceSampler : sampler2D // set: 0 binding: 14
- 4:     sam roughnessSampler : sampler2D // set: 0 binding: 15
- 4:     sam samplerBRDFLtu : sampler2D // set: 0 binding: 16
- 4:     sam samplerDisp : sampler2D // set: 0 binding: 17
- 4:     sam samplerShadowMapArray : sampler2DShadow[30] // set: 0 binding: 18
- 4:     sam samplerShadowMapTexArray : sampler2D[30] // set: 0 binding: 48
- 4:     sam samplerShadowMapTexArrayT : sampler2D[30] // set: 0 binding: 78
- 4:     sam sheenColorSampler : sampler2D // set: 0 binding: 108
- 4:     sam sheenRoughnessSampler : sampler2D // set: 0 binding: 109
- 4:     sam transmissionSampler : sampler2D // set: 0 binding: 110
- 4:     shaders:
- 4:         Vertex:
- 4:             entry: "main"
- 4:             uniform {ub::PerModel}
- 4:             called {}
- 4:             in DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
- 4:             in DiffuseColorUTangents : float3 // location: 1 semantic: DiffuseColorUTangents
- 4:             in DiffuseColorVTangents : float3 // location: 2 semantic: DiffuseColorVTangents
- 4:             in Normals : float3 // location: 3 semantic: Normals
- 4:             in Positions : float4 // location: 4 semantic: Positions
- 4:             out tc_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
- 4:             out tc_DiffuseColorUTangents : float3 // location: 1 semantic: DiffuseColorUTangents
- 4:             out tc_DiffuseColorVTangents : float3 // location: 2 semantic: DiffuseColorVTangents
- 4:             out tc_Normals : float3 // location: 3 semantic: Normals
- 4:             out tc_WorldPosition : float4 // location: 4 semantic: WorldPosition
- 4:         TessControl:
- 4:             entry: "main"
- 4:             attributes: {
- 4:                 input-top: Triangle
- 4:             }
- 4:             uniform {ub::Global}
- 4:             called {}
- 4:             in tc_DiffuseColorCoordinates : float2[] // location: 0 semantic: DiffuseColorCoordinates
- 4:             in tc_DiffuseColorUTangents : float3[] // location: 1 semantic: DiffuseColorUTangents
- 4:             in tc_DiffuseColorVTangents : float3[] // location: 2 semantic: DiffuseColorVTangents
- 4:             in tc_Normals : float3[] // location: 3 semantic: Normals
- 4:             in tc_WorldPosition : float4[] // location: 4 semantic: WorldPosition
- 4:             in gl_InvocationID : int 
- 4:             out te_DiffuseColorCoordinates : float2[] // location: 0 semantic: DiffuseColorCoordinates
- 4:             out te_DiffuseColorUTangents : float3[] // location: 1 semantic: DiffuseColorUTangents
- 4:             out te_DiffuseColorVTangents : float3[] // location: 2 semantic: DiffuseColorVTangents
- 4:             out te_Normals : float3[] // location: 3 semantic: Normals
- 4:             out te_WorldPosition : float4[] // location: 4 semantic: WorldPosition
- 4:             out gl_TessLevelInner : float[] 
- 4:             out gl_TessLevelOuter : float[] 
- 4:         TessEval:
- 4:             entry: "main"
- 4:             attributes: {
- 4:                 spacing: Equal
- 4:                 winding: CCW
- 4:                 input-top: Triangle
- 4:             }
- 4:             uniform {ub::Global, ub::PerView, sam::samplerDisp}
- 4:             called {
- 4:                 texture : sampler2D -> float2 -> float4
- 4:                 normalize : float3 -> float3
- 4:             }
- 4:             in te_DiffuseColorCoordinates : float2[] // location: 0 semantic: DiffuseColorCoordinates
- 4:             in te_DiffuseColorUTangents : float3[] // location: 1 semantic: DiffuseColorUTangents
- 4:             in te_DiffuseColorVTangents : float3[] // location: 2 semantic: DiffuseColorVTangents
- 4:             in te_Normals : float3[] // location: 3 semantic: Normals
- 4:             in te_WorldPosition : float4[] // location: 4 semantic: WorldPosition
- 4:             in gl_TessCoord : float3 
- 4:             out fs_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
- 4:             out fs_DiffuseColorUTangents : float3 // location: 1 semantic: DiffuseColorUTangents
- 4:             out fs_DiffuseColorVTangents : float3 // location: 2 semantic: DiffuseColorVTangents
- 4:             out fs_Normals : float3 // location: 3 semantic: Normals
- 4:             out fs_WorldPosition : float4 // location: 4 semantic: WorldPosition
- 4:             out gl_Position : float4 
- 4:         Fragment:
- 4:             entry: "main"
- 4:             uniform {ub::Global, ub::PerView, sam::prefilteredSpecColorSampler, sam::albedoSampler, sam::samplerBRDFLtu, sam::sheenRoughnessSampler, sam::refractionDistanceSampler, sam::emissionSampler, sam::clearCoatSampler, sam::roughnessSampler, sam::dummySampler, sam::normalSampler, sam::transmissionSampler, sam::coverageSampler, sam::clearCoatNormalSampler, sam::sheenColorSampler, sam::clearCoatRoughnessSampler, sam::diffuseIrradianceSampler, sam::samplerShadowMapArray, sam::metallicSampler, sam::samplerShadowMapTexArrayT, sam::samplerShadowMapTexArray}
- 4:             called {
- 4:                 texture : sampler2D -> float2 -> float4
- 4:                 acos : float -> float
- 4:                 atan : float -> float
- 4:                 clamp : float3 -> float3
- 4:                 length : float3 -> float3
- 4:                 texture : samplerCube -> float3 -> float4
- 4:                 sqrt : float3 -> float3
- 4:                 normalize : float3 -> float3
- 4:                 clamp : float -> float
- 4:                 abs : float -> float
- 4:                 pow : float3 -> float3 -> float3
- 4:                 min : float -> float -> float
- 4:                 sqrt : float -> float
- 4:                 pow : float -> float -> float
- 4:                 max : float3 -> float3 -> float3
- 4:                 exp : float3 -> float3
- 4:                 refract : float -> float3 -> float3 -> float3
- 4:                 mix : float3 -> float3 -> float -> float3
- 4:                 max : float -> float -> float
- 4:                 sin : float -> float
- 4:                 cos : float -> float
- 4:                 clamp : float3 -> float -> float -> float3
- 4:                 textureLod : samplerCube -> float3 -> float -> float4
- 4:                 reflect : float3 -> float3 -> float3
- 4:                 discard : void -> void
- 4:                 max : float3 -> float
- 4:                 clamp : float -> float -> float -> float
- 4:                 texture : sampler2DShadow -> float2 -> float -> float
- 4:                 fract : float -> float
- 4:                 distance : float3 -> float3 -> float
- 4:             }
- 4:             in fs_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
- 4:             in fs_DiffuseColorUTangents : float3 // location: 1 semantic: DiffuseColorUTangents
- 4:             in fs_DiffuseColorVTangents : float3 // location: 2 semantic: DiffuseColorVTangents
- 4:             in fs_Normals : float3 // location: 3 semantic: Normals
- 4:             in fs_WorldPosition : float4 // location: 4 semantic: WorldPosition
- 4:             in gl_FrontFacing : bool 
- 4:             in gl_Position : float4 
- 4:             out AccumOut : float4 // location: 0 semantic: Accum
- 4:             out ModulateColorOut : float4 // location: 1 semantic: ModulateColor
- 4:             out DeltaOut : float2 // location: 2 semantic: Delta
+ 4: probing paths for GLSLangNative
+ 4:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\net6.0
+ 4:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-d2d054ca-af95-fad3-43a0-0b947ababa67-64
+ 4: [Introspection] loaded native library GLSLangNative from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-d2d054ca-af95-fad3-43a0-0b947ababa67-64\GLSLangNative.dll
+ 4: ERROR: [Vulkan] could not find texture: AmbientOcclusion
+ 4: ERROR: [Vulkan] could not find texture: AmbientOcclusion
  4: [Vulkan] loading shader c13a5b39-c57f-1c66-49b7-d7390d425a89.effect
  4:   Interface
  4:     in Positions : float4 // location: 0 semantic: Positions
@@ -1321,7 +1153,7 @@
  4:     shaders:
  4:         Vertex:
  4:             entry: "main"
- 4:             uniform {ub::PerModel, ub::PerView}
+ 4:             uniform {ub::PerView, ub::PerModel}
  4:             called {}
  4:             in Positions : float4 // location: 0 semantic: Positions
  4:             out fs_WorldPosition : float4 // location: 0 semantic: WorldPosition
@@ -1331,9 +1163,9 @@
  4:             uniform {sam::envSampler}
  4:             called {
  4:                 texture : samplerCube -> float3 -> float4
- 4:                 normalize : float3 -> float3
  4:                 sin : float -> float
  4:                 cos : float -> float
+ 4:                 normalize : float3 -> float3
  4:             }
  4:             in fs_WorldPosition : float4 // location: 0 semantic: WorldPosition
  4:             in gl_Position : float4 
@@ -1355,7 +1187,7 @@
  4:     shaders:
  4:         Vertex:
  4:             entry: "main"
- 4:             uniform {ub::PerModel, ub::PerView}
+ 4:             uniform {ub::PerView, ub::PerModel}
  4:             called {}
  4:             in Positions : float4 // location: 0 semantic: Positions
  4:             out fs_WorldPosition : float4 // location: 0 semantic: WorldPosition
@@ -1365,14 +1197,14 @@
  4:             uniform {ub::Global, sam::skySamplerEquirec}
  4:             called {
  4:                 atan : float -> float -> float
- 4:                 texture : sampler2D -> float2 -> float4
- 4:                 normalize : float3 -> float3
  4:                 asin : float -> float
+ 4:                 normalize : float3 -> float3
+ 4:                 texture : sampler2D -> float2 -> float4
  4:             }
  4:             in fs_WorldPosition : float4 // location: 0 semantic: WorldPosition
  4:             in gl_Position : float4 
  4:             out ColorsOut : float4 // location: 0 semantic: Colors
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.162 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.229 s
  4: [Vulkan] loading shader cc8285e9-e5e2-538b-26a7-9a3d0636a4c9.effect
  4:   Interface
  4:     in Normals : float3 // location: 0 semantic: Normals
@@ -1397,7 +1229,7 @@
  4:     shaders:
  4:         Vertex:
  4:             entry: "main"
- 4:             uniform {ub::PerModel, ub::PerView}
+ 4:             uniform {ub::PerView, ub::PerModel}
  4:             called {}
  4:             in Normals : float3 // location: 0 semantic: Normals
  4:             in Positions : float4 // location: 1 semantic: Positions
@@ -1409,9 +1241,9 @@
  4:             uniform {ub::Global, sam::skySampler}
  4:             called {
  4:                 texture : samplerCube -> float3 -> float4
- 4:                 normalize : float3 -> float3
- 4:                 min : float3 -> float
  4:                 discard : void -> void
+ 4:                 min : float3 -> float
+ 4:                 normalize : float3 -> float3
  4:             }
  4:             in fs_Normals : float3 // location: 0 semantic: Normals
  4:             in fs_WorldPosition : float4 // location: 1 semantic: WorldPosition
@@ -1474,7 +1306,7 @@
  4:     shaders:
  4:         Vertex:
  4:             entry: "main"
- 4:             uniform {ub::PerModel, ub::PerView}
+ 4:             uniform {ub::PerView, ub::PerModel}
  4:             called {}
  4:             in DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in DiffuseColorUTangents : float3 // location: 1 semantic: DiffuseColorUTangents
@@ -1489,14 +1321,14 @@
  4:             out gl_Position : float4 
  4:         Fragment:
  4:             entry: "main"
- 4:             uniform {ub::Global, sam::albedoSampler, sam::sheenRoughnessSampler, sam::emissionSampler, sam::clearCoatSampler, sam::roughnessSampler, sam::normalSampler, sam::transmissionSampler, sam::coverageSampler, sam::clearCoatNormalSampler, sam::sheenColorSampler, sam::clearCoatRoughnessSampler, sam::metallicSampler}
+ 4:             uniform {ub::Global, sam::metallicSampler, sam::normalSampler, sam::sheenColorSampler, sam::emissionSampler, sam::clearCoatSampler, sam::albedoSampler, sam::transmissionSampler, sam::clearCoatNormalSampler, sam::sheenRoughnessSampler, sam::roughnessSampler, sam::clearCoatRoughnessSampler, sam::coverageSampler}
  4:             called {
- 4:                 texture : sampler2D -> float2 -> float4
- 4:                 normalize : float3 -> float3
- 4:                 pow : float3 -> float3 -> float3
- 4:                 min : float3 -> float
  4:                 mix : float3 -> float3 -> float -> float3
  4:                 discard : void -> void
+ 4:                 min : float3 -> float
+ 4:                 normalize : float3 -> float3
+ 4:                 pow : float3 -> float3 -> float3
+ 4:                 texture : sampler2D -> float2 -> float4
  4:             }
  4:             in fs_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in fs_DiffuseColorUTangents : float3 // location: 1 semantic: DiffuseColorUTangents
@@ -1510,22 +1342,22 @@
  4:             out NormalROut : float4 // location: 3 semantic: NormalR
  4:             out ClearCoatOut : float4 // location: 4 semantic: ClearCoat
  4:             out SheenOut : float4 // location: 5 semantic: Sheen
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.004 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.005 s
  4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.015 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.037 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.015 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.033 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.023 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.031 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.014 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.038 s
  4: Trying to load image from stream with DevIL loader: success in ....................... 0.013 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.031 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.023 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.031 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.030 s
  4: Trying to load image from stream with DevIL loader: success in ....................... 0.013 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.031 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.030 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.013 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.030 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.013 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.030 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.014 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.029 s
  4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
  4: [Vulkan] loading shader 188afaed-57d5-b704-bd62-213d4a633b22.effect
  4:   Interface
  4:     in Colors : float4 // location: 0 semantic: Colors
@@ -1544,7 +1376,7 @@
  4:     shaders:
  4:         Vertex:
  4:             entry: "main"
- 4:             uniform {ub::PerModel, ub::PerView}
+ 4:             uniform {ub::PerView, ub::PerModel}
  4:             called {}
  4:             in Colors : float4 // location: 0 semantic: Colors
  4:             in Positions : float4 // location: 1 semantic: Positions
@@ -1556,13 +1388,13 @@
  4:             uniform {ub::Global, sam::envSampler}
  4:             called {
  4:                 texture : samplerCube -> float3 -> float4
- 4:                 normalize : float3 -> float3
- 4:                 abs : float -> float
+ 4:                 uint : int -> uint
  4:                 sqrt : float -> float
- 4:                 max : float -> float -> float
  4:                 sin : float -> float
  4:                 cos : float -> float
- 4:                 uint : int -> uint
+ 4:                 normalize : float3 -> float3
+ 4:                 abs : float -> float
+ 4:                 max : float -> float -> float
  4:             }
  4:             in fs_Colors : float4 // location: 0 semantic: Colors
  4:             in fs_WorldPosition : float4 // location: 1 semantic: WorldPosition
@@ -1582,7 +1414,7 @@
  4:     shaders:
  4:         Vertex:
  4:             entry: "main"
- 4:             uniform {ub::PerModel, ub::PerView}
+ 4:             uniform {ub::PerView, ub::PerModel}
  4:             called {}
  4:             in DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in Positions : float4 // location: 1 semantic: Positions
@@ -1592,14 +1424,14 @@
  4:             entry: "main"
  4:             uniform {}
  4:             called {
- 4:                 normalize : float3 -> float3
- 4:                 abs : float -> float
+ 4:                 uint : int -> uint
  4:                 sqrt : float -> float
- 4:                 pow : float -> float -> float
- 4:                 max : float -> float -> float
  4:                 sin : float -> float
  4:                 cos : float -> float
- 4:                 uint : int -> uint
+ 4:                 normalize : float3 -> float3
+ 4:                 abs : float -> float
+ 4:                 pow : float -> float -> float
+ 4:                 max : float -> float -> float
  4:             }
  4:             in fs_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in gl_Position : float4 
@@ -1616,7 +1448,7 @@
  4:     shaders:
  4:         Vertex:
  4:             entry: "main"
- 4:             uniform {ub::PerModel, ub::PerView}
+ 4:             uniform {ub::PerView, ub::PerModel}
  4:             called {}
  4:             in Positions : float4 // location: 0 semantic: Positions
  4:             out gl_Position : float4 
@@ -1678,55 +1510,78 @@
  4:             out gl_Position : float4 
  4:         Fragment:
  4:             entry: "main"
- 4:             uniform {ub::Global, ub::PerView, sam::depth, sam::albedoAndProfileIndex, sam::inputImage}
+ 4:             uniform {ub::PerView, ub::Global, sam::inputImage, sam::albedoAndProfileIndex, sam::depth}
  4:             called {
- 4:                 texture : sampler2D -> float2 -> float4
+ 4:                 mix : float3 -> float3 -> float -> float3
  4:                 texture : sampler2D -> float2 -> float -> float4
+ 4:                 min : float -> float -> float
+ 4:                 exp : float -> float
  4:                 trunc : float -> float
  4:                 length : float2 -> float
- 4:                 abs : float -> float
- 4:                 min : float -> float -> float
- 4:                 pow : float -> float -> float
- 4:                 mix : float3 -> float3 -> float -> float3
- 4:                 max : float -> float -> float
- 4:                 exp : float -> float
  4:                 distance : float3 -> float3 -> float
+ 4:                 abs : float -> float
+ 4:                 pow : float -> float -> float
+ 4:                 max : float -> float -> float
+ 4:                 texture : sampler2D -> float2 -> float4
  4:             }
  4:             in fs_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in fs_Positions : float4 // location: 1 semantic: Positions
  4:             in gl_Position : float4 
  4:             out ColorsOut : float4 // location: 0 semantic: Colors
- 4: [Vulkan] loading shader 3a791bc5-5786-e2e7-dd40-69b61de70ffb.effect
+ 4: [Vulkan] loading shader 82edf3cd-d608-4ae9-5576-7c59c095cae0.effect
+ 4:   Interface
+ 4:     in Positions : float4 // location: 0 semantic: Positions
+ 4:     out ColorsOut : float4 // location: 0 semantic: Colors
+ 4:     ub Global { // set: 0 binding: 1
+ 4:         Sharpness : float // offset: 0
+ 4:         Sigma : float // offset: 4
+ 4:     }
+ 4:     ub PerView { // set: 0 binding: 0
+ 4:         ProjTrafoInv : float4x4 // offset: 0
+ 4:     }
+ 4:     sam ambientOcc : sampler2D // set: 0 binding: 2
+ 4:     sam depth : sampler2D // set: 0 binding: 3
+ 4:     shaders:
+ 4:         Vertex:
+ 4:             entry: "main"
+ 4:             uniform {}
+ 4:             called {}
+ 4:             in Positions : float4 // location: 0 semantic: Positions
+ 4:             out fs_Positions : float4 // location: 0 semantic: Positions0
+ 4:             out gl_Position : float4 
+ 4:         Fragment:
+ 4:             entry: "main"
+ 4:             uniform {ub::PerView, ub::Global, sam::ambientOcc, sam::depth}
+ 4:             called {
+ 4:                 texture : sampler2D -> float2 -> float -> float4
+ 4:                 exp : float -> float
+ 4:                 textureLod : sampler2D -> float2 -> float -> float4
+ 4:                 textureSize : sampler2D -> int2
+ 4:             }
+ 4:             in fs_Positions : float4 // location: 0 semantic: Positions
+ 4:             in gl_Position : float4 
+ 4:             out ColorsOut : float4 // location: 0 semantic: Colors
+ 4: [Vulkan] loading shader 8bbd58f8-27d9-fafd-ebd1-28bcd5b0620a.effect
  4:   Interface
  4:     in DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:     in Positions : float4 // location: 1 semantic: Positions
- 4:     out DiffuseOut : float4 // location: 0 semantic: Diffuse
- 4:     out SpecularOut : float4 // location: 1 semantic: Specular
+ 4:     out ColorsOut : float4 // location: 0 semantic: Colors
  4:     ub Global { // set: 0 binding: 0
- 4:         AmbientIntensity : float // offset: 0
- 4:         LightArray : SLEAardvarkRenderDemo_SLEUniform_Light[80] // offset: 16
- 4:         LightCount : int // offset: 35856
- 4:         TranslucencyBias : float[8] // offset: 35872
- 4:         TranslucencyStrength : float[8] // offset: 36000
- 4:         sssFalloff : float3[8] // offset: 36128
- 4:         sssStrength : float3[8] // offset: 36256
- 4:         sssWidth : float[8] // offset: 36384
+ 4:         OcclusionStrength : float // offset: 0
+ 4:         Radius : float // offset: 4
+ 4:         SampleDirections : float3[128] // offset: 16
+ 4:         Samples : int // offset: 2064
+ 4:         Threshold : float // offset: 2068
  4:     }
  4:     ub PerView { // set: 0 binding: 1
- 4:         CameraLocation : float3 // offset: 0
+ 4:         ProjTrafo : float4x4 // offset: 0
+ 4:         ProjTrafoInv : float4x4 // offset: 64
+ 4:         ViewTrafo : float4x4 // offset: 128
  4:     }
- 4:     sam clearCoat : sampler2D // set: 0 binding: 2
- 4:     sam color : sampler2D // set: 0 binding: 3
- 4:     sam diffuseIrradianceSampler : samplerCube // set: 0 binding: 4
- 4:     sam emission : sampler2D // set: 0 binding: 5
- 4:     sam normal : sampler2D // set: 0 binding: 6
- 4:     sam prefilteredSpecColorSampler : samplerCube // set: 0 binding: 7
- 4:     sam samplerBRDFLtu : sampler2D // set: 0 binding: 8
- 4:     sam samplerShadowMapArray : sampler2DShadow[30] // set: 0 binding: 9
- 4:     sam samplerShadowMapTexArray : sampler2D[30] // set: 0 binding: 39
- 4:     sam samplerShadowMapTexArrayT : sampler2D[30] // set: 0 binding: 69
- 4:     sam sheen : sampler2D // set: 0 binding: 99
- 4:     sam wPos : sampler2D // set: 0 binding: 100
+ 4:     sam depth : sampler2D // set: 0 binding: 2
+ 4:     sam depthCmp : sampler2DShadow // set: 0 binding: 3
+ 4:     sam normal : sampler2D // set: 0 binding: 4
+ 4:     sam random : sampler2D // set: 0 binding: 5
  4:     shaders:
  4:         Vertex:
  4:             entry: "main"
@@ -1735,527 +1590,20 @@
  4:             in DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in Positions : float4 // location: 1 semantic: Positions
  4:             out fs_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
+ 4:             out fs_Positions : float4 // location: 1 semantic: Positions0
  4:             out gl_Position : float4 
  4:         Fragment:
  4:             entry: "main"
- 4:             uniform {ub::Global, ub::PerView, sam::prefilteredSpecColorSampler, sam::samplerBRDFLtu, sam::normal, sam::sheen, sam::color, sam::emission, sam::diffuseIrradianceSampler, sam::clearCoat, sam::wPos, sam::samplerShadowMapArray, sam::samplerShadowMapTexArrayT, sam::samplerShadowMapTexArray}
+ 4:             uniform {ub::PerView, ub::Global, sam::depthCmp, sam::normal, sam::random, sam::depth}
  4:             called {
- 4:                 texture : sampler2D -> float2 -> float4
- 4:                 acos : float -> float
- 4:                 atan : float -> float
- 4:                 clamp : float3 -> float3
- 4:                 length : float3 -> float3
- 4:                 trunc : float -> float
- 4:                 texture : samplerCube -> float3 -> float4
- 4:                 sqrt : float3 -> float3
- 4:                 normalize : float3 -> float3
- 4:                 clamp : float -> float
- 4:                 abs : float -> float
+ 4:                 mix : float -> float -> float -> float
  4:                 min : float -> float -> float
- 4:                 sqrt : float -> float
- 4:                 pow : float -> float -> float
- 4:                 max : float3 -> float3 -> float3
- 4:                 exp : float3 -> float3
- 4:                 mix : float3 -> float3 -> float -> float3
- 4:                 max : float -> float -> float
- 4:                 sin : float -> float
- 4:                 cos : float -> float
- 4:                 clamp : float3 -> float -> float -> float3
- 4:                 textureLod : samplerCube -> float3 -> float -> float4
- 4:                 reflect : float3 -> float3 -> float3
- 4:                 max : float3 -> float
- 4:                 clamp : float -> float -> float -> float
+ 4:                 clamp : int -> int -> int -> int
+ 4:                 normalize : float3 -> float3
+ 4:                 texture : sampler2D -> float2 -> float4
  4:                 texture : sampler2DShadow -> float2 -> float -> float
- 4:                 fract : float -> float
- 4:                 distance : float3 -> float3 -> float
  4:             }
  4:             in fs_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
+ 4:             in fs_Positions : float4 // location: 1 semantic: Positions
  4:             in gl_Position : float4 
- 4:             out DiffuseOut : float4 // location: 0 semantic: Diffuse
- 4:             out SpecularOut : float4 // location: 1 semantic: Specular
- 4: probing paths for GLSLangNative
- 4:   D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\net6.0
- 4:   C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-d2d054ca-af95-fad3-43a0-0b947ababa67-64
- 4: [Introspection] loaded native library GLSLangNative from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\GLSLangSharp-d2d054ca-af95-fad3-43a0-0b947ababa67-64\GLSLangNative.dll
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.007 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.013 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.036 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.014 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.037 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.018 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.036 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.036 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.017 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.055 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.015 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.036 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.017 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.039 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.039 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.047 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.034 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.037 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.041 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.043 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.036 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.036 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.043 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.017 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.064 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.036 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.029 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.017 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.017 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.017 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.063 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.036 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: ERROR: [Vulkan] could not allocate DescriptorSet (-1000069000)
- 4: skipped LoadNativeDependencies for System.Diagnostics.StackTrace, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
- 4: ERROR
- 4:   [Client] 1: rendering faulted with System.Exception: [Vulkan] could not allocate DescriptorSet (-1000069000)
- 4:      at Microsoft.FSharp.Core.PrintfModule.PrintFormatToStringThenFail@1433.Invoke(String message) in D:\workspace\_work\1\s\src\fsharp\FSharp.Core\printf.fs:line 1433
- 4:      at Aardvark.Rendering.Vulkan.Utilities.check(String str, VkResult err)
- 4:      at Aardvark.Rendering.Vulkan.DescriptorSetModule.f@37-160(DescriptorSetLayout layout, DescriptorPool pool, VkDescriptorSetAllocateInfo* pInfo, VkDescriptorSet* pHandle)
- 4:      at Aardvark.Rendering.Vulkan.DescriptorSetModule.f@37-159(DescriptorSetLayout layout, DescriptorPool pool, VkDescriptorSetAllocateInfo* pInfo)
- 4:      at Aardvark.Rendering.Vulkan.DescriptorSetModule.f@37-158(DescriptorSetLayout layout, DescriptorPool pool, VkDescriptorSetLayout* pLayoutHandle)
- 4:      at Aardvark.Rendering.Vulkan.DescriptorSetModule.action@1-41(DescriptorSetLayout layout, DescriptorPool pool, Unit unitVar0)
- 4:      at Aardvark.Rendering.Vulkan.DescriptorSetModule.tryAlloc(DescriptorSetLayout layout, DescriptorPool pool)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$DescriptorSet.action@1-38(DescriptorPoolBag x, FSharpFunc`2 tryAllocSet, DescriptorSetLayout layout, Unit unitVar0)
- 4:      at Aardvark.Rendering.Vulkan.DescriptorPoolBag.CreateSet(DescriptorSetLayout layout, FSharpFunc`2 tryAllocSet)
- 4:      at Aardvark.Rendering.Vulkan.ContextDescriptorSetExtensions.CreateDescriptorSet(Device this, DescriptorSetLayout layout)
- 4:      at Aardvark.Rendering.Vulkan.Resources.DescriptorSetResource.Create()
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Acquire()
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.IAdaptiveResource.Acquire()
- 4:      at Aardvark.Rendering.Vulkan.Resources.DescriptorSetBindingResource.Create()
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Acquire()
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.IAdaptiveResource.Acquire()
- 4:      at Aardvark.Rendering.Vulkan.ResourceLocationSet.Add(IResourceLocation r)
- 4:      at Aardvark.Rendering.Vulkan.RuntimeCommands.RenderObjectCommand.Compile(AdaptiveToken _arg3, CommandStream stream)
- 4:      at Aardvark.Rendering.Vulkan.RuntimeCommands.PreparedCommand.Update(AdaptiveToken t)
- 4:      at Aardvark.Rendering.Vulkan.RuntimeCommands.UnorderedRenderObjectCommand.insert(AdaptiveToken token, IRenderObject o)
- 4:      at Aardvark.Rendering.Vulkan.RuntimeCommands.Compile@1156.Invoke(IRenderObject o)
- 4:      at Microsoft.FSharp.Collections.SeqModule.Iterate[T](FSharpFunc`2 action, IEnumerable`1 source) in D:\workspace\_work\1\s\src\fsharp\FSharp.Core\seq.fs:line 497
- 4:      at Aardvark.Rendering.Vulkan.RuntimeCommands.Helpers.HashSetDelta.iter[a](FSharpFunc`2 add, FSharpFunc`2 rem, FSharpHashSetDelta`1 set)
- 4:      at Aardvark.Rendering.Vulkan.RuntimeCommands.UnorderedRenderObjectCommand.Compile(AdaptiveToken token, CommandStream stream)
- 4:      at Aardvark.Rendering.Vulkan.RuntimeCommands.PreparedCommand.Update(AdaptiveToken t)
- 4:      at Aardvark.Rendering.Vulkan.CommandTask.updateCommands(AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.CommandTask.Perform(AdaptiveToken token, RenderToken renderToken, OutputDescription desc)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@89-3.Invoke(AdaptiveToken token)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@85-9(AbstractRenderTask x, RenderToken renderToken, OutputDescription out, AdaptiveToken token)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.SequentialRenderTask.Perform(AdaptiveToken token, RenderToken renderToken, OutputDescription output)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@89-3.Invoke(AdaptiveToken token)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@85-9(AbstractRenderTask x, RenderToken renderToken, OutputDescription out, AdaptiveToken token)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AdaptiveRenderToTypes.AdaptiveRenderingResult.Compute(AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.Aardvark.Rendering.IAdaptiveResource<'T>.GetValue(AdaptiveToken c, RenderToken t)
- 4:      at Aardvark.Rendering.AdaptiveRenderToTypes.AdaptiveOutputTexture.Compute(AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.Aardvark.Rendering.IAdaptiveResource<'T>.GetValue(AdaptiveToken c, RenderToken t)
- 4:      at Aardvark.Rendering.AdaptiveResourceImplementations.GetValue@170.Invoke(AdaptiveToken _arg1)
- 4:      at Aardvark.Rendering.Vulkan.ImmutableResourceLocation`2.recreate(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.ImmutableResourceLocation`2.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AbstractImageViewResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.ImageSamplerResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.ImageSamplerArrayResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.arg10@493-1[T](AdaptiveDescriptor`1 x, IResourceUser user, RenderToken rt, AdaptiveToken t)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.AdaptiveDescriptor`1.GetValue(IResourceUser user, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.AdaptiveDescriptor`1.Aardvark.Rendering.Vulkan.IManagedResource<Microsoft.FSharp.Core.[]<Aardvark.Rendering.Vulkan.Resources.DescriptorInfo>>.GetValue(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.GetHandle@1148.Invoke(HashSet`1 _arg1)
- 4:      at Aardvark.Rendering.LockedSet`1.Lock[U](FSharpFunc`2 action)
- 4:      at Aardvark.Rendering.Vulkan.Resources.DescriptorSetResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.DescriptorSetBindingResource.Compute(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractPointerResource`1.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.ResourceLocationReader.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.run@2132-12(ResourceLocationSet x, AdaptiveToken token, RenderToken renderToken, Boolean changed)
- 4:      at Aardvark.Rendering.LockedSet`1.Lock[U](FSharpFunc`2 action)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@2183-3[T](ResourceLocationSet x, RenderToken renderToken, FSharpFunc`2 action, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.ResourceLocationSet.Use[T](AdaptiveToken token, RenderToken renderToken, FSharpFunc`2 action)
- 4:      at Aardvark.Rendering.Vulkan.CommandTask.Perform(AdaptiveToken token, RenderToken renderToken, OutputDescription desc)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@89-3.Invoke(AdaptiveToken token)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@85-9(AbstractRenderTask x, RenderToken renderToken, OutputDescription out, AdaptiveToken token)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.SequentialRenderTask.Perform(AdaptiveToken token, RenderToken renderToken, OutputDescription output)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@89-3.Invoke(AdaptiveToken token)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@85-9(AbstractRenderTask x, RenderToken renderToken, OutputDescription out, AdaptiveToken token)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AdaptiveRenderToTypes.Compute@70-3.Invoke(IFramebuffer fbo, IRenderTask task)
- 4:      at Microsoft.FSharp.Core.OptimizedClosures.Invoke@3333-2.Invoke(T2 u, T3 v, T4 w) in D:\workspace\_work\1\s\src\fsharp\FSharp.Core\prim-types.fs:line 3333
- 4:      at Microsoft.FSharp.Collections.ArrayModule.IterateIndexed2[T1,T2](FSharpFunc`2 action, T1[] array1, T2[] array2) in D:\workspace\_work\1\s\src\fsharp\FSharp.Core\array.fs:line 343
- 4:      at Aardvark.Rendering.CubeMapModule.iter2[a,b](FSharpFunc`2 f, CubeMap`1 a, CubeMap`1 b)
- 4:      at Aardvark.Rendering.AdaptiveRenderToTypes.AdaptiveRenderingResultCube.Compute(AdaptiveToken t, RenderToken rt)
- 4:      at <StartupCode$Aardvark-Rendering>.$AdaptiveResource.arg10@73[T](AdaptiveResource`1 x, RenderToken rt, AdaptiveToken token)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.Aardvark.Rendering.IAdaptiveResource<'T>.GetValue(AdaptiveToken c, RenderToken t)
- 4:      at Aardvark.Rendering.AdaptiveRenderToTypes.AdaptiveOutputTextureCube.Compute(AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.Aardvark.Rendering.IAdaptiveResource<'T>.GetValue(AdaptiveToken c, RenderToken t)
- 4:      at Aardvark.Rendering.AdaptiveResourceImplementations.arg10@372-2[Input,T](AbstractBind`2 x, RenderToken rt, AdaptiveToken t)
- 4:      at Aardvark.Rendering.AdaptiveResourceImplementations.AbstractBind`2.GetValue(AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResourceImplementations.AbstractBind`2.Aardvark.Rendering.IAdaptiveResource<'T>.GetValue(AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResourceImplementations.GetValue@170.Invoke(AdaptiveToken _arg1)
- 4:      at Aardvark.Rendering.Vulkan.ImmutableResourceLocation`2.recreate(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.ImmutableResourceLocation`2.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AbstractImageViewResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.ImageSamplerResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.ImageSamplerArrayResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.arg10@493-1[T](AdaptiveDescriptor`1 x, IResourceUser user, RenderToken rt, AdaptiveToken t)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.AdaptiveDescriptor`1.GetValue(IResourceUser user, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.AdaptiveDescriptor`1.Aardvark.Rendering.Vulkan.IManagedResource<Microsoft.FSharp.Core.[]<Aardvark.Rendering.Vulkan.Resources.DescriptorInfo>>.GetValue(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.GetHandle@1148.Invoke(HashSet`1 _arg1)
- 4:      at Aardvark.Rendering.LockedSet`1.Lock[U](FSharpFunc`2 action)
- 4:      at Aardvark.Rendering.Vulkan.Resources.DescriptorSetResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.DescriptorSetBindingResource.Compute(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractPointerResource`1.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.ResourceLocationReader.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.run@2132-12(ResourceLocationSet x, AdaptiveToken token, RenderToken renderToken, Boolean changed)
- 4:      at Aardvark.Rendering.LockedSet`1.Lock[U](FSharpFunc`2 action)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@2183-3[T](ResourceLocationSet x, RenderToken renderToken, FSharpFunc`2 action, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.ResourceLocationSet.Use[T](AdaptiveToken token, RenderToken renderToken, FSharpFunc`2 action)
- 4:      at Aardvark.Rendering.Vulkan.CommandTask.Perform(AdaptiveToken token, RenderToken renderToken, OutputDescription desc)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@89-3.Invoke(AdaptiveToken token)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@85-9(AbstractRenderTask x, RenderToken renderToken, OutputDescription out, AdaptiveToken token)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.SequentialRenderTask.Perform(AdaptiveToken token, RenderToken renderToken, OutputDescription output)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@89-3.Invoke(AdaptiveToken token)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@85-9(AbstractRenderTask x, RenderToken renderToken, OutputDescription out, AdaptiveToken token)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AdaptiveRenderToTypes.Compute@70-3.Invoke(IFramebuffer fbo, IRenderTask task)
- 4:      at Microsoft.FSharp.Core.OptimizedClosures.Invoke@3333-2.Invoke(T2 u, T3 v, T4 w) in D:\workspace\_work\1\s\src\fsharp\FSharp.Core\prim-types.fs:line 3333
- 4:      at Microsoft.FSharp.Collections.ArrayModule.IterateIndexed2[T1,T2](FSharpFunc`2 action, T1[] array1, T2[] array2) in D:\workspace\_work\1\s\src\fsharp\FSharp.Core\array.fs:line 343
- 4:      at Aardvark.Rendering.CubeMapModule.iter2[a,b](FSharpFunc`2 f, CubeMap`1 a, CubeMap`1 b)
- 4:      at Aardvark.Rendering.AdaptiveRenderToTypes.AdaptiveRenderingResultCube.Compute(AdaptiveToken t, RenderToken rt)
- 4:      at <StartupCode$Aardvark-Rendering>.$AdaptiveResource.arg10@73[T](AdaptiveResource`1 x, RenderToken rt, AdaptiveToken token)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.Aardvark.Rendering.IAdaptiveResource<'T>.GetValue(AdaptiveToken c, RenderToken t)
- 4:      at Aardvark.Rendering.AdaptiveRenderToTypes.AdaptiveOutputTextureCube.Compute(AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.Aardvark.Rendering.IAdaptiveResource<'T>.GetValue(AdaptiveToken c, RenderToken t)
- 4:      at Aardvark.Rendering.AdaptiveResourceImplementations.GetValue@170.Invoke(AdaptiveToken _arg1)
- 4:      at Aardvark.Rendering.Vulkan.ImmutableResourceLocation`2.recreate(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.ImmutableResourceLocation`2.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AbstractImageViewResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.ImageSamplerResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.ImageSamplerArrayResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.arg10@493-1[T](AdaptiveDescriptor`1 x, IResourceUser user, RenderToken rt, AdaptiveToken t)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.AdaptiveDescriptor`1.GetValue(IResourceUser user, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.AdaptiveDescriptor`1.Aardvark.Rendering.Vulkan.IManagedResource<Microsoft.FSharp.Core.[]<Aardvark.Rendering.Vulkan.Resources.DescriptorInfo>>.GetValue(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.GetHandle@1148.Invoke(HashSet`1 _arg1)
- 4:      at Aardvark.Rendering.LockedSet`1.Lock[U](FSharpFunc`2 action)
- 4:      at Aardvark.Rendering.Vulkan.Resources.DescriptorSetResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.DescriptorSetBindingResource.Compute(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractPointerResource`1.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.ResourceLocationReader.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.run@2132-12(ResourceLocationSet x, AdaptiveToken token, RenderToken renderToken, Boolean changed)
- 4:      at Aardvark.Rendering.LockedSet`1.Lock[U](FSharpFunc`2 action)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@2183-3[T](ResourceLocationSet x, RenderToken renderToken, FSharpFunc`2 action, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.ResourceLocationSet.Use[T](AdaptiveToken token, RenderToken renderToken, FSharpFunc`2 action)
- 4:      at Aardvark.Rendering.Vulkan.CommandTask.Perform(AdaptiveToken token, RenderToken renderToken, OutputDescription desc)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@89-3.Invoke(AdaptiveToken token)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@85-9(AbstractRenderTask x, RenderToken renderToken, OutputDescription out, AdaptiveToken token)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.SequentialRenderTask.Perform(AdaptiveToken token, RenderToken renderToken, OutputDescription output)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@89-3.Invoke(AdaptiveToken token)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@85-9(AbstractRenderTask x, RenderToken renderToken, OutputDescription out, AdaptiveToken token)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AdaptiveRenderToTypes.AdaptiveRenderingResult.Compute(AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.Aardvark.Rendering.IAdaptiveResource<'T>.GetValue(AdaptiveToken c, RenderToken t)
- 4:      at Aardvark.Rendering.AdaptiveRenderToTypes.AdaptiveOutputTexture.Compute(AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.Aardvark.Rendering.IAdaptiveResource<'T>.GetValue(AdaptiveToken c, RenderToken t)
- 4:      at Aardvark.Rendering.AdaptiveResourceImplementations.GetValue@170.Invoke(AdaptiveToken _arg1)
- 4:      at Aardvark.Rendering.Vulkan.ImmutableResourceLocation`2.recreate(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.ImmutableResourceLocation`2.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AbstractImageViewResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.ImageSamplerResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.ImageSamplerArrayResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.arg10@493-1[T](AdaptiveDescriptor`1 x, IResourceUser user, RenderToken rt, AdaptiveToken t)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.AdaptiveDescriptor`1.GetValue(IResourceUser user, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.AdaptiveDescriptor`1.Aardvark.Rendering.Vulkan.IManagedResource<Microsoft.FSharp.Core.[]<Aardvark.Rendering.Vulkan.Resources.DescriptorInfo>>.GetValue(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.GetHandle@1148.Invoke(HashSet`1 _arg1)
- 4:      at Aardvark.Rendering.LockedSet`1.Lock[U](FSharpFunc`2 action)
- 4:      at Aardvark.Rendering.Vulkan.Resources.DescriptorSetResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.DescriptorSetBindingResource.Compute(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractPointerResource`1.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.ResourceLocationReader.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.run@2132-12(ResourceLocationSet x, AdaptiveToken token, RenderToken renderToken, Boolean changed)
- 4:      at Aardvark.Rendering.LockedSet`1.Lock[U](FSharpFunc`2 action)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@2183-3[T](ResourceLocationSet x, RenderToken renderToken, FSharpFunc`2 action, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.ResourceLocationSet.Use[T](AdaptiveToken token, RenderToken renderToken, FSharpFunc`2 action)
- 4:      at Aardvark.Rendering.Vulkan.CommandTask.Perform(AdaptiveToken token, RenderToken renderToken, OutputDescription desc)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@89-3.Invoke(AdaptiveToken token)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@85-9(AbstractRenderTask x, RenderToken renderToken, OutputDescription out, AdaptiveToken token)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.SequentialRenderTask.Perform(AdaptiveToken token, RenderToken renderToken, OutputDescription output)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@89-3.Invoke(AdaptiveToken token)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@85-9(AbstractRenderTask x, RenderToken renderToken, OutputDescription out, AdaptiveToken token)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AdaptiveRenderToTypes.AdaptiveRenderingResult.Compute(AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.Aardvark.Rendering.IAdaptiveResource<'T>.GetValue(AdaptiveToken c, RenderToken t)
- 4:      at Aardvark.Rendering.AdaptiveRenderToTypes.AdaptiveOutputTexture.Compute(AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.Aardvark.Rendering.IAdaptiveResource<'T>.GetValue(AdaptiveToken c, RenderToken t)
- 4:      at Aardvark.Rendering.AdaptiveResourceImplementations.arg10@372-2[Input,T](AbstractBind`2 x, RenderToken rt, AdaptiveToken t)
- 4:      at Aardvark.Rendering.AdaptiveResourceImplementations.AbstractBind`2.GetValue(AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResourceImplementations.AbstractBind`2.Aardvark.Rendering.IAdaptiveResource<'T>.GetValue(AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResourceImplementations.GetValue@170.Invoke(AdaptiveToken _arg1)
- 4:      at Aardvark.Rendering.Vulkan.ImmutableResourceLocation`2.recreate(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.ImmutableResourceLocation`2.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AbstractImageViewResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.ImageSamplerResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.ImageSamplerArrayResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.arg10@493-1[T](AdaptiveDescriptor`1 x, IResourceUser user, RenderToken rt, AdaptiveToken t)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.AdaptiveDescriptor`1.GetValue(IResourceUser user, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.AdaptiveDescriptor`1.Aardvark.Rendering.Vulkan.IManagedResource<Microsoft.FSharp.Core.[]<Aardvark.Rendering.Vulkan.Resources.DescriptorInfo>>.GetValue(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.GetHandle@1148.Invoke(HashSet`1 _arg1)
- 4:      at Aardvark.Rendering.LockedSet`1.Lock[U](FSharpFunc`2 action)
- 4:      at Aardvark.Rendering.Vulkan.Resources.DescriptorSetResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.DescriptorSetBindingResource.Compute(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractPointerResource`1.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.ResourceLocationReader.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.run@2132-12(ResourceLocationSet x, AdaptiveToken token, RenderToken renderToken, Boolean changed)
- 4:      at Aardvark.Rendering.LockedSet`1.Lock[U](FSharpFunc`2 action)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@2183-3[T](ResourceLocationSet x, RenderToken renderToken, FSharpFunc`2 action, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.ResourceLocationSet.Use[T](AdaptiveToken token, RenderToken renderToken, FSharpFunc`2 action)
- 4:      at Aardvark.Rendering.Vulkan.CommandTask.Perform(AdaptiveToken token, RenderToken renderToken, OutputDescription desc)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@89-3.Invoke(AdaptiveToken token)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@85-9(AbstractRenderTask x, RenderToken renderToken, OutputDescription out, AdaptiveToken token)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.SequentialRenderTask.Perform(AdaptiveToken token, RenderToken renderToken, OutputDescription output)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@89-3.Invoke(AdaptiveToken token)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@85-9(AbstractRenderTask x, RenderToken renderToken, OutputDescription out, AdaptiveToken token)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AdaptiveRenderToTypes.AdaptiveRenderingResult.Compute(AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.Aardvark.Rendering.IAdaptiveResource<'T>.GetValue(AdaptiveToken c, RenderToken t)
- 4:      at Aardvark.Rendering.AdaptiveRenderToTypes.AdaptiveOutputTexture.Compute(AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.GetValue(AdaptiveToken token, RenderToken rt)
- 4:      at Aardvark.Rendering.AdaptiveResource`1.Aardvark.Rendering.IAdaptiveResource<'T>.GetValue(AdaptiveToken c, RenderToken t)
- 4:      at Aardvark.Rendering.AdaptiveResourceImplementations.GetValue@170.Invoke(AdaptiveToken _arg1)
- 4:      at Aardvark.Rendering.Vulkan.ImmutableResourceLocation`2.recreate(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.ImmutableResourceLocation`2.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AbstractImageViewResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.ImageSamplerResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.ImageSamplerArrayResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.arg10@493-1[T](AdaptiveDescriptor`1 x, IResourceUser user, RenderToken rt, AdaptiveToken t)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.AdaptiveDescriptor`1.GetValue(IResourceUser user, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.AdaptiveDescriptor.Abstract.AdaptiveDescriptor`1.Aardvark.Rendering.Vulkan.IManagedResource<Microsoft.FSharp.Core.[]<Aardvark.Rendering.Vulkan.Resources.DescriptorInfo>>.GetValue(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.GetHandle@1148.Invoke(HashSet`1 _arg1)
- 4:      at Aardvark.Rendering.LockedSet`1.Lock[U](FSharpFunc`2 action)
- 4:      at Aardvark.Rendering.Vulkan.Resources.DescriptorSetResource.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation<'T>.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.Resources.DescriptorSetBindingResource.Compute(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractPointerResource`1.GetHandle(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@139[T](AbstractResourceLocation`1 x, IResourceUser user, RenderToken renderToken, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at Aardvark.Rendering.Vulkan.AbstractResourceLocation`1.Aardvark.Rendering.Vulkan.IResourceLocation.Update(IResourceUser u, AdaptiveToken t, RenderToken rt)
- 4:      at Aardvark.Rendering.Vulkan.ResourceLocationReader.Update(IResourceUser user, AdaptiveToken token, RenderToken renderToken)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.run@2132-12(ResourceLocationSet x, AdaptiveToken token, RenderToken renderToken, Boolean changed)
- 4:      at Aardvark.Rendering.LockedSet`1.Lock[U](FSharpFunc`2 action)
- 4:      at <StartupCode$Aardvark-Rendering-Vulkan>.$ResourceManager.arg10@2183-3[T](ResourceLocationSet x, RenderToken renderToken, FSharpFunc`2 action, AdaptiveToken token)
- 4:      at Aardvark.Rendering.Vulkan.ResourceLocationSet.Use[T](AdaptiveToken token, RenderToken renderToken, FSharpFunc`2 action)
- 4:      at Aardvark.Rendering.Vulkan.CommandTask.Perform(AdaptiveToken token, RenderToken renderToken, OutputDescription desc)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@89-3.Invoke(AdaptiveToken token)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@85-9(AbstractRenderTask x, RenderToken renderToken, OutputDescription out, AdaptiveToken token)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@89-3.Invoke(AdaptiveToken token)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@85-9(AbstractRenderTask x, RenderToken renderToken, OutputDescription out, AdaptiveToken token)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.SequentialRenderTask.Perform(AdaptiveToken token, RenderToken renderToken, OutputDescription output)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.Run@89-3.Invoke(AdaptiveToken token)
- 4:      at <StartupCode$Aardvark-Rendering>.$AbstractRenderTask.arg10@85-9(AbstractRenderTask x, RenderToken renderToken, OutputDescription out, AdaptiveToken token)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Rendering.AbstractRenderTask.Aardvark.Rendering.IRenderTask.Run(AdaptiveToken token, RenderToken renderToken, OutputDescription out)
- 4:      at Aardvark.Service.Internals.arg10@204(ClientRenderTask x, ClientState state, ClientInfo info, IRenderTask task, ConcreteScene scene, FSharpRef`1 target, AdaptiveToken token)
- 4:      at Aardvark.Service.Internals.action@1-2(ClientRenderTask x, AdaptiveToken token, ClientState state, ClientInfo info, IRenderTask task, ConcreteScene scene, ChangeableValue`1 clearColor, FSharpRef`1 t, FSharpRef`1 target, Unit unitVar0)
- 4:      at Aardvark.Service.Internals.ClientRenderTask.Run(AdaptiveToken token, ClientInfo info, ClientState state)
- 4:      at <StartupCode$Aardvark-Service>.$SuaveServer.arg10@120-1(Client this, V2i size, C4b background, AdaptiveToken token) (stopping)
- 6: [Client] 1: stopped
- 7: WARNING: [Vulkan] Resource has negative reference count
- 7: WARNING: [Vulkan] Resource has negative reference count
- 7: [Scene] n7: destroyed
+ 4:             out ColorsOut : float4 // location: 0 semantic: Colors

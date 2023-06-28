@@ -171,9 +171,10 @@ module App =
             |> AdaptiveResource.bind 
                 (fun (p' : V3d option) -> 
                     match p' with
-                    |Some p -> LightProbe.lightProbe runtime scene skyBoxTexture m.enviorment.skyMapIntensity m.enviorment.ambientLightIntensity bb m.lights p :> aval<_>
-                    |None -> skyBoxTexture :> aval<_>
+                    |Some p -> LightProbe.lightProbe runtime scene skyBoxTexture m.enviorment.skyMapIntensity m.enviorment.ambientLightIntensity bb m.lights p 
+                    |None -> skyBoxTexture 
                 )
+   
 
         //render the precalculated  aps for PBR Global Ambient Light
         //Ardvark will only rexecute this if the global enviroment changes
@@ -282,6 +283,8 @@ module App =
         let toneMapped =  //(Map.find  (Sym.ofString "Accum") transparent)
             filmicToneMapping.toneMapping runtime outputSignature postprocessed m        
             |> RenderTask.renderToColor size
+        
+        //let debug= SSAO.visualizeDepth runtime size gBuffer
 
         fxAA.fxAA runtime outputSignature toneMapped m.fxAA
 

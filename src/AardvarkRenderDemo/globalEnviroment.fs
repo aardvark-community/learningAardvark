@@ -189,7 +189,7 @@ module GlobalAmbientLight =
 
     let diffuseIrradianceSize = 32 |> AVal.init 
 
-    let diffuseIrradianceBox (runtime : IRuntime) skyBoxTexture =
+    let diffuseIrradianceBox (runtime : IRuntime) (skyBoxTexture: aval<IBackendTexture>)  =
         Sg.box (AVal.constant C4b.White) (AVal.constant (Box3d(-V3d.III,V3d.III)))
             |> Sg.texture (Sym.ofString "SkyCubeMap") skyBoxTexture
             |> Sg.shader {
@@ -292,7 +292,6 @@ module LightProbe =
             |> Sg.texture ( DefaultSemantic.Colors) (Map.find DefaultSemantic.Colors gBuffer)
             |> Sg.texture ( Sym.ofString "WPos") (Map.find (Sym.ofString "WorldPosition") gBuffer)
             |> Sg.texture ( DefaultSemantic.Normals) (Map.find shaderCommon.Semantic.NormalR gBuffer)
-            |> Sg.texture ( DefaultSemantic.DepthStencil) (Map.find DefaultSemantic.DepthStencil gBuffer)
             |> Sg.texture (shaderCommon.Semantic.Emission) (Map.find shaderCommon.Semantic.Emission gBuffer)
             |> Sg.compile runtime signature   
         

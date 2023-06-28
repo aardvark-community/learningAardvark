@@ -230,7 +230,7 @@ module PBR =
             (diffuse * (1.0 - cckSA), specular * (1.0 - cckSA)  + ccspecular)   
 
     [<ReflectedDefinition>]
-    let ambientLight metallic (c : V4d) (wp : V4d) (n : V3d) (clearCoat) roughness (sheenColor : V3d) sheenRoughness clearCoatRoughness clearCoatNormal=   
+    let ambientLight metallic (c : V4d) (wp : V4d) (n : V3d) (clearCoat) roughness (sheenColor : V3d) sheenRoughness clearCoatRoughness clearCoatNormal tc=   
         if metallic < 0.0 then //no lighting, just put out the color      
             (c.XYZ, V3d.OOO)
         else //PBR lightning
@@ -254,8 +254,9 @@ module PBR =
 
             let diff1, spec1 = ambientSheen sheenColor sheenRoughness nDotV r diff spec
             let diff2, spec2 = ambienClearCoat clearCoat clearCoatRoughness clearCoatNormal v r diff1 spec1
+            let occlusion = if metallic < 0.0 then 1.0 else ambientOcc.Sample(tc).X    
 
-            (diff2 * uniform.AmbientIntensity, spec2 * uniform.AmbientIntensity)
+            (diff2 * uniform.AmbientIntensity * occlusion, spec2 * uniform.AmbientIntensity * occlusion)
 
     let lightnigForward (frag : Fragment) =
         fragment {
@@ -267,7 +268,7 @@ module PBR =
                 diffuseD  <- diffuseD  + diffuseDi 
                 specularD <- specularD + specularDi
             let diffuseO, specularO = 
-                ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal
+                ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal frag.tc
             let em = frag.emission
             let diffuse = diffuseD + diffuseO         
             let specular = specularD  + specularO + em        
@@ -298,7 +299,7 @@ module PBR =
             
             //abient kighning
             let diffuseO, specularO = 
-                ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal
+                ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal frag.tc
             
             //adjust diffuse for transmission            
             let diffuse = (diffuseD + diffuseO) * (1.0 - max3 transmission)
@@ -323,9 +324,9 @@ module PBR =
                 diffuseD  <- diffuseD  + diffuseDi 
                 specularD <- specularD + specularDi 
             let diffuseO, specularO = 
-                ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal
+                ambientLight frag.metallic frag.c frag.wp frag.n frag.clearCoat frag.roughness frag.sheenColor frag.sheenRoughness frag.clearCoatRoughness frag.clearCoatNormal frag.tc
             let em = frag.emission
-            let diffuse = diffuseD + diffuseO         
+            let diffuse = diffuseD + diffuseO     
             let specular = specularD  + specularO + em    
             return {Diffuse = V4d(diffuse, 1.0)
                     Specular = V4d(specular, 1.0)
