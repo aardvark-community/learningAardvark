@@ -131,7 +131,7 @@ module WBOTI =
             
             let etaRatio = if frag.frontFacing then 1.0  else 1.0/uniform.indexOfRefraction//no refracton on the back side, it looks bad for some reason
 
-            let delta = 
+            let delta =  
                 if etaRatio = 1.0 then
                     V2d(0.0)
                 else
@@ -212,6 +212,7 @@ module WBOTI =
         (lights : amap<int,AdaptiveLightCase>)
         bb 
         (ambientLightIntensity : aval<float>)
+        (ambientOcclusion : aval<IBackendTexture>)
         (diffuseIrradianceMap : aval<IBackendTexture>)
         (prefilterdSpecColor : aval<IBackendTexture>)
         (bRDFLtu : aval<IBackendTexture>)
@@ -260,7 +261,7 @@ module WBOTI =
         |> Sg.cullMode (AVal.constant CullMode.None)
         |> Sg.shader {
             do! DefaultSurfaces.trafo
-            do! displacemntMap.displacementMap
+            //do! displacemntMap.displacementMap
             do! DefaultSurfaces.vertexColor
             do! AlbedoColor.albedoColor
             do! shaderCommon.normalMap 
@@ -277,6 +278,7 @@ module WBOTI =
         |> Sg.uniform "tanFoVxHalf" tanFoVxHalf        
         |> Sg.uniform "aspectRatio" aspectRatio        
         |> Sg.uniform "CameraLocation" (view |> AVal.map (fun t -> t.Backward.C3.XYZ))        
+        |> Sg.texture (Sym.ofString "AmbientOcclusion") ambientOcclusion
         |> Sg.texture (Sym.ofString "DiffuseIrradiance") diffuseIrradianceMap
         |> Sg.texture (Sym.ofString "PrefilteredSpecColor") prefilterdSpecColor
         |> Sg.texture (Sym.ofString "BRDFLtu") bRDFLtu
@@ -293,8 +295,8 @@ module WBOTI =
            size
            clearValues
            (Map.ofList [// use preexisting depth attachment
-                DefaultSemantic.DepthStencil, depthBuffer
-            ])      
+               DefaultSemantic.DepthStencil, depthBuffer
+           ])      
 
     let compose runtime outputSignature size (backgroundTexture : aval<IBackendTexture>) (accumTexture : aval<IBackendTexture>) (modulateTexture : aval<IBackendTexture>)  (deltaTexture : aval<IBackendTexture>)=
         Sg.fullScreenQuad

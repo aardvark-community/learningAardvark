@@ -251,6 +251,7 @@ module App =
                 m.lights
                 bb 
                 m.enviorment.ambientLightIntensity
+                ambientOcclusion
                 diffuseIrradianceMap
                 prefilterdSpecColor
                 bRDFLtu
