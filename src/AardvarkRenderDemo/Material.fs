@@ -469,7 +469,7 @@ module materialControl =
             textureMappedColorControl.view textureMappedColorControl.Linear "Sheen Color" 0.0 1.0 0.01 m.sheenColor  |> UI.map SetSheenColor
             textureMappedValueControl.view textureMappedValueControl.Linear "Sheen Roughness" 0.0 1.0 0.01 m.sheenRoughness  |> UI.map SetSheenRoughness
             textureMappedColorControl.view textureMappedColorControl.Linear "Emission" 0.0 10.0 0.01 m.emission  |> UI.map SetEmission
-            textureMappedValueControl.view textureMappedValueControl.Linear "Displacement" 0.0 1.0 0.01 m.displacment  |> UI.map SetDisplacment
+            //textureMappedValueControl.view textureMappedValueControl.Linear "Displacement" 0.0 1.0 0.01 m.displacment  |> UI.map SetDisplacment
             Html.table [   
                  tr [] [ td [] [text "Subsufrace Scattering Profile"]; td [style "width: 70%;"] [Html.SemUi.dropDown' (ProfilList) m.SssProfileIndex  SetSssProfile  projection]]                     
                  tr [] [ td [] [text "Discard"]; td [style "width: 70%;"] [Html.SemUi.toggleBox  m.discard SetDiscard ]]
