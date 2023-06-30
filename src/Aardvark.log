@@ -36,7 +36,7 @@
  0:       found: windows/x86/vkvm.exp
  0:       found: windows/x86/vkvm.lib
  0:       found: windows/x86/vkvm.pdb
- 0:     Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null 0.028 s
+ 0:     Loading native dependencies for Aardvark.Rendering.Vulkan, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null 0.029 s
  0:   skipped LoadNativeDependencies for netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
  0:   trying to load native dependencies for Aardvark.Rendering, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null
  0:   trying to load native dependencies for Aardvark.Base, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
@@ -135,7 +135,7 @@
  0:     [GetPluginAssemblyPaths] cache found for: D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\net6.0\Silk.NET.GLFW.dll
  0:     trying to load native dependencies for Aardvark.Base.FSharp, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
  0:     trying to load native dependencies for Aardvark.PixImage.DevIL, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
- 0:   Loading plugins .................................................................... 0.062 s
+ 0:   Loading plugins .................................................................... 0.063 s
  0:   [Introspection] Ignoring assembly System.Runtime due to filter
  0:   trying to load native dependencies for Adaptify.Core, Version=1.1.8.0, Culture=neutral, PublicKeyToken=null
  0:   [Introspection] Ignoring assembly netstandard due to filter
@@ -358,7 +358,7 @@
  0:     [cache hit ] Adaptify.Core, Version=1.1.8.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] FSharp.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
  0:     [cache hit ] Aardvark.Base, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
- 0:   initializing Constants ............................................................. 0.010 s
+ 0:   initializing Constants ............................................................. 0.009 s
  0:     [cache hit ] Aardvark.Base.Telemetry, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.Rendering, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.Base.FSharp, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
@@ -395,14 +395,14 @@
  0:     [cache hit ] FSys, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.SceneGraph.IO, Version=5.3.0.0, Culture=neutral, PublicKeyToken=null
  0:     installing pickler: Aardvark.Base.Picklers.AdaptivePicklers
- 0:   initializing CustomPicklerProvider ................................................. 0.041 s
+ 0:   initializing CustomPicklerProvider ................................................. 0.046 s
  0:     [cache hit ] Aardvark.Base.TypeProviders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.Base.Tensors.CSharp, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.Base.Tensors, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
  0:   initializing PixImageSharp .................................................................
  0:     skipped LoadNativeDependencies for SixLabors.ImageSharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13
  0:     skipped LoadNativeDependencies for System.Numerics.Vectors, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
- 0:   initializing PixImageSharp ......................................................... 0.032 s
+ 0:   initializing PixImageSharp ......................................................... 0.033 s
  0:     [cache hit ] Aardvark.Base.Incremental, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.Base.Essentials, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null
  0:     [cache hit ] Aardvark.UI.Primitives, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -459,13 +459,13 @@
  0:         copy ILU.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-d5b37588-b2b9-c020-dc32-3b8398c1bebb-64\ILU.dll
  0:         found: windows/AMD64/ILUT.dll
  0:         copy ILUT.dll to C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-d5b37588-b2b9-c020-dc32-3b8398c1bebb-64\ILUT.dll
- 0:       Loading native dependencies for DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null 0.001 s
+ 0:       Loading native dependencies for DevILSharp, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null 0.000 s
  0:     probing paths for DevIL
  0:       D:\Users\Stefan\Documents\GitHub\learningAardvark\bin\Debug\net6.0
  0:       C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-d5b37588-b2b9-c020-dc32-3b8398c1bebb-64
  0:     [Introspection] loaded native library DevIL from C:\Users\Stefan\AppData\Local\Temp\aardvark-native\DevILSharp-d5b37588-b2b9-c020-dc32-3b8398c1bebb-64\DevIL.dll
- 0:   initializing PixImageDevil ......................................................... 0.041 s
- 0: initializing aardvark ........................................................ [0.16x] 0.424 s
+ 0:   initializing PixImageDevil ......................................................... 0.039 s
+ 0: initializing aardvark ........................................................ [0.16x] 0.432 s
  0: skipped LoadNativeDependencies for System.Diagnostics.Process, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
  0: skipped LoadNativeDependencies for System.ComponentModel.Primitives, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
  0: [Vulkan] enabled instance extension "vk_khr_get_physical_device_properties2"
@@ -957,7 +957,7 @@
  1: skipped LoadNativeDependencies for System.Threading.Overlapped, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
  2: skipped LoadNativeDependencies for System.Web.HttpUtility, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
  2: skipped LoadNativeDependencies for System.Private.Uri, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
- 3: [Server] created client for (e7deb559-ca42-64ee-dba2-3f06fddef00f/n7), mapping enabled
+ 3: [Server] created client for (041e0f59-a4c4-ca32-06ee-198a51c32132/n7), mapping enabled
  3: [Client] 1: running n7
  4: [Scene] n7: created
  4: trying to load native dependencies for FSharp.Core.resources, Version=5.0.0.0, Culture=de, PublicKeyToken=b03f5f7f11d50a3a
@@ -1058,14 +1058,14 @@
  4:             entry: "main"
  4:             uniform {ub::Global, sam::diffuseSampler}
  4:             called {
- 4:                 abs : float -> float
- 4:                 textureLod : sampler2D -> float2 -> float -> float4
  4:                 textureSize : sampler2D -> int -> int2
  4:                 {0} = {1} : float -> float -> void
+ 4:                 clamp : float -> float
+ 4:                 textureLod : sampler2D -> float2 -> float -> float4
+ 4:                 abs : float -> float
+ 4:                 min : float -> float -> float
  4:                 max : float -> float -> float
  4:                 break : void -> void
- 4:                 min : float -> float -> float
- 4:                 clamp : float -> float
  4:             }
  4:             in fs_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in gl_Position : float4 
@@ -1094,10 +1094,10 @@
  4:             entry: "main"
  4:             uniform {ub::Global, sam::diffuseSampler}
  4:             called {
- 4:                 log : float -> float
+ 4:                 pow : float3 -> float3 -> float3
  4:                 exp : float -> float
  4:                 texture : sampler2D -> float2 -> float4
- 4:                 pow : float3 -> float3 -> float3
+ 4:                 log : float -> float
  4:             }
  4:             in fs_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in gl_Position : float4 
@@ -1122,13 +1122,13 @@
  4:             out gl_Position : float4 
  4:         Fragment:
  4:             entry: "main"
- 4:             uniform {sam::accumSampler, sam::backgroundSampler, sam::modulateSampler, sam::deltaSampler}
+ 4:             uniform {sam::backgroundSampler, sam::modulateSampler, sam::deltaSampler, sam::accumSampler}
  4:             called {
+ 4:                 max : float3 -> float
  4:                 texture : sampler2D -> float2 -> float4
+ 4:                 min : float3 -> float
  4:                 isinf : float -> bool
  4:                 max : float -> float -> float
- 4:                 max : float3 -> float
- 4:                 min : float3 -> float
  4:             }
  4:             in fs_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in gl_Position : float4 
@@ -1163,8 +1163,8 @@
  4:             uniform {ub::Global, ub::PerView, sam::ambientOcc, sam::depth}
  4:             called {
  4:                 exp : float -> float
- 4:                 textureLod : sampler2D -> float2 -> float -> float4
  4:                 texture : sampler2D -> float2 -> float -> float4
+ 4:                 textureLod : sampler2D -> float2 -> float -> float4
  4:                 textureSize : sampler2D -> int2
  4:             }
  4:             in fs_Positions : float4 // location: 0 semantic: Positions
@@ -1203,14 +1203,14 @@
  4:             out gl_Position : float4 
  4:         Fragment:
  4:             entry: "main"
- 4:             uniform {ub::Global, ub::PerView, sam::normal, sam::depth, sam::depthCmp, sam::random}
+ 4:             uniform {ub::Global, ub::PerView, sam::depthCmp, sam::depth, sam::normal, sam::random}
  4:             called {
- 4:                 normalize : float3 -> float3
- 4:                 texture : sampler2DShadow -> float2 -> float -> float
  4:                 texture : sampler2D -> float2 -> float4
- 4:                 clamp : int -> int -> int -> int
+ 4:                 texture : sampler2DShadow -> float2 -> float -> float
  4:                 mix : float -> float -> float -> float
  4:                 min : float -> float -> float
+ 4:                 clamp : int -> int -> int -> int
+ 4:                 normalize : float3 -> float3
  4:             }
  4:             in fs_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in fs_Positions : float4 // location: 1 semantic: Positions
@@ -1240,7 +1240,7 @@
  4:     shaders:
  4:         Vertex:
  4:             entry: "main"
- 4:             uniform {ub::PerView, ub::PerModel}
+ 4:             uniform {ub::PerModel, ub::PerView}
  4:             called {}
  4:             in Normals : float3 // location: 0 semantic: Normals
  4:             in Positions : float4 // location: 1 semantic: Positions
@@ -1251,8 +1251,8 @@
  4:             entry: "main"
  4:             uniform {ub::Global, sam::skySampler}
  4:             called {
- 4:                 normalize : float3 -> float3
  4:                 texture : samplerCube -> float3 -> float4
+ 4:                 normalize : float3 -> float3
  4:                 min : float3 -> float
  4:                 discard : void -> void
  4:             }
@@ -1317,7 +1317,7 @@
  4:     shaders:
  4:         Vertex:
  4:             entry: "main"
- 4:             uniform {ub::PerView, ub::PerModel}
+ 4:             uniform {ub::PerModel, ub::PerView}
  4:             called {}
  4:             in DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in DiffuseColorUTangents : float3 // location: 1 semantic: DiffuseColorUTangents
@@ -1332,12 +1332,12 @@
  4:             out gl_Position : float4 
  4:         Fragment:
  4:             entry: "main"
- 4:             uniform {ub::Global, sam::normalSampler, sam::transmissionSampler, sam::emissionSampler, sam::clearCoatRoughnessSampler, sam::metallicSampler, sam::coverageSampler, sam::roughnessSampler, sam::clearCoatSampler, sam::sheenColorSampler, sam::albedoSampler, sam::sheenRoughnessSampler, sam::clearCoatNormalSampler}
+ 4:             uniform {ub::Global, sam::coverageSampler, sam::albedoSampler, sam::sheenRoughnessSampler, sam::normalSampler, sam::sheenColorSampler, sam::clearCoatSampler, sam::clearCoatNormalSampler, sam::metallicSampler, sam::clearCoatRoughnessSampler, sam::emissionSampler, sam::transmissionSampler, sam::roughnessSampler}
  4:             called {
- 4:                 normalize : float3 -> float3
- 4:                 texture : sampler2D -> float2 -> float4
  4:                 pow : float3 -> float3 -> float3
+ 4:                 texture : sampler2D -> float2 -> float4
  4:                 mix : float3 -> float3 -> float -> float3
+ 4:                 normalize : float3 -> float3
  4:                 min : float3 -> float
  4:                 discard : void -> void
  4:             }
@@ -1370,7 +1370,7 @@
  4:     shaders:
  4:         Vertex:
  4:             entry: "main"
- 4:             uniform {ub::PerView, ub::PerModel}
+ 4:             uniform {ub::PerModel, ub::PerView}
  4:             called {}
  4:             in Positions : float4 // location: 0 semantic: Positions
  4:             out fs_WorldPosition : float4 // location: 0 semantic: WorldPosition
@@ -1379,29 +1379,29 @@
  4:             entry: "main"
  4:             uniform {ub::Global, sam::skySamplerEquirec}
  4:             called {
- 4:                 normalize : float3 -> float3
  4:                 texture : sampler2D -> float2 -> float4
- 4:                 atan : float -> float -> float
  4:                 asin : float -> float
+ 4:                 normalize : float3 -> float3
+ 4:                 atan : float -> float -> float
  4:             }
  4:             in fs_WorldPosition : float4 // location: 0 semantic: WorldPosition
  4:             in gl_Position : float4 
  4:             out ColorsOut : float4 // location: 0 semantic: Colors
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.205 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.002 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.014 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.012 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.039 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.013 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.134 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.041 s
  4: Trying to load image from stream with DevIL loader: success in ....................... 0.031 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.015 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.043 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.016 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.059 s
  4: Trying to load image from stream with DevIL loader: success in ....................... 0.014 s
- 4: Trying to load image from stream with DevIL loader: success in ....................... 0.040 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.032 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.013 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.052 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.013 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.032 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.015 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.031 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.035 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.030 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
+ 4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
  4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
  4: Trying to load image from stream with DevIL loader: success in ....................... 0.001 s
  4: [Vulkan] loading shader c13a5b39-c57f-1c66-49b7-d7390d425a89.effect
@@ -1418,7 +1418,7 @@
  4:     shaders:
  4:         Vertex:
  4:             entry: "main"
- 4:             uniform {ub::PerView, ub::PerModel}
+ 4:             uniform {ub::PerModel, ub::PerView}
  4:             called {}
  4:             in Positions : float4 // location: 0 semantic: Positions
  4:             out fs_WorldPosition : float4 // location: 0 semantic: WorldPosition
@@ -1427,10 +1427,10 @@
  4:             entry: "main"
  4:             uniform {sam::envSampler}
  4:             called {
+ 4:                 texture : samplerCube -> float3 -> float4
+ 4:                 cos : float -> float
  4:                 normalize : float3 -> float3
  4:                 sin : float -> float
- 4:                 cos : float -> float
- 4:                 texture : samplerCube -> float3 -> float4
  4:             }
  4:             in fs_WorldPosition : float4 // location: 0 semantic: WorldPosition
  4:             in gl_Position : float4 
@@ -1453,7 +1453,7 @@
  4:     shaders:
  4:         Vertex:
  4:             entry: "main"
- 4:             uniform {ub::PerView, ub::PerModel}
+ 4:             uniform {ub::PerModel, ub::PerView}
  4:             called {}
  4:             in Colors : float4 // location: 0 semantic: Colors
  4:             in Positions : float4 // location: 1 semantic: Positions
@@ -1464,14 +1464,14 @@
  4:             entry: "main"
  4:             uniform {ub::Global, sam::envSampler}
  4:             called {
- 4:                 normalize : float3 -> float3
- 4:                 abs : float -> float
- 4:                 sin : float -> float
- 4:                 sqrt : float -> float
- 4:                 max : float -> float -> float
  4:                 uint : int -> uint
- 4:                 cos : float -> float
  4:                 texture : samplerCube -> float3 -> float4
+ 4:                 sqrt : float -> float
+ 4:                 cos : float -> float
+ 4:                 abs : float -> float
+ 4:                 normalize : float3 -> float3
+ 4:                 sin : float -> float
+ 4:                 max : float -> float -> float
  4:             }
  4:             in fs_Colors : float4 // location: 0 semantic: Colors
  4:             in fs_WorldPosition : float4 // location: 1 semantic: WorldPosition
@@ -1491,7 +1491,7 @@
  4:     shaders:
  4:         Vertex:
  4:             entry: "main"
- 4:             uniform {ub::PerView, ub::PerModel}
+ 4:             uniform {ub::PerModel, ub::PerView}
  4:             called {}
  4:             in DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in Positions : float4 // location: 1 semantic: Positions
@@ -1501,14 +1501,14 @@
  4:             entry: "main"
  4:             uniform {}
  4:             called {
- 4:                 normalize : float3 -> float3
- 4:                 abs : float -> float
- 4:                 sin : float -> float
- 4:                 sqrt : float -> float
- 4:                 max : float -> float -> float
  4:                 uint : int -> uint
- 4:                 cos : float -> float
  4:                 pow : float -> float -> float
+ 4:                 sqrt : float -> float
+ 4:                 cos : float -> float
+ 4:                 abs : float -> float
+ 4:                 normalize : float3 -> float3
+ 4:                 sin : float -> float
+ 4:                 max : float -> float -> float
  4:             }
  4:             in fs_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in gl_Position : float4 
@@ -1525,7 +1525,7 @@
  4:     shaders:
  4:         Vertex:
  4:             entry: "main"
- 4:             uniform {ub::PerView, ub::PerModel}
+ 4:             uniform {ub::PerModel, ub::PerView}
  4:             called {}
  4:             in Positions : float4 // location: 0 semantic: Positions
  4:             out gl_Position : float4 
@@ -1589,17 +1589,17 @@
  4:             entry: "main"
  4:             uniform {ub::Global, ub::PerView, sam::inputImage, sam::depth, sam::albedoAndProfileIndex}
  4:             called {
- 4:                 length : float2 -> float
- 4:                 abs : float -> float
+ 4:                 pow : float -> float -> float
  4:                 exp : float -> float
  4:                 texture : sampler2D -> float2 -> float4
  4:                 trunc : float -> float
- 4:                 texture : sampler2D -> float2 -> float -> float4
- 4:                 max : float -> float -> float
  4:                 mix : float3 -> float3 -> float -> float3
+ 4:                 length : float2 -> float
+ 4:                 texture : sampler2D -> float2 -> float -> float4
  4:                 distance : float3 -> float3 -> float
- 4:                 pow : float -> float -> float
+ 4:                 abs : float -> float
  4:                 min : float -> float -> float
+ 4:                 max : float -> float -> float
  4:             }
  4:             in fs_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in fs_Positions : float4 // location: 1 semantic: Positions
@@ -1648,36 +1648,36 @@
  4:             out gl_Position : float4 
  4:         Fragment:
  4:             entry: "main"
- 4:             uniform {ub::Global, ub::PerView, sam::color, sam::samplerShadowMapArray, sam::emission, sam::clearCoat, sam::normal, sam::sheen, sam::ambientOcc, sam::wPos, sam::samplerBRDFLtu, sam::diffuseIrradianceSampler, sam::samplerShadowMapTexArrayT, sam::prefilteredSpecColorSampler, sam::samplerShadowMapTexArray}
+ 4:             uniform {ub::Global, ub::PerView, sam::sheen, sam::ambientOcc, sam::emission, sam::samplerShadowMapTexArray, sam::samplerShadowMapTexArrayT, sam::samplerShadowMapArray, sam::wPos, sam::normal, sam::color, sam::prefilteredSpecColorSampler, sam::diffuseIrradianceSampler, sam::samplerBRDFLtu, sam::clearCoat}
  4:             called {
- 4:                 acos : float -> float
- 4:                 length : float3 -> float3
- 4:                 fract : float -> float
- 4:                 normalize : float3 -> float3
- 4:                 texture : sampler2DShadow -> float2 -> float -> float
- 4:                 exp : float3 -> float3
  4:                 sqrt : float3 -> float3
- 4:                 abs : float -> float
- 4:                 sin : float -> float
- 4:                 sqrt : float -> float
- 4:                 clamp : float3 -> float -> float -> float3
- 4:                 texture : sampler2D -> float2 -> float4
- 4:                 clamp : float -> float -> float -> float
- 4:                 max : float3 -> float3 -> float3
- 4:                 trunc : float -> float
+ 4:                 exp : float3 -> float3
+ 4:                 clamp : float -> float
  4:                 atan : float -> float
- 4:                 max : float -> float -> float
- 4:                 mix : float3 -> float3 -> float -> float3
- 4:                 distance : float3 -> float3 -> float
+ 4:                 pow : float -> float -> float
+ 4:                 texture : samplerCube -> float3 -> float4
+ 4:                 sqrt : float -> float
  4:                 max : float3 -> float
  4:                 cos : float -> float
- 4:                 pow : float -> float -> float
- 4:                 clamp : float3 -> float3
- 4:                 min : float -> float -> float
- 4:                 reflect : float3 -> float3 -> float3
- 4:                 clamp : float -> float
- 4:                 texture : samplerCube -> float3 -> float4
+ 4:                 texture : sampler2D -> float2 -> float4
+ 4:                 texture : sampler2DShadow -> float2 -> float -> float
+ 4:                 length : float3 -> float3
+ 4:                 trunc : float -> float
  4:                 textureLod : samplerCube -> float3 -> float -> float4
+ 4:                 mix : float3 -> float3 -> float -> float3
+ 4:                 acos : float -> float
+ 4:                 clamp : float3 -> float -> float -> float3
+ 4:                 distance : float3 -> float3 -> float
+ 4:                 fract : float -> float
+ 4:                 abs : float -> float
+ 4:                 min : float -> float -> float
+ 4:                 normalize : float3 -> float3
+ 4:                 clamp : float -> float -> float -> float
+ 4:                 reflect : float3 -> float3 -> float3
+ 4:                 max : float3 -> float3 -> float3
+ 4:                 clamp : float3 -> float3
+ 4:                 sin : float -> float
+ 4:                 max : float -> float -> float
  4:             }
  4:             in fs_DiffuseColorCoordinates : float2 // location: 0 semantic: DiffuseColorCoordinates
  4:             in gl_Position : float4 

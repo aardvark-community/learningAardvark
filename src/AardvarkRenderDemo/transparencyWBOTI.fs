@@ -67,7 +67,7 @@ module WBOTI =
         let csw_i = Vec.normalize vsPosition
 
         // Refracted ray direction, pointing away from wsPos 
-        let csw_o = Vec.refract etaRatio vsN csw_i
+        let csw_o = Vec.refract etaRatio vsN csw_i |> Vec.normalize
 
         let totalInternalRefraction = Vec.dot csw_o csw_o < 0.01
 
@@ -83,7 +83,7 @@ module WBOTI =
             let start = p.XY - csw_i.XY * p.Z / csw_i.Z
 
             // hit is in meter from the center of the screen, scale to fraction of the background size
-            let backgroundSize = backgroundSizeInMeter (p.Z)
+            let backgroundSize = backgroundSizeInMeter (backgroundZ)
             let hitPos = hit / backgroundSize + V2d(0.5)
             let startPos = start / backgroundSize + V2d(0.5)
 
@@ -122,20 +122,18 @@ module WBOTI =
 
             let accum = V4d(frag.Color.XYZ, netCoverage) * w
 
-            //frontFacing seems do be true on the  backsid and false on the front (why?)
-            let n = if frag.frontFacing then frag.N * -1.0 else frag.N 
+            let n = if frag.frontFacing then frag.N else frag.N * -1.0
             let vsN = //normal in view space
                 uniform.ViewTrafo * V4d(n, 0.0) 
                 |> Vec.xyz 
                 |> Vec.normalize
             
-            let etaRatio = if frag.frontFacing then 1.0  else 1.0/uniform.indexOfRefraction//no refracton on the back side, it looks bad for some reason
-
+            let etaRatio = 1.0/uniform.indexOfRefraction
             let delta =  
                 if etaRatio = 1.0 then
                     V2d(0.0)
                 else
-                    let refractionDistance = uniform.refractionDistance * refractionDistanceSampler.Sample(frag.tc).X |> max  0.001
+                    let refractionDistance = uniform.refractionDistance * refractionDistanceSampler.Sample(frag.tc).X //|> max  0.001
                     coverage * 8.0 * computeRefactionOffset refractionDistance vsN vsPos etaRatio
 
             return { Modulate = modulate; Accum = accum; Delta = delta}
