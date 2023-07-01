@@ -1,6 +1,6 @@
 I started this as a toy projekt to learn [Aardvark](https://github.com/aardvark-platform).
 
-01.07.2023: After Updateing to Aarvark.rendering 5.3 and switching to Vulcan (Thanks to [aszabo](https://github.com/aszabo314)) I had to remove displacemnet mapping. It never worked to my satifaction and with Vulcan it broke completly. Maybe I will implement something better sometimes. 
+01.07.2023: After updateing to Aarvark.rendering 5.3 and switching to Vulcan (Thanks to [aszabo](https://github.com/aszabo314)) I had to remove displacemnet mapping. It never worked to my satifaction and with Vulcan it broke completly. Maybe I will implement something better sometimes. 
 On the other hand, transparency with refraction looks better now and I fixed abient cocclusion.
 
 To realy "get" a platform of this scope and conceptual deep, I feel I need to implement a sufficient complex app. So I did what I wanted to do for a long time: A Rendering Demo exploring some modern shading ideas.
