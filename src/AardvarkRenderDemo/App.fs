@@ -165,16 +165,17 @@ module App =
             |> ASet.fold (fun s (_,(o : AdaptiveSceneObject)) -> AVal.map2( fun (s : Box3d) (b : Box3d)-> Box.Union(s,b)) s (bounds o)) seed 
             |> AVal.bind id
 
-
+        //if I render the lightProbe inside the AdaptiveResource.bind I get Vulcan Errors, so I do it this way. No Idea why this is nessesary.
+        let lightProbePosition = AVal.map (fun o -> Option.defaultValue V3d.OOO o) <| m.enviorment.lightProbePosition
+        let lightProbe = LightProbe.lightProbe runtime scene skyBoxTexture m.enviorment.skyMapIntensity m.enviorment.ambientLightIntensity bb m.lights lightProbePosition
         let enviromentTexture = 
             m.enviorment.lightProbePosition
             |> AdaptiveResource.bind 
                 (fun (p' : V3d option) -> 
                     match p' with
-                    |Some p -> LightProbe.lightProbe runtime scene skyBoxTexture m.enviorment.skyMapIntensity m.enviorment.ambientLightIntensity bb m.lights p 
+                    |Some _ -> lightProbe
                     |None -> skyBoxTexture 
                 )
-   
 
         //render the precalculated  aps for PBR Global Ambient Light
         //Ardvark will only rexecute this if the global enviroment changes

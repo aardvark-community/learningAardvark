@@ -246,31 +246,30 @@ module LightProbe =
 
     let probeSize = 512 |> AVal.init 
     
-    let renderLightProbeSide runtime size signature scene skyBoxTexture skyMapIntensity ambientLightIntensity bb lights position face =
-        let lookTo = 
-            match face with
-            |CubeSide.PositiveY  -> position+V3d.OIO
-            |CubeSide.PositiveZ -> position+V3d.OOI
-            |CubeSide.PositiveX -> position+V3d.IOO
-            |CubeSide.NegativeZ-> position-V3d.OOI
-            |CubeSide.NegativeX -> position-V3d.IOO
-            |CubeSide.NegativeY -> position-V3d.OIO
-            |_ -> failwith "unexpected enum"
-        let lookSky = 
-            match face with
-            |CubeSide.PositiveY  -> V3d.OOI * -1.0
-            |CubeSide.PositiveZ -> V3d.OIO
-            |CubeSide.PositiveX -> V3d.OIO
-            |CubeSide.NegativeZ-> V3d.OIO
-            |CubeSide.NegativeX -> V3d.OIO
-            |CubeSide.NegativeY -> V3d.OOI
-            |_ -> failwith "unexpected enum"
+    let renderLightProbeSide runtime size signature scene skyBoxTexture skyMapIntensity ambientLightIntensity bb lights (position : aval<V3d>) face =
 
-        let view =
-             CameraView.lookAt position lookTo (lookSky * -1.0)
-             |> CameraView.viewTrafo 
-             |> AVal.constant
-        
+        let view = position |> AVal.map (fun p -> 
+                            let lookTo = 
+                                match face with
+                                |CubeSide.PositiveY -> p+V3d.OIO
+                                |CubeSide.PositiveZ -> p+V3d.OOI
+                                |CubeSide.PositiveX -> p+V3d.IOO
+                                |CubeSide.NegativeZ -> p-V3d.OOI
+                                |CubeSide.NegativeX -> p-V3d.IOO
+                                |CubeSide.NegativeY -> p-V3d.OIO
+                                |_ -> failwith "unexpected enum"
+                            let lookSky = 
+                                match face with
+                                |CubeSide.PositiveY -> V3d.OOI * -1.0
+                                |CubeSide.PositiveZ -> V3d.OIO
+                                |CubeSide.PositiveX -> V3d.OIO
+                                |CubeSide.NegativeZ -> V3d.OIO
+                                |CubeSide.NegativeX -> V3d.OIO
+                                |CubeSide.NegativeY -> V3d.OOI
+                                |_ -> failwith "unexpected enum"
+                            CameraView.lookAt p lookTo (lookSky * -1.0)
+                            |> CameraView.viewTrafo )    
+
         let proj = size |> AVal.map (fun actualSize -> 
                 Frustum.perspective 90.0 0.1 100.0 1.0 |> Frustum.projTrafo
               )
@@ -297,7 +296,7 @@ module LightProbe =
         
         output
 
-    let lightProbe runtime scene skyBoxTexture skyMapIntensity ambientLightIntensity bb lights position = 
+    let lightProbe runtime scene skyBoxTexture skyMapIntensity ambientLightIntensity bb lights (position : aval<V3d>)= 
        let size = AVal.map (fun (s : int) -> V2i(s,s)) probeSize
        let sign = signature runtime
        let tasks = renderLightProbeSide runtime size sign scene skyBoxTexture skyMapIntensity ambientLightIntensity bb lights position
